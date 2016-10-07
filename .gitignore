@@ -16,6 +16,11 @@ Thumbs.db
 /vendor/bin
 /vendor/phpspec
 /vendor/composer
+tests
+test
+bin
+doc
+#assets/*
 
 # composer itself is not needed
 composer.phar

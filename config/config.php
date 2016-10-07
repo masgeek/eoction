@@ -4,6 +4,7 @@ $params = require(__DIR__ . '/params.php');
 
 $config = [
     'id' => 'basic',
+    'name' => 'EOCTION',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
@@ -14,6 +15,16 @@ $config = [
         /*'assetManager' => [
             'basePath' => '@webroot/my_assets',
         ],*/
+
+        /* custom view template*/
+        'view' => [
+            'theme' => [
+                'pathMap' => [
+                    '@app/views' => 'themes/eoction'
+                ],
+                //'baseUrl' => 'themes/eoction' /* base url */
+            ]
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
