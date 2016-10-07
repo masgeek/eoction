@@ -11,18 +11,18 @@ use yii\helpers\Html;
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="./">
-            <?php
-            $imgLink = '@web/images/logo.png';
-            echo Html::img($imgLink, ['class' => 'img img-responsive','width'=>210, 'alt' => Yii::$app->name, 'title' => Yii::$app->name]);
-            //echo Html::a(Yii::$app->name,['//site/index'],['class'=>'navbar-brand']); ?>
+                <?php
+                $imgLink = '@web/images/logo.png';
+                echo Html::img($imgLink, ['class' => 'img img-responsive', 'width' => 210, 'alt' => Yii::$app->name, 'title' => Yii::$app->name]);
+                //echo Html::a(Yii::$app->name,['//site/index'],['class'=>'navbar-brand']); ?>
             </a>
 
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav product-nav">
-                <li class="active"><a href="#">Live Auctions</a></li>
-                <li><a href="#">Live TV</a></li>
-                <li><a href="#">Online Shopping</a></li>
+                <li class="active"><?= Html::a('Live Auctions', ['//site/index'], ['title' => 'live auctions']); ?></li>
+                <li><?= Html::a('Live TV', ['#'], ['title' => 'live TV']); ?></li>
+                <li><?= Html::a('Online Shopping', ['//shop/'], ['title' => 'Online Shopping']); ?></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#"><span></span> My Account</a></li>
