@@ -1,107 +1,73 @@
 <?php
+
+/* @var $this \yii\web\View */
+/* @var $content string */
+
 use yii\helpers\Html;
-use yii\widgets\Menu;
+use yii\bootstrap\Nav;
+use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
-use yii\debug\Toolbar;
+use app\assets\AppAsset;
 
-// You can use the registerAssetBundle function if you'd like
-//$this->registerAssetBundle('app');
+AppAsset::register($this);
 ?>
-<?php $this->beginPage(); ?>
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
-        <title><?php echo Html::encode($this->title); ?></title>
-        <meta property='og:site_name' content='<?php echo Html::encode($this->title); ?>'/>
-        <meta property='og:title' content='<?php echo Html::encode($this->title); ?>'/>
-        <meta property='og:description' content='<?php echo Html::encode($this->title); ?>'/>
+<?php $this->beginPage() ?>
+<!DOCTYPE html>
+<html lang="<?= Yii::$app->language ?>">
+<?php require_once '../layouts/main.php'?>
+<body>
+<?php $this->beginBody() ?>
 
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-        <link rel='stylesheet' type='text/css' href='<?php echo $this->theme->baseUrl; ?>/files/main_style.css'
-              title='wsite-theme-css'/>
-        <?php $this->head(); ?>
-    </head>
-    <body class='wsite-theme-light tall-header-page wsite-page-index weeblypage-index'>
-    <?php $this->beginBody(); ?>
-    <div id="container">
-        <table id="header">
-            <tr>
-                <td id="logo">
-                    <div id="title">
-                        <div id="title-r">
-                            <div id="title-m">
-                                <span class='wsite-logo'><a href='/'><span
-                                            id="wsite-title"><?php echo Html::encode(\Yii::$app->name); ?></span></a></span>
-                            </div>
-                        </div>
+<div class="wrap">
+    <!-- navigation bar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">WebSiteName</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#">Live Auctions</a></li>
+                    <li><a href="#">Live TV</a></li>
+                    <li><a href="#">Online Shopping</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span></span> My Account</a></li>
+                    <li><a href="#"><span></span> My Wishlist</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Cart <small id="cart-item">0 Items</small></a></li>
+                </ul>
+                <form class="nav navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search" name="search-term">
                     </div>
-                </td>
-                <td id="header-right">
-                    <table>
-                        <tr>
-                            <td class="phone-number"></td>
-                            <td class="social"></td>
-                        </tr>
-                    </table>
-                    <div class="search"></div>
-                </td>
-            </tr>
-        </table>
-        <div id="main">
-            <div id="main-bot">
-                <div id="main-in">
-                    <div id="banner">
-                        <div class="wsite-header"></div>
-                        <em id="tl"></em>
-                        <em id="tr"></em>
-                        <em id="bl"></em>
-                        <em id="br"></em>
-                    </div>
-                    <div id="navigation">
-                        <div id="nav-bot">
-                            <div id="nav-in">
-                                <?php echo Menu::widget(array(
-                                    'options' => array('class' => 'nav'),
-                                    'items' => array(
-                                        array('label' => 'Home', 'url' => array('/site/index')),
-                                        array('label' => 'About', 'url' => array('/site/about')),
-                                        array('label' => 'Contact', 'url' => array('/site/contact')),
-                                        Yii::$app->user->isGuest ?
-                                            array('label' => 'Login', 'url' => array('/site/login')) :
-                                            array('label' => 'Logout (' . Yii::$app->user->identity->username . ')', 'url' => array('/site/logout')),
-                                    ),
-                                )); ?>
-                                <div class="clear"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="content">
-                        <div id='wsite-content' class='wsite-not-footer'>
-                            <?php echo $content; ?>
-                        </div>
-
-                        <div class="clear"></div>
-                    </div>
-                    <div class="clear"></div>
-                </div>
+                    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                </form>
             </div>
         </div>
-        <div id="footer-wrap">
-            <div id="footer">
-                <div id="footer-bot">
-                    <div id="footer-in">
-                        <?php echo Html::encode(\Yii::$app->name); ?>
+    </nav>
+<!-- end navigation bar -->
 
-                        <div class="clear"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- container -->
+    <div class="container">
+
+    </div> <!-- /container -->
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+
+        <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
+</footer>
 
-    <?php $this->endBody(); ?>
-    </body>
-    </html>
-<?php $this->endPage(); ?>
+<?php $this->endBody() ?>
+</body>
+</html>
+<?php $this->endPage() ?>

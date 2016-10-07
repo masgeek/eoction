@@ -22,7 +22,7 @@ $config = [
                 'pathMap' => [
                     '@app/views' => 'themes/eoction'
                 ],
-                //'baseUrl' => 'themes/eoction' /* base url */
+                'baseUrl' => 'themes/eoction' /* base url */
             ]
         ],
         'cache' => [
