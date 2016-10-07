@@ -1,3 +1,7 @@
+<?php
+use yii\helpers\Html;
+
+?>
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -6,12 +10,17 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#"><?= Yii::$app->name; ?></a>
+            <a class="navbar-brand" href="./">
+            <?php
+            $imgLink = '@web/images/logo.png';
+            echo Html::img($imgLink, ['class' => 'img img-responsive','width'=>210, 'alt' => Yii::$app->name, 'title' => Yii::$app->name]);
+            //echo Html::a(Yii::$app->name,['//site/index'],['class'=>'navbar-brand']); ?>
+            </a>
+
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Live Auctions</a></li>
+            <ul class="nav navbar-nav product-nav">
+                <li class="active"><a href="#">Live Auctions</a></li>
                 <li><a href="#">Live TV</a></li>
                 <li><a href="#">Online Shopping</a></li>
             </ul>

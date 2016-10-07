@@ -66,29 +66,31 @@
     <div class="row">
         <div class="col-md-4">
 							<span class="logo">
-								<a href="http://www.eoction.com/" title="EOCTION - ">
+								<a href="http://www.eoction.com/" title="<?= Yii::$app->name; ?>">
 									<img class="img-responsive" src="./EOCTION_files/logo-nfoot2.png" alt="EOCTION">
 								</a>
 							</span>
             <aside id="follow-us-widget-2" class="widget follow-us">
                 <div class="share-links">
-                    <a href="http://www.eoction.com/#" rel="nofollow" target="_blank" data-toggle="tooltip"
+                    <a href="#" rel="nofollow" target="_blank" data-toggle="tooltip"
                        data-placement="bottom" title="" class="share-facebook"
                        data-original-title="Facebook">Facebook</a>
-                    <a href="http://www.eoction.com/#" rel="nofollow" target="_blank" data-toggle="tooltip"
+                    <a href="#" rel="nofollow" target="_blank" data-toggle="tooltip"
                        data-placement="bottom" title="" class="share-twitter"
                        data-original-title="Twitter">Twitter</a>
-                    <a href="http://www.eoction.com/#" rel="nofollow" target="_blank" data-toggle="tooltip"
+                    <a href="#" rel="nofollow" target="_blank" data-toggle="tooltip"
                        data-placement="bottom" title="" class="share-linkedin"
                        data-original-title="Linkedin">Linkedin</a>
                 </div>
             </aside>
         </div>
+
         <div class="col-md-4">
             <div class="centerBlock">
                 <img class="img-responsive" src="./EOCTION_files/paypal4.png" alt="Payment Gateways">
             </div>
         </div>
+
         <div class="col-md-4">
             <span class="pull-right">&copy; <?= date('Y') ?> All Rights Reserved.</span>
         </div>

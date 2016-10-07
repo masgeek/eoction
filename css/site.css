@@ -1,6 +1,7 @@
 html,
 body {
     height: 100%;
+    font-family: "Roboto", sans-serif;
 }
 
 .wrap {
@@ -95,4 +96,23 @@ a.desc:after {
 .centerBlock {
     display: table;
     margin: 0 auto;
+}
+
+.product-nav > li > a {
+    font-weight: bold;
+    border-bottom: solid 5px transparent;
+}
+
+.navbar {
+    min-height: 55px;
+}
+
+/*
+.navbar-brand {padding: 5px 15px; height: 50px; line-height: 80px;}
+*/
+
+.product-nav > li > a:hover {
+    color: #a07936;
+    font-weight: bold;
+    border-bottom: solid 5px #a07936;
 }

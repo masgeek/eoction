@@ -4,7 +4,7 @@ $params = require(__DIR__ . '/params.php');
 
 $config = [
     'id' => 'basic',
-    'name' => 'EOCTION',
+    'name' => 'eOction',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
@@ -22,7 +22,7 @@ $config = [
                 'pathMap' => [
                     '@app/views' => 'themes/eoction'
                 ],
-                'baseUrl' => 'themes/eoction' /* base url */
+                //'baseUrl' => 'themes/eoction' /* base url */
             ]
         ],
         'cache' => [
