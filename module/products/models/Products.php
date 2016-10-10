@@ -26,9 +26,9 @@ use Yii;
  * @property string $DATE_ADDED
  * @property string $DATE_UPDATED
  *
- * @property TbProductAttributes[] $ProductAttributes
- * @property TbProductImages[] $ProductImages
- * @property TbProductVideo[] $ProductVideos
+ * @property TbProductAttributes[] $tbProductAttributes
+ * @property TbProductImages[] $tbProductImages
+ * @property TbProductVideo[] $tbProductVideos
  */
 class Products extends \yii\db\ActiveRecord
 {
@@ -61,49 +61,49 @@ class Products extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'PRODUCT_ID' => Yii::t('app', 'Product Id'),
-            'UID' => Yii::t('app', 'Universal ID'),
-            'SKU' => Yii::t('app', 'Stock Keeping Unit'),
-            'PRODUCT_NAME' => Yii::t('app', 'Product Name'),
-            'CATEGORIES' => Yii::t('app', 'Categories'),
-            'BRAND_NAME' => Yii::t('app', 'Brand  Name'),
-            'PRICE' => Yii::t('app', 'Price'),
-            'RETAIL_PRICE' => Yii::t('app', 'Retail  Price'),
-            'ALLOW_PURCHASES' => Yii::t('app', 'Purchase Allowed'),
-            'VISIBLE' => Yii::t('app', 'Visible'),
-            'AVAILABLE' => Yii::t('app', 'Available'),
-            'TRACK_INVENTORY' => Yii::t('app', 'Track  Inventory'),
-            'CURRENT_STOCK_LEVEL' => Yii::t('app', 'Current  Stock  Level'),
-            'MIN_STOCK_LEVEL' => Yii::t('app', 'Minimum Stock Level'),
-            'STOCK_LOCATION' => Yii::t('app', 'Stock  Location'),
-            'STOCK_TYPE' => Yii::t('app', 'Stock  Type'),
-            'DATE_ADDED' => Yii::t('app', 'Date Added'),
-            'DATE_UPDATED' => Yii::t('app', 'Last Updated'),
+            'PRODUCT_ID' => 'Product Id',
+            'UID' => 'Universal ID',
+            'SKU' => 'Stock Keeping Unit',
+            'PRODUCT_NAME' => 'Product Name',
+            'CATEGORIES' => 'Categories',
+            'BRAND_NAME' => 'Brand  Name',
+            'PRICE' => 'Price',
+            'RETAIL_PRICE' => 'Retail  Price',
+            'ALLOW_PURCHASES' => 'Purchase Allowed',
+            'VISIBLE' => 'Visible',
+            'AVAILABLE' => 'Available',
+            'TRACK_INVENTORY' => 'Track  Inventory',
+            'CURRENT_STOCK_LEVEL' => 'Current  Stock  Level',
+            'MIN_STOCK_LEVEL' => 'Minimum Stock Level',
+            'STOCK_LOCATION' => 'Stock  Location',
+            'STOCK_TYPE' => 'Stock  Type',
+            'DATE_ADDED' => 'Date Added',
+            'DATE_UPDATED' => 'Last Updated',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProductAttributes()
+    public function getTbProductAttributes()
     {
-        return $this->hasMany(ProductAttributes::className(), ['PRODUCT_ID' => 'PRODUCT_ID']);
+        return $this->hasMany(TbProductAttributes::className(), ['PRODUCT_ID' => 'PRODUCT_ID']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProductImages()
+    public function getTbProductImages()
     {
-        return $this->hasMany(ProductImages::className(), ['PRODUCT_ID' => 'PRODUCT_ID']);
+        return $this->hasMany(TbProductImages::className(), ['PRODUCT_ID' => 'PRODUCT_ID']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProductVideos()
+    public function getTbProductVideos()
     {
-        return $this->hasMany(ProductVideo::className(), ['PRODUCT_ID' => 'PRODUCT_ID']);
+        return $this->hasMany(TbProductVideo::className(), ['PRODUCT_ID' => 'PRODUCT_ID']);
     }
 
     /**

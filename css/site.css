@@ -25,7 +25,7 @@ body {
     margin-bottom: 105px;
 }
 
-.footer li, h3, a, a:hover, label, .copyright {
+.footer li, .footer h3, .footer a, .footer a:hover, .footer label, .copyright {
     color: #F7FFFF;
 }
 

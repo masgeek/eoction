@@ -11,6 +11,7 @@ $config = [
     'modules' => [
         'product' => [
             'class' => 'app\module\products\product',
+            'defaultRoute' => 'product',
         ],
         'user' => [
             'class' => 'app\module\users\user',
