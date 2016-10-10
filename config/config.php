@@ -7,6 +7,15 @@ $config = [
     'name' => 'eOction',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    /* modules*/
+    'modules' => [
+        'product' => [
+            'class' => 'app\module\products\product',
+        ],
+        'user' => [
+            'class' => 'app\module\users\user',
+        ],
+    ],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -17,11 +26,11 @@ $config = [
         ],*/
 
         /* external files*/
-        'assetManager' => [
+        /*'assetManager' => [
             'assetMap' => [
                 'jquery.js' => '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js',
             ],
-        ],
+        ],*/
         /* custom view template*/
         'view' => [
             'theme' => [
