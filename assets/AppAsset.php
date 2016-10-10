@@ -21,6 +21,7 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/site.css',
         'css/products.css',
+        'css/social-icons/social-icons.css',
         /*'css/theme-shop.css',
         'css/theme-elements.css',
         'css/ultimate.css',
@@ -35,5 +36,6 @@ class AppAsset extends AssetBundle
         'yii\web\YiiAsset',
         //'yii\bootstrap\BootstrapAsset',
         'yii\bootstrap\BootstrapPluginAsset',
+        '\rmrevin\yii\fontawesome\AssetBundle'
     ];
 }

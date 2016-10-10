@@ -17,12 +17,21 @@ body {
 
 .footer {
     height: auto;
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
+    background-color: #081A23;
+    border-top: 1px solid #dd001e;
     padding: 20px;
     padding-top: 20px;
     margin: 0 auto;
     margin-bottom: 105px;
+}
+
+.footer li, h3, a, a:hover, label, .copyright {
+    color: #F7FFFF;
+}
+
+.footer li {
+    background-color: transparent;
+    border: none;
 }
 
 .jumbotron {
