@@ -14,12 +14,12 @@ nbproject
 Thumbs.db
 
 # composer vendor dir
+/vendor/bin
 /vendor/phpspec
 /vendor/cebe
 /vendor/composer
 tests
-test
-bin
+testgit
 doc
 #assets/*
 
