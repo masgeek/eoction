@@ -14,9 +14,8 @@ nbproject
 Thumbs.db
 
 # composer vendor dir
-!yii.php
-/vendor/bin
 /vendor/phpspec
+/vendor/cebe
 /vendor/composer
 tests
 test
