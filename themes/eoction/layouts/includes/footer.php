@@ -1,3 +1,6 @@
+<?php
+use yii\helpers\Html;
+?>
 <footer class="footer">
     <!-- footer top -->
     <div class="row">
@@ -87,7 +90,10 @@
 
         <div class="col-md-4">
             <div class="centerBlock">
-                <img class="img-responsive" src="./EOCTION_files/paypal4.png" alt="Payment Gateways">
+                <?php
+                $imgLink = '@web/images/paypal.png';
+                echo Html::img($imgLink, ['class' => 'img img-responsive','alt'=>'Payment Gateways', 'alt' => Yii::$app->name, 'title' => 'Paypal Gateway']);
+                ?>
             </div>
         </div>
 
