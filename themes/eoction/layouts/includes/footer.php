@@ -86,7 +86,7 @@ use yii\helpers\Html;
         </div>
 
         <div class="col-md-3">
-            <span class="pull-right copyright" style="text-align: center;">&copy; <?= date('Y') ?> All Rights Reserved.</span>
+            <span class="pull-right copyright" style="text-align: center;">&copy; <?= date('Y'); ?> All Rights Reserved.</span>
         </div>
     </div>
     <!-- /footer bottom -->
