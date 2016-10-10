@@ -17,7 +17,6 @@ Thumbs.db
 /vendor/bin
 /vendor/phpspec
 /vendor/cebe
-/vendor/composer
 tests
 testgit
 doc
