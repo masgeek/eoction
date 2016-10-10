@@ -17,7 +17,6 @@ Thumbs.db
 !yii.php
 /vendor/bin
 /vendor/phpspec
-/vendor/composer
 tests
 test
 bin
