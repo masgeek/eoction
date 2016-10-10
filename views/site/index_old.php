@@ -4,7 +4,6 @@
 
 $this->title = 'Live Auction-' . Yii::$app->name;
 
-
 ?>
 <div class="site-index">
 
@@ -14,6 +13,12 @@ $this->title = 'Live Auction-' . Yii::$app->name;
         <p class="lead">You have successfully created your Yii-powered application.</p>
 
         <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
+
+        <div data-countdown="10"></div>
+        <div data-countdown="2017/01/01"></div>
+        <div data-countdown="2018/01/01"></div>
+        <div data-countdown="2019/01/01"></div>
+        timer here
     </div>
 
     <div class="body-content">
@@ -63,3 +68,17 @@ $this->title = 'Live Auction-' . Yii::$app->name;
 
     </div>
 </div>
+
+<?php
+
+$this->registerJs(
+    '$("document").ready(function(){ 
+        $(\'[data-countdown]\').each(function() {
+            var $this = $(this), finalDate = $(this).data(\'countdown\');
+            $this.countdown(finalDate, function(event) {
+                $this.html(event.strftime(\'%S\'));
+            });
+        });
+    });'
+);
+?>

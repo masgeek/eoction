@@ -11,6 +11,7 @@ use app\assets\AppAsset;
 use yii\base\Controller;
 
 AppAsset::register($this);
+\app\assets\BowerAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

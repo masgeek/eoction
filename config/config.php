@@ -16,6 +16,12 @@ $config = [
             'basePath' => '@webroot/my_assets',
         ],*/
 
+        /* external files*/
+        'assetManager' => [
+            'assetMap' => [
+                'jquery.js' => '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js',
+            ],
+        ],
         /* custom view template*/
         'view' => [
             'theme' => [
