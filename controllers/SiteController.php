@@ -11,7 +11,7 @@ use app\models\ContactForm;
 
 class SiteController extends Controller
 {
-    public $layout = 'shop';
+    public $layout = '/column1';
     /**
      * @inheritdoc
      */
