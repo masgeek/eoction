@@ -1,4 +1,4 @@
-Yii 2 eOction Projec
+Yii 2 eOction Project
 ============================
 
 Based on the Yii 2 Basic Project Template, A skeleton [Yii 2](http://www.yiiframework.com/) application best for
