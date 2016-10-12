@@ -13,11 +13,12 @@ use Yii;
  * @property string $PRODUCT_NAME
  * @property string $CATEGORIES
  * @property string $BRAND_NAME
- * @property double $PRICE
+ * @property string $PRICE
  * @property double $RETAIL_PRICE
  * @property integer $ALLOW_PURCHASES
  * @property integer $VISIBLE
  * @property integer $AVAILABLE
+ * @property integer $ALLOW_AUCTION
  * @property string $TRACK_INVENTORY
  * @property integer $CURRENT_STOCK_LEVEL
  * @property integer $MIN_STOCK_LEVEL
@@ -26,9 +27,9 @@ use Yii;
  * @property string $DATE_ADDED
  * @property string $DATE_UPDATED
  *
- * @property TbProductAttributes[] $tbProductAttributes
- * @property TbProductImages[] $tbProductImages
- * @property TbProductVideo[] $tbProductVideos
+ * @property ProductAttributes[] $productAttributes
+ * @property Images[] $productImages
+ * @property ProductVideos[] $productVideos
  */
 class Products extends \yii\db\ActiveRecord
 {
@@ -48,7 +49,7 @@ class Products extends \yii\db\ActiveRecord
         return [
             [['SKU', 'PRODUCT_NAME', 'BRAND_NAME', 'PRICE', 'RETAIL_PRICE', 'CURRENT_STOCK_LEVEL'], 'required'],
             [['PRICE', 'RETAIL_PRICE'], 'number'],
-            [['ALLOW_PURCHASES', 'VISIBLE', 'AVAILABLE', 'CURRENT_STOCK_LEVEL', 'MIN_STOCK_LEVEL'], 'integer'],
+            [['ALLOW_PURCHASES', 'VISIBLE', 'AVAILABLE', 'ALLOW_AUCTION', 'CURRENT_STOCK_LEVEL', 'MIN_STOCK_LEVEL'], 'integer'],
             [['DATE_ADDED', 'DATE_UPDATED'], 'safe'],
             [['UID'], 'string', 'max' => 100],
             [['SKU', 'PRODUCT_NAME', 'CATEGORIES', 'BRAND_NAME', 'TRACK_INVENTORY', 'STOCK_LOCATION', 'STOCK_TYPE'], 'string', 'max' => 255],
@@ -72,6 +73,7 @@ class Products extends \yii\db\ActiveRecord
             'ALLOW_PURCHASES' => 'Purchase Allowed',
             'VISIBLE' => 'Visible',
             'AVAILABLE' => 'Available',
+            'ALLOW_AUCTION' => 'Allow Auction',
             'TRACK_INVENTORY' => 'Track  Inventory',
             'CURRENT_STOCK_LEVEL' => 'Current  Stock  Level',
             'MIN_STOCK_LEVEL' => 'Minimum Stock Level',
@@ -85,25 +87,35 @@ class Products extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTbProductAttributes()
+    public function getProductAttributes()
     {
-        return $this->hasMany(TbProductAttributes::className(), ['PRODUCT_ID' => 'PRODUCT_ID']);
+        return $this->hasMany(ProductAttributes::className(), ['PRODUCT_ID' => 'PRODUCT_ID']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTbProductImages()
+    public function getProductImages()
     {
-        return $this->hasMany(TbProductImages::className(), ['PRODUCT_ID' => 'PRODUCT_ID']);
+        return $this->hasMany(Images::className(), ['PRODUCT_ID' => 'PRODUCT_ID']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTbProductVideos()
+    public function getProductVideos()
     {
-        return $this->hasMany(TbProductVideo::className(), ['PRODUCT_ID' => 'PRODUCT_ID']);
+        return $this->hasMany(ProductVideos::className(), ['PRODUCT_ID' => 'PRODUCT_ID']);
+    }
+
+    public function getSingleImage()
+    {
+        $image = null;
+        $images = $this->productImages;
+        if (is_array($images) && !empty($images)) {
+            $image = $images[0]; //get only the first index
+        }
+        return $image;
     }
 
     /**

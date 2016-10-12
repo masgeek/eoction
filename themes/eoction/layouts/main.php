@@ -24,10 +24,9 @@ AppAsset::register($this);
     <!-- navigation bar -->
     <?php require_once __DIR__ . '/includes/navigation.php'; ?>
     <!-- end navigation bar -->
-    <!-- container -->
-    <div class="container">
-        <?= $content; ?>
-    </div> <!-- /container -->
+    <!-- content -->
+    <?= $content; ?>
+    <!-- /content -->
 </div>
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
 <?php $this->endBody() ?>

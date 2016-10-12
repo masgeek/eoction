@@ -1,13 +1,19 @@
 <?php
+/**
+ *
+ * @var \yii\data\ActiveDataProvider $listDataProvider
+ */
+use yii\widgets\ListView;
 
-/* @var $this yii\web\View */
+//var_dump($listDataProvider);
 
-$this->title = 'Live Auction-' . Yii::$app->name;
-?>
-
-<div class="card">
-    <img class="card-img-top" src="http://placehold.it/350x150" alt="Card image cap">
-    <div class="card-block">
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    </div>
-</div>
+echo ListView::widget([
+    'dataProvider' => $listDataProvider,
+    'options' => [
+        'tag' => 'div',
+        'class' => 'list-wrapper',
+        'id' => 'list-wrapper',
+    ],
+    'layout' => "{pager}\n{items}\n{summary}",
+    'itemView' => '_list_item',
+]);
