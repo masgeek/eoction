@@ -19,9 +19,9 @@ $bid = $model->PRICE;
 
 //if retail = 100 bid
 
-$discounted = round((($bid * 100) / $retail), 1);
+$discounted = 100 - round((($bid * 100) / $retail), 0);
 
-$discount = "- $discounted";
+$discount = "$discounted";
 ?>
 
 
@@ -37,7 +37,7 @@ $discount = "- $discounted";
             ]); ?>
         </div>
         <div class="saleoffrate">
-            <b><?= $discount; ?>%</b>
+            <b><?= $discount; ?> &percnt;</b> OFF
         </div>
         <div class="caption">
             <h5><?= $model->PRODUCT_NAME; ?></h5>
