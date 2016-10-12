@@ -133,3 +133,7 @@ a.desc:after {
     font-weight: bold;
     border-bottom: solid 5px #a07936;
 }
+
+.product-image{
+    cursor: pointer;
+}
