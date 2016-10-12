@@ -7,12 +7,8 @@ use yii\widgets\ListView;
 
 //var_dump($listDataProvider);
 ?>
-<button id="startProgressTimer">Do it!</button>
-<h1>js loading Progress bar</h1>
-<div class="progress" width="20">
-    <div class="progress-bar progress-bar-striped active"  role="progressbar" aria-valuenow="100"  aria-valuemax="100" aria-valuemin="0" style="width: 100%">
-        <h4 class="modal-title" id="myModalLabel"><p id="demo"></p>%</h4>
-    </div>
+<div id="progressBar">
+    <div></div>
 </div>
 <?= ListView::widget([
     'dataProvider' => $listDataProvider,
@@ -28,28 +24,44 @@ use yii\widgets\ListView;
 
 $this->registerJs(
     '$("document").ready(function(){ 
-    $("#startProgressTimer").click(function() {
-    /*****/
-    var myVar=setInterval(function(){myTimer()},30);
-var count = 100;
-function myTimer() {
-if(count > 0){
-  $(\'.progress\').css(\'width\', count + "%");
-  count -= 0.05;
-   document.getElementById("demo").innerHTML = Math.round(count) +"%";
-   // code to do when loading
-  }
-  
-  else if(count < 0){  
-      // code to do after loading
-  count = 0;
+    function progress(timeleft, timetotal, $element) {
+    var progressBarWidth = (timeleft * $element.width()) / timetotal;
+          //console.log(progressBarWidth);
+    $element.find(\'div\').animate({ width: progressBarWidth }, timeleft == timetotal ? 0 : 1000, \'linear\');
+        console.log(timeleft);
+    if(timeleft > 0) {
+        setTimeout(function() {
+            progress(timeleft - 1, timetotal, $element);
+        }, 1000);
+    }else{
+        console.log("it is over");
+        //perfom ajax call on the element
+    }
+};
 
-  
-  }
-}
-    /*****/
-    });
+//call the countdown function
+progress(10, 10, $(\'#progressBar\'));
     });'
 );
 ?>
+
+<style>
+    #progressBar {
+        width: 100%;
+        margin: 10px auto;
+        height: 22px;
+        background-color: transparent;
+        border:1px solid red;
+        /*background-image: linear-gradient(to right, #f00439, #f28d0d);*/
+    }
+
+    #progressBar div {
+        height: 100%;
+        text-align: right;
+        line-height: 22px; /* same as #progressBar height if we want text middle aligned */
+        width: 0;
+        background-color: #CBEA00;
+        box-sizing: border-box;
+    }
+</style>
 
