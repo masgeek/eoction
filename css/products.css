@@ -1,67 +1,64 @@
-/* CSS used here will be applied after bootstrap.css */
-
-.productbox {
-    position: relative;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    -webkit-transition: all .2s ease-in-out;
+* {
+    box-sizing: border-box;
 }
 
-.caption {
-    padding: 10px;
-    background-color: rgba(0, 0, 0, 0.7);
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    max-height: 40%;
-    overflow: hidden;
-    font-size: 11px;
-    color: #FFF;
-
+/* Create three columns of equal width */
+.columns {
+    /*float: left;
+    width: 33.3%;
+    padding: 8px;*/
 }
 
-.finalprice {
-    font-size: 15px;
-    color: #AAFCAE;
+/* Style the list */
+.price {
+    list-style-type: none;
+    border: 1px solid #eee;
+    margin: 0;
+    padding: 0;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
 }
 
-h5 {
-    margin-top: 0px;
+/* Add shadows on hover */
+.price:hover {
+    box-shadow: 0 8px 12px 0 rgba(0,0,0,0.2)
+}
+
+/* Pricing header */
+.price .header {
+    background-color: #111;
     color: white;
-    max-height: 30px;
-    overflow: hidden;
+    font-size: 25px;
 }
 
-
-/*.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
-    padding: 5px;
-}
-
-.btn-block {
-    margin-top: 5px;
-}
-*/
-.saleoffrate {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding-top: 13px;
+/* List items */
+.price li {
+    border-bottom: 1px solid #eee;
+    padding: 10px;
     text-align: center;
-    background-color: rgba(255, 66, 112, 0.8);
-    color: #FFFFFF;
-    /*border-radius: 80%;*/
-    height: 40px;
-    width: 50px;
-    /*line-height: 25px;*/
-    font-size: 10px;
 }
 
-@media (min-width: 384px) and (max-width: 768px) {
-    .img-responsive img {
-        max-width: 50%;
-    }
+/* Grey list item */
+.price .grey {
+    background-color: #eee;
+    font-size: 20px;
+}
 
-    .img-responsive {
-        text-align: center;
+/* The "Sign Up" button */
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+/* Change the width of the three columns to 100%
+(to stack horizontally on small screens) */
+@media only screen and (max-width: 600px) {
+    .columns {
+        width: 100%;
     }
 }

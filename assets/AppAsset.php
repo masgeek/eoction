@@ -31,6 +31,7 @@ class AppAsset extends AssetBundle
     ];
 
     public $js = [
+        'js/jquery.progressTimer.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
