@@ -6,14 +6,18 @@
 use yii\widgets\ListView;
 
 //var_dump($listDataProvider);
+?>
+<div class="col-md-12">
+    <?= ListView::widget([
+        'dataProvider' => $listDataProvider,
+        'options' => [
+            'tag' => 'div',
+            'class' => 'list-wrapper',
+            'id' => 'list-wrapper',
+        ],
+        'layout' => "{items}",
+        //'layout' => "{pager}\n{items}\n{summary}",
+        'itemView' => '_product_view',
+    ]); ?>
+</div>
 
-echo ListView::widget([
-    'dataProvider' => $listDataProvider,
-    'options' => [
-        'tag' => 'div',
-        'class' => 'list-wrapper',
-        'id' => 'list-wrapper',
-    ],
-    'layout' => "{pager}\n{items}\n{summary}",
-    'itemView' => '_list_item',
-]);

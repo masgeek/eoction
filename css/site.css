@@ -2,6 +2,7 @@ html,
 body {
     height: 100%;
     font-family: "Roboto", sans-serif;
+    padding-top: 30px;
 }
 
 .wrap {
@@ -13,6 +14,12 @@ body {
 
 .wrap > .container {
     padding: 70px 15px 20px;
+}
+
+.full-width {
+    margin: 0 auto;
+    width: 100%;
+    background-color: grey;
 }
 
 .footer {
