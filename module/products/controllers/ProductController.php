@@ -4,7 +4,7 @@ namespace app\module\products\controllers;
 
 use Yii;
 use app\module\products\models\Products;
-use app\module\products\search\ProductSearch;
+use app\module\products\ProductsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,7 +35,7 @@ class ProductController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new ProductSearch();
+        $searchModel = new ProductsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

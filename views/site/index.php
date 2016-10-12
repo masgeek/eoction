@@ -1,6 +1,23 @@
-<div class="card">
-    <img class="card-img-top" src="http://placehold.it/350x150" alt="Card image cap">
-    <div class="card-block">
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    </div>
+<?php
+/**
+ *
+ * @var \yii\data\ActiveDataProvider $listDataProvider
+ */
+use yii\widgets\ListView;
+
+//var_dump($listDataProvider);
+?>
+<div class="col-md-12">
+    <?= ListView::widget([
+        'dataProvider' => $listDataProvider,
+        'options' => [
+            'tag' => 'div',
+            'class' => 'list-wrapper',
+            'id' => 'list-wrapper',
+        ],
+        'layout' => "{items}",
+        //'layout' => "{pager}\n{items}\n{summary}",
+        'itemView' => '_product_view',
+    ]); ?>
 </div>
+

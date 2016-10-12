@@ -7,7 +7,7 @@
  */
 
 $this->beginContent('@app/views/layouts/main.php'); ?>
-    <div class="container">
+    <div class="content">
         <?= $content; ?>
     </div>
 <?php $this->endContent();

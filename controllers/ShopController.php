@@ -17,7 +17,7 @@ use app\models\ContactForm;
 
 class ShopController extends Controller
 {
-    public $layout = 'shop';
+    public $layout = 'column1';
 
     /**
      * @inheritdoc
@@ -48,6 +48,6 @@ class ShopController extends Controller
     //entry page
     public function actionIndex()
     {
-
+        echo 'under implmentation';
     }
 }

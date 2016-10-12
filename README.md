@@ -1,7 +1,7 @@
-Yii 2 Basic Project Template
+Yii 2 eOction Project
 ============================
 
-Yii 2 Basic Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
+Based on the Yii 2 Basic Project Template, A skeleton [Yii 2](http://www.yiiframework.com/) application best for
 rapidly creating small projects.
 
 The template contains the basic features including user login/logout and a contact page.
@@ -25,7 +25,8 @@ DIRECTORY STRUCTURE
       tests/              contains various tests for the basic application
       vendor/             contains dependent 3rd-party packages
       views/              contains view files for the Web application
-      web/                contains the entry script and Web resources
+      modules/            contains application modules
+      index.php           contains the entry script and Web resources
 
 
 
@@ -43,7 +44,7 @@ INSTALLATION
 Extract the archive file downloaded from [yiiframework.com](http://www.yiiframework.com/download/) to
 a directory named `basic` that is directly under the Web root.
 
-Set cookie validation key in `config/web.php` file to some random secret string:
+Set cookie validation key in `config/config.php` file to some random secret string:
 
 ```php
 'request' => [
@@ -55,7 +56,7 @@ Set cookie validation key in `config/web.php` file to some random secret string:
 You can then access the application through the following URL:
 
 ~~~
-http://localhost/basic/web/
+http://localhost/eoction
 ~~~
 
 

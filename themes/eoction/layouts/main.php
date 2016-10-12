@@ -20,15 +20,15 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 
-<div class="wrap">
     <!-- navigation bar -->
     <?php require_once __DIR__ . '/includes/navigation.php'; ?>
     <!-- end navigation bar -->
-    <!-- container -->
-    <div class="container">
-        <?= $content; ?>
-    </div> <!-- /container -->
-</div>
+
+<!-- container -->
+<div class="container-fluid">
+    <?= $content; ?>
+</div> <!-- /container -->
+
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
 <?php $this->endBody() ?>
 </body>

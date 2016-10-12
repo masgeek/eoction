@@ -7,7 +7,7 @@
  */
 
 $this->beginContent('@app/views/layouts/main.php'); ?>
-    <div class="container">
+    <div class="content">
         <div class="col-sm-4">
             <button class="btn btn-primary btn-block">Left column</button>
         </div>
