@@ -40,23 +40,31 @@ $productID = $model->PRODUCT_ID;
             <li>Starting Bid <?= $model->PRICE; ?></li>
             <li>Shipping</li>
             <li><?= $bids; ?> Bids</li>
-            <li><h1 style="margin-top:150px;">jQuery progressTimer Plugin Demo</h1>
+            <li>
                 <input type="text" id="<?= $productID; ?>" value="<?= $bidStartTime; ?>" style="width: 50px"/>
                 <button id="startProgressTimer<?= $productID; ?>">Do it!</button>
-                <div id="progressTimer<?= $productID; ?>"></div>
+                <div id="progressTimer<?= $productID; ?>">Progress</div>
             </li>
             <li class="grey"><a href="#" class="button">BID NOW</a></li>
         </ul>
     </div>
 
 <?php
+/*
 $this->registerJs(
     '$("document").ready(function(){ 
     $("#startProgressTimer' . $productID . '").click(function() {
         $("#progressTimer' . $productID . '").progressTimer({
-            timeLimit: $("#' . $productID . '").val()
+            timeLimit: $("#' . $productID . '").val(),
+            warningThreshold: 10,
+            baseStyle: \'progress-bar-warning\',
+            warningStyle: \'progress-bar-danger\',
+            completeStyle: \'progress-bar-info\',
+            onFinish: function() {
+            console.log("I\'m done");
+            }
         });
     });
     });'
-);
+);*/
 ?>
