@@ -67,7 +67,7 @@
 .progressBar {
     width: 100%;
     margin: 10px auto;
-    height: 10px;
+    height: 10px !important;
     background-color: transparent;
     border: 1px solid red;
     /*background-image: linear-gradient(to right, #f00439, #f28d0d);*/

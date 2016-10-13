@@ -23,10 +23,10 @@ $bid = $model->PRICE;
 
 $discount = 100 - round((($bid * 100) / $retail), 0);
 $bids = 0;
-$bidStartTime = 60; //initial start time for the bid
+$bidStartTime = 60 * 100; //initial start time for the bid
 $productID = $model->PRODUCT_ID;
 
-echo gmdate("H:i:s", $bidStartTime);
+//gmdate("H:i:s", $bidStartTime);
 ?>
 
 <div class="col-xs-18 col-sm-4 col-md-3" id="item_box_<?= $productID; ?>"">
@@ -48,49 +48,15 @@ echo gmdate("H:i:s", $bidStartTime);
         <!--<input type="text" id="<?= $productID; ?>" value="<?= $bidStartTime; ?>" style="width: 50px"/>
                 <button id="startProgressTimer<?= $productID; ?>">Do it!</button>
                 <div id="progressTimer<?= $productID; ?>">Progress</div>-->
-        <input type="text" id="bid_placed_<?= $productID; ?>" value="0" readonly="readonly" style="width: 50px"/>
-        <div id="progressBar<?= $productID; ?>" class="progressBar">
-            <div></div>
+        <input type="text" id="bid_type_<?= $productID; ?>" value="0" readonly="readonly" style="width: 50px"/>
+        <div class="progress progressBar" role="progressbar" data-goal="0" aria-valuemin="0" aria-valuemax="<?= $bidStartTime; ?>"
+             aria-valuenow="<?= $bidStartTime; ?>" id="progressBar<?= $productID; ?>">
+            <div class="progress__bar"><span class="progress__label"></span></div>
         </div>
-    </li>
-    <li>
-        <section>
-            <h2>Progress Bars</h2>
-            <section>
-                <div class="row">
-                    <div class="example">
-                        <h4>HTML</h4>
-                        <pre><code data-language="html"></code></pre>
-                    </div>
-                    <div class="show">
-                        <h4>RENDERED HTML</h4>
-                        <!--<div class="progress" role="progressbar" data-goal="30">
-                            <div class="progress__bar" style="width: 30%"></div>
-                        </div>
-                        <div class="progress" role="progressbar" data-goal="60" aria-valuemin="0" aria-valuemax="100">
-                            <div class="progress__bar" style="width: 50%"></div>
-                        </div>
-                        -->
-                        <div class="progress" role="progressbar" data-goal="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
-                            <div class="progress__bar"><span class="progress__label"></span></div>
-                        </div>
-                    </div>
-                    <div>
-                        <button id="button_start">start()</button>
-                        <button id="button_stop">stop()</button>
-                        <button id="button_go">go('50')</button>
-                        <button id="button_go_percentage">go('50%')</button>
-                        <button id="button_finish">finish()</button>
-                        <button id="button_reset">reset()</button>
-                    </div>
-                </div>
-            </section>
-        </section
     </li>
     <li class="grey">
         <!--<a href="#" class="button">BID NOW</a>-->
-        <!--<?= Html::a("BID NOW", ['NextItem'], ['class' => 'btn btn-md btn-primary']) ?>-->
-        <?= Html::button('BID NOW', ['class' => 'btn btn-primary', 'onclick' => "placeBid($productID);"]) ?>
+        <?= Html::button('BID NOW', ['class' => 'btn btn-primary btn-block', 'onclick' => "placeBid($productID);", 'id' => "placebid_$productID"]) ?>
     </li>
     <li id="info<?= $productID; ?>"></li>
 </ul>
@@ -104,57 +70,41 @@ $this->registerJs(
     '$("document").ready(function(){ 
 
 jQuery(function($) {
-        $(\'.progress\').asProgress({
+        $("#progressBar"+' . $productID . ').asProgress({
             namespace: \'progress\',
             bootstrap: false,
             min: 0,
             max: 100,
             goal: 100,
-            speed: , // speed of 1/100
+            speed:100, // speed of 1/100 600 = 60seconds
             easing: \'linear\',
             labelCallback: function labelCallback(n) {
                 var percentage = this.getPercentage(n);
                 //return percentage + \'%\';
                 //console.log(percentage);
-                if(percentage==0)
+                if(percentage<=0)
                 {
-                   var today = new Date();
-                //alert("done");
-                console.log(today);
+                //0 no bid wait 60 secs
+                //1 Accepting bids 10 sec
+                //2 going once
+                //2 going twice 
+                var $bidPlaced = $("#bid_placed_"+' . $productID . ').val();
+                
+                //call ajax when finished to remov ethe product from the list
+                //also disable the placebid button
+                 $("#placebid_"+' . $productID . ').attr("disabled","disabled");
+                 $("#placebid_"+' . $productID . ').attr("class","btn btn-danger btn-block");
+                 $("#placebid_"+' . $productID . ').text("BID CLOSED");
+                //alert($bidPlaced);
                 }
             }
         });
-        $(\'#button_start\').on(\'click\', function() {
-                           var today = new Date();
-                //alert("done");
-                console.log(today);
+
+//start the bid window timer
             $(\'.progress\').asProgress(\'start\');
-        });
-        $(\'#button_finish\').on(\'click\', function() {
-            $(\'.progress\').asProgress(\'finish\');
-        });
-        $(\'#button_go\').on(\'click\', function() {
-            $(\'.progress\').asProgress(\'go\', 50);
-        });
-        $(\'#button_go_percentage\').on(\'click\', function() {
-            $(\'.progress\').asProgress(\'go\', \'50%\');
-        });
-        $(\'#button_stop\').on(\'click\', function() {
-            $(\'.progress\').asProgress(\'stop\');
-        });
-        $(\'#button_reset\').on(\'click\', function() {
-            $(\'.progress\').asProgress(\'reset\');
-        });
     });
     
     });'
-);
-
-$this->registerJs(
-    "$(\"document\").ready(function(){ 
-        //call the countdown function
-        //progress($bidStartTime, $bidStartTime, $('#progressBar$productID'),$productID);
-    });"
 );
 ?>
 
@@ -197,10 +147,6 @@ $this->registerJs(
 -->
 <script type="text/javascript">
     //handle the progress bar here
-    function progress(timeleft, timetotal, $element,$product_id) {
-
-    };
-
     function placeBid($product_id) {
         //do an ajax request
         $bidStartTime = 5; //countdown for 10 seconds
@@ -217,6 +163,10 @@ $this->registerJs(
                 $('#info').html('<p>An error has occurred</p>');
             },
             dataType: 'jsonp',
+            before: function (data) {
+                //stop the minute bid bar first
+                $('#progress' + $product_id).asProgress('stop');
+            },
             success: function (data) {
                 var $title = $('<h1>').text(data.talks[0].talk_title);
                 var $description = $('<p>').text(data.talks[0].talk_description);
@@ -226,7 +176,7 @@ $this->registerJs(
 
                 //call goin once going twice e.t.c
                 clearInterval(null);
-                progress($bidStartTime, $bidStartTime, $('#progressBar'+$product_id),$product_id);
+                progress($bidStartTime, $bidStartTime, $('#progressBar' + $product_id), $product_id);
                 //$('#progressBar'+$product_id).remove();
             },
             type: 'GET'
