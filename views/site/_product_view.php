@@ -23,7 +23,7 @@ $bid = $model->PRICE;
 
 $discount = 100 - round((($bid * 100) / $retail), 0);
 $bids = 0;
-$bidStartTime = 60 * 100; //initial start time for the bid
+$bidStartTime = 60 * 10; //initial start time for the bid
 $productID = $model->PRODUCT_ID;
 
 //gmdate("H:i:s", $bidStartTime);
@@ -49,8 +49,8 @@ $productID = $model->PRODUCT_ID;
                 <button id="startProgressTimer<?= $productID; ?>">Do it!</button>
                 <div id="progressTimer<?= $productID; ?>">Progress</div>-->
         <input type="text" id="bid_type_<?= $productID; ?>" value="0" readonly="readonly" style="width: 50px"/>
-        <div class="progress progressBar" role="progressbar" data-goal="0" aria-valuemin="0" aria-valuemax="<?= $bidStartTime; ?>"
-             aria-valuenow="<?= $bidStartTime; ?>" id="progressBar<?= $productID; ?>">
+        <div class="progress progressBar" role="progressbar" data-goal="0" aria-valuemin="0" aria-valuemax="100"
+             aria-valuenow="100" id="progressBar<?= $productID; ?>">
             <div class="progress__bar"><span class="progress__label"></span></div>
         </div>
     </li>
@@ -68,7 +68,8 @@ $productID = $model->PRODUCT_ID;
 
 $this->registerJs(
     '$("document").ready(function(){ 
-
+var dt = new Date();
+console.log(dt);
 jQuery(function($) {
         $("#progressBar"+' . $productID . ').asProgress({
             namespace: \'progress\',
@@ -76,7 +77,7 @@ jQuery(function($) {
             min: 0,
             max: 100,
             goal: 100,
-            speed:100, // speed of 1/100 600 = 60seconds
+            speed:' . $bidStartTime . ', // speed of 1/100 600 = 60seconds
             easing: \'linear\',
             labelCallback: function labelCallback(n) {
                 var percentage = this.getPercentage(n);
@@ -96,6 +97,8 @@ jQuery(function($) {
                  $("#placebid_"+' . $productID . ').attr("class","btn btn-danger btn-block");
                  $("#placebid_"+' . $productID . ').text("BID CLOSED");
                 //alert($bidPlaced);
+                var dt = new Date();
+                 console.log(dt);
                 }
             }
         });

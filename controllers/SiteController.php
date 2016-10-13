@@ -72,7 +72,7 @@ class SiteController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' =>Products::find()->where(['ALLOW_AUCTION' => 1])->orderBy('PRODUCT_ID ASC'),
             'pagination' => [
-                'pageSize' => 12,
+                'pageSize' => 1,
             ],
         ]);
 
