@@ -79,6 +79,11 @@ class SiteController extends Controller
         $this->view->title = 'Posts List';
         return $this->render('index', ['listDataProvider' => $dataProvider]);
     }
+
+    public function actionNextItem()
+    {
+        return $this->render('_product_view', ['response' => date('Y-M-d')]);
+    }
     /**
      * Login action.
      *

@@ -21,6 +21,6 @@ class BowerAsset extends AssetBundle
     ];
 
     public $js = [
-        'jquery.countdown/dist/jquery.countdown.js'
+
     ];
 }
