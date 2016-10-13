@@ -22,6 +22,7 @@ class AppAsset extends AssetBundle
         'css/site.css',
         'css/products.css',
         'css/social-icons/social-icons.css',
+        'js/as_progress/css/asProgress.css',
         /*'css/theme-shop.css',
         'css/theme-elements.css',
         'css/ultimate.css',
@@ -32,6 +33,7 @@ class AppAsset extends AssetBundle
 
     public $js = [
         'js/jquery.progressTimer.js',
+        'js/as_progress/jquery-asProgress.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
