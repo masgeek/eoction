@@ -30,7 +30,7 @@ $bids = 0;
 $bidStartTime = 60 * 10; //initial start time for the bid
 $productID = $model->PRODUCT_ID;
 
-$biddingUrl = Url::toRoute(['site/update-bid'])
+$biddingUrl = Url::toRoute(['site/place-bid'])
 //gmdate("H:i:s", $bidStartTime);
 ?>
 
@@ -50,10 +50,9 @@ $biddingUrl = Url::toRoute(['site/update-bid'])
     <li>Shipping</li>
     <li><?= $bids; ?> Bids</li>
     <li>
-        <!--<input type="text" id="<?= $productID; ?>" value="<?= $bidStartTime; ?>" style="width: 50px"/>
-                <button id="startProgressTimer<?= $productID; ?>">Do it!</button>
-                <div id="progressTimer<?= $productID; ?>">Progress</div>-->
-        <input type="text" id="bid_type_<?= $productID; ?>" value="0" readonly="readonly" style="width: 50px"/>
+        <input type="text" id="bid_type_<?= $productID; ?>" value="0" readonly="readonly"/>
+        <input type="text" id="bid_placed_<?= $productID; ?>" value="0" readonly="readonly"/>
+
         <div class="progress progressBar" role="progressbar" data-goal="0" aria-valuemin="0" aria-valuemax="100"
              aria-valuenow="100" id="progressBar<?= $productID; ?>">
             <div class="progress__bar"><span class="progress__label"></span></div>
@@ -97,8 +96,10 @@ jQuery(function($) {
                 //0 no bid wait 60 secs
                 //1 Accepting bids 10 sec
                 //2 going once
-                //2 going twice 
+                //3 going twice 
                 var $bidPlaced = $("#bid_placed_"+' . $productID . ').val();
+                var $bidType = $("#bid_type_"+' . $productID . ').val();
+                
                 //alert($bidPlaced);
                 //call ajax when finished to remove the product from the list
                 //also disable the placebid button
@@ -160,9 +161,6 @@ jQuery(function($) {
 <script type="text/javascript">
     //handle the progress bar here
     function placeBid($product_id, $user_id, $sku) {
-        /*$('#button_reset').on('click', function() {
-            $('.progress').asProgress('reset');
-        });*/
 
         //reset the timer position
         $('#progressBar'+$product_id).asProgress('reset');
@@ -196,12 +194,14 @@ jQuery(function($) {
                     .append($title)
                     .append($description);
 
-                //call goin once going twice e.t.c
-                clearInterval(null);
-                progress($bidStartTime, $bidStartTime, $('#progressBar' + $product_id), $product_id);
-                //$('#progressBar'+$product_id).remove();
+                //call going once going twice e.t.c
             },
             type: 'GET'
         });
+    }
+
+    //function to update progressbar
+    function UpdateProgressBar($barElement,$bidStartTime){
+        
     }
 </script>

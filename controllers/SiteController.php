@@ -7,9 +7,12 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
+use yii\db\Expression;
+
 use app\models\LoginForm;
 use app\models\ContactForm;
 
+use app\models\BidActivity;
 use app\module\products\models\Products;
 
 class SiteController extends Controller
@@ -109,8 +112,61 @@ class SiteController extends Controller
      */
     public function actionPlaceBid($id, $user_id, $sku)
     {
-        //do the neccessary updates here
-        echo json_encode('Bid placed ' . $sku);
+        $resp = [];
+        $activitycount = 1; //this counts the number of activities for the product
+        $bidactivity = BidActivity::findOne(['PRODUCT_SKU' => $sku]);
+
+        $expression = new Expression('NOW()');
+
+        if ($bidactivity == null) {
+            //insert a new record
+            $model = new BidActivity();
+
+            $model->isNewRecord = true;
+            $model->PRODUCT_ID = $id;
+            $model->PRODUCT_SKU = $sku;
+            $model->ACTIVITY_COUNT = $activitycount;
+            $model->BID_DATE = $expression;
+            //save the data
+            if ($model->save()) {
+                //no need to alert user return indicator so that we can switch to auction countdown
+                $resp = [
+                    'msg' => 'Bid placed successfully',
+                    'success' => true
+                ];
+            } else {
+                //alert user
+                $resp = [
+                    'msg' => $model->getErrors(),
+                    'success' => false
+                ];
+            }
+        } else {
+            //update the existing record
+            // get eth last activity count
+            $activitycount = (int)$bidactivity->ACTIVITY_COUNT;
+            //now inrement it by one and save it back
+            $bidactivity->ACTIVITY_COUNT = $activitycount + 1;
+            $bidactivity->BID_DATE = $expression;
+            //save the data
+            if ($bidactivity->save()) {
+                //no need to alert user return indicator so that we can swithc to auction countdown
+                //alert user
+                $resp = [
+                    'msg' => 'Bid updated successfully',
+                    'success' => true
+                ];
+            } else {
+                //alert user
+                $resp = [
+                    'msg' => $bidactivity->getErrors(),
+                    'success' => false
+                ];
+            }
+        }
+
+        //return the json response
+        echo json_encode($resp);
     }
 
     /**
