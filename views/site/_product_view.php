@@ -7,12 +7,14 @@
  */
 /* @var $model app\module\products\models\Products */
 /* @var $image app\module\products\models\Images */
+
+
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
 
 $imageObject = $model->getSingleImage();
-$imageA = $imageObject ? $imageObject->IMAGE_URL : 'http://placehold.it/800/c55/fff';
+$imageA = $imageObject ? $imageObject->IMAGE_URL : 'http://placehold.it/700/c55/fff';
 $imageB = 'http://placehold.it/800/fff/000';
 
 //caclulate ther percentage discount based oneth retail price and the bided amount
@@ -20,12 +22,15 @@ $retail = $model->RETAIL_PRICE;
 $bid = $model->PRICE;
 
 //if retail = 100 bid
+$userid = yii::$app->user->id ? yii::$app->user->id : 1;
+$sku = $model->SKU;
 
 $discount = 100 - round((($bid * 100) / $retail), 0);
 $bids = 0;
 $bidStartTime = 60 * 10; //initial start time for the bid
 $productID = $model->PRODUCT_ID;
 
+$biddingUrl = Url::toRoute(['site/update-bid'])
 //gmdate("H:i:s", $bidStartTime);
 ?>
 
@@ -56,7 +61,11 @@ $productID = $model->PRODUCT_ID;
     </li>
     <li class="grey">
         <!--<a href="#" class="button">BID NOW</a>-->
-        <?= Html::button('BID NOW', ['class' => 'btn btn-primary btn-block', 'onclick' => "placeBid($productID);", 'id' => "placebid_$productID"]) ?>
+        <?= Html::button('BID NOW', [
+            'class' => 'btn btn-primary btn-block',
+            'onclick' => "placeBid($productID,$userid,'$sku');",
+            'id' => "placebid_$productID"
+        ]) ?>
     </li>
     <li id="info<?= $productID; ?>"></li>
 </ul>
@@ -68,8 +77,8 @@ $productID = $model->PRODUCT_ID;
 
 $this->registerJs(
     '$("document").ready(function(){ 
-var dt = new Date();
-console.log(dt);
+        var dt = new Date();
+        console.log(dt);
 jQuery(function($) {
         $("#progressBar"+' . $productID . ').asProgress({
             namespace: \'progress\',
@@ -90,10 +99,10 @@ jQuery(function($) {
                 //2 going once
                 //2 going twice 
                 var $bidPlaced = $("#bid_placed_"+' . $productID . ').val();
-                
-                //call ajax when finished to remov ethe product from the list
+                //alert($bidPlaced);
+                //call ajax when finished to remove the product from the list
                 //also disable the placebid button
-                 $("#placebid_"+' . $productID . ').attr("disabled","disabled");
+                 //$("#placebid_"+' . $productID . ').attr("disabled","disabled");
                  $("#placebid_"+' . $productID . ').attr("class","btn btn-danger btn-block");
                  $("#placebid_"+' . $productID . ').text("BID CLOSED");
                 //alert($bidPlaced);
@@ -150,16 +159,26 @@ jQuery(function($) {
 -->
 <script type="text/javascript">
     //handle the progress bar here
-    function placeBid($product_id) {
+    function placeBid($product_id, $user_id, $sku) {
+        /*$('#button_reset').on('click', function() {
+            $('.progress').asProgress('reset');
+        });*/
+
+        //reset the timer position
+        $('#progressBar'+$product_id).asProgress('reset');
+
+        //restart the timer with new values
+        $('#progressBar'+$product_id).asProgress('start');
         //do an ajax request
+
         $bidStartTime = 5; //countdown for 10 seconds
         //alert('Bid placed for ' + $product_id);
         $.ajax({
-            url: 'http://api.joind.in/v2.1/talks/10889',
+            url: '<?= $biddingUrl; ?>',
             data: {
                 id: $product_id,
-                sku: 'SKU-67676',
-                user_id: 2,
+                sku: $sku,
+                user_id: $user_id,
                 format: 'json'
             },
             error: function () {

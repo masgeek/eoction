@@ -15,11 +15,26 @@ use app\module\products\models\Products;
 class SiteController extends Controller
 {
     public $layout = '/main';
+
     /**
      * @inheritdoc
      */
     public function behaviors()
     {
+
+        /*'access' => [
+                    'class' => AccessControl::className(),
+                    'only' => ['rate-ticket', 'index','view','update','delete','newticket' ],
+                    'rules' => [
+                            [
+                                    'actions' => ['rate-ticket', 'index','view','update','delete','newticket', ],
+                                    'allow' => true,
+                                    'roles' => ['@'],
+                            ],
+
+                    ],
+            ],*/
+
         return [
             'access' => [
                 'class' => AccessControl::className(),
@@ -40,6 +55,7 @@ class SiteController extends Controller
             ],
         ];
     }
+
 
     /**
      * @inheritdoc
@@ -70,9 +86,9 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' =>Products::find()->where(['ALLOW_AUCTION' => 1])->orderBy('PRODUCT_ID ASC'),
+            'query' => Products::find()->where(['ALLOW_AUCTION' => 1])->orderBy('PRODUCT_ID ASC'),
             'pagination' => [
-                'pageSize' => 12,
+                'pageSize' => 1,
             ],
         ]);
 
@@ -84,6 +100,30 @@ class SiteController extends Controller
     {
         return $this->render('_product_view', ['response' => date('Y-M-d')]);
     }
+
+    /**
+     * @param $id
+     * @param $user_id
+     * @param $sku
+     * action should be called like these place-bid
+     */
+    public function actionPlaceBid($id, $user_id, $sku)
+    {
+        //do the neccessary updates here
+        echo json_encode('Bid placed ' . $sku);
+    }
+
+    /**
+     * @param $id
+     * @param $user_id
+     * @param $sku
+     * action should be called like these update-bid
+     */
+    public function actionUpdateBid($id, $user_id, $sku)
+    {
+        echo json_encode("Bid Updated " . $sku);
+    }
+
     /**
      * Login action.
      *
