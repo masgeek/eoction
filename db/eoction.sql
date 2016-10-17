@@ -10,10 +10,33 @@ Target Server Type    : MYSQL
 Target Server Version : 50711
 File Encoding         : 65001
 
-Date: 2016-10-12 17:41:32
+Date: 2016-10-17 15:40:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for tb_bid_activity
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_bid_activity`;
+CREATE TABLE `tb_bid_activity` (
+  `PLACED_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `PRODUCT_ID` int(11) NOT NULL,
+  `PRODUCT_SKU` varchar(255) NOT NULL COMMENT 'Product SKU',
+  `ACTIVITY_COUNT` int(5) NOT NULL COMMENT 'Bid Activity Count',
+  `BID_DATE` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`PLACED_ID`),
+  UNIQUE KEY `PRODUCT_SKU` (`PRODUCT_SKU`),
+  KEY `PRODUCT_ID` (`PRODUCT_ID`),
+  CONSTRAINT `tb_bid_activity_ibfk_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE,
+  CONSTRAINT `tb_bid_activity_ibfk_2` FOREIGN KEY (`PRODUCT_SKU`) REFERENCES `tb_products` (`SKU`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tb_bid_activity
+-- ----------------------------
+INSERT INTO `tb_bid_activity` VALUES ('2', '1', 'NHQ-J272582011000', '80', '2016-10-17 14:33:55');
+INSERT INTO `tb_bid_activity` VALUES ('3', '2', 'NQH-J272582150000', '25', '2016-10-17 14:30:23');
 
 -- ----------------------------
 -- Table structure for tb_bid_settings
@@ -87,13 +110,14 @@ CREATE TABLE `tb_products` (
   `DATE_ADDED` datetime DEFAULT NULL COMMENT 'Date Added',
   `DATE_UPDATED` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Updated',
   PRIMARY KEY (`PRODUCT_ID`),
-  UNIQUE KEY `tb_products_PRODUCT_ID_uindex` (`PRODUCT_ID`)
+  UNIQUE KEY `tb_products_PRODUCT_ID_uindex` (`PRODUCT_ID`),
+  KEY `SKU` (`SKU`)
 ) ENGINE=InnoDB AUTO_INCREMENT=175 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_products
 -- ----------------------------
-INSERT INTO `tb_products` VALUES ('1', 'M795N6ZONQW', 'NQH-J272582011000', 'Hidalgo Blue Diamonique Stainless Steel Watch Bezel', 'Watches/Fixed/Wristwatches', '', '96.00', '98.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-12 15:58:37');
+INSERT INTO `tb_products` VALUES ('1', 'M795N6ZONQW', 'NHQ-J272582011000', 'Hidalgo Blue Diamonique Stainless Steel Watch Bezel', 'Watches/Fixed/Wristwatches', '', '96.00', '98.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-17 13:23:48');
 INSERT INTO `tb_products` VALUES ('2', 'M0LEKOEVD4W', 'NQH-J272582150000', 'Hidalgo Pink Diamonique Stainless Steel Watch Bezel', 'Watches/Fixed/Wristwatches', '', '59.50', '179.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-10 15:14:51');
 INSERT INTO `tb_products` VALUES ('3', 'M1W4N47ON5P', 'NQH-J273636202543', 'Ecclissi Sterling Silver Round Dial Acetate Strap White Large Watch', 'Watches/Fixed/Wristwatches', '', '150.00', '450.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-10 15:14:51');
 INSERT INTO `tb_products` VALUES ('4', 'M71YN5GYNVQ', 'NQH-J261702000000', 'Dweck Diamonds Sterling S/2 Bracelets W/Figure 8 Charm', 'Top Selling/Jewelry/Bracelet', '', '122.00', '366.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-10 15:14:51');
@@ -363,8 +387,9 @@ CREATE TABLE `tb_users` (
   `DATE_CREATED` datetime DEFAULT NULL,
   `DATE_UPDATED` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`USER_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_users
 -- ----------------------------
+INSERT INTO `tb_users` VALUES ('1', 'fatelord', 'sammy barasa', 'barsamms@gmail.com', 'fatelord', '254713196504', '+3GMT', 'KE', '1', '2016-10-17 12:31:21', '2016-10-17 12:31:25');
