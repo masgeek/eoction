@@ -47,7 +47,7 @@ $("#DateCountdown").TimeCircles();
 
 <div class="col-md-8 col-md-offest-2">
     <h2>Counting down 15 minutes (900 seconds)</h2>
-    <div id="CountDownTimer" data-timer="60" style="width: 1000px; height: 250px;"></div>
+    <div id="CountDownTimer" data-timer="120" style="width: 1000px; height: 250px;"></div>
     <button class="btn btn-success startTimer">Start Timer</button>
     <button class="btn btn-danger stopTimer">Stop Timer</button>
 </div>
