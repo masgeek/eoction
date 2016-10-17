@@ -7,12 +7,14 @@
  */
 /* @var $model app\module\products\models\Products */
 /* @var $image app\module\products\models\Images */
+
+
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
 
 $imageObject = $model->getSingleImage();
-$imageA = $imageObject ? $imageObject->IMAGE_URL : 'http://placehold.it/800/c55/fff';
+$imageA = $imageObject ? $imageObject->IMAGE_URL : 'http://placehold.it/700/c55/fff';
 $imageB = 'http://placehold.it/800/fff/000';
 
 //caclulate ther percentage discount based oneth retail price and the bided amount
@@ -20,12 +22,16 @@ $retail = $model->RETAIL_PRICE;
 $bid = $model->PRICE;
 
 //if retail = 100 bid
+$userid = yii::$app->user->id ? yii::$app->user->id : 1;
+$sku = $model->SKU;
 
 $discount = 100 - round((($bid * 100) / $retail), 0);
 $bids = 0;
-
+$bidStartTime = 60; //initial start time for the bid in seconds
 $productID = $model->PRODUCT_ID;
-$bidStartTime = 10 * $productID; //initial start time for the bid
+
+$biddingUrl = Url::toRoute(['site/place-bid'])
+//gmdate("H:i:s", $bidStartTime);
 ?>
 
 <div class="col-xs-18 col-sm-4 col-md-3" id="item_box_<?= $productID; ?>"">
@@ -44,105 +50,153 @@ $bidStartTime = 10 * $productID; //initial start time for the bid
     <li>Shipping</li>
     <li><?= $bids; ?> Bids</li>
     <li>
-        <!--<input type="text" id="<?= $productID; ?>" value="<?= $bidStartTime; ?>" style="width: 50px"/>
-                <button id="startProgressTimer<?= $productID; ?>">Do it!</button>
-                <div id="progressTimer<?= $productID; ?>">Progress</div>-->
-        <input type="text" id="bid_placed_<?= $productID; ?>" value="0" readonly="readonly" style="width: 50px"/>
-        <div id="progressBar<?= $productID; ?>" class="progressBar">
-            <div></div>
+        <input type="text" id="bid_type_<?= $productID; ?>" value="0" readonly="readonly"/>
+        <input type="text" id="bid_placed_<?= $productID; ?>" value="0" readonly="readonly"/>
+
+        <div id="progressBar<?=$productID?>">
+            <div class="percent"></div>
+            <div class="pbar"></div>
+            <div class="elapsed"></div>
         </div>
     </li>
     <li class="grey">
         <!--<a href="#" class="button">BID NOW</a>-->
-        <!--<?= Html::a("BID NOW", ['NextItem'], ['class' => 'btn btn-md btn-primary']) ?>-->
-        <?= Html::button('BID NOW', ['class' => 'btn btn-primary', 'onclick' => "placeBid($productID);"]) ?>
+        <?= Html::button('BID NOW', [
+            'class' => 'btn btn-primary btn-block',
+            'onclick' => "placeBid($productID,$userid,'$sku');",
+            'id' => "placebid_$productID"
+        ]) ?>
     </li>
     <li id="info<?= $productID; ?>"></li>
 </ul>
 </div>
-<!--
 
-    -->
 <?php
+$this->registerJs('
+ var vInterval  = null;
+ var bidStartTime = '.$bidStartTime.'
+$(document).ready(function(){
+    jQuery.fn.anim_progressbar = function (aOptions) {
+        // def values
+        var iCms = 1000;
+        var iMms = 60 * iCms;
+        var iHms = 3600 * iCms;
+        var iDms = 24 * 3600 * iCms;
 
-$this->registerJs(
-    '$("document").ready(function(){ 
-    /*$("#startProgressTimer' . $productID . '").click(function() {
-        $("#progressTimer' . $productID . '").progressTimer({
-            timeLimit: $("#' . $productID . '").val(),
-            warningThreshold: 10,
-            baseStyle: \'progress-bar-warning\',
-            warningStyle: \'progress-bar-danger\',
-            completeStyle: \'progress-bar-info\',
-            onFinish: function() {
-            console.log("I\'m done");
+        // def options
+        var aDefOpts = {
+            start: new Date(), // now
+            finish: new Date().setTime(new Date().getTime() + 60 * iCms), // now + 60 sec
+            interval: 100
+        }
+        var aOpts = jQuery.extend(aDefOpts, aOptions);
+        var vPb = this;
+
+        // each progress bar
+        return this.each(
+            function() {
+                var iDuration = aOpts.finish - aOpts.start;
+
+                // calling original progressbar
+                $(vPb).children(\'.pbar\').progressbar();
+
+                // looping process
+                vInterval = setInterval(
+                    function(){
+                        var iLeftMs = aOpts.finish - new Date(); // left time in MS
+                        var iElapsedMs = new Date() - aOpts.start, // elapsed time in MS
+                            iDays = parseInt(iLeftMs / iDms), // elapsed days
+                            iHours = parseInt((iLeftMs - (iDays * iDms)) / iHms), // elapsed hours
+                            iMin = parseInt((iLeftMs - (iDays * iDms) - (iHours * iHms)) / iMms), // elapsed minutes
+                            iSec = parseInt((iLeftMs - (iDays * iDms) - (iMin * iMms) - (iHours * iHms)) / iCms), // elapsed seconds
+                            iPerc = (iElapsedMs > 0) ? iElapsedMs / iDuration * 100 : 0; // percentages
+
+                        // display current positions and progress
+                        $(vPb).children(\'.percent\').html(\'<b>\'+iPerc.toFixed(1)+\'%</b>\');
+                        $(vPb).children(\'.elapsed\').html(iDays+\' days \'+iHours+\'h:\'+iMin+\'m:\'+iSec+\'s</b>\');
+                        $(vPb).children(\'.pbar\').children(\'.ui-progressbar-value\').css(\'width\', iPerc+\'%\');
+
+                        // in case of Finish
+                        if (iPerc >= 100) {
+                            clearInterval(vInterval);
+                            $(vPb).children(\'.percent\').html(\'<b>100%</b>\');
+                            $(vPb).children(\'.elapsed\').html(\'Finished\');
+                        }
+                    } ,aOpts.interval
+                );
             }
-        });
-    });*/
-    
-    //start the timer
-     progress(' . $bidStartTime . ', ' . $bidStartTime . ', $(\'#progressBar\'+' . $productID . '),' . $productID . ');
-    });'
-);
+        );
+    }
 
-/*$this->registerJs(
-    "$(\"document\").ready(function(){ 
-        //call the countdown function
-        //progress($bidStartTime, $bidStartTime, $('#progressBar$productID'),$productID);
-    });"
-);*/
+    // default mode
+    //$(\'#progress1\').anim_progressbar();
+
+    // from second #0 till 60
+    var iNow = new Date().setTime(new Date().getTime() + 1 * 1000);
+    var iEnd = new Date().setTime(new Date().getTime() + bidStartTime * 1000);
+    $("#progressBar"+'.$productID.').anim_progressbar({start: iNow, finish: iEnd, interval: 100});
+
+});
+
+//Interval cancelling option
+$("#placebid_"+'.$productID.').click(function() {
+clearInterval(vInterval);
+
+//start a new progressbar
+    //var iNow = new Date().setTime(new Date().getTime() + 1 * 1000);
+    //var iEnd = new Date().setTime(new Date().getTime() + bidStartTime * 1000);
+    //$("#progressBar"+'.$productID.').anim_progressbar({start: iNow, finish: iEnd, interval: 100});
+});
+');
 ?>
 
 
 <script type="text/javascript">
     //handle the progress bar here
-    function progress(timeleft, timetotal, $element, $product_id) {
-        var progressBarWidth = (timeleft * $element.width()) / timetotal;
-        var bid_placed = $('#bid_placed_' + $product_id).val();
-        console.log(bid_placed);
-        //check if we have a vaue to prevent initial countdown
-        $element.find('div').animate({width: progressBarWidth}, timeleft == timetotal ? 0 : 1000, 'linear');
-        console.log(timeleft);
-        if (timeleft > 0) {
-            setTimeout(function () {
-                progress(timeleft - 1, timetotal, $element);
-            }, 1000);
-        } else {
-            console.log("it is over");
-            //perfom ajax call on the element
-        }
-    }
-    ;
+    function placeBid($product_id, $user_id, $sku) {
 
-    function placeBid($product_id) {
+        //reset the timer position
+        $('#progressBar'+$product_id).asProgress('reset');
+
+        //restart the timer with new values
+        $('#progressBar'+$product_id).asProgress('start');
         //do an ajax request
+
         $bidStartTime = 5; //countdown for 10 seconds
         //alert('Bid placed for ' + $product_id);
         $.ajax({
-            url: 'http://api.joind.in/v2.1/talks/10889',
+            url: '<?= $biddingUrl; ?>',
             data: {
                 id: $product_id,
-                sku: 'SKU-67676',
-                user_id: 2,
+                sku: $sku,
+                user_id: $user_id,
                 format: 'json'
             },
             error: function () {
                 $('#info').html('<p>An error has occurred</p>');
             },
             dataType: 'jsonp',
+            before: function (data) {
+                //stop the minute bid bar first
+                $('#progress' + $product_id).asProgress('stop');
+            },
             success: function (data) {
                 var $title = $('<h1>').text(data.talks[0].talk_title);
                 var $description = $('<p>').text(data.talks[0].talk_description);
                 $('#info' + $product_id)
                     .append($title)
                     .append($description);
-
-                //call goin once going twice e.t.c
-                clearInterval(null);
-                progress($bidStartTime, $bidStartTime, $('#progressBar' + $product_id), $product_id);
-                //$('#progressBar'+$product_id).remove();
+                //call going once going twice e.t.c
+                var iNow = new Date().setTime(new Date().getTime() + 1 * 1000);
+                var iEnd = new Date().setTime(new Date().getTime() + $bidStartTime * 1000);
+                $("#progressBar"+'.$productID.').anim_progressbar({start: iNow, finish: iEnd, interval: 100});
             },
             type: 'GET'
         });
+    }
+
+    //function to update progressbar
+    function UpdateProgressBar($barElement,$bidStartTime){
+        $("#" + $barElement).attr("class", "btn btn-danger btn-block");
     }
 </script>

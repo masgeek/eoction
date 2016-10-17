@@ -69,9 +69,6 @@ $biddingUrl = Url::toRoute(['site/place-bid'])
     <li id="info<?= $productID; ?>"></li>
 </ul>
 </div>
-<!--
-
-    -->
 <?php
 
 $this->registerJs(
