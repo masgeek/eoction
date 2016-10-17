@@ -202,6 +202,6 @@ jQuery(function($) {
 
     //function to update progressbar
     function UpdateProgressBar($barElement,$bidStartTime){
-        
+        $("#" + $barElement).attr("class", "btn btn-danger btn-block");
     }
 </script>
