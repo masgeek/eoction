@@ -3,6 +3,7 @@
   "main": "dist/jquery.js",
   "license": "MIT",
   "dependencies": {
-    "jquery.countdown": "^2.2.0"
+    "jquery.countdown": "^2.2.0",
+    "timer.jquery": "^0.6.4"
   }
 }

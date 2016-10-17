@@ -4,6 +4,8 @@ namespace app\models;
 
 use Yii;
 
+use app\module\products\models\Products;
+
 /**
  * This is the model class for table "{{%tb_bid_activity}}".
  *

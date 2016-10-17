@@ -21,6 +21,6 @@ class BowerAsset extends AssetBundle
     ];
 
     public $js = [
-
+      'timer.jquery/dist/timer.jquery.js'
     ];
 }

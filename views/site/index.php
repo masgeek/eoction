@@ -3,10 +3,10 @@
  *
  * @var \yii\data\ActiveDataProvider $listDataProvider
  */
-use yii\widgets\ListView;
+//use yii\widgets\ListView;
 
 //var_dump($listDataProvider);
-
+/*
 $listviewWidget = ListView::widget([
     'dataProvider' => $listDataProvider,
     'options' => [
@@ -20,4 +20,5 @@ $listviewWidget = ListView::widget([
 ]);
 
 echo $listviewWidget;
+*/
 
