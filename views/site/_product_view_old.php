@@ -29,7 +29,7 @@ $discount = 100 - round((($bid * 100) / $retail), 0);
 $bids = 0;
 
 $productID = $model->PRODUCT_ID;
-$bidStartTime = 60 * 10; //initial start time for the bid
+$bidStartTime = 60 * $productID; //initial start time for the bid
 
 $biddingUrl = Url::toRoute(['site/place-bid'])
 //gmdate("H:i:s", $bidStartTime);
@@ -112,7 +112,8 @@ jQuery(function($) {
         });
 
 //start the bid window timer
-            $(\'.progress\').asProgress(\'start\');
+           // $(\'.progress\').asProgress(\'start\');
+            $("#progressBar"+' . $productID . ').asProgress("start");
     });
     
     });'
@@ -160,8 +161,15 @@ jQuery(function($) {
     //handle the progress bar here
     function placeBid($product_id, $user_id, $sku) {
 
+        //assign afresh
+        $('#progressBar' + $product_id).asProgress('setDefaults',{
+            speed: 660});
         //reset the timer position
-        $('#progressBar'+$product_id).asProgress('destroy');
+        $('#progressBar' + $product_id).asProgress('reset');
+        //$('#progressBar' + $product_id).asProgress('destroy');
+
+
+        $('#progressBar' + $product_id).asProgress('go',60);
 
         //restart the timer with new values
         //$('#progressBar'+$product_id).asProgress('start');
@@ -199,7 +207,7 @@ jQuery(function($) {
     }
 
     //function to update progressbar
-    function UpdateProgressBar($barElement,$bidStartTime){
+    function UpdateProgressBar($barElement, $bidStartTime) {
         $("#" + $barElement).attr("class", "btn btn-danger btn-block");
     }
 </script>
