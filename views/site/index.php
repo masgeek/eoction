@@ -3,12 +3,12 @@
  *
  * @var \yii\data\ActiveDataProvider $listDataProvider
  */
+
 use yii\widgets\ListView;
 
 //var_dump($listDataProvider);
-?>
 
-<?= ListView::widget([
+$listviewWidget = ListView::widget([
     'dataProvider' => $listDataProvider,
     'options' => [
         'tag' => 'div',
@@ -17,6 +17,9 @@ use yii\widgets\ListView;
     ],
     'layout' => "{items}",
     //'layout' => "{pager}\n{items}\n{summary}",
-    'itemView' => '_product_view',
+    'itemView' => '_product_view_old',
 ]);
-?>
+
+echo $listviewWidget;
+
+

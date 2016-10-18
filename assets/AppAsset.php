@@ -22,21 +22,24 @@ class AppAsset extends AssetBundle
         'css/site.css',
         'css/products.css',
         'css/social-icons/social-icons.css',
-        'js/as_progress/css/asProgress.css',
+        'js/as_progress/dist/css/asProgress.css',
         /*'css/theme-shop.css',
         'css/theme-elements.css',
         'css/ultimate.css',
         'css/style-2.css',
         'css/skin-1.css',
         'css/js_composer.min.css',*/
+        //'js/timercircles/inc/TimeCircles.css',
     ];
 
     public $js = [
-        'js/jquery.progressTimer.js',
-        'js/as_progress/jquery-asProgress.js',
+        //'js/jquery.progressTimer.js',
+        'js/as_progress/dist/jquery-asProgress.js',
+        //'js/timercircles/inc/TimeCircles.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
+        //'yii\jui\JuiAsset',
         //'yii\bootstrap\BootstrapAsset',
         'yii\bootstrap\BootstrapPluginAsset',
         '\rmrevin\yii\fontawesome\AssetBundle'

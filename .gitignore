@@ -23,6 +23,7 @@ doc
 demo
 nuget
 src
+
 #assets/*
 
 # composer itself is not needed

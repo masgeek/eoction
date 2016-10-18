@@ -10,10 +10,36 @@ Target Server Type    : MYSQL
 Target Server Version : 50711
 File Encoding         : 65001
 
-Date: 2016-10-12 17:41:32
+Date: 2016-10-17 15:40:20
 */
 
+/*create schema eoction;*/
+/*USE eoction;*/
+
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for tb_bid_activity
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_bid_activity`;
+CREATE TABLE `tb_bid_activity` (
+  `PLACED_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `PRODUCT_ID` int(11) NOT NULL,
+  `PRODUCT_SKU` varchar(255) NOT NULL COMMENT 'Product SKU',
+  `ACTIVITY_COUNT` int(5) NOT NULL COMMENT 'Bid Activity Count',
+  `BID_DATE` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`PLACED_ID`),
+  UNIQUE KEY `PRODUCT_SKU` (`PRODUCT_SKU`),
+  KEY `PRODUCT_ID` (`PRODUCT_ID`),
+  CONSTRAINT `tb_bid_activity_ibfk_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE,
+  CONSTRAINT `tb_bid_activity_ibfk_2` FOREIGN KEY (`PRODUCT_SKU`) REFERENCES `tb_products` (`SKU`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tb_bid_activity
+-- ----------------------------
+INSERT INTO `tb_bid_activity` VALUES ('2', '1', 'NHQ-J272582011000', '80', '2016-10-17 14:33:55');
+INSERT INTO `tb_bid_activity` VALUES ('3', '2', 'NQH-J272582150000', '25', '2016-10-17 14:30:23');
 
 -- ----------------------------
 -- Table structure for tb_bid_settings
@@ -87,13 +113,14 @@ CREATE TABLE `tb_products` (
   `DATE_ADDED` datetime DEFAULT NULL COMMENT 'Date Added',
   `DATE_UPDATED` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Updated',
   PRIMARY KEY (`PRODUCT_ID`),
-  UNIQUE KEY `tb_products_PRODUCT_ID_uindex` (`PRODUCT_ID`)
+  UNIQUE KEY `tb_products_PRODUCT_ID_uindex` (`PRODUCT_ID`),
+  KEY `SKU` (`SKU`)
 ) ENGINE=InnoDB AUTO_INCREMENT=175 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_products
 -- ----------------------------
-INSERT INTO `tb_products` VALUES ('1', 'M795N6ZONQW', 'NQH-J272582011000', 'Hidalgo Blue Diamonique Stainless Steel Watch Bezel', 'Watches/Fixed/Wristwatches', '', '96.00', '98.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-12 15:58:37');
+INSERT INTO `tb_products` VALUES ('1', 'M795N6ZONQW', 'NHQ-J272582011000', 'Hidalgo Blue Diamonique Stainless Steel Watch Bezel', 'Watches/Fixed/Wristwatches', '', '96.00', '98.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-17 13:23:48');
 INSERT INTO `tb_products` VALUES ('2', 'M0LEKOEVD4W', 'NQH-J272582150000', 'Hidalgo Pink Diamonique Stainless Steel Watch Bezel', 'Watches/Fixed/Wristwatches', '', '59.50', '179.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-10 15:14:51');
 INSERT INTO `tb_products` VALUES ('3', 'M1W4N47ON5P', 'NQH-J273636202543', 'Ecclissi Sterling Silver Round Dial Acetate Strap White Large Watch', 'Watches/Fixed/Wristwatches', '', '150.00', '450.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-10 15:14:51');
 INSERT INTO `tb_products` VALUES ('4', 'M71YN5GYNVQ', 'NQH-J261702000000', 'Dweck Diamonds Sterling S/2 Bracelets W/Figure 8 Charm', 'Top Selling/Jewelry/Bracelet', '', '122.00', '366.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-10 15:14:51');
@@ -227,7 +254,7 @@ INSERT INTO `tb_products` VALUES ('131', 'M1W4N4V6D5P', 'C-JSRGE1039BL-RSL', '14
 INSERT INTO `tb_products` VALUES ('132', 'M71YN565DVQ', 'I-JSE413-WSL', '.925 Sterling Silver 0.14Ct White Diamond Stud Earrings Lowest On Ebay', 'Auction/Jewelry/Fine Jewelry/Earrings/Diamond', '', '39.99', '120.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
 INSERT INTO `tb_products` VALUES ('133', 'MLVQD8LZN4E', 'I-CMEI3421-CZ-WG10K', 'Solid 10K White Gold 3.12 ct Princess Cut D/Vvs1 Lever Back Dangle Earrings', 'Top Selling/Jewelry/Earrings', '', '199.99', '300.00', '1', '1', '1', '1', 'by product', '97', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
 INSERT INTO `tb_products` VALUES ('134', 'MYOMK1P7NP0', 'I-CSRGE1865BL-RSL-AFSJ', 'Female Girls 1/20Ct 14K Rose Gold Finish Real Black Diamond Heart Stud Earrings', 'Top Selling/Jewelry/Earrings', '', '24.99', '75.00', '1', '1', '1', '1', 'by product', '97', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
-INSERT INTO `tb_products` VALUES ('135', 'M879D2RON12', 'C-CME3293-WG14K', '1.60Ct Hoop Earrings I1/G In & Out Side Diamond White Gold Appraisal 360Â° Video', 'Top Selling/Jewelry/Earrings', '', '631.99', '1927.00', '1', '1', '1', '1', 'by product', '94', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
+INSERT INTO `tb_products` VALUES ('135', 'M879D2RON12', 'C-CME3293-WG14K', '1.60Ct Hoop Earrings I1/G In & Out Side Diamond White Gold Appraisal 360Ã‚Â° Video', 'Top Selling/Jewelry/Earrings', '', '631.99', '1927.00', '1', '1', '1', '1', 'by product', '94', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
 INSERT INTO `tb_products` VALUES ('136', 'MG3PDX95NLX', 'I-CSE1982BL-WSL', '0.68 Ct Black Diamond Round Stud Earrings In Sterling Silver', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', '', '161.49', '484.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
 INSERT INTO `tb_products` VALUES ('137', 'M0YGNJZQDJ7', 'I-JME312-YG10K', 'Mens Ladies 10K Yellow Gold Designer Square Diamond Earrings Studs 0.15 Ct', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', '', '139.99', '420.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
 INSERT INTO `tb_products` VALUES ('138', 'MZ34K9ORN2Q', 'M-201211010007-WG14K', 'White D/VVS1 Halo Solitaire Stud Bridal Earrings Jackets 14K White Gold', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', '', '336.29', '958.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
@@ -363,8 +390,9 @@ CREATE TABLE `tb_users` (
   `DATE_CREATED` datetime DEFAULT NULL,
   `DATE_UPDATED` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`USER_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_users
 -- ----------------------------
+INSERT INTO `tb_users` VALUES ('1', 'fatelord', 'sammy barasa', 'barsamms@gmail.com', 'fatelord', '254713196504', '+3GMT', 'KE', '1', '2016-10-17 12:31:21', '2016-10-17 12:31:25');

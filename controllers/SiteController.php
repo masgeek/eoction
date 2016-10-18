@@ -7,19 +7,37 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
+use yii\db\Expression;
+
 use app\models\LoginForm;
 use app\models\ContactForm;
 
+use app\models\BidActivity;
 use app\module\products\models\Products;
 
 class SiteController extends Controller
 {
     public $layout = '/main';
+
     /**
      * @inheritdoc
      */
     public function behaviors()
     {
+
+        /*'access' => [
+                    'class' => AccessControl::className(),
+                    'only' => ['rate-ticket', 'index','view','update','delete','newticket' ],
+                    'rules' => [
+                            [
+                                    'actions' => ['rate-ticket', 'index','view','update','delete','newticket', ],
+                                    'allow' => true,
+                                    'roles' => ['@'],
+                            ],
+
+                    ],
+            ],*/
+
         return [
             'access' => [
                 'class' => AccessControl::className(),
@@ -40,6 +58,7 @@ class SiteController extends Controller
             ],
         ];
     }
+
 
     /**
      * @inheritdoc
@@ -70,9 +89,9 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' =>Products::find()->where(['ALLOW_AUCTION' => 1])->orderBy('PRODUCT_ID ASC'),
+            'query' => Products::find()->where(['ALLOW_AUCTION' => 1])->orderBy('PRODUCT_ID ASC'),
             'pagination' => [
-                'pageSize' => 12,
+                'pageSize' => 2,
             ],
         ]);
 
@@ -84,6 +103,83 @@ class SiteController extends Controller
     {
         return $this->render('_product_view', ['response' => date('Y-M-d')]);
     }
+
+    /**
+     * @param $id
+     * @param $user_id
+     * @param $sku
+     * action should be called like these place-bid
+     */
+    public function actionPlaceBid($id, $user_id, $sku)
+    {
+        $resp = [];
+        $activitycount = 1; //this counts the number of activities for the product
+        $bidactivity = BidActivity::findOne(['PRODUCT_SKU' => $sku]);
+
+        $expression = new Expression('NOW()');
+
+        if ($bidactivity == null) {
+            //insert a new record
+            $model = new BidActivity();
+
+            $model->isNewRecord = true;
+            $model->PRODUCT_ID = $id;
+            $model->PRODUCT_SKU = $sku;
+            $model->ACTIVITY_COUNT = $activitycount;
+            $model->BID_DATE = $expression;
+            //save the data
+            if ($model->save()) {
+                //no need to alert user return indicator so that we can switch to auction countdown
+                $resp = [
+                    'msg' => 'Bid placed successfully',
+                    'success' => true
+                ];
+            } else {
+                //alert user
+                $resp = [
+                    'msg' => $model->getErrors(),
+                    'success' => false
+                ];
+            }
+        } else {
+            //update the existing record
+            // get eth last activity count
+            $activitycount = (int)$bidactivity->ACTIVITY_COUNT;
+            //now inrement it by one and save it back
+            $bidactivity->ACTIVITY_COUNT = $activitycount + 1;
+            $bidactivity->BID_DATE = $expression;
+            //save the data
+            if ($bidactivity->save()) {
+                //no need to alert user return indicator so that we can swithc to auction countdown
+                //alert user
+                $resp = [
+                    'msg' => 'Bid updated successfully',
+                    'success' => true
+                ];
+            } else {
+                //alert user
+                $resp = [
+                    'msg' => $bidactivity->getErrors(),
+                    'success' => false
+                ];
+            }
+        }
+
+        //return the json response
+        echo json_encode($resp);
+    }
+
+    /**
+     * @param $id
+     * @param $user_id
+     * @param $sku
+     * action should be called like these update-bid
+     */
+    public function actionUpdateBid($id, $user_id, $sku)
+    {
+        echo json_encode("Bid Updated " . $sku);
+    }
+
     /**
      * Login action.
      *
