@@ -23,8 +23,6 @@ doc
 demo
 nuget
 src
-js/as_progress/*
-!js/as_progress/dist
 
 #assets/*
 
