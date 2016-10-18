@@ -23,6 +23,9 @@ doc
 demo
 nuget
 src
+js/as_progress/*
+!js/as_progress/dist
+
 #assets/*
 
 # composer itself is not needed
