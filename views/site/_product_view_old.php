@@ -27,8 +27,9 @@ $sku = $model->SKU;
 
 $discount = 100 - round((($bid * 100) / $retail), 0);
 $bids = 0;
-$bidStartTime = 60 * 10; //initial start time for the bid
+
 $productID = $model->PRODUCT_ID;
+$bidStartTime = 60 * 10; //initial start time for the bid
 
 $biddingUrl = Url::toRoute(['site/place-bid'])
 //gmdate("H:i:s", $bidStartTime);
@@ -160,10 +161,10 @@ jQuery(function($) {
     function placeBid($product_id, $user_id, $sku) {
 
         //reset the timer position
-        $('#progressBar'+$product_id).asProgress('reset');
+        $('#progressBar'+$product_id).asProgress('destroy');
 
         //restart the timer with new values
-        $('#progressBar'+$product_id).asProgress('start');
+        //$('#progressBar'+$product_id).asProgress('start');
         //do an ajax request
 
         $bidStartTime = 5; //countdown for 10 seconds
@@ -182,7 +183,7 @@ jQuery(function($) {
             dataType: 'jsonp',
             before: function (data) {
                 //stop the minute bid bar first
-                $('#progress' + $product_id).asProgress('stop');
+                //$('#progress' + $product_id).asProgress('stop');
             },
             success: function (data) {
                 var $title = $('<h1>').text(data.talks[0].talk_title);
