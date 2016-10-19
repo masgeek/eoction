@@ -23,5 +23,7 @@ class BowerAsset extends AssetBundle
     public $js = [
       //'timer.jquery/dist/timer.jquery.js'
       //'countdown360/dist/jquery.countdown360.js'
+      'velocity/velocity.js',
+      'velocity/velocity.ui.js'
     ];
 }
