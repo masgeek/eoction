@@ -59,17 +59,12 @@ $this->registerJs(
 $this->registerJs('
     $("document").ready(function(){
         // Cache our jQuery objects.
-        var $percentComplete = $("#percentComplete"),
-        $timeRemaining = $("#timeRemaining");
+        var $percentComplete = $("#percentComplete");
+        var $timeRemaining = $("#timeRemaining");
 
-    // Use the progress callback.
-        $("#velocity").velocity(
-        { 
-            //scale: 1.5
-            width: "1%" //animate the width
-        },
-        {
+var params = {
             easing: "linear",
+            loop : 1,
             duration: 10000, //milliseconds
             progress: function(elements, percentComplete, timeRemaining, timeStart) {
                 $percentComplete.html(Math.round(percentComplete * 100) + "% complete.");
@@ -78,11 +73,19 @@ $this->registerJs('
            complete: function(){
                 console.log("Completed the animation");
            },
-        });
+        };
+        
+    // Use the progress callback.
+        $("#velocity").velocity(
+        { 
+            width: "1%", //animate the width
+        },
+        params);
         
         //add stop click event
             $("#stop").click(function(){
                  $("#velocity").velocity("stop");
+                 //$("#velocity").velocity.defaults.duration = 1000;
             });
             
             //add start event
@@ -106,16 +109,6 @@ $this->registerJs('
 <button id="sart">Start</button>
 <button id="stop">Stop</button>
 <style>
-    body {
-        font-family: "Helvetica Neue", Helvetica;
-        width: 90%;
-        font-weight: 200;
-        letter-spacing: 1px;
-        margin: 25px auto 0 auto;
-        background: rgb(234, 235, 235);
-        color: rgb(25, 25, 25);
-    }
-
     #velocity {
         width: 100%;
         height: 21px;
