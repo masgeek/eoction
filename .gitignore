@@ -18,6 +18,7 @@ Thumbs.db
 /vendor/phpspec
 /vendor/cebe
 tests
+test
 testgit
 doc
 demo
