@@ -14,8 +14,8 @@ use yii\helpers\Url;
 use yii\widgets\Pjax;
 
 $imageObject = $model->getSingleImage();
-$imageA = $imageObject ? $imageObject->IMAGE_URL : 'http://placehold.it/700/c55/fff';
-$imageB = 'http://placehold.it/800/fff/000';
+//$imageA = $imageObject ? $imageObject->IMAGE_URL : 'http://placehold.it/700/c55/fff';
+$imageA = 'http://placehold.it/800/c66/000';
 
 //caclulate ther percentage discount based oneth retail price and the bided amount
 $retail = $model->RETAIL_PRICE;
@@ -29,7 +29,7 @@ $discount = 100 - round((($bid * 100) / $retail), 0);
 $bids = 0;
 
 $productID = $model->PRODUCT_ID;
-$bidStartTime = 60 * $productID; //initial start time for the bid
+$bidStartTime = 1000;// * $productID; //initial start time for the bid
 
 $biddingUrl = Url::toRoute(['site/place-bid'])
 //gmdate("H:i:s", $bidStartTime);
@@ -54,10 +54,18 @@ $biddingUrl = Url::toRoute(['site/place-bid'])
         <input type="text" id="bid_type_<?= $productID; ?>" value="0" readonly="readonly"/>
         <input type="text" id="bid_placed_<?= $productID; ?>" value="0" readonly="readonly"/>
 
-        <div class="progress progressBar" role="progressbar" data-goal="0" aria-valuemin="0" aria-valuemax="100"
+        <div class="progresss progressBar" role="progressbar" data-goal="0" data-speed="<?= $bidStartTime; ?>"
+             aria-valuemin="0" aria-valuemax="100"
              aria-valuenow="100" id="progressBar<?= $productID; ?>">
             <div class="progress__bar"><span class="progress__label"></span></div>
         </div>
+
+        <div class="progress progressBar" role="progressbar" data-goal="0" data-speed="1000" aria-valuemin="0"
+             aria-valuemax="100"
+             aria-valuenow="100" id="progressBarB<?= $productID; ?>">
+            <div class="progress__bar"><span class="progress__label"></span></div>
+        </div
+
     </li>
     <li class="grey">
         <!--<a href="#" class="button">BID NOW</a>-->
@@ -74,48 +82,9 @@ $biddingUrl = Url::toRoute(['site/place-bid'])
 
 $this->registerJs(
     '$("document").ready(function(){ 
-        var dt = new Date();
-        console.log(dt);
-jQuery(function($) {
-        $("#progressBar"+' . $productID . ').asProgress({
-            namespace: \'progress\',
-            bootstrap: false,
-            min: 0,
-            max: 100,
-            goal: 100,
-            speed:' . $bidStartTime . ', // speed of 1/100 600 = 60seconds
-            easing: \'linear\',
-            labelCallback: function labelCallback(n) {
-                var percentage = this.getPercentage(n);
-                //return percentage + \'%\';
-                //console.log(percentage);
-                if(percentage<=0)
-                {
-                //0 no bid wait 60 secs
-                //1 Accepting bids 10 sec
-                //2 going once
-                //3 going twice 
-                var $bidPlaced = $("#bid_placed_"+' . $productID . ').val();
-                var $bidType = $("#bid_type_"+' . $productID . ').val();
-                
-                //alert($bidPlaced);
-                //call ajax when finished to remove the product from the list
-                //also disable the placebid button
-                 //$("#placebid_"+' . $productID . ').attr("disabled","disabled");
-                 $("#placebid_"+' . $productID . ').attr("class","btn btn-danger btn-block");
-                 $("#placebid_"+' . $productID . ').text("BID CLOSED");
-                //alert($bidPlaced);
-                var dt = new Date();
-                 console.log(dt);
-                }
-            }
-        });
-
-//start the bid window timer
-           // $(\'.progress\').asProgress(\'start\');
-            $("#progressBar"+' . $productID . ').asProgress("start");
-    });
     
+    NextBidCounter("progressBar"+' . $productID . ', 600,0);
+     $("#progressBar"+' . $productID . ').asProgress(\'start\');
     });'
 );
 ?>
@@ -161,15 +130,18 @@ jQuery(function($) {
     //handle the progress bar here
     function placeBid($product_id, $user_id, $sku) {
 
+        //change attribute of the spacebar
+
         //assign afresh
-        $('#progressBar' + $product_id).asProgress('setDefaults',{
-            speed: 660});
+        //$('#progressBar' + $product_id).asProgress('setDefaults',DEFAULTS);
         //reset the timer position
-        $('#progressBar' + $product_id).asProgress('reset');
-        //$('#progressBar' + $product_id).asProgress('destroy');
+        // $('#progressBar' + $product_id).asProgress('destroy');
+        $("#progressBar" + $product_id).attr("data-speed", "800");
+        // $('#progressBar' + $product_id).asProgress('reset');
+        $('#progressBar' + $product_id).asProgress('start');
 
 
-        $('#progressBar' + $product_id).asProgress('go',60);
+        //$('#progressBar' + $product_id).asProgress('go',-60);
 
         //restart the timer with new values
         //$('#progressBar'+$product_id).asProgress('start');
@@ -206,6 +178,30 @@ jQuery(function($) {
         });
     }
 
+    function NextBidCounter($elementName, $speed, $skip) {
+        jQuery(function ($) {
+            $('#' + $elementName).asProgress({
+                namespace: 'progress',
+                bootstrap: false,
+                min: 0,
+                max: 100,
+                goal: 0,
+                speed: $speed, // speed of 1/100
+                easing: 'linear',
+                labelCallback: function labelCallback(n) {
+                    var percentage = this.getPercentage(n);
+                    //return percentage + '%';
+                },
+                onFinish: function () {
+                    //remove the progressbar
+                    $("#" + $elementName).remove();
+                }
+            });
+        });
+
+        $('.progress').asProgress('start');
+        //$("#progressBar" + $product_id).asProgress("start");
+    }
     //function to update progressbar
     function UpdateProgressBar($barElement, $bidStartTime) {
         $("#" + $barElement).attr("class", "btn btn-danger btn-block");
