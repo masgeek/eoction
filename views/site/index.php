@@ -84,8 +84,8 @@ var params = {
         
         //add stop click event
             $("#stop").click(function(){
-                 $("#velocity").velocity("stop");
-                 //$("#velocity").velocity.defaults.duration = 1000;
+                 //$("#velocity").velocity("stop",true);
+                 $("#velocity").velocity.defaults.duration = 1000;
             });
             
             //add start event
