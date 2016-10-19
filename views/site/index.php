@@ -21,5 +21,20 @@ $listviewWidget = ListView::widget([
 ]);
 
 echo $listviewWidget;
+$this->registerJsFile('@web/js/bidding/bidding-progress.js');
+?>
 
+<style>
+    .bidProgress {
+        width: 100%;
+        height: 10px;
+    }
+
+    .noplacedbids{  background-color: red;  }
+    .awaitingbid{  background-color: rebeccapurple;  }
+    .goingonce{  background-color: #0000aa;  }
+    .goingtwice{  background-color: #4daa85;  }
+    .bidwon{  background-color: #0000aa;  }
+    .nextbid{  background-color: #0000aa;  }
+</style>
 

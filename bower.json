@@ -3,5 +3,6 @@
   "main": "dist/jquery.js",
   "license": "MIT",
   "dependencies": {
+    "velocity": "^1.3.1"
   }
 }

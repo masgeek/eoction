@@ -22,7 +22,7 @@ class AppAsset extends AssetBundle
         'css/site.css',
         'css/products.css',
         'css/social-icons/social-icons.css',
-        'js/as_progress/dist/css/asProgress.css',
+        //'js/jquery.asprogress/css/asProgress.css',
         /*'css/theme-shop.css',
         'css/theme-elements.css',
         'css/ultimate.css',
@@ -34,7 +34,7 @@ class AppAsset extends AssetBundle
 
     public $js = [
         //'js/jquery.progressTimer.js',
-        'js/as_progress/dist/jquery-asProgress.js',
+        //'js/jquery.asprogress/jquery-asProgress.js',
         //'js/timercircles/inc/TimeCircles.js',
     ];
     public $depends = [

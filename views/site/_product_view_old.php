@@ -14,8 +14,8 @@ use yii\helpers\Url;
 use yii\widgets\Pjax;
 
 $imageObject = $model->getSingleImage();
-$imageA = $imageObject ? $imageObject->IMAGE_URL : 'http://placehold.it/700/c55/fff';
-$imageB = 'http://placehold.it/800/fff/000';
+//$imageA = $imageObject ? $imageObject->IMAGE_URL : 'http://placehold.it/700/c55/fff';
+$imageA = 'http://placehold.it/800/c66/000';
 
 //caclulate ther percentage discount based oneth retail price and the bided amount
 $retail = $model->RETAIL_PRICE;
@@ -29,177 +29,54 @@ $discount = 100 - round((($bid * 100) / $retail), 0);
 $bids = 0;
 
 $productID = $model->PRODUCT_ID;
-$bidStartTime = 60 * 10; //initial start time for the bid
+$bidStartTime = 1000;// * $productID; //initial start time for the bid
 
 $biddingUrl = Url::toRoute(['site/place-bid'])
-//gmdate("H:i:s", $bidStartTime);
 ?>
 
-<div class="col-xs-18 col-sm-4 col-md-3" id="item_box_<?= $productID; ?>"">
-<ul class="price">
-    <li>
-        <?= Html::img($imageA, [
-            'width' > '200',
-            'id' => 'product_image_' . $productID,
-            'class' => 'img img-thumbnail',
-            'alt' => $model->PRODUCT_NAME,
-            //'onmouseover' => 'this.src="' . $imageB . '"',
-            //'onmouseleave' => 'this.src="' . $imageA . '"',
-        ]); ?>
-    </li>
-    <li>Starting Bid <?= $model->PRICE; ?></li>
-    <li>Shipping</li>
-    <li><?= $bids; ?> Bids</li>
-    <li>
-        <input type="text" id="bid_type_<?= $productID; ?>" value="0" readonly="readonly"/>
-        <input type="text" id="bid_placed_<?= $productID; ?>" value="0" readonly="readonly"/>
+    <div class="col-xs-18 col-sm-4 col-md-3" id="item_box_<?= $productID; ?>"">
+    <ul class="price">
+        <li>
+            <?= Html::img($imageA, [
+                'width' > '200',
+                'id' => 'product_image_' . $productID,
+                'class' => 'img img-responsive',
+                'alt' => $model->PRODUCT_NAME,
+            ]); ?>
+        </li>
+        <li>Starting Bid <?= $model->PRICE; ?></li>
+        <li>Shipping</li>
+        <li class="hidden">
+            <input type="text" id="bid_type_<?= $productID; ?>" value="0" readonly="readonly"/>
+            <input type="text" id="bid_placed_<?= $productID; ?>" value="0" readonly="readonly"/>
+            <input type="text" id="bid_url_<?= $productID; ?>" value="<?= $biddingUrl; ?>" readonly="readonly"/>
+            <input type="text" id="product_sku_<?= $productID; ?>" value="<?= $model->SKU; ?>" readonly="readonly"/>
+            <input type="text" id="user_id" value="1" readonly="readonly"/>
+        </li>
+        <li>
+            <hr/>
+            <!-- progress bar here -->
+            <span id="percentComplete<?= $productID ?>"></span>
+            <span id="timeRemaining<?= $productID ?>"></span>
 
-        <div class="progress progressBar" role="progressbar" data-goal="0" aria-valuemin="0" aria-valuemax="100"
-             aria-valuenow="100" id="progressBar<?= $productID; ?>">
-            <div class="progress__bar"><span class="progress__label"></span></div>
-        </div>
-    </li>
-    <li class="grey">
-        <!--<a href="#" class="button">BID NOW</a>-->
-        <?= Html::button('BID NOW', [
-            'class' => 'btn btn-primary btn-block',
-            'onclick' => "placeBid($productID,$userid,'$sku');",
-            'id' => "placebid_$productID"
-        ]) ?>
-    </li>
-    <li id="info<?= $productID; ?>"></li>
-</ul>
-</div>
+            <div class="bidProgress noplacedbids" id="progressBar<?= $productID ?>"></div>
+            <!-- end of progress bar -->
+        </li>
+        <li>
+            <!--<a href="#" class="button">BID NOW</a>-->
+            <?= $bids; ?> Bids
+            <?= Html::button('BID NOW', [
+                'class' => 'btn btn-primary btn-block',
+                //'onclick' => "placeBid($productID,$userid,'$sku');",
+                'id' => "placebid_$productID"
+            ]) ?>
+        </li>
+        <li id="info<?= $productID; ?>"></li>
+    </ul>
+    </div>
 <?php
-
-$this->registerJs(
-    '$("document").ready(function(){ 
-        var dt = new Date();
-        console.log(dt);
-jQuery(function($) {
-        $("#progressBar"+' . $productID . ').asProgress({
-            namespace: \'progress\',
-            bootstrap: false,
-            min: 0,
-            max: 100,
-            goal: 100,
-            speed:' . $bidStartTime . ', // speed of 1/100 600 = 60seconds
-            easing: \'linear\',
-            labelCallback: function labelCallback(n) {
-                var percentage = this.getPercentage(n);
-                //return percentage + \'%\';
-                //console.log(percentage);
-                if(percentage<=0)
-                {
-                //0 no bid wait 60 secs
-                //1 Accepting bids 10 sec
-                //2 going once
-                //3 going twice 
-                var $bidPlaced = $("#bid_placed_"+' . $productID . ').val();
-                var $bidType = $("#bid_type_"+' . $productID . ').val();
-                
-                //alert($bidPlaced);
-                //call ajax when finished to remove the product from the list
-                //also disable the placebid button
-                 //$("#placebid_"+' . $productID . ').attr("disabled","disabled");
-                 $("#placebid_"+' . $productID . ').attr("class","btn btn-danger btn-block");
-                 $("#placebid_"+' . $productID . ').text("BID CLOSED");
-                //alert($bidPlaced);
-                var dt = new Date();
-                 console.log(dt);
-                }
-            }
-        });
-
-//start the bid window timer
-            $(\'.progress\').asProgress(\'start\');
+$this->registerJs("
+    $(\"document\").ready(function(){
+        setupVelocity($productID,$bidStartTime);
     });
-    
-    });'
-);
-?>
-
-<!--
-<script type="text/javascript">
-    jQuery(function($) {
-        $('.progress').asProgress({
-            namespace: 'progress',
-            bootstrap: false,
-            min: 0,
-            max: 100,
-            goal: 100,
-            speed: 20, // speed of 1/100
-            easing: 'linear',
-            labelCallback: function labelCallback(n) {
-                var percentage = this.getPercentage(n);
-                return percentage + '%';
-            }
-        });
-        $('#button_start').on('click', function() {
-            $('.progress').asProgress('start');
-        });
-        $('#button_finish').on('click', function() {
-            $('.progress').asProgress('finish');
-        });
-        $('#button_go').on('click', function() {
-            $('.progress').asProgress('go', 50);
-        });
-        $('#button_go_percentage').on('click', function() {
-            $('.progress').asProgress('go', '50%');
-        });
-        $('#button_stop').on('click', function() {
-            $('.progress').asProgress('stop');
-        });
-        $('#button_reset').on('click', function() {
-            $('.progress').asProgress('reset');
-        });
-    });
-</script>
--->
-<script type="text/javascript">
-    //handle the progress bar here
-    function placeBid($product_id, $user_id, $sku) {
-
-        //reset the timer position
-        $('#progressBar'+$product_id).asProgress('destroy');
-
-        //restart the timer with new values
-        //$('#progressBar'+$product_id).asProgress('start');
-        //do an ajax request
-
-        $bidStartTime = 5; //countdown for 10 seconds
-        //alert('Bid placed for ' + $product_id);
-        $.ajax({
-            url: '<?= $biddingUrl; ?>',
-            data: {
-                id: $product_id,
-                sku: $sku,
-                user_id: $user_id,
-                format: 'json'
-            },
-            error: function () {
-                $('#info').html('<p>An error has occurred</p>');
-            },
-            dataType: 'jsonp',
-            before: function (data) {
-                //stop the minute bid bar first
-                //$('#progress' + $product_id).asProgress('stop');
-            },
-            success: function (data) {
-                var $title = $('<h1>').text(data.talks[0].talk_title);
-                var $description = $('<p>').text(data.talks[0].talk_description);
-                $('#info' + $product_id)
-                    .append($title)
-                    .append($description);
-
-                //call going once going twice e.t.c
-            },
-            type: 'GET'
-        });
-    }
-
-    //function to update progressbar
-    function UpdateProgressBar($barElement,$bidStartTime){
-        $("#" + $barElement).attr("class", "btn btn-danger btn-block");
-    }
-</script>
+");
