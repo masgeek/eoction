@@ -1,3 +1,4 @@
+
 # phpstorm project files
 .idea
 
@@ -13,7 +14,16 @@ nbproject
 Thumbs.db
 
 # composer vendor dir
-/vendor
+/vendor/bin
+/vendor/phpspec
+/vendor/cebe
+tests
+testgit
+doc
+demo
+nuget
+src
+#assets/*
 
 # composer itself is not needed
 composer.phar

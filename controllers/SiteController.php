@@ -6,11 +6,15 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 use app\models\LoginForm;
 use app\models\ContactForm;
 
+use app\module\products\models\Products;
+
 class SiteController extends Controller
 {
+    public $layout = '/main';
     /**
      * @inheritdoc
      */
@@ -58,11 +62,28 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndexOld()
     {
         return $this->render('index');
     }
 
+    public function actionIndex()
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' =>Products::find()->where(['ALLOW_AUCTION' => 1])->orderBy('PRODUCT_ID ASC'),
+            'pagination' => [
+                'pageSize' => 12,
+            ],
+        ]);
+
+        $this->view->title = 'Posts List';
+        return $this->render('index', ['listDataProvider' => $dataProvider]);
+    }
+
+    public function actionNextItem()
+    {
+        return $this->render('_product_view', ['response' => date('Y-M-d')]);
+    }
     /**
      * Login action.
      *

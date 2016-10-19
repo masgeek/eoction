@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<?php
+include_once 'header.php';
+include_once 'nav.php';
+include_once 'body.php';
+include_once 'footer.php';
+?>
+</html>
+

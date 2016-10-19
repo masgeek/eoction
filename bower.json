@@ -1,0 +1,8 @@
+{
+  "name": "eoction",
+  "main": "dist/jquery.js",
+  "license": "MIT",
+  "dependencies": {
+    "jquery.countdown": "^2.2.0"
+  }
+}

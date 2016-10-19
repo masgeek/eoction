@@ -1,0 +1,302 @@
+/*
+Theme Name: Porto Child
+Theme URI: http://newsmartwave.net/wordpress/porto
+Author: SW-THEMES
+Author URI: http://newsmartwave.net/
+Description: Porto Responsive Wordpress + eCommerce Theme.
+Version: 1.1
+Template: porto
+License: Commercial
+License URI: http://themeforest.net/licenses/regular_extended
+Tags: woocommerce, corporate, ecommerce, responsive, blue, black, green, white, light, dark, red, two-columns, three-columns, four-columns, left-sidebar, right-sidebar, fixed-layout, responsive-layout, custom-menu, editor-style, featured-images, flexible-header, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready, accessibility-ready
+Text Domain: porto-child
+
+*/
+
+@import url("../porto/style.css");
+    /*************** ADD YOUR CUSTOM CSS HERE  ***************/
+
+.nhidden {
+    display: none !important;
+}
+#header .top-links > li.menu-item {
+    margin-left: 0;
+}
+#main-menu .mega-menu > li.menu-item.active > a, #main-menu .mega-menu > li.menu-item a {
+    background: transparent;
+    color: #000000;
+}
+.mega-menu li.menu-item > a > .fa {
+    margin-right: 20px;
+}
+.mega-menu > li.menu-item > a .tip {
+    top: -3px;
+    right: -6px;
+    font-size: 10px;
+}
+#header .top-links > li.menu-item > a {
+    font-size: 13px;
+}
+#header .top-links > li.menu-item > a, #header .top-links > li.menu-item > h5 {
+    color: #000;
+}
+body .ads-container-blue {
+    background: #a07936;
+    border: 1px solid #a07936;
+}
+body .ads-container-blue .vc_column_container {
+    border-left: 1px solid #fd8726;
+}
+#header .switcher-wrap ul.currency-switcher li.menu-item h5, #header .switcher-wrap ul.view-switcher li.menu-item h5 {
+    background: transparent;
+    color: #ffffff;
+}
+#mini-cart.minicart-inline {
+    background: transparent;
+}
+#mini-cart.minicart-inline .minicart-icon, #mini-cart.minicart-inline .cart-items {
+    color: #000000;
+}
+#header .header-right.search-popup .block-nowrap {
+    margin-top: -10px;
+}
+.footer-bottom .footer-center img {
+    margin: auto;
+}
+.home .rating-wrap {
+    display: none !important;
+}
+.home ul.products li.product h3 {
+    margin-bottom: 15px;
+    min-height: 54px;
+}
+.home .wpb_content_element {
+    margin-bottom: 15px;
+}
+.nsephead h1 {
+    font-size: 30px;
+}
+#footer .logo img {
+    max-width: 130px;
+}
+#header .searchform {
+    border-radius: 6px;
+}
+#header .searchform input, #header .searchform select, #header .searchform .selectric, #header .searchform .selectric-hover .selectric, #header .searchform .selectric-open .selectric {
+    border-color: transparent;
+}
+#header .searchform button {
+    height: 27px;
+}
+#header .searchform input {
+    padding: 0 15px 0 12px;
+    width: 220px;
+    height: 27px;
+}
+#main-menu .mega-menu > li.nmhome.menu-item a {
+    font-size: 30px;
+    padding: 4px 1px 4px 5px;
+    color: #a07936;
+}
+.mega-menu li.nmhome.menu-item > a > .fa {
+    margin-right: 0px;
+    color: #000000;
+}
+#header .header-main .container .header-right .searchform-popup {
+    display: none !important;
+}
+#header.sticky-header .header-main.change-logo .logo img {
+    -webkit-transform: scale(0.83);
+    -moz-transform: scale(0.83);
+    -ms-transform: scale(0.83);
+    -o-transform: scale(0.83);
+    transform: scale(0.83);
+}
+#header .header-main .container {
+    padding-left: 10px !important;
+}
+#header.logo-center .header-main .container .header-left {
+    width: 55%;
+    padding-right: 10px;
+}
+#header.logo-center .header-main .container .header-center {
+    width: 22%;
+}
+#header.logo-center .header-main .container .header-right {
+    width: 30%;
+}
+#main-menu .mega-menu > li.nmhome.menu-item:hover > a {
+    background: transparent;
+}
+.home ul.products li.product h3 {
+    margin-bottom: 15px !important;
+    min-height: 54px;
+}
+#header .searchform {
+    width: 260px;
+    height: 30px;
+}
+#header .searchform.searchform-cats input {
+    width: 230px;
+}
+.home a.product-loop-title {
+    display: none !important;
+}
+body.home .woocommerce ul.products {
+    text-align: center;
+}
+body.home .woocommerce ul.products li.product {
+    border: 1px solid #ddd;
+    background-color: #fff;
+    padding: 10px;
+    margin: 10px;
+    display: inline-block;
+    float: none;
+}
+body.wide #main {
+    background-color: #eee !important;
+}
+ul.pcols-lg-5 li.product {
+    width: 18%;
+}
+ul.products li.product .price {
+    margin-bottom: 8px;
+}
+span.auction-price span.current.auction {
+    font-weight: 500;
+    font-size: 18px;
+}
+span.woocommerce-Price-amount.amount {
+    font-weight: 500;
+    font-size: 20px;
+}
+span.countdown_section {
+    line-height: 18px;
+}
+.auction-time-countdown.hasCountdown {
+    margin-bottom: 5px;
+}
+span.countdown_section {
+    float: none;
+    display: inline-block;
+}
+#main-menu .mega-menu > li.menu-item.active > a, #main-menu .mega-menu > li.menu-item:hover > a {
+    background: transparent;
+    color: #a07936;
+}
+#main-menu .mega-menu > li.nmhome.menu-item.active > a, #main-menu .mega-menu > li.nmhome.menu-item:hover > a {
+    background: transparent;
+    color: #a07936;
+}
+ul.products li.product .links-on-image .add-links-wrap .add-links .quickview, ul.products li.product-category .links-on-image .add-links-wrap .add-links .quickview {
+    background-color: #a07936;
+    border: 1px solid #a07936;
+}
+ul.products li.product .links-on-image .add-links-wrap .add-links .quickview:hover, ul.products li.product-category .links-on-image .add-links-wrap .add-links .quickview:hover {
+    background-color: #d4a24d;
+    border: 1px solid #d4a24d;
+}
+ul#menu-top-navigation li a {
+    font-family: Josefin Sans;
+    font-weight: 600 !important;
+    margin-top: 3px;
+}
+@media (max-width: 960px) {
+    ul.pcols-lg-5 li.product {
+    width: 32%;
+}
+}
+@media (max-width: 750px) {
+    ul.pcols-lg-5 li.product {
+    width: 60%;
+}
+}
+@media (max-width: 500px) {
+    ul.pcols-lg-5 li.product {
+    width: 95%;
+}
+}
+#main-menu .mega-menu > li.menu-item a:after {
+    background: #a07936;
+    bottom: 0;
+    content: ' ';
+    height: 2px;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    width: 0;
+    transition: visibility 0.3s, opacity 0.3s, width 0.3s;
+    visibility: hidden;
+}
+#main-menu .mega-menu > li.menu-item:hover a:after {
+    background: #a07936;
+    bottom: 0;
+    content: ' ';
+    height: 2px;
+    left: 0;
+    position: absolute;
+    opacity: 1;
+    visibility: visible;
+    width: 100%;
+    transition: visibility 0.3s, opacity 0.3s, width 0.3s;
+}
+#progressBar {
+    width: 90%;
+    margin: 10px auto;
+    height: 22px;
+    background-color: #0A5F44;
+}
+#progressBar div {
+    height: 100%;
+    text-align: right;
+    padding: 0 10px;
+    line-height: 22px;
+    /* same as #progressBar height if we want text middle aligned */
+  width: 0;
+    background-color: #CBEA00;
+    box-sizing: border-box;
+}
+.timerwrapper {
+    height: 10px;
+    width: 100%;
+    background: #484949;
+    position: relative;
+    margin: auto;
+}
+.shrinking {
+    width: 100%;
+    height: 10px;
+    position: absolute;
+    bottom: 0;
+    /*    animation: fillBar 1s ease-in infinite;
+    */
+    -webkit-animation-name: fillBar;
+    animation-name: fillBar;
+    -webkit-animation-duration: 60s;
+    animation-duration: 60s;
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+    /*    animation-delay: 2s;
+    */
+    -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+    -webkit-animation-direction: alternate;
+    animation-direction: alternate;
+    background-image: linear-gradient(to right, #f00439, #f28d0d);
+}
+@-webkit-keyframes fillBar {
+    0% {
+    width: 100%;
+}
+100% {
+    width: 0%;
+}
+}
+@keyframes fillBar {
+    0% {
+    width: 100%;
+}
+100% {
+    width: 0%;
+}
+}

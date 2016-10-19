@@ -17,13 +17,28 @@ class AppAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
+
     public $css = [
         'css/site.css',
+        'css/products.css',
+        'css/social-icons/social-icons.css',
+        'js/as_progress/css/asProgress.css',
+        /*'css/theme-shop.css',
+        'css/theme-elements.css',
+        'css/ultimate.css',
+        'css/style-2.css',
+        'css/skin-1.css',
+        'css/js_composer.min.css',*/
     ];
+
     public $js = [
+        'js/jquery.progressTimer.js',
+        'js/as_progress/jquery-asProgress.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
+        //'yii\bootstrap\BootstrapAsset',
+        'yii\bootstrap\BootstrapPluginAsset',
+        '\rmrevin\yii\fontawesome\AssetBundle'
     ];
 }
