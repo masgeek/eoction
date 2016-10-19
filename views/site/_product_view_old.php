@@ -34,43 +34,46 @@ $bidStartTime = 1000;// * $productID; //initial start time for the bid
 $biddingUrl = Url::toRoute(['site/place-bid'])
 ?>
 
-<div class="col-xs-18 col-sm-4 col-md-3" id="item_box_<?= $productID; ?>"">
-<ul class="price">
-    <li>
-        <?= Html::img($imageA, [
-            'width' > '200',
-            'id' => 'product_image_' . $productID,
-            'class' => 'img img-thumbnail',
-            'alt' => $model->PRODUCT_NAME,
-        ]); ?>
-    </li>
-    <li>Starting Bid <?= $model->PRICE; ?></li>
-    <li>Shipping</li>
-    <li><?= $bids; ?> Bids</li>
-    <li>
-        <input type="text" id="bid_type_<?= $productID; ?>" value="0" readonly="readonly"/>
-        <input type="text" id="bid_placed_<?= $productID; ?>" value="0" readonly="readonly"/>
-        <input type="text" id="bid_url_<?= $productID; ?>" value="<?=$biddingUrl;?>" readonly="readonly"/>
-        <input type="text" id="product_sku_<?= $productID; ?>" value="<?=$model->SKU;?>" readonly="readonly"/>
-        <input type="text" id="user_id" value="1" readonly="readonly"/>
+    <div class="col-xs-18 col-sm-4 col-md-3" id="item_box_<?= $productID; ?>"">
+    <ul class="price">
+        <li>
+            <?= Html::img($imageA, [
+                'width' > '200',
+                'id' => 'product_image_' . $productID,
+                'class' => 'img img-responsive',
+                'alt' => $model->PRODUCT_NAME,
+            ]); ?>
+        </li>
+        <li>Starting Bid <?= $model->PRICE; ?></li>
+        <li>Shipping</li>
+        <li class="hidden">
+            <input type="text" id="bid_type_<?= $productID; ?>" value="0" readonly="readonly"/>
+            <input type="text" id="bid_placed_<?= $productID; ?>" value="0" readonly="readonly"/>
+            <input type="text" id="bid_url_<?= $productID; ?>" value="<?= $biddingUrl; ?>" readonly="readonly"/>
+            <input type="text" id="product_sku_<?= $productID; ?>" value="<?= $model->SKU; ?>" readonly="readonly"/>
+            <input type="text" id="user_id" value="1" readonly="readonly"/>
+        </li>
+        <li>
+            <hr/>
+            <!-- progress bar here -->
+            <span id="percentComplete<?= $productID ?>"></span>
+            <span id="timeRemaining<?= $productID ?>"></span>
 
-        <hr/>
-        <!-- progress bar here -->
-        <span id="percentComplete<?=$productID?>">0% complete.</span> <span id="timeRemaining<?=$productID?>">9999ms remaining.</span>
-        <div class="bidProgress noplacedbids" id="progressBar<?=$productID?>"></div>
-        <!-- end of progress bar -->
-    </li>
-    <li class="grey">
-        <!--<a href="#" class="button">BID NOW</a>-->
-        <?= Html::button('BID NOW', [
-            'class' => 'btn btn-primary btn-block',
-            //'onclick' => "placeBid($productID,$userid,'$sku');",
-            'id' => "placebid_$productID"
-        ]) ?>
-    </li>
-    <li id="info<?= $productID; ?>"></li>
-</ul>
-</div>
+            <div class="bidProgress noplacedbids" id="progressBar<?= $productID ?>"></div>
+            <!-- end of progress bar -->
+        </li>
+        <li>
+            <!--<a href="#" class="button">BID NOW</a>-->
+            <?= $bids; ?> Bids
+            <?= Html::button('BID NOW', [
+                'class' => 'btn btn-primary btn-block',
+                //'onclick' => "placeBid($productID,$userid,'$sku');",
+                'id' => "placebid_$productID"
+            ]) ?>
+        </li>
+        <li id="info<?= $productID; ?>"></li>
+    </ul>
+    </div>
 <?php
 $this->registerJs("
     $(\"document\").ready(function(){

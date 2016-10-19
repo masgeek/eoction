@@ -27,7 +27,7 @@ $this->registerJsFile('@web/js/bidding/bidding-progress.js');
 <style>
     .bidProgress {
         width: 100%;
-        height: 21px;
+        height: 10px;
     }
 
     .noplacedbids{  background-color: red;  }
