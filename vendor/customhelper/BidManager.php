@@ -4,12 +4,10 @@
  * User: 219350
  * Date: 2016/10/21
  * Time: 13:08
+ *
+ * @var $item app\module\products\models\Products
+ * @var \yii\data\ActiveDataProvider $listDataProvider
  */
-
-/*
-    @var $item app\module\products\models\Products
-    @var \yii\data\ActiveDataProvider $listDataProvider
-*/
 
 namespace app\vendor\customhelper;
 
@@ -54,7 +52,8 @@ class BidManager
             $model->BID_DATE = $expression;
             //save the data
 
-            if ($model->save()) {/* do something */}
+            if ($model->save()) {/* do something */
+            }
         }
     }
 
