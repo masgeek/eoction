@@ -3,7 +3,7 @@
 namespace app\module\products\models;
 
 use Yii;
-use app\module\users\models;
+use app\module\users\user\models\Users;
 
 /**
  * This is the model class for table "{{%tb_product_bids}}".

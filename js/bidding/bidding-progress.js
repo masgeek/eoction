@@ -107,8 +107,8 @@ function setupVelocity($productid, $bid_start_time) {
         bidType.val(1); //set to awaiting bids
         bidStatusText.html('Accepting Bids');
 
-        fetchNextProduct();
-        //placeBid($productid, $sku); //send the bid details for teh logged in user
+        //fetchNextProduct();
+        placeBid($productid, $sku); //send the bid details for the logged in user
         //trigger ajax function
         progressBar.removeClass("noplacedbids goingonce goingtwice").addClass('awaitingbid'); //always await bid
         //stop and clear the animation queue

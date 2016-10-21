@@ -94,8 +94,8 @@ class SiteController extends Controller
                 ->where(['ALLOW_AUCTION' => 1])
                 ->orderBy('PRODUCT_ID ASC')->limit(12),
             'pagination' => [
-        'pageSize' => 1
-    ],
+                'pageSize' => 1
+            ],
         ]);
 
 
@@ -136,19 +136,22 @@ class SiteController extends Controller
             //save the data
             if ($model->save()) {
                 //no need to alert user return indicator so that we can switch to auction countdown
+
+                //track the bid
+                BidManager::TrackUsersBids($user_id, $id, $sku);
                 $resp = [
                     'msg' => 'Bid placed successfully',
                     'success' => true,
-                    'product_id'=>$model->PRODUCT_ID,
-                    'sku'=>$model->PRODUCT_SKU,
+                    'product_id' => $model->PRODUCT_ID,
+                    'sku' => $model->PRODUCT_SKU,
                 ];
             } else {
                 //alert user
                 $resp = [
                     'msg' => $model->getErrors(),
                     'success' => false,
-                    'product_id'=>$model->PRODUCT_ID,
-                    'sku'=>$model->PRODUCT_SKU,
+                    'product_id' => $model->PRODUCT_ID,
+                    'sku' => $model->PRODUCT_SKU,
                 ];
             }
         } else {
@@ -161,20 +164,21 @@ class SiteController extends Controller
             //save the data
             if ($bidactivity->save()) {
                 //no need to alert user return indicator so that we can swithc to auction countdown
-                //alert user
+                //track the bid per user
+                BidManager::TrackUsersBids($user_id, $id, $sku);
                 $resp = [
                     'msg' => 'Bid updated successfully',
                     'success' => true,
-                    'product_id'=>$bidactivity->PRODUCT_ID,
-                    'sku'=>$bidactivity->PRODUCT_SKU,
+                    'product_id' => $bidactivity->PRODUCT_ID,
+                    'sku' => $bidactivity->PRODUCT_SKU,
                 ];
             } else {
                 //alert user
                 $resp = [
                     'msg' => $bidactivity->getErrors(),
                     'success' => false,
-                    'product_id'=>$bidactivity->PRODUCT_ID,
-                    'sku'=>$bidactivity->PRODUCT_SKU,
+                    'product_id' => $bidactivity->PRODUCT_ID,
+                    'sku' => $bidactivity->PRODUCT_SKU,
                 ];
             }
         }
