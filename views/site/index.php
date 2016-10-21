@@ -14,8 +14,9 @@ use app\vendor\customhelper\BidManager;
 //set page title
 $this->title = 'Live Auction';
 
-$productUrl =Url::toRoute(['site/next-item']);
-
+$biddingUrl = Url::toRoute(['site/place-bid']);
+$productUrl = Url::toRoute(['site/next-item']);
+$userId = 1;
 //$helper::AddItemsToBidActivity($listDataProvider);
 BidManager::AddItemsToBidActivity($listDataProvider);
 //BidManager::RemoveItemsFromBidActivity('NHQ-J272582011000');
@@ -38,21 +39,41 @@ echo $listviewWidget;
 //register js file
 $this->registerJsFile('@web/js/bidding/bidding-progress.js');
 ?>
-<input type="text" id="product_url" value="<?=$productUrl?>">
+<input type="text" id="bid_url" value="<?= $biddingUrl; ?>" readonly="readonly"/>
+<input type="text" id="product_url" value="<?= $productUrl ?>">
+<input type="text" id="user_id" value="<?= $userId ?>" readonly="readonly"/>
 <style>
-    .list-wrapper{
+    .list-wrapper {
         background-color: pink;
     }
+
     .bidProgress {
         width: 100%;
         height: 10px;
     }
 
-    .noplacedbids{  background-color: purple;  }
-    .awaitingbid{  background-color: #42e83e;  }
-    .goingonce{  background-color: #ffb020;  }
-    .goingtwice{  background-color: #fb0000;  }
-    .bidwon{  background-color: #0000aa;  }
-    .nextbid{  background-color: #0000aa;  }
+    .noplacedbids {
+        background-color: purple;
+    }
+
+    .awaitingbid {
+        background-color: #42e83e;
+    }
+
+    .goingonce {
+        background-color: #ffb020;
+    }
+
+    .goingtwice {
+        background-color: #fb0000;
+    }
+
+    .bidwon {
+        background-color: #0000aa;
+    }
+
+    .nextbid {
+        background-color: #0000aa;
+    }
 </style>
 

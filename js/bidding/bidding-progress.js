@@ -141,7 +141,7 @@ function changeClasses($classtoSet, $element) {
 
 function placeBid($product_id, $sku) {
     //do an ajax request
-    var $bidUrl = $('#bid_url_' + $product_id).val();
+    var $bidUrl = $('#bid_url').val();
     var $user_id = $('#user_id').val();
 
     /* console.log($bidUrl);
