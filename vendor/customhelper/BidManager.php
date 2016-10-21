@@ -144,6 +144,9 @@ class BidManager
         return (float)$max_bid_amount;
     }
 
+    public static function GetTotalItemBids($product_id,$sku){
+
+    }
     public static function GetNextItemToBid()
     {
         $nested_items_array = BidActivity::find()->select('PRODUCT_SKU')->asArray()->all();
