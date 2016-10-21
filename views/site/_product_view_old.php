@@ -12,6 +12,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
+use yii\web\View;
 
 $imageObject = $model->getSingleImage();
 //$imageA = $imageObject ? $imageObject->IMAGE_URL : 'http://placehold.it/700/c55/fff';
@@ -21,7 +22,6 @@ $imageA = 'http://placehold.it/800/c66/000';
 $retail = $model->RETAIL_PRICE;
 $bid = $model->PRICE;
 
-//if retail = 100 bid
 $userid = yii::$app->user->id ? yii::$app->user->id : 1;
 $sku = $model->SKU;
 
@@ -29,7 +29,7 @@ $discount = 100 - round((($bid * 100) / $retail), 0);
 $bids = 0;
 
 $productID = $model->PRODUCT_ID;
-$bidStartTime = 1000;// * $productID; //initial start time for the bid
+$bidStartTime = 20;// * $productID; //initial start time for the bid
 
 $biddingUrl = Url::toRoute(['site/place-bid'])
 ?>
@@ -46,7 +46,7 @@ $biddingUrl = Url::toRoute(['site/place-bid'])
         </li>
         <li>Starting Bid <?= $model->PRICE; ?></li>
         <li>Shipping</li>
-        <li class="hidden">
+        <li class="hidden_">
             <input type="text" id="bid_type_<?= $productID; ?>" value="0" readonly="readonly"/>
             <input type="text" id="bid_placed_<?= $productID; ?>" value="0" readonly="readonly"/>
             <input type="text" id="bid_url_<?= $productID; ?>" value="<?= $biddingUrl; ?>" readonly="readonly"/>
@@ -55,10 +55,12 @@ $biddingUrl = Url::toRoute(['site/place-bid'])
         </li>
         <li>
             <hr/>
-            <!-- progress bar here -->
+
+            <!--
             <span id="percentComplete<?= $productID ?>"></span>
             <span id="timeRemaining<?= $productID ?>"></span>
-
+            -->
+            <!-- progress bar here -->
             <div class="bidProgress noplacedbids" id="progressBar<?= $productID ?>"></div>
             <!-- end of progress bar -->
         </li>
@@ -71,12 +73,10 @@ $biddingUrl = Url::toRoute(['site/place-bid'])
                 'id' => "placebid_$productID"
             ]) ?>
         </li>
-        <li id="info<?= $productID; ?>"></li>
+        <li id="bid_status_<?= $productID; ?>">Awaiting Bids</li>
     </ul>
     </div>
 <?php
 $this->registerJs("
-    $(\"document\").ready(function(){
-        setupVelocity($productID,$bidStartTime);
-    });
-");
+   setupVelocity($productID,$bidStartTime);
+",View::POS_READY);

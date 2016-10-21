@@ -14,6 +14,7 @@ use app\models\ContactForm;
 
 use app\models\BidActivity;
 use app\module\products\models\Products;
+use app\vendor\customhelper\BidManager;
 
 class SiteController extends Controller
 {
@@ -89,11 +90,14 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Products::find()->where(['ALLOW_AUCTION' => 1])->orderBy('PRODUCT_ID ASC'),
+            'query' => Products::find()
+                ->where(['ALLOW_AUCTION' => 1])
+                ->orderBy('PRODUCT_ID ASC')->limit(12),
             'pagination' => [
-                'pageSize' => 8,
-            ],
+        'pageSize' => 1
+    ],
         ]);
+
 
         $this->view->title = 'Posts List';
         return $this->render('index', ['listDataProvider' => $dataProvider]);
@@ -112,7 +116,9 @@ class SiteController extends Controller
      */
     public function actionPlaceBid($id, $user_id, $sku)
     {
-        $resp = [];
+        $resp = [
+            'success' => false
+        ];
         $activitycount = 1; //this counts the number of activities for the product
         $bidactivity = BidActivity::findOne(['PRODUCT_SKU' => $sku]);
 
@@ -132,18 +138,22 @@ class SiteController extends Controller
                 //no need to alert user return indicator so that we can switch to auction countdown
                 $resp = [
                     'msg' => 'Bid placed successfully',
-                    'success' => true
+                    'success' => true,
+                    'product_id'=>$model->PRODUCT_ID,
+                    'sku'=>$model->PRODUCT_SKU,
                 ];
             } else {
                 //alert user
                 $resp = [
                     'msg' => $model->getErrors(),
-                    'success' => false
+                    'success' => false,
+                    'product_id'=>$model->PRODUCT_ID,
+                    'sku'=>$model->PRODUCT_SKU,
                 ];
             }
         } else {
             //update the existing record
-            // get eth last activity count
+            // get the last activity count
             $activitycount = (int)$bidactivity->ACTIVITY_COUNT;
             //now inrement it by one and save it back
             $bidactivity->ACTIVITY_COUNT = $activitycount + 1;
@@ -154,13 +164,17 @@ class SiteController extends Controller
                 //alert user
                 $resp = [
                     'msg' => 'Bid updated successfully',
-                    'success' => true
+                    'success' => true,
+                    'product_id'=>$bidactivity->PRODUCT_ID,
+                    'sku'=>$bidactivity->PRODUCT_SKU,
                 ];
             } else {
                 //alert user
                 $resp = [
                     'msg' => $bidactivity->getErrors(),
-                    'success' => false
+                    'success' => false,
+                    'product_id'=>$bidactivity->PRODUCT_ID,
+                    'sku'=>$bidactivity->PRODUCT_SKU,
                 ];
             }
         }
