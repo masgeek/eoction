@@ -41,8 +41,7 @@ class BidManager
                 $model->ACTIVITY_COUNT = 0;
                 $model->BID_DATE = $expression;
                 //save the data
-                if ($model->save()) {
-
+                if ($model->save()) {/* do something */
                 }
             }
         } else {
@@ -55,12 +54,7 @@ class BidManager
             $model->BID_DATE = $expression;
             //save the data
 
-            if ($model->save()) {
-
-            } else {
-                $model->getErrors();
-            }
-            var_dump($model);
+            if ($model->save()) {/* do something */}
         }
     }
 
@@ -196,6 +190,7 @@ class BidManager
             </ul>
             </div>';
 
+        //return the item list now
         return $item_list;
     }
 }
