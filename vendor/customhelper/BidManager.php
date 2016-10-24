@@ -174,11 +174,16 @@ class BidManager
     {
 
         $img = 'http://placehold.it/800/c66/000';
-        $item_list = '<div class="col-xs-18 col-sm-4 col-md-3" id="item_box_' . $product_id . '">
+        $imageHtml = Html::img($img, [
+            'width' > '200',
+            'id' => 'product_image_' . $product_id,
+            'class' => 'img img-responsive',
+            'alt' => $product_name,
+        ]);
+
+        $html_list = '<div class="col-xs-18 col-sm-4 col-md-3 fadein" id="item_box_' . $product_id . '">
             <ul class="price">
-                <li>
-                <img id="product_image_' . $product_id . '" src="' . $img . '", alt="' . $product_name . '" class="img img-responsive" width="200">
-                </li>
+                <li>' . $imageHtml . '</li>
                 <li>Starting Bid</li>
                 <li>Shipping</li>
                 <li class="hidden_">
@@ -186,18 +191,19 @@ class BidManager
                     <input type="text" id="bid_placed_' . $product_id . '" value="0" readonly="readonly"/>
                     <input type="text" id="product_sku_' . $product_id . '" value="' . $sku . '" readonly="readonly"/>
                 </li>
-                <li>
-                    <div class="bidProgress noplacedbids" id="progressBar' . $product_id . '"></div>
-                </li>
-                <li>
-                <li id="bids_placed' . $product_id . '">Bids</li>
-                <button id="placebid' . $product_id . '">Bid Now</button>
-                </li>
+                <li><div class="bidProgress noplacedbids" id="progressBar' . $product_id . '"></div></li>
+                <li id="bids_placed' . $product_id . '">0 Bids</li>
+                <li><button id="placebid' . $product_id . '" class="btn btn-primary btn-block">Bid Now</button></li>
                 <li id="bid_status_' . $product_id . '">Awaiting Bid</li>
             </ul>
             </div>';
 
         //return the item list now
-        return $item_list;
+        $product_box = [
+            'product_id' => $product_id,
+            'sku' => $sku,
+            'html_data' => $html_list
+        ];
+        return $product_box;
     }
 }

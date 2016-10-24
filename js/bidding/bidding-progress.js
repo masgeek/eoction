@@ -38,10 +38,37 @@ function setupVelocity($productid, $bid_start_time) {
         },
     };
 
+    // Use the progress callback.
+    progressBar.velocity(
+        {
+            width: "0%", //animate the width
+        },
+        params);
+    //add stop click event when placebid is clicked
+    placebid.click(function () {
+        TriggerProgressBar($productid, $sku, 10);
+    });
+}
+
+function changeClasses($classtoSet, $element) {
+    var progressBar = $('#' + $element);
+//first clear all classes
+    progressBar.removeClass(); //clear all classes
+    progressBar.addClass($classtoSet);
+}
+
+function TriggerProgressBar($productid, $sku, $bid_start_time) {
+    var bidType = $('#bid_type_' + $productid);
+    var text = "Accepting Bids";
+    var progressBar = $('#progressBar' + $productid);
+    var bidStatusText = $('#bid_status_' + $productid);
+    var placebid = $('#placebid_' + $productid);
+    var starttime = $bid_start_time * 1000;//convert to ms
+
     var bidplacedParam = {
         easing: "linear",
         loop: false,
-        duration: 10000, //milliseconds
+        duration: starttime, //milliseconds
         progress: function (elements, percentComplete, timeRemaining, timeStart) {
             //$percentComplete.html(Math.round(percentComplete * 100) + "% complete.");
             //$timeRemaining.html(timeRemaining + "Going Once.");
@@ -75,10 +102,14 @@ function setupVelocity($productid, $bid_start_time) {
                 case '3': //going twice
                     //remove item and disble bid item
                     bidType.val(4);
-                    text = ""; //clear teh text
+                    text = ""; //clear the text
+                    //show the bid won progress
+                    //alert('You have won the bid');
+                    console.log('product id to remove ' + $productid);
+                    fetchNextProduct($productid);
                     break;
                 case '4':
-                    //show the bid won progress
+
                     break;
             }
             console.log("countdown completed for " + scenario);
@@ -87,60 +118,45 @@ function setupVelocity($productid, $bid_start_time) {
         }
     };
 
-    // Use the progress callback.
-    progressBar.velocity(
-        {
-            width: "0%", //animate the width
-        },
-        params);
-    //add stop click event when placebid is clicked
-    placebid.click(function () {
-        /*
-         bid types
-         0 bid countdown
-         1 awaiting bids
-         2 going once
-         3 going twice
-         4 bid won
-         */
-        //call placebid function
-        bidType.val(1); //set to awaiting bids
-        bidStatusText.html('Accepting Bids');
+    /*
+     bid types
+     0 bid countdown
+     1 awaiting bids
+     2 going once
+     3 going twice
+     4 bid won
+     */
+    //call placebid function
+    bidType.val(1); //set to awaiting bids
+    bidStatusText.html('Accepting Bids');
 
-        //fetchNextProduct();
-        placeBid($productid, $sku); //send the bid details for the logged in user
-        //trigger ajax function
-        progressBar.removeClass("noplacedbids goingonce goingtwice").addClass('awaitingbid'); //always await bid
-        //stop and clear the animation queue
-        progressBar.velocity('stop', true).velocity({width: '100%'}, {duration: 1});
-        //chain this progress bar since its for going once and going twice
-        progressBar.velocity({width: '0%'}, bidplacedParam) //Awaiting bid
-            .velocity({width: '100%'}, {
-                duration: 1, complete: function () {
-                    //add class for going once
-                    progressBar.removeClass("noplacedbids awaitingbid goingtwice").addClass('goingonce'); //always await bid
-                }
-            })//resets back to 100
-            .velocity({width: '0%'}, bidplacedParam) //going once
-            .velocity({width: '100%'}, {
-                duration: 1, complete: function () {
-                    //add class for going twice
-                    progressBar.removeClass("noplacedbids awaitingbid goingonce").addClass('goingtwice'); //always await bid
-                }
-            })//resets back to 100
-            .velocity({width: '0%'}, bidplacedParam); //going twice
-    });
+    //fetchNextProduct();
+    placeBid($productid, $sku); //send the bid details for the logged in user
+    //trigger ajax function
+    progressBar.removeClass("noplacedbids goingonce goingtwice").addClass('awaitingbid'); //always await bid
+    //stop and clear the animation queue
+    progressBar.velocity('stop', true).velocity({width: '100%'}, {duration: 1});
+    //chain this progress bar since its for going once and going twice
+    progressBar.velocity({width: '0%'}, bidplacedParam) //Awaiting bid
+        .velocity({width: '100%'}, {
+            duration: 1, complete: function () {
+                //add class for going once
+                progressBar.removeClass("noplacedbids awaitingbid goingtwice").addClass('goingonce'); //always await bid
+            }
+        })//resets back to 100
+        .velocity({width: '0%'}, bidplacedParam) //going once
+        .velocity({width: '100%'}, {
+            duration: 1, complete: function () {
+                //add class for going twice
+                progressBar.removeClass("noplacedbids awaitingbid goingonce").addClass('goingtwice'); //always await bid
+            }
+        })//resets back to 100
+        .velocity({width: '0%'}, bidplacedParam); //going twice
 }
-
-function changeClasses($classtoSet, $element) {
-    var progressBar = $('#' + $element);
-//first clear all classes
-    progressBar.removeClass(); //clear all classes
-    progressBar.addClass($classtoSet);
-}
-
 function placeBid($product_id, $sku) {
     //do an ajax request
+    //fetchNextProduct($product_id);
+    //return;
     var $bidUrl = $('#bid_url').val();
     var $user_id = $('#user_id').val();
 
@@ -176,26 +192,61 @@ function placeBid($product_id, $sku) {
     });
 }
 
-function fetchNextProduct(){
-    $productUrl = $('product_url').val();
+function fetchNextProduct($previous_product_id) {
+    var $productUrl = $('#product_url').val();
+    var $productBox = $('#item_box_' + $previous_product_id);
 
     $.ajax({
         url: $productUrl,
         error: function () {
             $('#info').html('<p>An error has occurred</p>');
         },
-        dataType: 'html',
+        dataType: 'json',
         before: function (data) {
             //stop the minute bid bar first
         },
         success: function (data) {
-            /*var $title = $('<h1>').text(data.talks[0].talk_title);
-            var $description = $('<p>').text(data.talks[0].talk_description);
-            $('#info' + $product_id)
-                .append($title)
-                .append($description);*/
-            $('#list-wrapper').append(data);
+            console.log(data.sku);
+            //remove the initial product box
+            $productBox.fadeOut(3000, function () {
+                $(this).remove();
+                $('#product_list').append(data.html_data);
+                $('.fadein').fadeIn(2500);
+                //scroll to the top
+                $("html, body").animate({scrollTop: 0}, "slow");
+
+                //next add teh click event listeners
+                RefreshSomeEventListener(data.product_id, data.sku);
+
+                //setupVelocity($product_id, 60); //trigger the progress bar to start
+
+            });
         },
         type: 'GET'
     });
+}
+
+function RefreshSomeEventListener($product_id, $sku) {
+    // Remove handler from existing elements
+    //$("#product_list").off();
+    /*$('#pg_menu_content').on('click', '#btn_a', function(){
+     console.log(this.value);
+     });*/
+    // Re-add event handler for all matching elements
+    var $place_bid = $('#placebid_' + $product_id);
+
+    //console.log($place_bid);
+    /*$($place_bid).on("click", function () {
+        // Handle event.
+        TriggerProgressBar($product_id, $sku, 5);
+    });*/
+    $('#product_list').delegate($place_bid,'click',function () {
+        console.log('item click for '+$sku);
+    });
+
+    /*$('#product_list').on('click', $place_bid, function(e){
+     TriggerProgressBar($product_id, $sku, 5);
+     });*/
+
+    setupVelocity($product_id, 10); //trigger the progress bar to start
 }

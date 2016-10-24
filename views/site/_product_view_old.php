@@ -29,7 +29,7 @@ $discount = 100 - round((($bid * 100) / $retail), 0);
 $bids = 0;
 
 $productID = $model->PRODUCT_ID;
-$bidStartTime = 20;// * $productID; //initial start time for the bid
+$bidStartTime = 10;// * $productID; //initial start time for the bid
 ?>
 
     <div class="col-xs-18 col-sm-4 col-md-3" id="item_box_<?= $productID; ?>">

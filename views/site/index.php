@@ -27,7 +27,7 @@ $listviewWidget = ListView::widget([
     'options' => [
         'tag' => 'div',
         'class' => 'list-wrapper',
-        'id' => 'list-wrapper',
+        'id' => 'product_list',
     ],
     'layout' => "{items}",
     //'layout' => "{pager}\n{items}\n{summary}",
@@ -77,6 +77,10 @@ $this->registerJsFile('@web/js/bidding/bidding-progress.js');
 
     .nextbid {
         background-color: #0000aa;
+    }
+
+    .fadein {
+        display: none;
     }
 </style>
 

@@ -94,7 +94,7 @@ class SiteController extends Controller
                 ->where(['ALLOW_AUCTION' => 1])
                 ->orderBy('PRODUCT_ID ASC')->limit(12),
             'pagination' => [
-                'pageSize' => 1
+                'pageSize' => 2
             ],
         ]);
 
@@ -105,7 +105,9 @@ class SiteController extends Controller
 
     public function actionNextItem()
     {
-        return $this->render('_product_view', ['response' => date('Y-M-d')]);
+        $nextItem = BidManager::GetNextItemToBid();
+
+        echo json_encode($nextItem);
     }
 
     /**
