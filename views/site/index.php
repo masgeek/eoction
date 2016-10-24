@@ -6,6 +6,7 @@
 
 use yii\widgets\ListView;
 use yii\helpers\Url;
+use yii\helpers\Html;
 
 use app\vendor\customhelper\BidManager;
 
@@ -33,15 +34,17 @@ $listviewWidget = ListView::widget([
     'itemView' => '_product_view_old',
 ]);
 
+//static text fields
+echo Html::textInput('bid_url', $biddingUrl, ['readonly' => true, 'id' => 'bid_url']);
+echo Html::textInput('product_url', $productUrl, ['readonly' => true, 'id' => 'product_url']);
+echo Html::textInput('user_id', $userId, ['readonly' => true, 'id' => 'user_id']);
 //display the list widget
+echo '<hr/>';
 echo $listviewWidget;
 
 //register js file
 $this->registerJsFile('@web/js/bidding/bidding-progress.js');
 ?>
-<input type="text" id="bid_url" value="<?= $biddingUrl; ?>" readonly="readonly"/>
-<input type="text" id="product_url" value="<?= $productUrl ?>">
-<input type="text" id="user_id" value="<?= $userId ?>" readonly="readonly"/>
 <style>
     .list-wrapper {
         background-color: pink;
