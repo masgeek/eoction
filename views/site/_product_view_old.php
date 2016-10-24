@@ -10,9 +10,9 @@
 
 
 use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\widgets\Pjax;
 use yii\web\View;
+
+use app\vendor\customhelper\ProductManager;
 
 $imageObject = $model->getSingleImage();
 //$imageA = $imageObject ? $imageObject->IMAGE_URL : 'http://placehold.it/700/c55/fff';
@@ -20,12 +20,12 @@ $imageA = 'http://placehold.it/800/c66/000';
 
 //caclulate ther percentage discount based oneth retail price and the bided amount
 $retail = $model->RETAIL_PRICE;
-$bid = $model->PRICE;
+$starting_bid_price = $model->PRICE;
 
 $userid = yii::$app->user->id ? yii::$app->user->id : 1;
 $sku = $model->SKU;
 
-$discount = 100 - round((($bid * 100) / $retail), 0);
+$discount =ProductManager::ComputerPercentageDiscount($retail,$starting_bid_price);
 $bids = 0;
 
 $productID = $model->PRODUCT_ID;
@@ -62,7 +62,6 @@ $bidStartTime = 60;// * $productID; //initial start time for the bid
             <li>
                 <?= Html::button('BID NOW', [
                     'class' => 'btn btn-primary btn-block',
-                    //'onclick' => "placeBid($productID,$userid,'$sku');",
                     'id' => "placebid_$productID"
                 ]) ?>
             </li>
@@ -71,5 +70,5 @@ $bidStartTime = 60;// * $productID; //initial start time for the bid
     </div>
 <?php
 $this->registerJs("
-   setupVelocity($productID,$bidStartTime);
+   SetupProgressBar($productID,$bidStartTime);
 ", View::POS_READY);

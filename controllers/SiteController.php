@@ -149,14 +149,14 @@ class SiteController extends Controller
                     'success' => true,
                     'product_id' => $model->PRODUCT_ID,
                     'sku' => $model->PRODUCT_SKU,
+                    'bid_price' => 0,
+                    'discount' => 0
                 ];
             } else {
                 //alert user
                 $resp = [
                     'msg' => $model->getErrors(),
                     'success' => false,
-                    'product_id' => $model->PRODUCT_ID,
-                    'sku' => $model->PRODUCT_SKU,
                 ];
             }
         } else {
@@ -176,14 +176,14 @@ class SiteController extends Controller
                     'success' => true,
                     'product_id' => $bidactivity->PRODUCT_ID,
                     'sku' => $bidactivity->PRODUCT_SKU,
+                    'bid_price' => 0,
+                    'discount' => 0
                 ];
             } else {
                 //alert user
                 $resp = [
                     'msg' => $bidactivity->getErrors(),
                     'success' => false,
-                    'product_id' => $bidactivity->PRODUCT_ID,
-                    'sku' => $bidactivity->PRODUCT_SKU,
                 ];
             }
         }

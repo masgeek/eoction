@@ -2,7 +2,7 @@
  * Created by TRITON on 10/19/2016.
  */
 
-function setupVelocity($productid, $bid_start_time) {
+function SetupProgressBar($productid, $bid_start_time) {
     /*
      bid types
      0 bid countdown
@@ -226,10 +226,10 @@ function RefreshSomeEventListener($product_id, $sku) {
     });
 
     //run the intial progress bar
-    setupVelocity($product_id, 60); //trigger the progress bar to start
+    SetupProgressBar($product_id, 60); //trigger the progress bar to start
 }
 
-//run evry 500ms
+//run every 500ms
 setInterval(function () {
     var updateUrl = $('#update_url').val();
 
