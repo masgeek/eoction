@@ -106,7 +106,7 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
                     //show the bid won progress
                     //alert('You have won the bid');
                     console.log('product id to remove ' + $productid);
-                    fetchNextProduct($productid);
+                    FetchNextItem($productid);
                     break;
                 case '4':
 
@@ -130,7 +130,7 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
     bidType.val(1); //set to awaiting bids
     bidStatusText.html('Accepting Bids');
 
-    //fetchNextProduct();
+    //FetchNextItem();
     placeBid($productid, $sku); //send the bid details for the logged in user
     //trigger ajax function
     progressBar.removeClass("noplacedbids goingonce goingtwice").addClass('awaitingbid'); //always await bid
@@ -155,7 +155,7 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
 }
 function placeBid($product_id, $sku) {
     //do an ajax request
-    //fetchNextProduct($product_id);
+    //FetchNextItem($product_id);
     //return;
     var $bidUrl = $('#bid_url').val();
     var $user_id = $('#user_id').val();
@@ -192,7 +192,7 @@ function placeBid($product_id, $sku) {
     });
 }
 
-function fetchNextProduct($previous_product_id) {
+function FetchNextItem($previous_product_id) {
     var $productUrl = $('#product_url').val();
     var $productBox = $('#item_box_' + $previous_product_id);
 
@@ -202,51 +202,29 @@ function fetchNextProduct($previous_product_id) {
             $('#info').html('<p>An error has occurred</p>');
         },
         dataType: 'json',
-        before: function (data) {
-            //stop the minute bid bar first
-        },
         success: function (data) {
-            console.log(data.sku);
             //remove the initial product box
-            $productBox.fadeOut(3000, function () {
+            $productBox.fadeOut(1500, function () {
                 $(this).remove();
                 $('#product_list').append(data.html_data);
-                $('.fadein').fadeIn(2500);
+                $('.fadein').fadeIn(2000);
                 //scroll to the top
                 $("html, body").animate({scrollTop: 0}, "slow");
-
-                //next add teh click event listeners
+                //next add the click event listeners to the dynamic items
                 RefreshSomeEventListener(data.product_id, data.sku);
-
-                //setupVelocity($product_id, 60); //trigger the progress bar to start
-
             });
         },
-        type: 'GET'
+        type: 'POST'
     });
 }
 
 function RefreshSomeEventListener($product_id, $sku) {
-    // Remove handler from existing elements
-    //$("#product_list").off();
-    /*$('#pg_menu_content').on('click', '#btn_a', function(){
-     console.log(this.value);
-     });*/
-    // Re-add event handler for all matching elements
     var $place_bid = $('#placebid_' + $product_id);
-
-    //console.log($place_bid);
-    /*$($place_bid).on("click", function () {
-        // Handle event.
-        TriggerProgressBar($product_id, $sku, 5);
-    });*/
-    $('#product_list').delegate($place_bid,'click',function () {
-        console.log('item click for '+$sku);
+    $(document).on("click", $place_bid , function() {
+       // $(this).parent().remove();
+        console.log('Click event attached for product sku '+$sku);
     });
 
-    /*$('#product_list').on('click', $place_bid, function(e){
-     TriggerProgressBar($product_id, $sku, 5);
-     });*/
-
-    setupVelocity($product_id, 10); //trigger the progress bar to start
+    //run the intial progress bar
+    setupVelocity($product_id, 60); //trigger the progress bar to start
 }

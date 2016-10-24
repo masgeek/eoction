@@ -12,6 +12,7 @@
 namespace app\vendor\customhelper;
 
 use yii\db\Expression;
+use yii\helpers\Html;
 
 use app\models\BidActivity;
 use app\module\products\models\Products;
@@ -123,7 +124,7 @@ class BidManager
      */
     public static function NextBidAmount($product_id)
     {
-        BidManager::GetNextItemToBid();
+        //BidManager::GetNextItemToBid();
         $max_amount = BidManager::GetMaxBidAmount($product_id);
         //increment this amount by 5
         $next_bid_amount = $max_amount + 5;
@@ -144,18 +145,16 @@ class BidManager
         return (float)$max_bid_amount;
     }
 
-    public static function GetTotalItemBids($product_id,$sku){
+    public static function GetTotalItemBids($product_id, $sku)
+    {
 
     }
+
     public static function GetNextItemToBid()
     {
         $nested_items_array = BidActivity::find()->select('PRODUCT_SKU')->asArray()->all();
         //flatten the nested arrays
-        $item_array = [];
-        foreach ($nested_items_array as $item) {
-
-            $item_array[] = $item['PRODUCT_SKU'];
-        }
+        $item_array = BidManager::GetExclusionItems();
 
         $productModel = Products::find()
             ->where([
@@ -168,6 +167,26 @@ class BidManager
         $product_list = BidManager::BuildList($productModel->PRODUCT_ID, $productModel->SKU, $productModel->PRODUCT_NAME);
 
         return $product_list;
+    }
+
+    /**
+     * @return array
+     */
+    public static function GetExclusionItems()
+    {
+        $nested_items_array = BidActivity::find()
+            ->select('PRODUCT_SKU')
+            //->where('ACTIVITY_COUNT <= 0')
+            ->asArray()
+        ->all();
+        //flatten the nested arrays
+        $item_array = [];
+        foreach ($nested_items_array as $item) {
+
+            $item_array[] = $item['PRODUCT_SKU'];
+        }
+
+        return $item_array;
     }
 
     private static function BuildList($product_id, $sku, $product_name)
@@ -193,7 +212,7 @@ class BidManager
                 </li>
                 <li><div class="bidProgress noplacedbids" id="progressBar' . $product_id . '"></div></li>
                 <li id="bids_placed' . $product_id . '">0 Bids</li>
-                <li><button id="placebid' . $product_id . '" class="btn btn-primary btn-block">Bid Now</button></li>
+                <li><button id="placebid_' . $product_id . '" class="btn btn-primary btn-block">Bid Now</button></li>
                 <li id="bid_status_' . $product_id . '">Awaiting Bid</li>
             </ul>
             </div>';

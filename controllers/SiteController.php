@@ -89,10 +89,14 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        $item_array = BidManager::GetExclusionItems();
         $dataProvider = new ActiveDataProvider([
             'query' => Products::find()
-                ->where(['ALLOW_AUCTION' => 1])
-                ->orderBy('PRODUCT_ID ASC')->limit(12),
+                ->where(['ALLOW_AUCTION' => 1,])
+                ->andWhere(['>=','CURRENT_STOCK_LEVEL',1]) //stock levels should be greater or equal to 1
+                ->andWhere(['NOT IN', 'SKU', $item_array])
+                ->orderBy(['rand()' => SORT_DESC]),
+                //->orderBy('PRODUCT_ID ASC')->limit(12),
             'pagination' => [
                 'pageSize' => 2
             ],
