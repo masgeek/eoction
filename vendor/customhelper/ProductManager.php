@@ -23,14 +23,28 @@ class ProductManager
      * @param $bid_price
      * @return int
      */
-    public static function ComputerPercentageDiscount($retail_price, $bid_price)
+    public static function ComputePercentageDiscount($product_id)
     {
-        $discount_percentage = 100 - round((($retail_price * 100) / $bid_price), 0);
+        $discount_percentage = 0;
+        $product = Products::findOne(['PRODUCT_ID' => $product_id]);
+        if ($product != null) {
+            $retail_price = $product->RETAIL_PRICE;
+            $bid_price = $product->PRICE;
+
+            $discount_percentage = 100 - round((($bid_price * 100) / $retail_price), 2);
+        }
         return $discount_percentage;
     }
 
-    public static function ComputerShippingCost($retail_price, $bid_price)
+    public static function ComputeShippingCost($product_id)
     {
+        $shipping_cost = 5;
+        $product = Products::findOne(['PRODUCT_ID' => $product_id]);
+        if ($product != null) {
+            $retail_price = $product->RETAIL_PRICE;
 
+            $shipping_cost = round(((5 * $retail_price) / 100), 2);
+        }
+        return $shipping_cost;
     }
 }

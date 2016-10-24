@@ -136,13 +136,27 @@ class BidManager
      * @param $product_id
      * @return float
      */
-    private static function GetMaxBidAmount($product_id)
+    public static function GetMaxBidAmount($product_id)
     {
         $max_bid_amount = ProductBids::find([
             'PRODUCT_ID' => $product_id,
         ])->max('BID_AMOUNT');
 
         return (float)$max_bid_amount;
+    }
+
+    /**
+     * Get an items retail price
+     * @param $product_id
+     * @return float
+     */
+    public static function GetItemRetailAmount($product_id)
+    {
+        $retail_price = ProductBids::find([
+            'PRODUCT_ID' => $product_id,
+        ])->max('RETAIL_PRICE');
+
+        return (float)$retail_price;
     }
 
     public static function GetTotalItemBids($product_id, $sku)
@@ -198,7 +212,7 @@ class BidManager
             'class' => 'img img-responsive',
             'alt' => $product_name,
         ]);
-        
+
         $html_list = '<div class="col-xs-18 col-sm-4 col-md-3 fadein" id="item_box_' . $product_id . '">
             <ul class="price">
                 <li>' . $imageHtml . '</li>

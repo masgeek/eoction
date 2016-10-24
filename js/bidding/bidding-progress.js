@@ -236,4 +236,4 @@ setInterval(function () {
     $.get(updateUrl, {product_id: 1, sku: 1}, function (data) {
         console.log(updateUrl);
     });
-}, 5000);
+}, 50000);

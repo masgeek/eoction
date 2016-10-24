@@ -15,6 +15,7 @@ use app\models\ContactForm;
 use app\models\BidActivity;
 use app\module\products\models\Products;
 use app\vendor\customhelper\BidManager;
+use app\vendor\customhelper\ProductManager;
 
 class SiteController extends Controller
 {
@@ -149,8 +150,8 @@ class SiteController extends Controller
                     'success' => true,
                     'product_id' => $model->PRODUCT_ID,
                     'sku' => $model->PRODUCT_SKU,
-                    'bid_price' => 0,
-                    'discount' => 0
+                    'bid_price' => BidManager::GetMaxBidAmount($model->PRODUCT_ID),
+                    'discount' => ProductManager::ComputePercentageDiscount($model->PRODUCT_ID)
                 ];
             } else {
                 //alert user
@@ -176,8 +177,8 @@ class SiteController extends Controller
                     'success' => true,
                     'product_id' => $bidactivity->PRODUCT_ID,
                     'sku' => $bidactivity->PRODUCT_SKU,
-                    'bid_price' => 0,
-                    'discount' => 0
+                    'bid_price' => BidManager::GetMaxBidAmount($bidactivity->PRODUCT_ID),
+                    'discount' => ProductManager::ComputePercentageDiscount($bidactivity->PRODUCT_ID)
                 ];
             } else {
                 //alert user

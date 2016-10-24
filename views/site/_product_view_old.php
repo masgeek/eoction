@@ -25,10 +25,12 @@ $starting_bid_price = $model->PRICE;
 $userid = yii::$app->user->id ? yii::$app->user->id : 1;
 $sku = $model->SKU;
 
-$discount =ProductManager::ComputerPercentageDiscount($retail,$starting_bid_price);
 $bids = 0;
 
 $productID = $model->PRODUCT_ID;
+
+$discount = ProductManager::ComputePercentageDiscount($productID);
+$shipping_cost = ProductManager::ComputeShippingCost($productID);
 $bidStartTime = 60;// * $productID; //initial start time for the bid
 ?>
 
@@ -42,9 +44,10 @@ $bidStartTime = 60;// * $productID; //initial start time for the bid
                     'alt' => $model->PRODUCT_NAME,
                 ]); ?>
             </li>
-            <li>Starting Bid <?= $model->PRICE; ?></li>
-            <li>Shipping</li>
-            <li class="hidden">
+            <li>Starting Bid <?= $model->PRICE ?></li>
+            <li>Discount <?= $discount ?>%</li>
+            <li>Shipping <?= $shipping_cost ?></li>
+            <li class="hidden_">
                 <input type="text" id="bid_type_<?= $productID; ?>" value="0" readonly="readonly"/>
                 <input type="text" id="bid_placed_<?= $productID; ?>" value="0" readonly="readonly"/>
                 <input type="text" id="product_sku_<?= $productID; ?>" value="<?= $model->SKU; ?>" readonly="readonly"/>
