@@ -220,11 +220,20 @@ function FetchNextItem($previous_product_id) {
 
 function RefreshSomeEventListener($product_id, $sku) {
     var $place_bid = $('#placebid_' + $product_id);
-    $(document).on("click", $place_bid , function() {
-       // $(this).parent().remove();
-        console.log('Click event attached for product sku '+$sku);
+    $(document).on("click", $place_bid, function () {
+        // $(this).parent().remove();
+        console.log('Click event attached for product sku ' + $sku);
     });
 
     //run the intial progress bar
     setupVelocity($product_id, 60); //trigger the progress bar to start
 }
+
+//run evry 500ms
+setInterval(function () {
+    var updateUrl = $('#update_url').val();
+
+    $.get(updateUrl, {product_id: 1, sku: 1}, function (data) {
+        console.log(updateUrl);
+    });
+}, 5000);

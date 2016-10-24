@@ -93,25 +93,24 @@ class SiteController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => Products::find()
                 ->where(['ALLOW_AUCTION' => 1,])
-                ->andWhere(['>=','CURRENT_STOCK_LEVEL',1]) //stock levels should be greater or equal to 1
+                ->andWhere(['>=', 'CURRENT_STOCK_LEVEL', 1])//stock levels should be greater or equal to 1
                 ->andWhere(['NOT IN', 'SKU', $item_array])
                 ->orderBy(['rand()' => SORT_DESC]),
-                //->orderBy('PRODUCT_ID ASC')->limit(12),
+            //->orderBy('PRODUCT_ID ASC')->limit(12),
             'pagination' => [
                 'pageSize' => 2
             ],
         ]);
 
 
-        $this->view->title = 'Posts List';
+        $this->view->title = 'Live Auction';
         return $this->render('index', ['listDataProvider' => $dataProvider]);
     }
 
     public function actionNextItem()
     {
         $nextItem = BidManager::GetNextItemToBid();
-
-        echo json_encode($nextItem);
+        print_r(json_encode($nextItem));
     }
 
     /**

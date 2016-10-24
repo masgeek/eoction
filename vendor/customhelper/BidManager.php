@@ -191,7 +191,6 @@ class BidManager
 
     private static function BuildList($product_id, $sku, $product_name)
     {
-
         $img = 'http://placehold.it/800/c66/000';
         $imageHtml = Html::img($img, [
             'width' > '200',
@@ -199,7 +198,7 @@ class BidManager
             'class' => 'img img-responsive',
             'alt' => $product_name,
         ]);
-
+        
         $html_list = '<div class="col-xs-18 col-sm-4 col-md-3 fadein" id="item_box_' . $product_id . '">
             <ul class="price">
                 <li>' . $imageHtml . '</li>

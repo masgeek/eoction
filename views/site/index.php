@@ -15,6 +15,7 @@ use app\vendor\customhelper\BidManager;
 //set page title
 $this->title = 'Live Auction';
 
+$updateUrl = Url::toRoute(['shop/item-update']);
 $biddingUrl = Url::toRoute(['site/place-bid']);
 $productUrl = Url::toRoute(['site/next-item']);
 $userId = 1;
@@ -35,6 +36,7 @@ $listviewWidget = ListView::widget([
 ]);
 
 //static text fields
+echo Html::textInput('update_url', $updateUrl, ['readonly' => true, 'id' => 'update_url', 'class' => 'hidden']);
 echo Html::textInput('bid_url', $biddingUrl, ['readonly' => true, 'id' => 'bid_url', 'class' => 'hidden']);
 echo Html::textInput('product_url', $productUrl, ['readonly' => true, 'id' => 'product_url', 'class' => 'hidden']);
 echo Html::textInput('user_id', $userId, ['readonly' => true, 'id' => 'user_id', 'class' => 'hidden']);
