@@ -76,6 +76,24 @@ $config = [
             ],
         ],
 
+        //yii2 authclient
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'facebook' => [
+                    'class' => 'yii\authclient\clients\Facebook',
+                    'authUrl' => 'https://www.facebook.com/dialog/oauth?display=popup',
+                    'clientId' => '1789588324654575',
+                    'clientSecret' => 'ababaa956d050715bba974c068a27206',
+                    'attributeNames' => ['name', 'email', 'first_name', 'last_name'],
+                ],
+                'google' => [
+                    'class' => 'yii\authclient\clients\Google',
+                    'clientId' => 'google_client_id',
+                    'clientSecret' => 'google_client_secret',
+                ],
+            ],
+        ],
     ],
     'params' => $params,
 ];

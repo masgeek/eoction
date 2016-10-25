@@ -9,6 +9,8 @@ use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
 
+use app\components\AuthHandler;
+
 use app\models\LoginForm;
 use app\models\ContactForm;
 
@@ -65,7 +67,7 @@ class SiteController extends Controller
     /**
      * @inheritdoc
      */
-    public function actions()
+   /* public function actions()
     {
         return [
             'error' => [
@@ -76,6 +78,34 @@ class SiteController extends Controller
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
+    }*/
+
+    public function actions() {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ],
+            'auth' => [
+                'class' => 'yii\authclient\AuthAction',
+                'successCallback' => [$this, 'oAuthSuccess'],
+            ],
+        ];
+    }
+
+
+    /**
+     * This function will be triggered when user is successfuly authenticated using some oAuth client.
+     *
+     * @param yii\authclient\ClientInterface $client
+     * @return boolean|yii\web\Response
+     */
+    public function oAuthSuccess($client) {
+        // get user data from client
+        $userAttributes = $client->getUserAttributes();
+        //(new AuthHandler($client))->handle();
+        // do some thing with user data. for example with $userAttributes['email']
+        var_dump($userAttributes);
+        die;
     }
 
     /**

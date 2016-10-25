@@ -44,11 +44,26 @@ echo Html::textInput('product_url', $productUrl, ['readonly' => true, 'id' => 'p
 echo Html::textInput('user_id', $userId, ['readonly' => true, 'id' => 'user_id', 'class' => 'hidden']);
 //display the list widget
 echo '<hr/>';
-echo $listviewWidget;
+//echo $listviewWidget;
 
 //register js file
 $this->registerJsFile('@web/js/bidding/bidding-progress.js');
+//$this->registerJsFile('@web/js/bidding/facebook-login.js');
 ?>
+
+<?= yii\authclient\widgets\AuthChoice::widget([
+    'baseAuthUrl' => ['site/auth'],
+    'popupMode' => true,
+]) ?>
+
+<!--
+<div
+    class="fb-like"
+    data-share="true"
+    data-width="450"
+    data-show-faces="true">
+</div>
+-->
 <style>
     .list-wrapper {
         background-color: pink;

@@ -16,12 +16,14 @@ class ComposerStaticInite85c6b1d44aaaac7af36aee3283629c9
         array (
             'yii\\swiftmailer\\' => 16,
             'yii\\jui\\' => 8,
+            'yii\\httpclient\\' => 15,
             'yii\\gii\\' => 8,
             'yii\\faker\\' => 10,
             'yii\\debug\\' => 10,
             'yii\\composer\\' => 13,
             'yii\\codeception\\' => 16,
             'yii\\bootstrap\\' => 14,
+            'yii\\authclient\\' => 15,
             'yii\\' => 4,
         ),
         'r' => 
@@ -31,6 +33,10 @@ class ComposerStaticInite85c6b1d44aaaac7af36aee3283629c9
         'c' => 
         array (
             'cebe\\markdown\\' => 14,
+        ),
+        'a' => 
+        array (
+            'amnah\\yii2\\user\\' => 16,
         ),
         'F' => 
         array (
@@ -46,6 +52,10 @@ class ComposerStaticInite85c6b1d44aaaac7af36aee3283629c9
         'yii\\jui\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-jui',
+        ),
+        'yii\\httpclient\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-httpclient',
         ),
         'yii\\gii\\' => 
         array (
@@ -71,6 +81,10 @@ class ComposerStaticInite85c6b1d44aaaac7af36aee3283629c9
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-bootstrap',
         ),
+        'yii\\authclient\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-authclient',
+        ),
         'yii\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
@@ -82,6 +96,10 @@ class ComposerStaticInite85c6b1d44aaaac7af36aee3283629c9
         'cebe\\markdown\\' => 
         array (
             0 => __DIR__ . '/..' . '/cebe/markdown',
+        ),
+        'amnah\\yii2\\user\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/amnah/yii2-user',
         ),
         'Faker\\' => 
         array (
