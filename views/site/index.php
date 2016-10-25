@@ -18,6 +18,8 @@ $this->title = 'Live Auction';
 $updateUrl = Url::toRoute(['shop/item-update']);
 $biddingUrl = Url::toRoute(['site/place-bid']);
 $productUrl = Url::toRoute(['site/next-item']);
+
+
 $userId = 1;
 //$helper::AddItemsToBidActivity($listDataProvider);
 //BidManager::AddItemsToBidActivity($listDataProvider);

@@ -47,7 +47,7 @@ $bidStartTime = 60;// * $productID; //initial start time for the bid
             <li>Starting Bid <?= $model->PRICE ?></li>
             <li>Discount <?= $discount ?>%</li>
             <li>Shipping <?= $shipping_cost ?></li>
-            <li class="hidden_">
+            <li class="hidden">
                 <input type="text" id="bid_type_<?= $productID; ?>" value="0" readonly="readonly"/>
                 <input type="text" id="bid_placed_<?= $productID; ?>" value="0" readonly="readonly"/>
                 <input type="text" id="product_sku_<?= $productID; ?>" value="<?= $model->SKU; ?>" readonly="readonly"/>
