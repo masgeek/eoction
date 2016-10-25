@@ -10,8 +10,9 @@
 
 
 use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\widgets\Pjax;
+use yii\web\View;
+
+use app\vendor\customhelper\ProductManager;
 
 $imageObject = $model->getSingleImage();
 //$imageA = $imageObject ? $imageObject->IMAGE_URL : 'http://placehold.it/700/c55/fff';
@@ -19,64 +20,57 @@ $imageA = 'http://placehold.it/800/c66/000';
 
 //caclulate ther percentage discount based oneth retail price and the bided amount
 $retail = $model->RETAIL_PRICE;
-$bid = $model->PRICE;
+$starting_bid_price = $model->PRICE;
 
-//if retail = 100 bid
 $userid = yii::$app->user->id ? yii::$app->user->id : 1;
 $sku = $model->SKU;
 
-$discount = 100 - round((($bid * 100) / $retail), 0);
 $bids = 0;
 
 $productID = $model->PRODUCT_ID;
-$bidStartTime = 1000;// * $productID; //initial start time for the bid
 
-$biddingUrl = Url::toRoute(['site/place-bid'])
+$discount = ProductManager::ComputePercentageDiscount($productID);
+$shipping_cost = ProductManager::ComputeShippingCost($productID);
+$bidStartTime = 60;// * $productID; //initial start time for the bid
 ?>
-
-    <div class="col-xs-18 col-sm-4 col-md-3" id="item_box_<?= $productID; ?>"">
-    <ul class="price">
-        <li>
-            <?= Html::img($imageA, [
-                'width' > '200',
-                'id' => 'product_image_' . $productID,
-                'class' => 'img img-responsive',
-                'alt' => $model->PRODUCT_NAME,
-            ]); ?>
-        </li>
-        <li>Starting Bid <?= $model->PRICE; ?></li>
-        <li>Shipping</li>
-        <li class="hidden">
-            <input type="text" id="bid_type_<?= $productID; ?>" value="0" readonly="readonly"/>
-            <input type="text" id="bid_placed_<?= $productID; ?>" value="0" readonly="readonly"/>
-            <input type="text" id="bid_url_<?= $productID; ?>" value="<?= $biddingUrl; ?>" readonly="readonly"/>
-            <input type="text" id="product_sku_<?= $productID; ?>" value="<?= $model->SKU; ?>" readonly="readonly"/>
-            <input type="text" id="user_id" value="1" readonly="readonly"/>
-        </li>
-        <li>
-            <hr/>
-            <!-- progress bar here -->
+    <div class="col-xs-18 col-sm-4 col-md-3" id="item_box_<?= $productID; ?>">
+        <ul class="price">
+            <li>
+                <?= Html::img($imageA, [
+                    'width' > '200',
+                    'id' => 'product_image_' . $productID,
+                    'class' => 'img img-responsive',
+                    'alt' => $model->PRODUCT_NAME,
+                ]); ?>
+            </li>
+            <li>Starting Bid <?= $model->PRICE ?></li>
+            <li><?= $discount ?>%</li>
+            <!--<li>Shipping <?= $shipping_cost ?></li>-->
+            <li class="hidden">
+                <input type="text" id="bid_type_<?= $productID; ?>" value="0" readonly="readonly"/>
+                <input type="text" id="bid_placed_<?= $productID; ?>" value="0" readonly="readonly"/>
+                <input type="text" id="product_sku_<?= $productID; ?>" value="<?= $model->SKU; ?>" readonly="readonly"/>
+            </li>
+            <li>
+                <!--
             <span id="percentComplete<?= $productID ?>"></span>
             <span id="timeRemaining<?= $productID ?>"></span>
-
-            <div class="bidProgress noplacedbids" id="progressBar<?= $productID ?>"></div>
-            <!-- end of progress bar -->
-        </li>
-        <li>
-            <!--<a href="#" class="button">BID NOW</a>-->
-            <?= $bids; ?> Bids
-            <?= Html::button('BID NOW', [
-                'class' => 'btn btn-primary btn-block',
-                //'onclick' => "placeBid($productID,$userid,'$sku');",
-                'id' => "placebid_$productID"
-            ]) ?>
-        </li>
-        <li id="info<?= $productID; ?>"></li>
-    </ul>
+            -->
+                <!-- progress bar here -->
+                <div class="bidProgress noplacedbids" id="progressBar<?= $productID ?>"></div>
+                <!-- end of progress bar -->
+            </li>
+            <li>  <?= $bids; ?> Bids</li>
+            <li>
+                <?= Html::button('BID NOW', [
+                    'class' => 'btn btn-primary btn-block',
+                    'id' => "placebid_$productID"
+                ]) ?>
+            </li>
+            <li id="bid_status_<?= $productID; ?>">Awaiting Bid</li>
+        </ul>
     </div>
 <?php
 $this->registerJs("
-    $(\"document\").ready(function(){
-        setupVelocity($productID,$bidStartTime);
-    });
-");
+   SetupProgressBar($productID,$bidStartTime);
+", View::POS_READY);

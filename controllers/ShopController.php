@@ -45,6 +45,14 @@ class ShopController extends Controller
         ];
     }
 
+    public function actionItemUpdate($product_id, $sku)
+    {
+        //lets fetch the auction details of a product
+        //number of bids
+        //current bid price
+        echo json_encode(date('Y-m-d'));
+    }
+
     //entry page
     public function actionIndex()
     {

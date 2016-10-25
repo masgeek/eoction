@@ -14,6 +14,8 @@ use app\models\ContactForm;
 
 use app\models\BidActivity;
 use app\module\products\models\Products;
+use app\vendor\customhelper\BidManager;
+use app\vendor\customhelper\ProductManager;
 
 class SiteController extends Controller
 {
@@ -88,20 +90,28 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        $item_array = BidManager::GetExclusionItems();
         $dataProvider = new ActiveDataProvider([
-            'query' => Products::find()->where(['ALLOW_AUCTION' => 1])->orderBy('PRODUCT_ID ASC'),
+            'query' => Products::find()
+                ->where(['ALLOW_AUCTION' => 1,])
+                ->andWhere(['>=', 'CURRENT_STOCK_LEVEL', 1])//stock levels should be greater or equal to 1
+                ->andWhere(['NOT IN', 'SKU', $item_array])
+                ->orderBy(['rand()' => SORT_DESC]),
+            //->orderBy('PRODUCT_ID ASC')->limit(12),
             'pagination' => [
-                'pageSize' => 8,
+                'pageSize' => 12
             ],
         ]);
 
-        $this->view->title = 'Posts List';
+
+        $this->view->title = 'Live Auction';
         return $this->render('index', ['listDataProvider' => $dataProvider]);
     }
 
     public function actionNextItem()
     {
-        return $this->render('_product_view', ['response' => date('Y-M-d')]);
+        $nextItem = BidManager::GetNextItemToBid();
+        print_r(json_encode($nextItem));
     }
 
     /**
@@ -112,7 +122,9 @@ class SiteController extends Controller
      */
     public function actionPlaceBid($id, $user_id, $sku)
     {
-        $resp = [];
+        $resp = [
+            'success' => false
+        ];
         $activitycount = 1; //this counts the number of activities for the product
         $bidactivity = BidActivity::findOne(['PRODUCT_SKU' => $sku]);
 
@@ -130,20 +142,27 @@ class SiteController extends Controller
             //save the data
             if ($model->save()) {
                 //no need to alert user return indicator so that we can switch to auction countdown
+
+                //track the bid
+                BidManager::TrackUsersBids($user_id, $id, $sku);
                 $resp = [
                     'msg' => 'Bid placed successfully',
-                    'success' => true
+                    'success' => true,
+                    'product_id' => $model->PRODUCT_ID,
+                    'sku' => $model->PRODUCT_SKU,
+                    'bid_price' => BidManager::GetMaxBidAmount($model->PRODUCT_ID),
+                    'discount' => ProductManager::ComputePercentageDiscount($model->PRODUCT_ID)
                 ];
             } else {
                 //alert user
                 $resp = [
                     'msg' => $model->getErrors(),
-                    'success' => false
+                    'success' => false,
                 ];
             }
         } else {
             //update the existing record
-            // get eth last activity count
+            // get the last activity count
             $activitycount = (int)$bidactivity->ACTIVITY_COUNT;
             //now inrement it by one and save it back
             $bidactivity->ACTIVITY_COUNT = $activitycount + 1;
@@ -151,16 +170,21 @@ class SiteController extends Controller
             //save the data
             if ($bidactivity->save()) {
                 //no need to alert user return indicator so that we can swithc to auction countdown
-                //alert user
+                //track the bid per user
+                BidManager::TrackUsersBids($user_id, $id, $sku);
                 $resp = [
                     'msg' => 'Bid updated successfully',
-                    'success' => true
+                    'success' => true,
+                    'product_id' => $bidactivity->PRODUCT_ID,
+                    'sku' => $bidactivity->PRODUCT_SKU,
+                    'bid_price' => BidManager::GetMaxBidAmount($bidactivity->PRODUCT_ID),
+                    'discount' => ProductManager::ComputePercentageDiscount($bidactivity->PRODUCT_ID)
                 ];
             } else {
                 //alert user
                 $resp = [
                     'msg' => $bidactivity->getErrors(),
-                    'success' => false
+                    'success' => false,
                 ];
             }
         }
