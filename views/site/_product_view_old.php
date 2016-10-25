@@ -33,7 +33,6 @@ $discount = ProductManager::ComputePercentageDiscount($productID);
 $shipping_cost = ProductManager::ComputeShippingCost($productID);
 $bidStartTime = 60;// * $productID; //initial start time for the bid
 ?>
-
     <div class="col-xs-18 col-sm-4 col-md-3" id="item_box_<?= $productID; ?>">
         <ul class="price">
             <li>
@@ -45,8 +44,8 @@ $bidStartTime = 60;// * $productID; //initial start time for the bid
                 ]); ?>
             </li>
             <li>Starting Bid <?= $model->PRICE ?></li>
-            <li>Discount <?= $discount ?>%</li>
-            <li>Shipping <?= $shipping_cost ?></li>
+            <li><?= $discount ?>%</li>
+            <!--<li>Shipping <?= $shipping_cost ?></li>-->
             <li class="hidden">
                 <input type="text" id="bid_type_<?= $productID; ?>" value="0" readonly="readonly"/>
                 <input type="text" id="bid_placed_<?= $productID; ?>" value="0" readonly="readonly"/>
