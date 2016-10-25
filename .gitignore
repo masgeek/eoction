@@ -21,10 +21,16 @@ tests
 test
 testgit
 doc
+docs
 nuget
 src
-
+codeception
+vendor/guzzlehttp/guzzle/build/
+vendor/yiisoft/yii2/console/runtime/
+phpunit
 #assets/*
+yii2-debug
+yii2-gii
 
 # composer itself is not needed
 composer.phar
