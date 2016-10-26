@@ -206,7 +206,7 @@ function FetchNextItem($previous_product_id) {
             //remove the initial product box
             $productBox.fadeOut(1500, function () {
                 $(this).remove();
-                $('#product_list').append(data.html_data);
+                $('#product_list').prepend(data.html_data);
                 $('.fadein').fadeIn(2000);
                 //scroll to the top
                 $("html, body").animate({scrollTop: 0}, "slow");
