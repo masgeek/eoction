@@ -32,7 +32,7 @@
     border-color: #999999;
 }
 .offer-default .shape{
-    /*border-color: transparent #999999 transparent transparent;*/
+    border-color: transparent #999999 transparent transparent;
 }
 
 .shape-text{
@@ -76,7 +76,17 @@
 }
 /* List items */
 .price li {
-    /*border-bottom: 1px solid #eee;*/
-    padding: 2px;
+    border-bottom: 1px solid #eee;
+    padding: 10px;
     text-align: center;
+}
+
+/* fonmt stuff */
+.bidding-price{
+    font-size: 1.6em;
+}
+.retail-price{
+    font-size: 1.2em;
+    color:red;
+    text-decoration: line-through;
 }

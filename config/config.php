@@ -79,6 +79,16 @@ $config = [
             ],
         ],
 
+        //formatting class
+        'formatter' => [
+            'class' => 'yii\i18n\Formatter',
+            'dateFormat' => 'dd.MM.yyyy',
+            'decimalSeparator' => '.',
+            'thousandSeparator' => ',',
+            'currencyCode' => 'USD',
+            'nullDisplay' => '0',
+        ],
+
         //yii2 authclient
         'authClientCollection' => [
             'class' => 'yii\authclient\Collection',

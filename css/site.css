@@ -1,7 +1,8 @@
 html,
 body {
     height: 100%;
-    font-family: "Roboto", sans-serif;
+    /*font-family: "Roboto", sans-serif;*/
+    font-family: 'Josefin Sans', sans-serif;
     padding-top: 30px;
     margin-top: 30px;
 }
@@ -138,9 +139,3 @@ a.desc:after {
 .product-image{
     cursor: pointer;
 }
-
-/* progress bar */
-.pbar .ui-progressbar-value {display:block !important}
-.pbar {overflow: hidden}
-.percent {position:relative;text-align: right;}
-.elapsed {position:relative;text-align: right;}
