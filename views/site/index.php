@@ -1,88 +1,108 @@
-<ul class="products pcols-lg-5 pcols-md-4 pcols-xs-2 pcols-ls-1 pwidth-lg-5 pwidth-md-4 pwidth-xs-2 pwidth-ls-1">
-    <li class="show-wq-onimage product-first pcols-lg-first pcols-md-first pcols-xs-first post-18510 product type-product status-publish has-post-thumbnail product_cat-auctions product_cat-necklace product_shipping_class-200 first instock sale sold-individually shipping-taxable purchasable product-type-auction">
-        <div class="product-image">
-            <a href="http://www.eoction.com/" class="quickview" data-id="18510" "="">
-            <div class="labels">
-                <div class="onsale">-67%</div>
-                <div data-link="http://www.eoction.com/cart-2/" class="viewcart  viewcart-18510"
-                     title="View Cart"></div>
-            </div>
-            <div class="inner">
-                <img width="500" height="500" src="http://placehold.it/500/c66/000"></div>
-            <span class="auction-bage"></span>
-            </a>
+<?php
+/**
+ *
+ * @var \yii\data\ActiveDataProvider $listDataProvider
+ */
 
-            <div class="links-on-image">
-                <div class="add-links-wrap">
-                    <div class="add-links  clearfix">
-                        <a rel="nofollow" href="#" class="button product_type_auction add_to_cart_button">Bid now</a>
-                        <div class="clear"></div>
-                        <div class="quickview" data-id="18510" title="Quick View">Quick View</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <h3>2.91Ct Blue Topaz &amp; Black Spinel Necklaces Sterling Silver W/18″</h3>
+use yii\widgets\ListView;
+use yii\helpers\Url;
+use yii\helpers\Html;
 
-        <span class="price">
-                <span class="auction-price"
-                      data-auction-id="18510" data-bid=""
-                      data-status="running">
-                <span
-                    class="current auction">Starting bid:</span>
-                <span
-                    class="woocommerce-Price-amount amount">
-                <span
-                    class="woocommerce-Price-currencySymbol">$</span>20
-                </span>
-                </span>
-        </span>
-        <div>Shipping: $5</div>
-        <span class="time-left">Time left</span>
-        <div class="auction-time-countdown hasCountdown" data-time="1475884800" data-auctionid="18510"
-             data-format="HMS"><span class="countdown_row countdown_show3"><span class="countdown_section"><span
-                        class="countdown_amount">36</span><br>Hours</span><span class="countdown_section"><span
-                        class="countdown_amount">26</span><br>Minutes</span><span class="countdown_section"><span
-                        class="countdown_amount">17</span><br>Seconds</span></span></div>
-        0 Bid
-        <div class="timerwrapper">
-            <div class="shrinking"></div>
-        </div>
-        <br>
+use app\vendor\customhelper\BidManager;
 
-        <div class="add-links-wrap">
-            <div class="add-links  clearfix">
-                <a rel="nofollow"
-                   href="http://www.eoction.com/product/2-91ct-blue-topaz-black-spinel-necklaces-sterling-silver-w18/"
-                   data-quantity="1" data-product_id="18510" data-product_sku="I-CSP3019BUTOPBLP-WSL"
-                   class="button product_type_auction add_to_cart_button">Bid now</a>
-                <div class="yith-wcwl-add-to-wishlist add-to-wishlist-18510">
-                    <div class="yith-wcwl-add-button show" style="display:block">
-                        <a href="http://www.eoction.com/?add_to_wishlist=18510" rel="nofollow" data-product-id="18510"
-                           data-product-type="auction" class="add_to_wishlist">
-                            Add to Wishlist</a>
-                        <span class="ajax-loading"></span>
-                    </div>
-                    <div class="yith-wcwl-wishlistaddedbrowse hide" style="display:none;">
-                        <span class="feedback">Product added!</span>
-                        <a href="http://www.eoction.com/wishlist/view/" rel="nofollow">
-                            Browse Wishlist </a>
-                    </div>
+//var_dump($listDataProvider);
 
-                    <div class="yith-wcwl-wishlistexistsbrowse hide" style="display:none">
-                        <span class="feedback">The product is already in the wishlist!</span>
-                        <a href="http://www.eoction.com/wishlist/view/" rel="nofollow">
-                            Browse Wishlist </a>
-                    </div>
+//set page title
+$this->title = 'Live Auction';
 
-                    <div style="clear:both"></div>
-                    <div class="yith-wcwl-wishlistaddresponse"></div>
+//register js file
+$this->registerJsFile('@web/js/bidding/bidding-progress.js');
+//$this->registerJsFile('@web/js/bidding/facebook-login.js');
 
-                </div>
+$updateUrl = Url::toRoute(['shop/item-update']);
+$biddingUrl = Url::toRoute(['site/place-bid']);
+$productUrl = Url::toRoute(['site/next-item']);
 
-                <div class="clear"></div>
-                <div class="quickview" data-id="18510" title="Quick View">Quick View</div>
-            </div>
-        </div>
-    </li>
-</ul>
+
+$userId = 1;
+//$helper::AddItemsToBidActivity($listDataProvider);
+//BidManager::AddItemsToBidActivity($listDataProvider);
+//BidManager::RemoveItemsFromBidActivity('NHQ-J272582011000');
+//show the products list default is 4x2
+$listviewWidget = ListView::widget([
+    'dataProvider' => $listDataProvider,
+    'options' => [
+        'tag' => 'div',
+        'class' => 'list-wrapper',
+        'id' => 'product_list',
+    ],
+    'layout' => "{items}",
+    //'layout' => "{pager}\n{items}\n{summary}",
+    //'itemView' => '_product_view_old',
+    'itemView' => 'product_box',
+]);
+//static text fields
+?>
+
+<?= Html::textInput('update_url', $updateUrl, ['readonly' => true, 'id' => 'update_url', 'class' => 'hidden']) ?>
+<?= Html::textInput('bid_url', $biddingUrl, ['readonly' => true, 'id' => 'bid_url', 'class' => 'hidden']) ?>
+<?= Html::textInput('product_url', $productUrl, ['readonly' => true, 'id' => 'product_url', 'class' => 'hidden']) ?>
+<?= Html::textInput('user_id', $userId, ['readonly' => true, 'id' => 'user_id', 'class' => 'hidden']) ?>
+
+<div class="col-md-10 col-md-offset-1">
+<?= $listviewWidget ?>
+    </div>
+
+
+<!--= yii\authclient\widgets\AuthChoice::widget([
+    'baseAuthUrl' => ['site/auth'],
+    'popupMode' => true,
+]) ?-->
+
+<!--
+<div
+    class="fb-like"
+    data-share="true"
+    data-width="450"
+    data-show-faces="true">
+</div>
+-->
+<style>
+    .list-wrapper {
+        background-color: pink;
+    }
+
+    .bidProgress {
+        width: 100%;
+        height: 10px;
+    }
+
+    .noplacedbids {
+        background-color: purple;
+    }
+
+    .awaitingbid {
+        background-color: #42e83e;
+    }
+
+    .goingonce {
+        background-color: #ffb020;
+    }
+
+    .goingtwice {
+        background-color: #fb0000;
+    }
+
+    .bidwon {
+        background-color: #0000aa;
+    }
+
+    .nextbid {
+        background-color: #0000aa;
+    }
+
+    .fadein {
+        display: none;
+    }
+</style>
+

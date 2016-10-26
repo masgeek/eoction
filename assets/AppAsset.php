@@ -23,12 +23,12 @@ class AppAsset extends AssetBundle
         'css/products.css',
         'css/social-icons/social-icons.css',
         //'js/jquery.asprogress/css/asProgress.css',
-        'css/theme-shop.css',
+        /*'css/theme-shop.css',
         'css/theme-elements.css',
         'css/ultimate.css',
         'css/style-2.css',
         'css/skin-1.css',
-        'css/js_composer.min.css',
+        'css/js_composer.min.css',*/
         //'js/timercircles/inc/TimeCircles.css',
     ];
 
