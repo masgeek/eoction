@@ -78,27 +78,29 @@ $listviewWidget = ListView::widget([
     }
 
     .noplacedbids {
-        background-color: purple;
+        /*background-color: purple;*/
+        background-image: linear-gradient(to right, #f00439, #f28d0d);
     }
 
     .awaitingbid {
-        background-color: #42e83e;
+        /*background-color: #42e83e;*/
+        background-image: linear-gradient(to right, #f0472a, #f26912);
     }
 
     .goingonce {
-        background-color: #ffb020;
+        background-image: linear-gradient(to right, #f02d10, #f2102d);
     }
 
     .goingtwice {
-        background-color: #fb0000;
+        background-image: linear-gradient(to right, #f00439, #f28d0d);
     }
 
     .bidwon {
-        background-color: #0000aa;
+        background-image: linear-gradient(to right, #f00439, #f28d0d);
     }
 
     .nextbid {
-        background-color: #0000aa;
+        background-image: linear-gradient(to right, #f00439, #f28d0d);
     }
 
     .fadein {

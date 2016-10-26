@@ -18,7 +18,7 @@ $formatter = \Yii::$app->formatter;
 
 $imageObject = $model->getSingleImage();
 //$imageA = $imageObject ? $imageObject->IMAGE_URL : 'http://placehold.it/700/c55/fff';
-$imageA = 'http://placehold.it/800/c66/000';
+$imageA = 'http://placehold.it/500/c66/000';
 
 //caclulate ther percentage discount based oneth retail price and the bided amount
 $starting_bid_price = $model->PRICE;
@@ -31,9 +31,10 @@ $bids = 0;
 $productID = $model->PRODUCT_ID;
 
 $discount = ProductManager::ComputePercentageDiscount($productID);
-$shipping_cost = ProductManager::ComputeShippingCost($productID);
+$shipping = ProductManager::ComputeShippingCost($productID);
 $bidStartTime = 60;// * $productID; //initial start time for the bid
 
+$shipping_cost = $formatter->asCurrency($shipping);
 $retail_price = $formatter->asCurrency($model->RETAIL_PRICE);
 $starting_bid_price = $formatter->asCurrency($model->PRICE);
 ?>
@@ -45,14 +46,23 @@ $starting_bid_price = $formatter->asCurrency($model->PRICE);
             <span class="shape-text quickview"><i class="fa fa-eye "></i> Quick View</span>
         </div>
         <div class="offer-content">
-            <img src="http://placehold.it/500/c66/000" class="img img-responsive">
+            <?= Html::img($imageA, [
+                'id' => 'product_image_' . $productID,
+                'class' => 'img img-responsive',
+                'alt' => $model->PRODUCT_NAME,
+            ]); ?>
             <ul class="price">
+                <li class="hidden">
+                    <input type="text" id="bid_type_<?= $productID; ?>" value="0" readonly="readonly"/>
+                    <input type="text" id="bid_placed_<?= $productID; ?>" value="0" readonly="readonly"/>
+                    <input type="text" id="product_sku_<?= $productID; ?>" value="<?= $model->SKU; ?>" readonly="readonly"/>
+                </li>
                 <li>
                     <h1 class="bidding-price">Starting Bid: <?= $starting_bid_price ?></h1>
                     <small class="retail-price"><?=$retail_price;?></small>
                 </li>
-                <li>Shipping 5%</li>
-                <li>1 Bid</li>
+                <li>Shipping <?=$shipping_cost?></li>
+                <li><?=$bids?> Bid</li>
                 <li>
                     <!-- progress bar here -->
                     <div class="bidProgress noplacedbids" id="progressBar<?= $productID ?>"></div>
@@ -67,4 +77,11 @@ $starting_bid_price = $formatter->asCurrency($model->PRICE);
         </div>
     </div>
 </div>
+
+<!-- start the script -->
+<?php
+$this->registerJs("
+   SetupProgressBar($productID,$bidStartTime);
+", View::POS_READY)
+?>
 
