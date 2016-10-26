@@ -44,7 +44,7 @@ echo Html::textInput('product_url', $productUrl, ['readonly' => true, 'id' => 'p
 echo Html::textInput('user_id', $userId, ['readonly' => true, 'id' => 'user_id', 'class' => 'hidden']);
 //display the list widget
 echo '<hr/>';
-//echo $listviewWidget;
+echo $listviewWidget;
 
 //register js file
 $this->registerJsFile('@web/js/bidding/bidding-progress.js');

@@ -7,6 +7,9 @@ $config = [
     'name' => 'eOction',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'aliases' => [
+        '@bower' => 'vendor/bower-asset',
+    ],
     /* modules*/
     'modules' => [
         'product' => [
