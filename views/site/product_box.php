@@ -39,7 +39,7 @@ $retail_price = $formatter->asCurrency($model->RETAIL_PRICE);
 $starting_bid_price = $formatter->asCurrency($model->PRICE);
 ?>
 
-<div class="col-xs-18 col-sm-4 col-md-3">
+<div class="col-xs-18 col-sm-4 col-md-3" id="item_box_<?= $productID; ?>">
     <div class="offer offer-default">
         <div class="shape">
             <span class="shape-text"><?= $discount ?>%</span>
