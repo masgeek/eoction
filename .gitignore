@@ -24,6 +24,7 @@ doc
 docs
 nuget
 src
+extras
 codeception
 vendor/guzzlehttp/guzzle/build/
 vendor/yiisoft/yii2/console/runtime/
