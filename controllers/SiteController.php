@@ -16,8 +16,8 @@ use app\models\ContactForm;
 
 use app\models\BidActivity;
 use app\module\products\models\Products;
-use app\vendor\customhelper\BidManager;
-use app\vendor\customhelper\ProductManager;
+use app\components\BidManager;
+use app\components\ProductManager;
 
 class SiteController extends Controller
 {

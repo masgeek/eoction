@@ -6,7 +6,7 @@
  * Time: 15:12
  */
 
-namespace app\vendor\customhelper;
+namespace app\components;
 
 use yii\db\Expression;
 use yii\helpers\Html;

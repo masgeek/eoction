@@ -12,7 +12,7 @@
 use yii\helpers\Html;
 use yii\web\View;
 
-use app\vendor\customhelper\ProductManager;
+use app\components\ProductManager;
 
 $imageObject = $model->getSingleImage();
 //$imageA = $imageObject ? $imageObject->IMAGE_URL : 'http://placehold.it/700/c55/fff';

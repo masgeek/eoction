@@ -27,7 +27,7 @@ src
 codeception
 vendor/guzzlehttp/guzzle/build/
 vendor/yiisoft/yii2/console/runtime/
-phpunit
+#phpunit
 #assets/*
 yii2-debug
 yii2-gii
