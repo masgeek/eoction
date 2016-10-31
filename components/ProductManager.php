@@ -47,4 +47,9 @@ class ProductManager
         }
         return $shipping_cost;
     }
+
+    public static function GetNumberOfBids($product_id)
+    {
+        return 10;
+    }
 }

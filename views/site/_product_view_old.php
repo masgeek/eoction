@@ -53,9 +53,9 @@ $bidStartTime = 60;// * $productID; //initial start time for the bid
             </li>
             <li>
                 <!--
-            <span id="percentComplete<?= $productID ?>"></span>
-            <span id="timeRemaining<?= $productID ?>"></span>
-            -->
+                    <span id="percentComplete<?= $productID ?>"></span>
+                    <span id="timeRemaining<?= $productID ?>"></span>
+                -->
                 <!-- progress bar here -->
                 <div class="bidProgress noplacedbids" id="progressBar<?= $productID ?>"></div>
                 <!-- end of progress bar -->

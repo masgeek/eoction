@@ -181,7 +181,8 @@ class SiteController extends Controller
                     'product_id' => $model->PRODUCT_ID,
                     'sku' => $model->PRODUCT_SKU,
                     'bid_price' => BidManager::GetMaxBidAmount($model->PRODUCT_ID),
-                    'discount' => ProductManager::ComputePercentageDiscount($model->PRODUCT_ID)
+                    'discount' => ProductManager::ComputePercentageDiscount($model->PRODUCT_ID),
+                    'bid_count'=>ProductManager::GetNumberOfBids($model->PRODUCT_ID)
                 ];
             } else {
                 //alert user
@@ -208,7 +209,8 @@ class SiteController extends Controller
                     'product_id' => $bidactivity->PRODUCT_ID,
                     'sku' => $bidactivity->PRODUCT_SKU,
                     'bid_price' => BidManager::GetMaxBidAmount($bidactivity->PRODUCT_ID),
-                    'discount' => ProductManager::ComputePercentageDiscount($bidactivity->PRODUCT_ID)
+                    'discount' => ProductManager::ComputePercentageDiscount($bidactivity->PRODUCT_ID),
+                    'bid_count'=>ProductManager::GetNumberOfBids($bidactivity->PRODUCT_ID)
                 ];
             } else {
                 //alert user

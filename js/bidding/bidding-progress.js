@@ -60,6 +60,8 @@ function changeClasses($classtoSet, $element) {
 function TriggerProgressBar($productid, $sku, $bid_start_time) {
     var bidType = $('#bid_type_' + $productid);
     var text = "Accepting Bids";
+    var bidCount = $('#bid_count_' + $productid);
+    var bidsPlaced = $('#bids_placed_' + $productid);
     var progressBar = $('#progressBar' + $productid);
     var bidStatusText = $('#bid_status_' + $productid);
     var placebid = $('#placebid_' + $productid);
@@ -159,11 +161,12 @@ function placeBid($product_id, $sku) {
     //return;
     var $bidUrl = $('#bid_url').val();
     var $user_id = $('#user_id').val();
-
-    /* console.log($bidUrl);
+    var bidCount = $('#bid_count_' + $product_id);
+    var bidsPlaced = $('#bids_placed_' + $product_id);
+     console.log($bidUrl);
      console.log($user_id);
      console.log($sku);
-     return 0;*/
+     //return 0;
 
     $.ajax({
         url: $bidUrl,
@@ -171,22 +174,24 @@ function placeBid($product_id, $sku) {
             id: $product_id,
             sku: $sku,
             user_id: $user_id,
-            format: 'json'
+            //format: 'json'
         },
         error: function () {
             $('#info').html('<p>An error has occurred</p>');
         },
-        dataType: 'jsonp',
+        dataType: 'json',
         before: function (data) {
             //stop the minute bid bar first
             //$('#progress' + $product_id).asProgress('stop');
         },
         success: function (data) {
-            var $title = $('<h1>').text(data.talks[0].talk_title);
+            /*var $title = $('<h1>').text(data.talks[0].talk_title);
             var $description = $('<p>').text(data.talks[0].talk_description);
             $('#info' + $product_id)
                 .append($title)
-                .append($description);
+                .append($description);*/
+            bidsPlaced.html(data.bid_count);
+            
         },
         type: 'GET'
     });
@@ -234,6 +239,8 @@ setInterval(function () {
     var updateUrl = $('#update_url').val();
 
     $.get(updateUrl, {product_id: 1, sku: 1}, function (data) {
-        console.log(updateUrl);
+        var $bid_count = data.BID_COUNT;
+        var $new_bid_price = data.BID_PRICE;
+        console.log(data);
     });
-}, 50000);
+}, 15000);

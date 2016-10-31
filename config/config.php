@@ -10,7 +10,7 @@ $config = [
     'aliases' => [
         '@bower' => 'vendor/bower-asset',
     ],
-    /* modules*/
+    /* modules */
     'modules' => [
         'product' => [
             'class' => 'app\module\products\product',
