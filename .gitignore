@@ -43,3 +43,6 @@ composer.phar
 phpunit.phar
 # local phpunit config
 /phpunit.xml
+vendor/bower-asset/velocity/.bower.json
+vendor/ezyang/htmlpurifier/TODO
+vendor/ezyang/htmlpurifier/plugins/phorum/htmlpurifier/
