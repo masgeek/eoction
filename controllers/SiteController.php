@@ -9,13 +9,15 @@ use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
 
+use app\components\AuthHandler;
+
 use app\models\LoginForm;
 use app\models\ContactForm;
 
 use app\models\BidActivity;
 use app\module\products\models\Products;
-use app\vendor\customhelper\BidManager;
-use app\vendor\customhelper\ProductManager;
+use app\components\BidManager;
+use app\components\ProductManager;
 
 class SiteController extends Controller
 {
@@ -65,7 +67,7 @@ class SiteController extends Controller
     /**
      * @inheritdoc
      */
-    public function actions()
+   /* public function actions()
     {
         return [
             'error' => [
@@ -76,6 +78,34 @@ class SiteController extends Controller
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
+    }*/
+
+    public function actions() {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ],
+            'auth' => [
+                'class' => 'yii\authclient\AuthAction',
+                'successCallback' => [$this, 'oAuthSuccess'],
+            ],
+        ];
+    }
+
+
+    /**
+     * This function will be triggered when user is successfuly authenticated using some oAuth client.
+     *
+     * @param yii\authclient\ClientInterface $client
+     * @return boolean|yii\web\Response
+     */
+    public function oAuthSuccess($client) {
+        // get user data from client
+        $userAttributes = $client->getUserAttributes();
+        //(new AuthHandler($client))->handle();
+        // do some thing with user data. for example with $userAttributes['email']
+        var_dump($userAttributes);
+        die;
     }
 
     /**
@@ -99,7 +129,7 @@ class SiteController extends Controller
                 ->orderBy(['rand()' => SORT_DESC]),
             //->orderBy('PRODUCT_ID ASC')->limit(12),
             'pagination' => [
-                'pageSize' => 12
+                'pageSize' => 8
             ],
         ]);
 
@@ -151,7 +181,8 @@ class SiteController extends Controller
                     'product_id' => $model->PRODUCT_ID,
                     'sku' => $model->PRODUCT_SKU,
                     'bid_price' => BidManager::GetMaxBidAmount($model->PRODUCT_ID),
-                    'discount' => ProductManager::ComputePercentageDiscount($model->PRODUCT_ID)
+                    'discount' => ProductManager::ComputePercentageDiscount($model->PRODUCT_ID),
+                    'bid_count'=>ProductManager::GetNumberOfBids($model->PRODUCT_ID)
                 ];
             } else {
                 //alert user
@@ -178,7 +209,8 @@ class SiteController extends Controller
                     'product_id' => $bidactivity->PRODUCT_ID,
                     'sku' => $bidactivity->PRODUCT_SKU,
                     'bid_price' => BidManager::GetMaxBidAmount($bidactivity->PRODUCT_ID),
-                    'discount' => ProductManager::ComputePercentageDiscount($bidactivity->PRODUCT_ID)
+                    'discount' => ProductManager::ComputePercentageDiscount($bidactivity->PRODUCT_ID),
+                    'bid_count'=>ProductManager::GetNumberOfBids($bidactivity->PRODUCT_ID)
                 ];
             } else {
                 //alert user

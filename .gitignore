@@ -21,10 +21,17 @@ tests
 test
 testgit
 doc
+docs
 nuget
 src
-
+extras
+codeception
+vendor/guzzlehttp/guzzle/build/
+vendor/yiisoft/yii2/console/runtime/
+#phpunit
 #assets/*
+yii2-debug
+yii2-gii
 
 # composer itself is not needed
 composer.phar
@@ -36,3 +43,4 @@ composer.phar
 phpunit.phar
 # local phpunit config
 /phpunit.xml
+

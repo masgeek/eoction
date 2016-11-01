@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInite85c6b1d44aaaac7af36aee3283629c9
+class ComposerStaticInit06d9667270d3c595a8c51bd9a509915a
 {
     public static $files = array (
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
@@ -16,12 +16,13 @@ class ComposerStaticInite85c6b1d44aaaac7af36aee3283629c9
         array (
             'yii\\swiftmailer\\' => 16,
             'yii\\jui\\' => 8,
+            'yii\\httpclient\\' => 15,
             'yii\\gii\\' => 8,
             'yii\\faker\\' => 10,
             'yii\\debug\\' => 10,
             'yii\\composer\\' => 13,
-            'yii\\codeception\\' => 16,
             'yii\\bootstrap\\' => 14,
+            'yii\\authclient\\' => 15,
             'yii\\' => 4,
         ),
         'r' => 
@@ -31,6 +32,10 @@ class ComposerStaticInite85c6b1d44aaaac7af36aee3283629c9
         'c' => 
         array (
             'cebe\\markdown\\' => 14,
+        ),
+        'a' => 
+        array (
+            'amnah\\yii2\\user\\' => 16,
         ),
         'F' => 
         array (
@@ -46,6 +51,10 @@ class ComposerStaticInite85c6b1d44aaaac7af36aee3283629c9
         'yii\\jui\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-jui',
+        ),
+        'yii\\httpclient\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-httpclient',
         ),
         'yii\\gii\\' => 
         array (
@@ -63,13 +72,13 @@ class ComposerStaticInite85c6b1d44aaaac7af36aee3283629c9
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-composer',
         ),
-        'yii\\codeception\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/yiisoft/yii2-codeception',
-        ),
         'yii\\bootstrap\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-bootstrap',
+        ),
+        'yii\\authclient\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-authclient',
         ),
         'yii\\' => 
         array (
@@ -82,6 +91,10 @@ class ComposerStaticInite85c6b1d44aaaac7af36aee3283629c9
         'cebe\\markdown\\' => 
         array (
             0 => __DIR__ . '/..' . '/cebe/markdown',
+        ),
+        'amnah\\yii2\\user\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/amnah/yii2-user',
         ),
         'Faker\\' => 
         array (
@@ -109,9 +122,9 @@ class ComposerStaticInite85c6b1d44aaaac7af36aee3283629c9
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInite85c6b1d44aaaac7af36aee3283629c9::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInite85c6b1d44aaaac7af36aee3283629c9::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInite85c6b1d44aaaac7af36aee3283629c9::$prefixesPsr0;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit06d9667270d3c595a8c51bd9a509915a::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit06d9667270d3c595a8c51bd9a509915a::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit06d9667270d3c595a8c51bd9a509915a::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }

@@ -8,10 +8,13 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use app\assets\FontAssets;
+use app\assets\BowerAsset;
 use yii\base\Controller;
 
 AppAsset::register($this);
-\app\assets\BowerAsset::register($this);
+BowerAsset::register($this);
+FontAssets::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

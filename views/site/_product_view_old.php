@@ -12,7 +12,7 @@
 use yii\helpers\Html;
 use yii\web\View;
 
-use app\vendor\customhelper\ProductManager;
+use app\components\ProductManager;
 
 $imageObject = $model->getSingleImage();
 //$imageA = $imageObject ? $imageObject->IMAGE_URL : 'http://placehold.it/700/c55/fff';
@@ -53,9 +53,9 @@ $bidStartTime = 60;// * $productID; //initial start time for the bid
             </li>
             <li>
                 <!--
-            <span id="percentComplete<?= $productID ?>"></span>
-            <span id="timeRemaining<?= $productID ?>"></span>
-            -->
+                    <span id="percentComplete<?= $productID ?>"></span>
+                    <span id="timeRemaining<?= $productID ?>"></span>
+                -->
                 <!-- progress bar here -->
                 <div class="bidProgress noplacedbids" id="progressBar<?= $productID ?>"></div>
                 <!-- end of progress bar -->

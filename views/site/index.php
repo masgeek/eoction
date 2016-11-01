@@ -15,6 +15,10 @@ use app\vendor\customhelper\BidManager;
 //set page title
 $this->title = 'Live Auction';
 
+//register js file
+$this->registerJsFile('@web/js/bidding/bidding-progress.js');
+//$this->registerJsFile('@web/js/bidding/facebook-login.js');
+
 $updateUrl = Url::toRoute(['shop/item-update']);
 $biddingUrl = Url::toRoute(['site/place-bid']);
 $productUrl = Url::toRoute(['site/next-item']);
@@ -34,21 +38,35 @@ $listviewWidget = ListView::widget([
     ],
     'layout' => "{items}",
     //'layout' => "{pager}\n{items}\n{summary}",
-    'itemView' => '_product_view_old',
+    //'itemView' => '_product_view_old',
+    'itemView' => 'product_box',
 ]);
-
 //static text fields
-echo Html::textInput('update_url', $updateUrl, ['readonly' => true, 'id' => 'update_url', 'class' => 'hidden']);
-echo Html::textInput('bid_url', $biddingUrl, ['readonly' => true, 'id' => 'bid_url', 'class' => 'hidden']);
-echo Html::textInput('product_url', $productUrl, ['readonly' => true, 'id' => 'product_url', 'class' => 'hidden']);
-echo Html::textInput('user_id', $userId, ['readonly' => true, 'id' => 'user_id', 'class' => 'hidden']);
-//display the list widget
-echo '<hr/>';
-echo $listviewWidget;
-
-//register js file
-$this->registerJsFile('@web/js/bidding/bidding-progress.js');
 ?>
+
+<?= Html::textInput('update_url', $updateUrl, ['readonly' => true, 'id' => 'update_url', 'class' => 'hidden']) ?>
+<?= Html::textInput('bid_url', $biddingUrl, ['readonly' => true, 'id' => 'bid_url', 'class' => 'hidden']) ?>
+<?= Html::textInput('product_url', $productUrl, ['readonly' => true, 'id' => 'product_url', 'class' => 'hidden']) ?>
+<?= Html::textInput('user_id', $userId, ['readonly' => true, 'id' => 'user_id', 'class' => 'hidden']) ?>
+
+<div class="col-md-10 col-md-offset-1">
+<?= $listviewWidget ?>
+    </div>
+
+
+<!--= yii\authclient\widgets\AuthChoice::widget([
+    'baseAuthUrl' => ['site/auth'],
+    'popupMode' => true,
+]) ?-->
+
+<!--
+<div
+    class="fb-like"
+    data-share="true"
+    data-width="450"
+    data-show-faces="true">
+</div>
+-->
 <style>
     .list-wrapper {
         background-color: pink;
@@ -60,27 +78,29 @@ $this->registerJsFile('@web/js/bidding/bidding-progress.js');
     }
 
     .noplacedbids {
-        background-color: purple;
+        /*background-color: purple;*/
+        background-image: linear-gradient(to right, #f00439, #f28d0d);
     }
 
     .awaitingbid {
-        background-color: #42e83e;
+        /*background-color: #42e83e;*/
+        background-image: linear-gradient(to right, #f0472a, #f26912);
     }
 
     .goingonce {
-        background-color: #ffb020;
+        background-image: linear-gradient(to right, #f02d10, #f2102d);
     }
 
     .goingtwice {
-        background-color: #fb0000;
+        background-image: linear-gradient(to right, #f00439, #f28d0d);
     }
 
     .bidwon {
-        background-color: #0000aa;
+        background-image: linear-gradient(to right, #f00439, #f28d0d);
     }
 
     .nextbid {
-        background-color: #0000aa;
+        background-image: linear-gradient(to right, #f00439, #f28d0d);
     }
 
     .fadein {

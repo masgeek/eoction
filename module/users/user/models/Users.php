@@ -3,25 +3,25 @@
 namespace app\module\users\user\models;
 
 use Yii;
-use app\module\products\models;
 
 /**
  * This is the model class for table "{{%tb_users}}".
  *
  * @property integer $USER_ID
  * @property string $USERNAME
- * @property string $FULL_NAMES
+ * @property string $FIRST_NAMES
+ * @property string $LAST_NAME
  * @property string $EMAIL_ADDRESS
- * @property string $LOGIN_ID
+ * @property string $PASSWORD
  * @property string $PHONE_NO
  * @property string $TIMEZONE
  * @property string $COUNTRY
- * @property integer $SOCIAL_ID
+ * @property string $SOURCE_ID
  * @property string $DATE_CREATED
  * @property string $DATE_UPDATED
  *
- * @property HashTable[] $HashTables
- * @property ProductBids[] $ProductBids
+ * @property HashTable[] $tbHashTables
+ * @property ProductBids[] $tbProductBids
  */
 class Users extends \yii\db\ActiveRecord
 {
@@ -39,14 +39,15 @@ class Users extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['USERNAME', 'FULL_NAMES'], 'required'],
-            [['SOCIAL_ID'], 'integer'],
+            [['USERNAME', 'FIRST_NAMES'], 'required'],
             [['DATE_CREATED', 'DATE_UPDATED'], 'safe'],
             [['USERNAME'], 'string', 'max' => 20],
-            [['FULL_NAMES', 'EMAIL_ADDRESS'], 'string', 'max' => 255],
-            [['LOGIN_ID'], 'string', 'max' => 300],
+            [['FIRST_NAMES', 'LAST_NAME'], 'string', 'max' => 100],
+            [['EMAIL_ADDRESS'], 'string', 'max' => 255],
+            [['PASSWORD'], 'string', 'max' => 400],
             [['PHONE_NO'], 'string', 'max' => 30],
             [['TIMEZONE', 'COUNTRY'], 'string', 'max' => 10],
+            [['SOURCE_ID'], 'string', 'max' => 50],
         ];
     }
 
@@ -58,13 +59,14 @@ class Users extends \yii\db\ActiveRecord
         return [
             'USER_ID' => 'User ID',
             'USERNAME' => 'Username',
-            'FULL_NAMES' => 'Full Names',
+            'FIRST_NAMES' => 'First Names',
+            'LAST_NAME' => 'Last Name',
             'EMAIL_ADDRESS' => 'Email Address',
-            'LOGIN_ID' => 'Login ID',
+            'PASSWORD' => 'Password',
             'PHONE_NO' => 'Phone No',
             'TIMEZONE' => 'Timezone',
             'COUNTRY' => 'Country',
-            'SOCIAL_ID' => 'Social ID',
+            'SOURCE_ID' => 'Source ID',
             'DATE_CREATED' => 'Date Created',
             'DATE_UPDATED' => 'Date Updated',
         ];
@@ -73,7 +75,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTbHashTables()
+    public function getHashTables()
     {
         return $this->hasMany(HashTable::className(), ['USER_ID' => 'USER_ID']);
     }
@@ -81,7 +83,7 @@ class Users extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTbProductBids()
+    public function getProductBids()
     {
         return $this->hasMany(ProductBids::className(), ['USER_ID' => 'USER_ID']);
     }

@@ -50,7 +50,14 @@ class ShopController extends Controller
         //lets fetch the auction details of a product
         //number of bids
         //current bid price
-        echo json_encode(date('Y-m-d'));
+        $bid_price = 40;
+        $bid_count = 9;
+        $updateData = [
+            'ID'=>$product_id,
+            'BID_PRICE'=>$bid_price,
+            'BID_COUNT'=>$bid_count
+        ];
+        echo json_encode($updateData);
     }
 
     //entry page
