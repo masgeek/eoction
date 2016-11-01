@@ -27,4 +27,8 @@ class BowerAsset extends AssetBundle
       'velocity/velocity.js',
       'velocity/velocity.ui.js'
     ];
+
+    public $depends = [
+        'yii\web\JqueryAsset',
+    ];
 }
