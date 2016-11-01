@@ -18,7 +18,7 @@ $formatter = \Yii::$app->formatter;
 
 $imageObject = $model->getSingleImage();
 //$imageA = $imageObject ? $imageObject->IMAGE_URL : 'http://placehold.it/700/c55/fff';
-$imageA = '//lorempixel.com/400/400/sports';
+$imageA = '//lorempixel.com/400/400/nature';
 //$imageA = 'http://placeimg.com/640/480/any';
 
 //calculate the percentage discount based on the retail price and the bidded amount
