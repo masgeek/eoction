@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3ead7e9b98c8e22cdced04200e12f558",
-    "content-hash": "ed99e7670aac1bf7ba2c66e78630dbd1",
+    "hash": "9960e8353e6e9a4e2c2a4f5867d2bf2f",
+    "content-hash": "a091baf41e3fb49e3df02b224cb8c42a",
     "packages": [
         {
             "name": "amnah/yii2-user",
@@ -152,22 +152,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/bestiejs/punycode.js/zipball/38c8d3131a82567bfef18da09f7f4db68c84f8a3",
                 "reference": "38c8d3131a82567bfef18da09f7f4db68c84f8a3",
-                "shasum": null
-            },
-            "type": "library"
-        },
-        {
-            "name": "bower-asset/velocity",
-            "version": "1.3.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/julianshapiro/velocity.git",
-                "reference": "9731478e101db5d6ac8b74910b993176dfaff7ce"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/julianshapiro/velocity/zipball/9731478e101db5d6ac8b74910b993176dfaff7ce",
-                "reference": "9731478e101db5d6ac8b74910b993176dfaff7ce",
                 "shasum": null
             },
             "type": "library"
@@ -641,16 +625,16 @@
         },
         {
             "name": "yiisoft/yii2-httpclient",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-httpclient.git",
-                "reference": "05056e8f13fdee09c252686cea62f0889ecab8b7"
+                "reference": "2cc58c318da3c7c71bda1cc26bd3ec5a3ac26284"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-httpclient/zipball/05056e8f13fdee09c252686cea62f0889ecab8b7",
-                "reference": "05056e8f13fdee09c252686cea62f0889ecab8b7",
+                "url": "https://api.github.com/repos/yiisoft/yii2-httpclient/zipball/2cc58c318da3c7c71bda1cc26bd3ec5a3ac26284",
+                "reference": "2cc58c318da3c7c71bda1cc26bd3ec5a3ac26284",
                 "shasum": ""
             },
             "require": {
@@ -684,7 +668,7 @@
                 "httpclient",
                 "yii2"
             ],
-            "time": "2016-08-04 13:29:03"
+            "time": "2016-10-31 11:29:06"
         },
         {
             "name": "yiisoft/yii2-jui",

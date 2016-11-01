@@ -174,7 +174,7 @@ function placeBid($product_id, $sku) {
             id: $product_id,
             sku: $sku,
             user_id: $user_id,
-            //format: 'json'
+            format: 'json'
         },
         error: function () {
             $('#info').html('<p>An error has occurred</p>');

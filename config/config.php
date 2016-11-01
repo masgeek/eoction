@@ -23,7 +23,7 @@ $config = [
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => '921af581-c20b-4666-ba21-f6b8b888688d',
+            'cookieValidationKey' => '921af581c20b4666ba21f6b8b888688d',
         ],
         /*'assetManager' => [
             'basePath' => '@webroot/my_assets',

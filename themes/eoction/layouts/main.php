@@ -3,6 +3,7 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+use yii\base\Controller;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -10,7 +11,6 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use app\assets\FontAssets;
 use app\assets\BowerAsset;
-use yii\base\Controller;
 
 AppAsset::register($this);
 BowerAsset::register($this);
