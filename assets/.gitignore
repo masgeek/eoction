@@ -1,4 +1,5 @@
 *
+#Ignore everything except the files below
 !.gitignore
 !AppAsset.php
 !BowerAsset.php
