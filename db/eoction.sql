@@ -10,11 +10,8 @@ Target Server Type    : MYSQL
 Target Server Version : 50711
 File Encoding         : 65001
 
-Date: 2016-10-17 15:40:20
+Date: 2016-11-02 14:42:49
 */
-
-/*create schema eoction;*/
-/*USE eoction;*/
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -33,13 +30,57 @@ CREATE TABLE `tb_bid_activity` (
   KEY `PRODUCT_ID` (`PRODUCT_ID`),
   CONSTRAINT `tb_bid_activity_ibfk_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE,
   CONSTRAINT `tb_bid_activity_ibfk_2` FOREIGN KEY (`PRODUCT_SKU`) REFERENCES `tb_products` (`SKU`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=344 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_bid_activity
 -- ----------------------------
-INSERT INTO `tb_bid_activity` VALUES ('2', '1', 'NHQ-J272582011000', '80', '2016-10-17 14:33:55');
-INSERT INTO `tb_bid_activity` VALUES ('3', '2', 'NQH-J272582150000', '25', '2016-10-17 14:30:23');
+INSERT INTO `tb_bid_activity` VALUES ('298', '2', 'NQH-J272582150000', '1', '2016-10-24 15:41:10');
+INSERT INTO `tb_bid_activity` VALUES ('299', '1', 'NHQ-J272582011000', '1', '2016-10-24 15:43:38');
+INSERT INTO `tb_bid_activity` VALUES ('300', '3', 'NQH-J273636202543', '1', '2016-10-24 15:44:33');
+INSERT INTO `tb_bid_activity` VALUES ('301', '4', 'NQH-J261702000000', '0', '2016-10-24 15:45:03');
+INSERT INTO `tb_bid_activity` VALUES ('302', '6', 'NQH-J268946V75000', '1', '2016-10-24 15:54:07');
+INSERT INTO `tb_bid_activity` VALUES ('303', '5', 'NQH-J267523273074', '0', '2016-10-24 15:54:37');
+INSERT INTO `tb_bid_activity` VALUES ('304', '124', 'C-AR0172-7-YSL', '1', '2016-10-24 16:00:10');
+INSERT INTO `tb_bid_activity` VALUES ('305', '7', 'NQH-J271679273543', '0', '2016-10-24 16:00:39');
+INSERT INTO `tb_bid_activity` VALUES ('306', '85', 'NQH-J260835M86581', '1', '2016-10-31 10:40:05');
+INSERT INTO `tb_bid_activity` VALUES ('307', '8', 'NQH-J268381202000', '0', '2016-10-31 10:40:35');
+INSERT INTO `tb_bid_activity` VALUES ('308', '161', 'M-CSE3345-BW-WSL', '1', '2016-10-31 10:49:56');
+INSERT INTO `tb_bid_activity` VALUES ('309', '9', 'NQH-J142308000000', '0', '2016-10-31 10:50:26');
+INSERT INTO `tb_bid_activity` VALUES ('310', '27', 'NQH-J268730000625', '1', '2016-10-31 10:57:45');
+INSERT INTO `tb_bid_activity` VALUES ('311', '10', 'NQH-J146242061668', '0', '2016-10-31 10:58:15');
+INSERT INTO `tb_bid_activity` VALUES ('312', '95', 'NQH-J269557027581', '1', '2016-10-31 10:58:59');
+INSERT INTO `tb_bid_activity` VALUES ('313', '11', 'NQH-J146242Z32668', '0', '2016-10-31 10:59:29');
+INSERT INTO `tb_bid_activity` VALUES ('314', '119', 'C-JSGE311-YSL', '1', '2016-10-31 11:00:27');
+INSERT INTO `tb_bid_activity` VALUES ('315', '12', 'NQH-J149533012000', '1', '2016-10-31 11:03:13');
+INSERT INTO `tb_bid_activity` VALUES ('316', '13', 'NQH-J149810G84000', '0', '2016-10-31 11:03:44');
+INSERT INTO `tb_bid_activity` VALUES ('317', '23', 'NQH-J261947848074', '1', '2016-10-31 11:08:21');
+INSERT INTO `tb_bid_activity` VALUES ('318', '14', 'NQH-J149874848000', '0', '2016-10-31 11:08:52');
+INSERT INTO `tb_bid_activity` VALUES ('319', '98', 'NQH-J274405S69000', '1', '2016-10-31 11:15:47');
+INSERT INTO `tb_bid_activity` VALUES ('320', '15', 'NQH-J152527154000', '1', '2016-10-31 11:16:50');
+INSERT INTO `tb_bid_activity` VALUES ('321', '42', 'NQH-J278075848000', '1', '2016-10-31 11:17:10');
+INSERT INTO `tb_bid_activity` VALUES ('322', '16', 'NQH-J152745848000', '0', '2016-10-31 11:17:20');
+INSERT INTO `tb_bid_activity` VALUES ('323', '17', 'NQH-J155009848000', '0', '2016-10-31 11:17:41');
+INSERT INTO `tb_bid_activity` VALUES ('324', '115', 'I-CMWB2099-YSL', '1', '2016-10-31 11:23:09');
+INSERT INTO `tb_bid_activity` VALUES ('325', '148', 'M-400653235075-YG10K', '1', '2016-10-31 11:23:10');
+INSERT INTO `tb_bid_activity` VALUES ('326', '18', 'NQH-J155099680593', '0', '2016-10-31 11:23:39');
+INSERT INTO `tb_bid_activity` VALUES ('327', '19', 'NQH-J155863680074', '0', '2016-10-31 11:23:40');
+INSERT INTO `tb_bid_activity` VALUES ('328', '133', 'I-CMEI3421-CZ-WG10K', '1', '2016-10-31 11:31:00');
+INSERT INTO `tb_bid_activity` VALUES ('329', '20', 'NQH-J157199000074', '0', '2016-10-31 11:31:30');
+INSERT INTO `tb_bid_activity` VALUES ('330', '165', 'I-MME22-CZ-YG14K', '2', '2016-10-31 12:02:09');
+INSERT INTO `tb_bid_activity` VALUES ('331', '21', 'NQH-J158331000000', '0', '2016-10-31 12:02:39');
+INSERT INTO `tb_bid_activity` VALUES ('332', '31', 'NQH-J271446680000', '2', '2016-10-31 12:02:49');
+INSERT INTO `tb_bid_activity` VALUES ('333', '132', 'I-JSE413-WSL', '2', '2016-10-31 12:03:23');
+INSERT INTO `tb_bid_activity` VALUES ('334', '105', 'NQH-J152913011000', '1', '2016-10-31 12:03:51');
+INSERT INTO `tb_bid_activity` VALUES ('335', '35', 'NQH-J272583000074', '1', '2016-10-31 12:04:49');
+INSERT INTO `tb_bid_activity` VALUES ('336', '24', 'NQH-J266309150000', '1', '2016-10-31 12:05:21');
+INSERT INTO `tb_bid_activity` VALUES ('337', '22', 'NQH-J261619000074', '0', '2016-10-31 12:05:51');
+INSERT INTO `tb_bid_activity` VALUES ('338', '144', 'I-CME1979BW-WG10K', '1', '2016-10-31 12:06:01');
+INSERT INTO `tb_bid_activity` VALUES ('339', '166', 'I-CSE1971BW-WG10K', '1', '2016-10-31 12:06:30');
+INSERT INTO `tb_bid_activity` VALUES ('340', '157', 'I-MME17-WG14K', '1', '2016-10-31 12:06:41');
+INSERT INTO `tb_bid_activity` VALUES ('341', '25', 'NQH-J267422012000', '0', '2016-10-31 12:07:11');
+INSERT INTO `tb_bid_activity` VALUES ('342', '101', '22016-J280761000000', '1', '2016-11-02 10:03:58');
+INSERT INTO `tb_bid_activity` VALUES ('343', '26', 'NQH-J267422202000', '0', '2016-11-02 10:04:28');
 
 -- ----------------------------
 -- Table structure for tb_bid_settings
@@ -89,6 +130,29 @@ CREATE TABLE `tb_hash_table` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for tb_items_cart
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_items_cart`;
+CREATE TABLE `tb_items_cart` (
+  `CART_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `USER_ID` int(11) NOT NULL,
+  `PRODUCT_ID` int(11) NOT NULL,
+  `PRODUCT_PRICE` decimal(10,2) NOT NULL,
+  `DATE_ADDED` datetime NOT NULL,
+  `EXPIRY_DATE` datetime NOT NULL,
+  `IS_SOLD` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`CART_ID`),
+  KEY `USER_ID` (`USER_ID`),
+  KEY `PRODUCT_ID` (`PRODUCT_ID`),
+  CONSTRAINT `tb_items_cart_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE,
+  CONSTRAINT `tb_items_cart_ibfk_2` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tb_items_cart
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for tb_products
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_products`;
@@ -121,10 +185,10 @@ CREATE TABLE `tb_products` (
 -- Records of tb_products
 -- ----------------------------
 INSERT INTO `tb_products` VALUES ('1', 'M795N6ZONQW', 'NHQ-J272582011000', 'Hidalgo Blue Diamonique Stainless Steel Watch Bezel', 'Watches/Fixed/Wristwatches', '', '96.00', '98.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-17 13:23:48');
-INSERT INTO `tb_products` VALUES ('2', 'M0LEKOEVD4W', 'NQH-J272582150000', 'Hidalgo Pink Diamonique Stainless Steel Watch Bezel', 'Watches/Fixed/Wristwatches', '', '59.50', '179.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-10 15:14:51');
+INSERT INTO `tb_products` VALUES ('2', 'M0LEKOEVD4W', 'NQH-J272582150000', 'Hidalgo Pink Diamonique Stainless Steel Watch Bezel', 'Watches/Fixed/Wristwatches', '', '800.00', '899.45', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-24 15:27:30');
 INSERT INTO `tb_products` VALUES ('3', 'M1W4N47ON5P', 'NQH-J273636202543', 'Ecclissi Sterling Silver Round Dial Acetate Strap White Large Watch', 'Watches/Fixed/Wristwatches', '', '150.00', '450.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-10 15:14:51');
 INSERT INTO `tb_products` VALUES ('4', 'M71YN5GYNVQ', 'NQH-J261702000000', 'Dweck Diamonds Sterling S/2 Bracelets W/Figure 8 Charm', 'Top Selling/Jewelry/Bracelet', '', '122.00', '366.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-10 15:14:51');
-INSERT INTO `tb_products` VALUES ('5', 'MLVQD8PRD4E', 'NQH-J267523273074', 'Novica Sterling Silver Polished Gemstone Nugget Average Bracelet', 'Top Selling/Jewelry/Bracelet', '', '29.00', '87.00', '1', '1', '1', '1', 'by product', '26', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-10 15:14:51');
+INSERT INTO `tb_products` VALUES ('5', 'MLVQD8PRD4E', 'NQH-J267523273074', 'Novica Sterling Silver Polished Gemstone Nugget Average Bracelet', 'Top Selling/Jewelry/Bracelet', '', '29.95', '30.00', '1', '1', '1', '1', 'by product', '26', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-24 15:53:34');
 INSERT INTO `tb_products` VALUES ('6', 'M128N0JPK57', 'NQH-J268946V75000', 'Ippocampo Sterling 8\" Smoky Quartz Gemstone Link Toggle Bracelet', 'Top Selling/Jewelry/Bracelet', '', '139.00', '417.00', '1', '1', '1', '1', 'by product', '15', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-10 15:14:51');
 INSERT INTO `tb_products` VALUES ('7', 'MYOMK185NP0', 'NQH-J271679273543', 'Erica Courtney Amethyst Gemstone & Diamonique Hinged Kim Large Cuff Sterling', 'Top Selling/Jewelry/Bracelet', '', '174.00', '522.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-10 15:14:51');
 INSERT INTO `tb_products` VALUES ('8', 'M879D297K12', 'NQH-J268381202000', 'Vicenzagold Large Textured Twist Design Round Bangle 14K Yellow Gold', 'Top Selling/Jewelry/Bracelet', '', '216.00', '648.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-10 15:14:51');
@@ -254,7 +318,7 @@ INSERT INTO `tb_products` VALUES ('131', 'M1W4N4V6D5P', 'C-JSRGE1039BL-RSL', '14
 INSERT INTO `tb_products` VALUES ('132', 'M71YN565DVQ', 'I-JSE413-WSL', '.925 Sterling Silver 0.14Ct White Diamond Stud Earrings Lowest On Ebay', 'Auction/Jewelry/Fine Jewelry/Earrings/Diamond', '', '39.99', '120.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
 INSERT INTO `tb_products` VALUES ('133', 'MLVQD8LZN4E', 'I-CMEI3421-CZ-WG10K', 'Solid 10K White Gold 3.12 ct Princess Cut D/Vvs1 Lever Back Dangle Earrings', 'Top Selling/Jewelry/Earrings', '', '199.99', '300.00', '1', '1', '1', '1', 'by product', '97', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
 INSERT INTO `tb_products` VALUES ('134', 'MYOMK1P7NP0', 'I-CSRGE1865BL-RSL-AFSJ', 'Female Girls 1/20Ct 14K Rose Gold Finish Real Black Diamond Heart Stud Earrings', 'Top Selling/Jewelry/Earrings', '', '24.99', '75.00', '1', '1', '1', '1', 'by product', '97', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
-INSERT INTO `tb_products` VALUES ('135', 'M879D2RON12', 'C-CME3293-WG14K', '1.60Ct Hoop Earrings I1/G In & Out Side Diamond White Gold Appraisal 360Ã‚Â° Video', 'Top Selling/Jewelry/Earrings', '', '631.99', '1927.00', '1', '1', '1', '1', 'by product', '94', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
+INSERT INTO `tb_products` VALUES ('135', 'M879D2RON12', 'C-CME3293-WG14K', '1.60Ct Hoop Earrings I1/G In & Out Side Diamond White Gold Appraisal 360Â° Video', 'Top Selling/Jewelry/Earrings', '', '631.99', '1927.00', '1', '1', '1', '1', 'by product', '94', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
 INSERT INTO `tb_products` VALUES ('136', 'MG3PDX95NLX', 'I-CSE1982BL-WSL', '0.68 Ct Black Diamond Round Stud Earrings In Sterling Silver', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', '', '161.49', '484.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
 INSERT INTO `tb_products` VALUES ('137', 'M0YGNJZQDJ7', 'I-JME312-YG10K', 'Mens Ladies 10K Yellow Gold Designer Square Diamond Earrings Studs 0.15 Ct', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', '', '139.99', '420.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
 INSERT INTO `tb_products` VALUES ('138', 'MZ34K9ORN2Q', 'M-201211010007-WG14K', 'White D/VVS1 Halo Solitaire Stud Bridal Earrings Jackets 14K White Gold', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', '', '336.29', '958.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
@@ -329,11 +393,39 @@ CREATE TABLE `tb_product_bids` (
   KEY `USER_ID` (`USER_ID`),
   CONSTRAINT `tb_product_bids_ibfk_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE,
   CONSTRAINT `tb_product_bids_ibfk_2` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_product_bids
 -- ----------------------------
+INSERT INTO `tb_product_bids` VALUES ('48', '3', '1', '65.00', '2016-10-24 15:44:34', '0');
+INSERT INTO `tb_product_bids` VALUES ('49', '2', '1', '50.00', '2016-10-24 15:41:11', '0');
+INSERT INTO `tb_product_bids` VALUES ('50', '1', '1', '55.00', '2016-10-24 15:43:38', '0');
+INSERT INTO `tb_product_bids` VALUES ('51', '6', '1', '70.00', '2016-10-24 15:54:08', '0');
+INSERT INTO `tb_product_bids` VALUES ('52', '124', '1', '75.00', '2016-10-24 16:00:10', '0');
+INSERT INTO `tb_product_bids` VALUES ('53', '85', '1', '80.00', '2016-10-31 10:40:05', '0');
+INSERT INTO `tb_product_bids` VALUES ('54', '161', '1', '85.00', '2016-10-31 10:49:56', '0');
+INSERT INTO `tb_product_bids` VALUES ('55', '27', '1', '90.00', '2016-10-31 10:57:45', '0');
+INSERT INTO `tb_product_bids` VALUES ('56', '95', '1', '95.00', '2016-10-31 10:58:59', '0');
+INSERT INTO `tb_product_bids` VALUES ('57', '119', '1', '100.00', '2016-10-31 11:00:27', '0');
+INSERT INTO `tb_product_bids` VALUES ('58', '12', '1', '105.00', '2016-10-31 11:03:14', '0');
+INSERT INTO `tb_product_bids` VALUES ('59', '23', '1', '110.00', '2016-10-31 11:08:22', '0');
+INSERT INTO `tb_product_bids` VALUES ('60', '98', '1', '115.00', '2016-10-31 11:15:47', '0');
+INSERT INTO `tb_product_bids` VALUES ('61', '15', '1', '120.00', '2016-10-31 11:16:50', '0');
+INSERT INTO `tb_product_bids` VALUES ('62', '42', '1', '125.00', '2016-10-31 11:17:10', '0');
+INSERT INTO `tb_product_bids` VALUES ('63', '115', '1', '130.00', '2016-10-31 11:23:09', '0');
+INSERT INTO `tb_product_bids` VALUES ('64', '148', '1', '135.00', '2016-10-31 11:23:10', '0');
+INSERT INTO `tb_product_bids` VALUES ('65', '133', '1', '140.00', '2016-10-31 11:31:00', '0');
+INSERT INTO `tb_product_bids` VALUES ('66', '165', '1', '150.00', '2016-10-31 12:02:09', '0');
+INSERT INTO `tb_product_bids` VALUES ('67', '31', '1', '160.00', '2016-10-31 12:02:49', '0');
+INSERT INTO `tb_product_bids` VALUES ('68', '132', '1', '170.00', '2016-10-31 12:03:23', '0');
+INSERT INTO `tb_product_bids` VALUES ('69', '105', '1', '175.00', '2016-10-31 12:03:51', '0');
+INSERT INTO `tb_product_bids` VALUES ('70', '35', '1', '180.00', '2016-10-31 12:04:49', '0');
+INSERT INTO `tb_product_bids` VALUES ('71', '24', '1', '185.00', '2016-10-31 12:05:21', '0');
+INSERT INTO `tb_product_bids` VALUES ('72', '144', '1', '190.00', '2016-10-31 12:06:01', '0');
+INSERT INTO `tb_product_bids` VALUES ('73', '166', '1', '195.00', '2016-10-31 12:06:30', '0');
+INSERT INTO `tb_product_bids` VALUES ('74', '157', '1', '200.00', '2016-10-31 12:06:41', '0');
+INSERT INTO `tb_product_bids` VALUES ('75', '101', '1', '205.00', '2016-11-02 10:03:58', '0');
 
 -- ----------------------------
 -- Table structure for tb_product_images
@@ -390,9 +482,10 @@ CREATE TABLE `tb_users` (
   `DATE_CREATED` datetime DEFAULT NULL,
   `DATE_UPDATED` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`USER_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_users
 -- ----------------------------
 INSERT INTO `tb_users` VALUES ('1', 'fatelord', 'sammy barasa', 'barsamms@gmail.com', 'fatelord', '254713196504', '+3GMT', 'KE', '1', '2016-10-17 12:31:21', '2016-10-17 12:31:25');
+INSERT INTO `tb_users` VALUES ('2', 'masgeek', 'Sammy M', 'barsamms@gmail.com', 'masgeek', '254713196504', '+3GMT', 'KE', '1', '2016-10-17 12:31:21', '2016-10-21 14:29:33');
