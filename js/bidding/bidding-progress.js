@@ -67,7 +67,7 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
     var placebid = $('#placebid_' + $productid);
     var starttime = $bid_start_time * 1000;//convert to ms
 
-    var maxwidth = '90%'
+    var maxwidth = '100%'
     var minwidth = '0%'
 
     var bidplacedParam = {
