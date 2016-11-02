@@ -70,7 +70,7 @@ $starting_bid_price = $formatter->asCurrency($model->PRICE);
                 <span id="bids_placed_<?= $product_id ?>"><?= $bids ?> Bid</span>
             </div>
             <div class="row progress-container">
-            <div class="col-md-12 bidProgress noplacedbids" id="progressBar<?= $product_id ?>"></div>
+            <div class="bidProgress noplacedbids" id="progressBar<?= $product_id ?>"></div>
                 </div>
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">

@@ -83,24 +83,24 @@ $listviewWidget = ListView::widget([
 
     .noplacedbids {
         /*background-color: purple;*/
-        background-image: linear-gradient(to right, #f00439, #f28d0d);
+        background-image: linear-gradient(to right, #f00439, #f28d0d,pink);
     }
 
     .awaitingbid {
         /*background-color: #42e83e;*/
-        background-image: linear-gradient(to right, #f0472a, #f26912);
+        background-image: linear-gradient(to right, #3b389b, #5d5aff,yellow);
     }
 
     .goingonce {
-        background-image: linear-gradient(to right, #f02d10, #f2102d);
+        background-image: linear-gradient(to right, #f09208, #b46e08,red);
     }
 
     .goingtwice {
-        background-image: linear-gradient(to right, #f00439, #f28d0d);
+        background-image: linear-gradient(to right, #f00439, #f28d0d,red);
     }
 
     .bidwon {
-        background-image: linear-gradient(to right, #f00439, #f28d0d);
+        background-image: linear-gradient(to right, #f00439, #f28d0d.red);
     }
 
     .nextbid {
