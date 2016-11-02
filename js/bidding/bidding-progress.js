@@ -67,6 +67,9 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
     var placebid = $('#placebid_' + $productid);
     var starttime = $bid_start_time * 1000;//convert to ms
 
+    var maxwidth = '90%'
+    var minwidth = '0%'
+
     var bidplacedParam = {
         easing: "linear",
         loop: false,
@@ -120,6 +123,7 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
         }
     };
 
+
     /*
      bid types
      0 bid countdown
@@ -139,21 +143,21 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
     //stop and clear the animation queue
     progressBar.velocity('stop', true).velocity({width: '100%'}, {duration: 1});
     //chain this progress bar since its for going once and going twice
-    progressBar.velocity({width: '0%'}, bidplacedParam) //Awaiting bid
-        .velocity({width: '100%'}, {
+    progressBar.velocity({width: minwidth}, bidplacedParam) //Awaiting bid
+        .velocity({width: maxwidth}, {
             duration: 1, complete: function () {
                 //add class for going once
                 progressBar.removeClass("noplacedbids awaitingbid goingtwice").addClass('goingonce'); //always await bid
             }
         })//resets back to 100
-        .velocity({width: '0%'}, bidplacedParam) //going once
-        .velocity({width: '100%'}, {
+        .velocity({width: minwidth}, bidplacedParam) //going once
+        .velocity({width: maxwidth}, {
             duration: 1, complete: function () {
                 //add class for going twice
                 progressBar.removeClass("noplacedbids awaitingbid goingonce").addClass('goingtwice'); //always await bid
             }
         })//resets back to 100
-        .velocity({width: '0%'}, bidplacedParam); //going twice
+        .velocity({width: minwidth}, bidplacedParam); //going twice
 }
 function placeBid($product_id, $sku) {
     //do an ajax request

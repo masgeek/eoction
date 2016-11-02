@@ -60,8 +60,8 @@ $starting_bid_price = $formatter->asCurrency($model->PRICE);
                 <input type="text" id="product_sku_<?= $product_id; ?>" value="<?= $sku ?>" readonly="readonly"/>
             </div>
             <div class="row text-center">
-                <h1 class="bidding-price">Starting Bid: <?= $starting_bid_price ?></h1>
-                <small class="retail-price"><?= $retail_price; ?></small>
+                <span class="bidding-price">Starting Bid: <?= $starting_bid_price ?></span><br/>
+                <span class="retail-price"><?= $retail_price; ?></span>
             </div>
             <div class="row text-center">
                 <span>Shipping <?= $shipping_cost ?></span>
@@ -69,12 +69,17 @@ $starting_bid_price = $formatter->asCurrency($model->PRICE);
             <div class="row text-center">
                 <span id="bids_placed_<?= $product_id ?>"><?= $bids ?> Bid</span>
             </div>
-            <div class="row bidProgress noplacedbids" id="progressBar<?= $product_id ?>"></div>
+            <div class="row progress-container">
+            <div class="col-md-12 bidProgress noplacedbids" id="progressBar<?= $product_id ?>"></div>
+                </div>
             <div class="row">
-                <?= Html::button('BID NOW', [
-                    'class' => 'btn btn-primary btn-block noradius',
-                    'id' => "placebid_$product_id"
-                ]) ?>
+                <div class="col-md-8 col-md-offset-2">
+                    <?= Html::button('<span class="hammer-icon pull-left"></span> BID NOW', [
+                        'class' => 'btn btn-bid btn-block noradius',
+                        'id' => "placebid_$product_id"
+                    ]) ?>
+
+                </div>
             </div>
             <div class="row text-center">
                 <div id="bid_status_<?= $product_id; ?>">Awaiting Bid</div>

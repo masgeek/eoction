@@ -72,6 +72,9 @@ $listviewWidget = ListView::widget([
         background-color: pink;
     }
 
+    .progress-container{
+        padding: 0 15px; /* padding {top/bottom} and {right/left}}*/
+    }
     .bidProgress {
         width: 100%;
         height: 10px;
