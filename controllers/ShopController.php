@@ -50,19 +50,18 @@ class ShopController extends Controller
         //lets fetch the auction details of a product
         //number of bids
         //current bid price
-        $bid_price = 40;
-        $bid_count = 9;
         $updateData = [
-            'ID'=>$product_id,
-            'BID_PRICE'=>$bid_price,
-            'BID_COUNT'=>$bid_count
+            'product_id'=>$product_id,
+            'bid_price'=>BidManager::GetMaxBidAmount($product_id),
+            'bid_count'=>ProductManager::GetNumberOfBids($product_id),
+            'discount' => ProductManager::ComputePercentageDiscount($product_id),
         ];
-        echo json_encode($updateData);
+        return json_encode($updateData);
     }
 
     //entry page
     public function actionIndex()
     {
-        echo 'under implmentation';
+        return $this->render('//site/about');
     }
 }

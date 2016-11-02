@@ -234,13 +234,23 @@ function RefreshSomeEventListener($product_id, $sku) {
     SetupProgressBar($product_id, 60); //trigger the progress bar to start
 }
 
+function ItemUpdate($product_id,$sku){
+    var updateUrl = $('#update_url').val();
+    $.get(updateUrl, {product_id: $product_id, sku: $sku}, function (data) {
+        var $bid_count = data.bid_count;
+        var $new_bid_price = data.bid_price;
+        var $discount = data.discount;
+        console.log(data);
+    });
+}
 //run every 500ms
+/*
 setInterval(function () {
     var updateUrl = $('#update_url').val();
-
     $.get(updateUrl, {product_id: 1, sku: 1}, function (data) {
         var $bid_count = data.BID_COUNT;
         var $new_bid_price = data.BID_PRICE;
         console.log(data);
     });
-}, 15000);
+}, 1500000);
+    */

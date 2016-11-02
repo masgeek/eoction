@@ -222,7 +222,7 @@ class SiteController extends Controller
         }
 
         //return the json response
-        echo json_encode($resp);
+        return json_encode($resp);
     }
 
     /**
@@ -233,7 +233,7 @@ class SiteController extends Controller
      */
     public function actionUpdateBid($id, $user_id, $sku)
     {
-        echo json_encode("Bid Updated " . $sku);
+        return json_encode("Bid Updated " . $sku);
     }
 
     /**

@@ -75,6 +75,7 @@ $listviewWidget = ListView::widget([
     .bidProgress {
         width: 100%;
         height: 10px;
+        margin-bottom:5px;
     }
 
     .noplacedbids {
