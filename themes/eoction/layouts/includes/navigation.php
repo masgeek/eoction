@@ -24,11 +24,15 @@ use yii\helpers\Html;
             <li><?= Html::a('Online Shopping', ['//shop/'], ['title' => 'Online Shopping']); ?></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="#"><span></span> My Account</a></li>
+            <?php if (Yii::$app->user->isGuest): ?>
+                <li><a href="#"><span></span>Login</a></li>
+            <?php else: ?>
+                <li><a href="#"><span class="fa fa-user"></span> My Account</a></li>
             <li><a href="#"><span></span> My Wishlist</a></li>
             <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Cart
                     <small id="cart-item">0 Items</small>
                 </a></li>
+            <?php endif; ?>
         </ul>
         <form class="nav navbar-form navbar-right" role="search">
             <div class="form-group">
