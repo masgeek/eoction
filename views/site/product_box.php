@@ -18,7 +18,8 @@ $formatter = \Yii::$app->formatter;
 
 $imageObject = $model->getSingleImage();
 //$imageA = $imageObject ? $imageObject->IMAGE_URL : 'http://placehold.it/700/c55/fff';
-$imageA = '//lorempixel.com/400/400/nature';
+//$imageA = '//lorempixel.com/400/400/nature';
+$imageA = '@web/images/placeholder.png';
 //$imageA = 'http://placeimg.com/640/480/any';
 
 //calculate the percentage discount based on the retail price and the bidded amount
@@ -43,7 +44,7 @@ $starting_bid_price = $formatter->asCurrency($model->PRICE);
 <div class="hidden">
     <input type="text" id="bid_count_<?= $product_id; ?>" value="0" readonly="readonly"/>
     <input type="text" id="bid_price_<?= $product_id; ?>" value="0" readonly="readonly"/>
-    <input type="text" id="bid_type_<?= $product_id; ?>" value="0" readonly="readonly"/>
+    <input type="text" id="bid_type_<?= $product_id; ?>" value="1" readonly="readonly"/>
     <input type="text" id="bid_placed_<?= $product_id; ?>" value="0" readonly="readonly"/>
     <input type="text" id="product_sku_<?= $product_id; ?>" value="<?= $sku ?>" readonly="readonly"/>
 </div>
@@ -83,7 +84,7 @@ $starting_bid_price = $formatter->asCurrency($model->PRICE);
                 </div>
             </div>
             <div class="row text-center">
-                <div id="bid_status_<?= $product_id; ?>" class="text-uppercase bid-message">Awaiting Bid</div>
+                <div id="bid_status_<?= $product_id; ?>" class="text-uppercase bid-message">Accepting Bids</div>
             </div>
         </div>
     </div>

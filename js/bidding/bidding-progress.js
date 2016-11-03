@@ -129,7 +129,7 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
      4 bid won
      */
     //call placebid function
-    bidType.val(1); //set to awaiting bids
+    bidType.val(2); //set to awaiting bids
     bidStatusText.html('Accepting Bids');
 
     //FetchNextItem();
