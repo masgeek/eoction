@@ -1,6 +1,9 @@
 <?php
 use yii\helpers\Html;
 
+use app\components\CartManager;
+
+$userid = yii::$app->user->id ? yii::$app->user->id : 1;
 ?>
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="navbar-header">
@@ -23,18 +26,18 @@ use yii\helpers\Html;
             <li><?= Html::a('Live TV', ['#'], ['title' => 'live TV']); ?></li>
             <li><?= Html::a('Online Shopping', ['//shop/'], ['title' => 'Online Shopping']); ?></li>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right" style="margin-right: 10px;">
             <?php if (Yii::$app->user->isGuest): ?>
-                <li><a href="#"><span></span>Login</a></li>
+                <li><?= Html::a('Sign In', ['//site/login'], ['title' => 'Sign in to place bids', 'class'=>'text-capitalise']); ?></li>
             <?php else: ?>
                 <li><a href="#"><span class="fa fa-user"></span> My Account</a></li>
-            <li><a href="#"><span></span> My Wishlist</a></li>
+            <li><?= Html::a('<i class="fa fa-heart"></i> My Wishlist', ['//shop/wishlist'], ['title' => 'Items in your wish-list', 'class'=>'text-capitalise']); ?></li>
             <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Cart
-                    <small id="cart-item">0 Items</small>
+                    <small id="cart-item"><?= CartManager::GetCartItems($userid) ?> Items</small>
                 </a></li>
             <?php endif; ?>
         </ul>
-        <form class="nav navbar-form navbar-right" role="search">
+        <form class="nav navbar-form navbar-left" role="search">
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Search" name="search-term">
             </div>
