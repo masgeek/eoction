@@ -40,6 +40,14 @@ $retail_price = $formatter->asCurrency($model->RETAIL_PRICE);
 $starting_bid_price = $formatter->asCurrency($model->PRICE);
 ?>
 
+<div class="hidden">
+    <input type="text" id="bid_count_<?= $product_id; ?>" value="0" readonly="readonly"/>
+    <input type="text" id="bid_price_<?= $product_id; ?>" value="0" readonly="readonly"/>
+    <input type="text" id="bid_type_<?= $product_id; ?>" value="0" readonly="readonly"/>
+    <input type="text" id="bid_placed_<?= $product_id; ?>" value="0" readonly="readonly"/>
+    <input type="text" id="product_sku_<?= $product_id; ?>" value="<?= $sku ?>" readonly="readonly"/>
+</div>
+
 <div class="col-xs-18 col-sm-6 col-md-3" id="item_box_<?= $product_id; ?>">
     <div class="offer offer-default">
         <div class="shape">
@@ -52,13 +60,6 @@ $starting_bid_price = $formatter->asCurrency($model->PRICE);
                 'class' => 'img img-responsive',
                 'alt' => $model->PRODUCT_NAME,
             ]); ?>
-            <div class="hidden">
-                <input type="text" id="bid_count_<?= $product_id; ?>" value="0" readonly="readonly"/>
-                <input type="text" id="bid_price_<?= $product_id; ?>" value="0" readonly="readonly"/>
-                <input type="text" id="bid_type_<?= $product_id; ?>" value="0" readonly="readonly"/>
-                <input type="text" id="bid_placed_<?= $product_id; ?>" value="0" readonly="readonly"/>
-                <input type="text" id="product_sku_<?= $product_id; ?>" value="<?= $sku ?>" readonly="readonly"/>
-            </div>
             <div class="row text-center">
                 <span class="bidding-price">Starting Bid: <?= $starting_bid_price ?></span><br/>
                 <span class="retail-price"><?= $retail_price; ?></span>
@@ -82,7 +83,7 @@ $starting_bid_price = $formatter->asCurrency($model->PRICE);
                 </div>
             </div>
             <div class="row text-center">
-                <div id="bid_status_<?= $product_id; ?>">Awaiting Bid</div>
+                <div id="bid_status_<?= $product_id; ?>" class="text-uppercase bid-message">Awaiting Bid</div>
             </div>
         </div>
     </div>

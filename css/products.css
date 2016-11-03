@@ -57,8 +57,11 @@
      display:inline-block;
      -webkit-transition: 0.5s;
      transition: 0.5s;
- }
 
+ }
+.offer:hover > .shape{
+    background-color: #a07936;
+}
 .offer-content{
     /*padding:0 20px 10px;*/
     padding:5px;

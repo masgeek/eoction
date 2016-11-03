@@ -141,6 +141,10 @@ a.desc:after {
     cursor: pointer;
 }
 
+/* text display */
+.bid-message{
+    font-weight:700;
+}
 /* button styling */
 .hammer-icon{
     background:url('../images/hammer-icon.png');
