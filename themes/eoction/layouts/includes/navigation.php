@@ -29,9 +29,10 @@ $userid = yii::$app->user->id ? yii::$app->user->id : 1;
         <ul class="nav navbar-nav navbar-right" style="margin-right: 10px;">
             <?php if (Yii::$app->user->isGuest): ?>
                 <li><?= Html::a('Sign In', ['//site/login'], ['title' => 'Sign in to place bids', 'class'=>'text-capitalise']); ?></li>
+                <li><?= Html::a('Sign Up Now It\'s Free', ['//site/login'], ['title' => 'Sign in to place bids', 'class'=>'text-capitalise']); ?></li>
             <?php else: ?>
-                <li><a href="#"><span class="fa fa-user"></span> My Account</a></li>
-            <li><?= Html::a('<i class="fa fa-heart"></i> My Wishlist', ['//shop/wishlist'], ['title' => 'Items in your wish-list', 'class'=>'text-capitalise']); ?></li>
+                <li><?= Html::a('<span class="fa fa-user"></span> My Account', ['//site/my-account'], ['class'=>'text-capitalise']); ?></li>
+            <li><?= Html::a('<span class="fa fa-heart"></span> My Wishlist', ['//shop/wishlist'], ['title' => 'Items in your wish-list', 'class'=>'text-capitalise']); ?></li>
             <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Cart
                     <small id="cart-item"><?= CartManager::GetCartItems($userid) ?> Items</small>
                 </a></li>
