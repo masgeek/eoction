@@ -37,3 +37,11 @@ FontAssets::register($this);
 </body>
 </html>
 <?php $this->endPage() ?>
+
+
+<?php
+$this->registerJs('
+    $(".product-nav a").on("click", function(){
+        $(".nav").find(".active").removeClass("active");
+        $(this).parent().addClass("active");
+    });');
