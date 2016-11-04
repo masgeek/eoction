@@ -50,6 +50,7 @@ class ProductManager
 
     public static function GetNumberOfBids($product_id)
     {
-        return 10;
+        $bids = BidActivity::findOne(['PRODUCT_ID' => $product_id]);
+        return $bids->ACTIVITY_COUNT; //return the count
     }
 }

@@ -31,6 +31,7 @@ $sku = $model->SKU;
 $bids = 0;
 
 $product_id = $model->PRODUCT_ID;
+$product_name = $model->PRODUCT_NAME;
 
 $discount = ProductManager::ComputePercentageDiscount($product_id);
 $shipping = ProductManager::ComputeShippingCost($product_id);
@@ -59,7 +60,7 @@ $starting_bid_price = $formatter->asCurrency($model->PRICE);
             <?= Html::img($imageA, [
                 'id' => 'product_image_' . $product_id,
                 'class' => 'img img-responsive',
-                'alt' => $model->PRODUCT_NAME,
+                'alt' => $product_name,
             ]); ?>
             <div class="row text-center">
                 <span class="bidding-price">Starting Bid: <?= $starting_bid_price ?></span><br/>
@@ -68,20 +69,20 @@ $starting_bid_price = $formatter->asCurrency($model->PRICE);
             <div class="row text-center">
                 <span>Shipping <?= $shipping_cost ?></span>
             </div>
-            <div class="row text-center">
-                <span id="bids_placed_<?= $product_id ?>"><?= $bids ?> Bid</span>
+            <div class="row text-center text-uppercase">
+                <span id="bids_placed_<?= $product_id ?>"><?= $bids ?></span> Bid
             </div>
             <div class="row progress-container">
             <div class="bidProgress noplacedbids" id="progressBar<?= $product_id ?>"></div>
                 </div>
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
-                    <?= Html::button('<span class="hammer-icon pull-left"></span> BID NOW', [
+                    <?= Html::button('<span class="hammer-icon pull-left"></span>BID NOW', [
                         'class' => 'btn btn-bid btn-block noradius',
                         'id' => "placebid_$product_id"
                     ]) ?>
-
                 </div>
+
             </div>
             <div class="row text-center">
                 <div id="bid_status_<?= $product_id; ?>" class="text-uppercase bid-message">Accepting Bids</div>
