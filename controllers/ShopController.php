@@ -14,6 +14,8 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\components\BidManager;
+use app\components\ProductManager;
 
 class ShopController extends Controller
 {

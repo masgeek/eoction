@@ -63,9 +63,10 @@ class BidManager
      * @param $sku
      * @throws \Exception
      */
-    public static function RemoveItemsFromBidActivity($sku)
+    public static function RemoveItemsFromBidActivity($product_id=0)
     {
-        BidActivity::findOne(['PRODUCT_SKU' => $sku, 'ACTIVITY_COUNT' => 0])->delete();
+        //BidActivity::findOne(['PRODUCT_ID' => $product_id, 'ACTIVITY_COUNT' => 0])->delete();
+        BidActivity::findOne(['ACTIVITY_COUNT' => 0])->delete();
     }
 
     /**
@@ -164,8 +165,13 @@ class BidManager
 
     }
 
-    public static function GetNextItemToBid()
+    public static function GetNextItemToBid($product_id = 0)
     {
+        //sleep for a second to allow randomization
+        //usleep(1500);
+
+        //$sleepInterval = mt_rand(0,5);
+        //sleep($sleepInterval); //sleep between calls to prevent return duplicate ids
         $nested_items_array = BidActivity::find()->select('PRODUCT_SKU')->asArray()->all();
         //flatten the nested arrays
         $item_array = BidManager::GetExclusionItems();
@@ -174,13 +180,14 @@ class BidManager
             ->where([
                 'NOT IN', 'SKU', $item_array,
             ])
+            //->andWhere('!=','PRODUCT_ID',$product_id)
+            ->orderBy(['rand()' => SORT_DESC])
             ->one();
 
         //add the item to bid activity
         BidManager::AddItemsToBidActivity($productModel, $multimodel = false); //add the picked item to bid activity table
         $product_list = BidManager::BuildList($productModel->PRODUCT_ID, $productModel->SKU,
             $productModel->PRODUCT_NAME,$productModel->RETAIL_PRICE,$productModel->PRICE);
-
         return $product_list;
     }
 
@@ -340,7 +347,7 @@ class BidManager
                 </div>
             <div class=\"row\">
                 <div class=\"col-md-8 col-md-offset-2\">
-                    <button class=\"btn btn-bid btn-block noradius text-uppercase\" id=\"placebid_$product_id\">
+                    <button class=\"btn btn-bid btn-bid-active btn-block noradius text-uppercase\" id=\"placebid_$product_id\">
                         <span class=\"hammer-icon pull-left\"></span>Bid Now
                     </button>
                 </div>

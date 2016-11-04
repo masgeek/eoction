@@ -1,6 +1,7 @@
 /**
  * Created by TRITON on 10/19/2016.
  */
+var intervalObj = {};
 
 function SetupProgressBar($productid, $bid_start_time) {
     /*
@@ -28,13 +29,27 @@ function SetupProgressBar($productid, $bid_start_time) {
         easing: "linear",
         //loop : 0,
         duration: starttime, //milliseconds
+        begin: function (elements) {
+            //call the timer function on begin
+            console.log('Begin timer');
+            ItemUpdate($productid, $sku, 'NO');
+        },
         progress: function (elements, percentComplete, timeRemaining, timeStart) {
             //$percentComplete.html(Math.round(percentComplete * 100) + "% complete.");
             //$timeRemaining.html(timeRemaining + "ms remaining.");
+            //console.log('Timer here '+timeRemaining+' for product '+$productid+' and sku '+$sku);
+            //ItemUpdate($productid,$sku);
         },
         complete: function () {
+            //disable the button
+            placebid.removeClass('btn-bid-active').addClass('btn-bid-ended disabled',function(){
+                //placebid.prop("disabled",true);
+            });
             console.log("No bid placed, removing item");
             //remove the product
+            //Math.floor((Math.random() * 5000) + 8000);
+            ItemUpdate($productid, $sku, 'YES');
+            //FetchNextItem($productid); //fetch the next item
         },
     };
 
@@ -71,9 +86,14 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
         easing: "linear",
         loop: false,
         duration: starttime, //milliseconds
+        begin: function (elements) {
+            ItemUpdate($productid, $sku, 'NO');
+        },
         progress: function (elements, percentComplete, timeRemaining, timeStart) {
             //$percentComplete.html(Math.round(percentComplete * 100) + "% complete.");
             //$timeRemaining.html(timeRemaining + "Going Once.");
+            //console.log('Timer here '+timeRemaining+' for product '+$productid+' and sku '+$sku);
+            //ItemUpdate($productid,$sku);
         },
         complete: function () {
             //what happens when it is complete?
@@ -102,16 +122,18 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
                     text = 'Going Twice';
                     break;
                 case '3': //going twice
-                    //remove item and disble bid item
+                    //remove item and disable bid item
+                    placebid.prop("disabled",true);
                     bidType.val(4);
                     text = ""; //clear the text
                     //show the bid won progress
                     //alert('You have won the bid');
-                    console.log('product id to remove ' + $productid);
+                    //console.log('product id to remove ' + $productid);
+                    ItemUpdate($productid, $sku, 'YES');
                     FetchNextItem($productid);
                     break;
                 case '4':
-
+//loading next item
                     break;
             }
             console.log("countdown completed for " + scenario);
@@ -153,7 +175,7 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
                 progressBar.removeClass("noplacedbids awaitingbid goingonce").addClass('goingtwice'); //always await bid
             }
         })//resets back to 100
-        .velocity({width: '0%'}, bidplacedParam); //going twice
+        .velocity({width: '0%'}, bidplacedParam) //going twice
 }
 
 function placeBid($product_id, $sku) {
@@ -164,10 +186,10 @@ function placeBid($product_id, $sku) {
     var $user_id = $('#user_id').val();
     var bidCount = $('#bid_count_' + $product_id);
     var bidsPlaced = $('#bids_placed_' + $product_id);
-     console.log($bidUrl);
-     console.log($user_id);
-     console.log($sku);
-     //return 0;
+    console.log($bidUrl);
+    console.log($user_id);
+    console.log($sku);
+    //return 0;
 
     $.ajax({
         url: $bidUrl,
@@ -187,12 +209,12 @@ function placeBid($product_id, $sku) {
         },
         success: function (data) {
             /*var $title = $('<h1>').text(data.talks[0].talk_title);
-            var $description = $('<p>').text(data.talks[0].talk_description);
-            $('#info' + $product_id)
-                .append($title)
-                .append($description);*/
+             var $description = $('<p>').text(data.talks[0].talk_description);
+             $('#info' + $product_id)
+             .append($title)
+             .append($description);*/
             bidsPlaced.html(data.bid_count);
-            
+
         },
         type: 'GET'
     });
@@ -204,6 +226,9 @@ function FetchNextItem($previous_product_id) {
 
     $.ajax({
         url: $productUrl,
+        data: {
+            product_id: $previous_product_id
+        },
         error: function () {
             $('#info').html('<p>An error has occurred</p>');
         },
@@ -228,30 +253,33 @@ function RefreshSomeEventListener($product_id, $sku) {
     var $place_bid = $('#placebid_' + $product_id);
     $(document).on("click", $place_bid, function () {
         // $(this).parent().remove();
-        console.log('Click event attached for product sku ' + $sku);
+        //console.log('Click event attached for product sku ' + $sku);
     });
 
     //run the intial progress bar
     SetupProgressBar($product_id, 60); //trigger the progress bar to start
 }
 
-function ItemUpdate($product_id,$sku){
+function ItemUpdate($product_id, $sku, $toclear) {
     var updateUrl = $('#update_url').val();
-    $.get(updateUrl, {product_id: $product_id, sku: $sku}, function (data) {
-        var $bid_count = data.bid_count;
-        var $new_bid_price = data.bid_price;
-        var $discount = data.discount;
-        console.log(data);
-    });
+    /*$.get(updateUrl, {product_id: $product_id, sku: $sku}, function (data) {
+     var $bid_count = data.bid_count;
+     var $new_bid_price = data.bid_price;
+     var $discount = data.discount;
+     console.log(data);
+     });*/
+    console.log('Clear interval ' + intervalObj[$product_id]);
+    clearInterval(intervalObj[$product_id]); //remove the interval
+
+    if ($toclear == 'NO') { //if its not in non clear mode do set another interval
+        intervalObj[$product_id] = setInterval(function () {
+            var updateUrl = $('#update_url').val();
+            $.get(updateUrl, {product_id: $product_id, sku: $sku}, function (data) {
+                var $bid_count = data.bid_count;
+                var $new_bid_price = data.bid_price;
+                console.log(data);
+            });
+        }, 1500); //check every 1.5 seconds
+        console.log('Set interval ' + intervalObj[$product_id]);
+    }
 }
-//run every 500ms
-/*
-setInterval(function () {
-    var updateUrl = $('#update_url').val();
-    $.get(updateUrl, {product_id: 1, sku: 1}, function (data) {
-        var $bid_count = data.BID_COUNT;
-        var $new_bid_price = data.BID_PRICE;
-        console.log(data);
-    });
-}, 1500000);
-    */

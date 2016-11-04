@@ -126,10 +126,10 @@ class SiteController extends Controller
                 ->where(['ALLOW_AUCTION' => 1,])
                 ->andWhere(['>=', 'CURRENT_STOCK_LEVEL', 1])//stock levels should be greater or equal to 1
                 ->andWhere(['NOT IN', 'SKU', $item_array])
-                ->orderBy(['rand()' => SORT_DESC]),
-            //->orderBy('PRODUCT_ID ASC')->limit(12),
+               // ->orderBy(['rand()' => SORT_DESC]),
+            ->orderBy('PRODUCT_ID ASC')->limit(12),
             'pagination' => [
-                'pageSize' => 8
+                'pageSize' => 2
             ],
         ]);
 
@@ -138,10 +138,10 @@ class SiteController extends Controller
         return $this->render('index', ['listDataProvider' => $dataProvider]);
     }
 
-    public function actionNextItem()
+    public function actionNextItem($product_id = 0)
     {
-        $nextItem = BidManager::GetNextItemToBid();
-        print_r(json_encode($nextItem));
+        $nextItem = BidManager::GetNextItemToBid($product_id);
+        return json_encode($nextItem);
     }
 
     /**

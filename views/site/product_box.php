@@ -35,7 +35,7 @@ $product_name = $model->PRODUCT_NAME;
 
 $discount = ProductManager::ComputePercentageDiscount($product_id);
 $shipping = ProductManager::ComputeShippingCost($product_id);
-$bidStartTime = 60;// * $productID; //initial start time for the bid
+$bidStartTime = 5;// * $productID; //initial start time for the bid
 
 $shipping_cost = $formatter->asCurrency($shipping);
 $retail_price = $formatter->asCurrency($model->RETAIL_PRICE);
@@ -76,9 +76,9 @@ $starting_bid_price = $formatter->asCurrency($model->PRICE);
             <div class="bidProgress noplacedbids" id="progressBar<?= $product_id ?>"></div>
                 </div>
             <div class="row">
-                <div class="col-md-8 col-md-offset-2">
+                <div class="col-md-8 col-md-offset-2" id="bid_button_<?=$product_id?>">
                     <?= Html::button('<span class="hammer-icon pull-left"></span>BID NOW', [
-                        'class' => 'btn btn-bid btn-block noradius',
+                        'class' => 'btn btn-bid btn-bid-active btn-block noradius',
                         'id' => "placebid_$product_id"
                     ]) ?>
                 </div>

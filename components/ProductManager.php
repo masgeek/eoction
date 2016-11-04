@@ -38,7 +38,7 @@ class ProductManager
 
     public static function ComputeShippingCost($product_id)
     {
-        $shipping_cost = 5;
+        $shipping_cost = 0;
         $product = Products::findOne(['PRODUCT_ID' => $product_id]);
         if ($product != null) {
             $retail_price = $product->RETAIL_PRICE;
@@ -50,7 +50,11 @@ class ProductManager
 
     public static function GetNumberOfBids($product_id)
     {
+        $activityCount = 0;
         $bids = BidActivity::findOne(['PRODUCT_ID' => $product_id]);
-        return $bids->ACTIVITY_COUNT; //return the count
+        if($bids!=null) {
+            $activityCount =  $bids->ACTIVITY_COUNT; //return the count
+        }
+        return $activityCount;
     }
 }

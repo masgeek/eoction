@@ -156,16 +156,26 @@ a.desc:after {
     /*margin-left:-20px;*/
 }
 .btn.btn-bid{
-    border: 0.1em solid #0a0a0a;
-    background-color: #FFFFFF;
-    color:#a07936;
     font-weight:700;
+    font-size: 1.3em;
     height:40px;
     text-align: center;
     vertical-align: middle;
 }
 
-.btn.btn-bid:hover{
+.btn.btn-bid-active{
+    border: 0.1em solid #0a0a0a;
+    background-color: #FFFFFF;
+    color:#a07936;
+}
+
+.btn.btn-bid-ended{
+    border: 0.1em solid #0a0a0a;
+    background-color: #a07936;
+    color: #FFFFFF;
+}
+
+.btn.btn-bid-active:hover{
     transition: background-color 0.5s ease;
     background-color: #a07936;
     color:#FFFFFF;
