@@ -180,6 +180,7 @@ class BidManager
             ->where([
                 'NOT IN', 'SKU', $item_array,
             ])
+            ->andWhere(['>=', 'CURRENT_STOCK_LEVEL', 1])//stock levels should be greater or equal to 1
             //->andWhere('!=','PRODUCT_ID',$product_id)
             ->orderBy(['rand()' => SORT_DESC])
             ->one();
@@ -196,6 +197,8 @@ class BidManager
      */
     public static function GetExclusionItems()
     {
+        //clean the table
+        //BidManager::RemoveItemsFromBidActivity();
         $nested_items_array = BidActivity::find()
             ->select('PRODUCT_SKU')
             //->where('ACTIVITY_COUNT <= 0')
@@ -208,7 +211,7 @@ class BidManager
             $item_array[] = $item['PRODUCT_SKU'];
         }
 
-        return $item_array;
+        return [];//$item_array;
     }
 
     private static function BuildListOld($product_id, $sku, $product_name)
