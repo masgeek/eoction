@@ -170,14 +170,14 @@ a.desc:after {
 }
 
 .btn.btn-bid-ended{
-    border: 0.1em solid #0a0a0a;
-    background-color: #a07936;
+    border: 0.1em solid #ab1819;
+    background-color: #77562d;
     color: #FFFFFF;
 }
 
 .btn.btn-bid-active:hover{
     transition: background-color 0.5s ease;
-    background-color: #a07936;
+    background-color: #d8a947;
     color:#FFFFFF;
 }
 .btn.noradius{

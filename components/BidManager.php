@@ -301,9 +301,14 @@ class BidManager
         ];
         return $product_box;
     }
-    private static function BuildList($product_id, $sku, $product_name,$retail_price,$starting_bid_price)
+    private static function BuildList($product_id, $sku, $product_name,$retail_price_raw,$starting_bid_price_raw)
     {
-        $shipping_cost = ProductManager::ComputeShippingCost($product_id);
+        $formatter = \Yii::$app->formatter;
+
+        $shipping_cost = $formatter->asCurrency(ProductManager::ComputeShippingCost($product_id));
+        $retail_price = $formatter->asCurrency($retail_price_raw);
+        $starting_bid_price = $formatter->asCurrency($starting_bid_price_raw);
+        //$shipping_cost = ProductManager::ComputeShippingCost($product_id);
         $bids = ProductManager::GetNumberOfBids($product_id);
         $discount = ProductManager::ComputePercentageDiscount($product_id);
 

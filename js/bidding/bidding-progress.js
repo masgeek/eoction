@@ -21,6 +21,7 @@ function SetupProgressBar($productid, $bid_start_time) {
     var bidStatusText = $('#bid_status_' + $productid);
     var bidType = $('#bid_type_' + $productid);
     var placebid = $('#placebid_' + $productid);
+    var bidButton = $('#bid_button_' + $productid);
     var $sku = $('#product_sku_' + $productid).val();
 
     //read the values indicating what type of bid
@@ -42,14 +43,13 @@ function SetupProgressBar($productid, $bid_start_time) {
         },
         complete: function () {
             //disable the button
-            placebid.removeClass('btn-bid-active').addClass('btn-bid-ended disabled',function(){
-                //placebid.prop("disabled",true);
-            });
-            console.log("No bid placed, removing item");
+            var button = '<button class="btn btn-bid btn-bid-ended btn-block noradius text-uppercase" disabled>Next Item</button>';
+            bidButton.html(button);
+            //console.log("No bid placed, removing item");
             //remove the product
             //Math.floor((Math.random() * 5000) + 8000);
             ItemUpdate($productid, $sku, 'YES');
-            //FetchNextItem($productid); //fetch the next item
+            FetchNextItem($productid); //fetch the next item
         },
     };
 
@@ -123,7 +123,7 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
                     break;
                 case '3': //going twice
                     //remove item and disable bid item
-                    placebid.prop("disabled",true);
+                    placebid.prop("disabled", true);
                     bidType.val(4);
                     text = ""; //clear the text
                     //show the bid won progress
@@ -223,7 +223,7 @@ function placeBid($product_id, $sku) {
 function FetchNextItem($previous_product_id) {
     var $productUrl = $('#product_url').val();
     var $productBox = $('#item_box_' + $previous_product_id);
-
+    var intervals = Math.floor((Math.random() * 1500) + 2500);
     $.ajax({
         url: $productUrl,
         data: {
@@ -235,10 +235,10 @@ function FetchNextItem($previous_product_id) {
         dataType: 'json',
         success: function (data) {
             //remove the initial product box
-            $productBox.fadeOut(1500, function () {
+            $productBox.fadeOut(intervals, function () {
                 $(this).remove();
                 $('#product_list').prepend(data.html_data);
-                $('.fadein').fadeIn(2000);
+                $('.fadein').fadeIn(intervals);
                 //scroll to the top
                 $("html, body").animate({scrollTop: 0}, "slow");
                 //next add the click event listeners to the dynamic items
@@ -262,6 +262,7 @@ function RefreshSomeEventListener($product_id, $sku) {
 
 function ItemUpdate($product_id, $sku, $toclear) {
     var updateUrl = $('#update_url').val();
+    var intervals = Math.floor((Math.random() * 1500) + 2500);
     /*$.get(updateUrl, {product_id: $product_id, sku: $sku}, function (data) {
      var $bid_count = data.bid_count;
      var $new_bid_price = data.bid_price;
@@ -279,7 +280,7 @@ function ItemUpdate($product_id, $sku, $toclear) {
                 var $new_bid_price = data.bid_price;
                 console.log(data);
             });
-        }, 1500); //check every 1.5 seconds
+        }, intervals); //check every n seconds
         console.log('Set interval ' + intervalObj[$product_id]);
     }
 }
