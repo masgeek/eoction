@@ -27,8 +27,7 @@
         "rmrevin/yii2-fontawesome": "2.10.*",
         "yiisoft/yii2-jui": "~2.0.0",
         "yiisoft/yii2-authclient": "^2.1",
-        "amnah/yii2-user": "^5.0",
-        "rmrevin/yii2-favicon-widget": "1.1.*"
+        "amnah/yii2-user": "^5.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "*",

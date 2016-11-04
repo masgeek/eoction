@@ -16,7 +16,6 @@ class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
         array (
             'yii\\swiftmailer\\' => 16,
             'yii\\jui\\' => 8,
-            'yii\\imagine\\' => 12,
             'yii\\httpclient\\' => 15,
             'yii\\gii\\' => 8,
             'yii\\faker\\' => 10,
@@ -29,7 +28,6 @@ class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
         'r' => 
         array (
             'rmrevin\\yii\\fontawesome\\' => 24,
-            'rmrevin\\yii\\favicon\\' => 20,
         ),
         'c' => 
         array (
@@ -53,10 +51,6 @@ class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
         'yii\\jui\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-jui',
-        ),
-        'yii\\imagine\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/yiisoft/yii2-imagine',
         ),
         'yii\\httpclient\\' => 
         array (
@@ -94,10 +88,6 @@ class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
         array (
             0 => __DIR__ . '/..' . '/rmrevin/yii2-fontawesome',
         ),
-        'rmrevin\\yii\\favicon\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/rmrevin/yii2-favicon-widget',
-        ),
         'cebe\\markdown\\' => 
         array (
             0 => __DIR__ . '/..' . '/cebe/markdown',
@@ -113,13 +103,6 @@ class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
     );
 
     public static $prefixesPsr0 = array (
-        'I' => 
-        array (
-            'Imagine' => 
-            array (
-                0 => __DIR__ . '/..' . '/imagine/imagine/lib',
-            ),
-        ),
         'H' => 
         array (
             'HTMLPurifier' => 
