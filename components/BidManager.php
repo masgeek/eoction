@@ -239,7 +239,7 @@ class BidManager
         ];
         return $product_box;
     }
-    private static function BuildList($product_id, $sku, $product_name,$retail_price,$starting_bid_price)
+    private static function BuildListBackup($product_id, $sku, $product_name,$retail_price,$starting_bid_price)
     {
         $shipping_cost = ProductManager::ComputeShippingCost($product_id);
         $bids = 0;
@@ -285,6 +285,70 @@ class BidManager
     </div>
 </div>
 ";
+
+        //return the item list now
+        $product_box = [
+            'product_id' => $product_id,
+            'sku' => $sku,
+            'html_data' => $html_list
+        ];
+        return $product_box;
+    }
+    private static function BuildList($product_id, $sku, $product_name,$retail_price,$starting_bid_price)
+    {
+        $shipping_cost = ProductManager::ComputeShippingCost($product_id);
+        $bids = 0;
+        $discount = ProductManager::ComputePercentageDiscount($product_id);
+
+        //$img = 'http://placehold.it/400/500';
+        $img = '//lorempixel.com/400/400/food';
+        $imageHtml = Html::img($img, [
+            'id' => 'product_image_' . $product_id,
+            'class' => 'img img-responsive',
+            'alt' => $product_name,
+        ]);
+
+        $html_list = "
+<div class=\"col-xs-18 col-sm-6 col-md-3\" id=\"item_box_<?= $product_id; ?>\">
+    <div class=\"hidden\">
+        <input type=\"text\" id=\"bid_count_<?= $product_id; ?>\" value=\"0\" readonly=\"readonly\"/>
+        <input type=\"text\" id=\"bid_price_<?= $product_id; ?>\" value=\"0\" readonly=\"readonly\"/>
+        <input type=\"text\" id=\"bid_type_<?= $product_id; ?>\" value=\"1\" readonly=\"readonly\"/>
+        <input type=\"text\" id=\"bid_placed_<?= $product_id; ?>\" value=\"0\" readonly=\"readonly\"/>
+        <input type=\"text\" id=\"product_sku_<?= $product_id; ?>\" value=\"<?= $sku ?>\" readonly=\"readonly\"/>
+    </div>
+    <div class=\"offer offer-default\">
+        <div class=\"shape\">
+            <span class=\"shape-text\" id=\"discount_$product_id\">$discount%</span>
+            <span class=\"shape-text quickview\"><i class=\"fa fa-eye \"></i> Quick View</span>
+        </div>
+        <div class=\"offer-content\">
+        $imageHtml
+            <div class=\"row text-center\">
+                <span class=\"bidding-price\">Starting Bid: $starting_bid_price</span><br/>
+                <span class=\"retail-price\">$retail_price</span>
+            </div>
+            <div class=\"row text-center\">
+                <span>Shipping $shipping_cost</span>
+            </div>
+            <div class=\"row text-center\">
+                <span id=\"bids_placed_$product_id\"><?= $bids ?> Bid</span>
+            </div>
+            <div class=\"row progress-container\">
+            <div class=\"bidProgress noplacedbids\" id=\"progressBar$product_id\"></div>
+                </div>
+            <div class=\"row\">
+                <div class=\"col-md-8 col-md-offset-2\">
+                 <button id=\"placebid_$product_id\" class=\"btn btn - primary btn-block noradius\">
+                 <span class=\"hammer-icon pull-left\"</span>BID NOW</button>
+                </div>
+            </div>
+            <div class=\"row text-center\">
+                <div id=\"bid_status_$product_id\" class=\"text-uppercase bid-message\">Accepting Bids</div>
+            </div>
+        </div>
+    </div>
+</div>";
 
         //return the item list now
         $product_box = [

@@ -81,12 +81,12 @@ $listviewWidget = ListView::widget([
         margin-bottom:5px;
     }
 
-    .noplacedbids {
+    .noplacedbids, .awaitingbid {
         /*background-color: purple;*/
         background-image: linear-gradient(to right, #f00439, #f28d0d,pink);
     }
 
-    .awaitingbid {
+    .awaitingbid-old {
         /*background-color: #42e83e;*/
         background-image: linear-gradient(to right, #3b389b, #5d5aff,yellow);
     }

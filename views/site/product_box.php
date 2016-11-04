@@ -41,15 +41,15 @@ $retail_price = $formatter->asCurrency($model->RETAIL_PRICE);
 $starting_bid_price = $formatter->asCurrency($model->PRICE);
 ?>
 
-<div class="hidden">
-    <input type="text" id="bid_count_<?= $product_id; ?>" value="0" readonly="readonly"/>
-    <input type="text" id="bid_price_<?= $product_id; ?>" value="0" readonly="readonly"/>
-    <input type="text" id="bid_type_<?= $product_id; ?>" value="1" readonly="readonly"/>
-    <input type="text" id="bid_placed_<?= $product_id; ?>" value="0" readonly="readonly"/>
-    <input type="text" id="product_sku_<?= $product_id; ?>" value="<?= $sku ?>" readonly="readonly"/>
-</div>
 
 <div class="col-xs-18 col-sm-6 col-md-3" id="item_box_<?= $product_id; ?>">
+    <div class="hidden">
+        <input type="text" id="bid_count_<?= $product_id; ?>" value="0" readonly="readonly"/>
+        <input type="text" id="bid_price_<?= $product_id; ?>" value="0" readonly="readonly"/>
+        <input type="text" id="bid_type_<?= $product_id; ?>" value="1" readonly="readonly"/>
+        <input type="text" id="bid_placed_<?= $product_id; ?>" value="0" readonly="readonly"/>
+        <input type="text" id="product_sku_<?= $product_id; ?>" value="<?= $sku ?>" readonly="readonly"/>
+    </div>
     <div class="offer offer-default">
         <div class="shape">
             <span class="shape-text" id="discount_<?= $product_id ?>"><?= $discount ?>%</span>
