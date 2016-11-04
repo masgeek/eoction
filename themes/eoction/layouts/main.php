@@ -29,6 +29,9 @@ FontAssets::register($this);
 
 <!-- container -->
 <div class="container-fluid">
+    <?= Breadcrumbs::widget([
+        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+    ]) ?>
     <?= $content; ?>
 </div> <!-- /container -->
 
@@ -41,7 +44,7 @@ FontAssets::register($this);
 
 <?php
 $this->registerJs('
-    $(".product-nav a").on("click", function(){
+    $(".nav a").on("click", function(){
         $(".nav").find(".active").removeClass("active");
         $(this).parent().addClass("active");
     });');
