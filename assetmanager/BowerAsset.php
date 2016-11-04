@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace app\assets;
+namespace app\assetmanager;
 
 use yii\web\AssetBundle;
 
@@ -18,17 +18,19 @@ class BowerAsset extends AssetBundle
     public $sourcePath = '@bower';
 
     public $css = [
-
+        'animate.css/animate.min.css'
     ];
 
     public $js = [
-      //'timer.jquery/dist/timer.jquery.js'
-      //'countdown360/dist/jquery.countdown360.js'
-      'velocity/velocity.js',
-      'velocity/velocity.ui.js'
+        //'timer.jquery/dist/timer.jquery.js'
+        //'countdown360/dist/jquery.countdown360.js'
+        'velocity/velocity.min.js',
+        'velocity/velocity.ui.min.js'
     ];
 
     public $depends = [
         'yii\web\JqueryAsset',
+        'velocity/velocity.js',
+        'velocity/velocity.ui.js'
     ];
 }

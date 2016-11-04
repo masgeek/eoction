@@ -62,21 +62,21 @@ $starting_bid_price = $formatter->asCurrency($model->PRICE);
                 'class' => 'img img-responsive',
                 'alt' => $product_name,
             ]); ?>
-            <div class="row text-center">
+            <div class="col-md-12 col-xs-6 text-center">
                 <span class="bidding-price">Starting Bid: <?= $starting_bid_price ?></span><br/>
                 <span class="retail-price"><?= $retail_price; ?></span>
             </div>
-            <div class="row text-center">
+            <div class="col-md-12 col-xs-6 text-center">
                 <span>Shipping <?= $shipping_cost ?></span>
             </div>
-            <div class="row text-center text-uppercase">
+            <div class="col-md-12 col-xs-6 text-center text-uppercase">
                 <span id="bids_placed_<?= $product_id ?>"><?= $bids ?></span> Bid
             </div>
-            <div class="row progress-container">
+            <div class="col-md-12 col-xs-6 progress-container">
             <div class="bidProgress noplacedbids" id="progressBar<?= $product_id ?>"></div>
                 </div>
             <div class="row">
-                <div class="col-md-8 col-md-offset-2" id="bid_button_<?=$product_id?>">
+                <div class="col-md-10 col-md-offset-1 col-xs-12" id="bid_button_<?=$product_id?>">
                     <?= Html::button('<span class="hammer-icon pull-left"></span>BID NOW', [
                         'class' => 'btn btn-bid btn-bid-active btn-block noradius',
                         'id' => "placebid_$product_id"
@@ -84,7 +84,7 @@ $starting_bid_price = $formatter->asCurrency($model->PRICE);
                 </div>
 
             </div>
-            <div class="row text-center">
+            <div class="col-md-12 col-xs-6 text-center">
                 <div id="bid_status_<?= $product_id; ?>" class="text-uppercase bid-message">Accepting Bids</div>
             </div>
         </div>
