@@ -31,7 +31,7 @@ $userid = yii::$app->user->id ? yii::$app->user->id : 1;
                 <li><?= Html::a('Sign In', ['//site/login'], ['title' => 'Sign in to place bids', 'class' => 'text-capitalise']); ?></li>
                 <li><?= Html::a('Sign Up Now It\'s Free', ['//site/login'], ['title' => 'Sign in to place bids', 'class' => 'text-capitalise']); ?></li>
             <?php else: ?>
-                <li><?= Html::a('<span class="fa fa-user"></span> My Account', ['//site/my-account'], ['class' => 'text-capitalise']); ?></li>
+                <li><?= Html::a('<span class="fa fa-user"></span> My Account', ['//users/user/index'], ['class' => 'text-capitalise']); ?></li>
                 <li><?= Html::a('<span class="fa fa-heart"></span> My Wishlist', ['//shop/wishlist'], ['title' => 'Items in your wish-list', 'class' => 'text-capitalise']); ?></li>
                 <li>
                     <a href="#">

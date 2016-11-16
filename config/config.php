@@ -18,6 +18,7 @@ $config = [
         ],
         'user' => [
             'class' => 'app\module\users\user',
+            'defaultRoute' => 'users',
         ],
     ],
     'components' => [
@@ -48,7 +49,8 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            //'identityClass' => 'app\models\User',
+            'identityClass' => 'app\module\users\user\models\Users',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
