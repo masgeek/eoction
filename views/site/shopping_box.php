@@ -43,13 +43,6 @@ $starting_bid_price = $formatter->asCurrency($model->PRICE);
 
 
 <div class="col-xs-18 col-sm-6 col-md-3" id="item_box_<?= $product_id; ?>">
-    <div class="hidden">
-        <input type="text" id="bid_count_<?= $product_id; ?>" value="0" readonly="readonly"/>
-        <input type="text" id="bid_price_<?= $product_id; ?>" value="0" readonly="readonly"/>
-        <input type="text" id="bid_type_<?= $product_id; ?>" value="1" readonly="readonly"/>
-        <input type="text" id="bid_placed_<?= $product_id; ?>" value="0" readonly="readonly"/>
-        <input type="text" id="product_sku_<?= $product_id; ?>" value="<?= $sku ?>" readonly="readonly"/>
-    </div>
     <div class="offer offer-default">
         <div class="offer-content">
             <?= Html::img($imageA, [
@@ -64,11 +57,16 @@ $starting_bid_price = $formatter->asCurrency($model->PRICE);
                 <span>Shipping <?= $shipping_cost ?></span>
             </div>
             <div class="row">
-                <div class="col-md-10 col-md-offset-1 col-xs-12" id="bid_button_<?=$product_id?>">
-                    <?= Html::button('BUY NOW', [
-                        'class' => 'btn btn-primary btn-block noradius',
+                <div class="col-md-10 col-md-offset-1 col-xs-12" id="buy_button_<?= $product_id ?>">
+                    <!--= Html::button("BUY NOW FOR $retail_price", [
+                        'class' => 'btn btn-primary btn-lg btn-block noradius',
                         'id' => "buynow_$product_id"
-                    ]) ?>
+                    ]) ?-->
+                    <?= Html::a("BUY NOW FOR $retail_price",
+                        ['//shop/add-to-cart', 'id' => $product_id, 'sku' => $sku],
+                        [
+                            'class'=>'btn btn-primary btn-block btn-lg noradius',
+                        ]) ?>
                 </div>
 
             </div>

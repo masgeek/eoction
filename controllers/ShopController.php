@@ -55,9 +55,9 @@ class ShopController extends Controller
         //number of bids
         //current bid price
         $updateData = [
-            'product_id'=>$product_id,
-            'bid_price'=>BidManager::GetMaxBidAmount($product_id),
-            'bid_count'=>ProductManager::GetNumberOfBids($product_id),
+            'product_id' => $product_id,
+            'bid_price' => BidManager::GetMaxBidAmount($product_id),
+            'bid_count' => ProductManager::GetNumberOfBids($product_id),
             'discount' => ProductManager::ComputePercentageDiscount($product_id),
         ];
         return json_encode($updateData);
@@ -66,9 +66,11 @@ class ShopController extends Controller
     //entry page
     public function actionIndex()
     {
+        $min_stock = 1;
+
         $dataProvider = new ActiveDataProvider([
             'query' => Products::find()
-                ->where(['>=', 'CURRENT_STOCK_LEVEL', 1])//stock levels should be greater or equal to 1
+                ->where(['>=', 'CURRENT_STOCK_LEVEL', $min_stock])//stock levels should be greater or equal to 1
                 ->orderBy('PRODUCT_ID ASC'),
             'pagination' => [
                 'pageSize' => 20
@@ -78,5 +80,17 @@ class ShopController extends Controller
 
         $this->view->title = 'Online Shopping';
         return $this->render('//site/shop', ['listDataProvider' => $dataProvider]);
+    }
+
+    /**
+     * @param $id
+     * @param null $sku
+     */
+    public function actionAddToCart($id, $sku = null)
+    {
+        //--[  ]--\\
+
+        //add it to the cart
+        return $this->render('//site/index');
     }
 }
