@@ -11,7 +11,7 @@ $this->title = 'Create Account';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="users-create col-md-8 col-md-offset-2">
-    <?= $this->render('_form', [
+    <?= $this->render('_signup-form', [
         'model' => $model,
     ]) ?>
 
