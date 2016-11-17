@@ -71,12 +71,23 @@ class UsersController extends Controller
             $date = new Expression('NOW()');
             $model_post = (array)Yii::$app->request->post('Users');
             $username = $model_post['EMAIL_ADDRESS'];
+            $names = $model_post['FULL_NAMES'];
+            $email = $model_post['EMAIL_ADDRESS'];
+            $raw_password = $model_post['PASSWORD'];
+            $hashed_password = sha1($raw_password);
+
+
+            $model->FULL_NAMES = $names;
+            $model->EMAIL_ADDRESS = $email;
+            $model->PASSWORD = $hashed_password;
+            $model->REPEAT_PASSWORD = $hashed_password;
             $model->USERNAME = $username;
             $model->DATE_CREATED = $date;
             $model->DATE_UPDATED = $date;
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        //if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->save()) {
             return $this->redirect(['//site/login']);//redirect to the login page afer successful signup
         } else {
             return $this->render('signup', [
@@ -91,6 +102,19 @@ class UsersController extends Controller
      * @param integer $id
      * @return mixed
      */
+    public function actionMyProfile($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->USER_ID]);
+        } else {
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
+    }
+
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);

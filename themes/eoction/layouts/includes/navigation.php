@@ -35,7 +35,7 @@ $home = \yii\helpers\Url::toRoute(['//site']);
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">My Account
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><?= Html::a('<span class="fa fa-user"></span> My Account', ['//user/users/my-profile'], ['class' => 'text-capitalise']); ?></li>
+                        <li><?= Html::a('<span class="fa fa-user"></span> My Account', ['//user/users/my-profile', 'id' => yii::$app->user->id], ['class' => 'text-capitalise']); ?></li>
                         <!--<li><?= Html::a('<span class="fa fa-lock"></span> Logout', ['//site/logout'], ['class' => 'text-capitalise']); ?></li>-->
                         <?= Html::beginForm(['/site/logout'], 'post') ?>
                         <li><?= Html::submitButton('Logout (' . Yii::$app->user->identity->USERNAME . ')', ['class' => 'btn btn-link logout']) ?></li>

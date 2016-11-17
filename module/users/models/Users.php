@@ -123,7 +123,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->PASSWORD === $password;//sha1($password);
+        return $this->PASSWORD === sha1($password);
     }
 
     /**
