@@ -14,11 +14,12 @@ $config = [
     'modules' => [
         'product' => [
             'class' => 'app\module\products\product',
-            'defaultRoute' => 'product',
         ],
         'user' => [
             'class' => 'app\module\users\user',
-            'defaultRoute' => 'users',
+        ],
+        'shopper' => [
+            'class' => 'app\module\shopper\Module',
         ],
     ],
     'components' => [
@@ -50,7 +51,7 @@ $config = [
         ],
         'user' => [
             //'identityClass' => 'app\models\User',
-            'identityClass' => 'app\module\users\user\models\Users',
+            'identityClass' => 'app\module\users\models\Users',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [

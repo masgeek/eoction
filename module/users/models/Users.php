@@ -14,6 +14,7 @@ use yii\web\IdentityInterface;
  * @property integer $USER_ID
  * @property string $USERNAME
  * @property string $PASSWORD
+ * @property string $REPEAT_PASSWORD
  * @property string $FULL_NAMES
  * @property string $EMAIL_ADDRESS
  * @property string $LOGIN_ID
@@ -33,7 +34,7 @@ use yii\web\IdentityInterface;
 class Users extends \yii\db\ActiveRecord implements IdentityInterface
 {
 
-
+    public $REPEAT_PASSWORD;
     /** INCLUDE USER LOGIN VALIDATION FUNCTIONS**/
     /**
      * @inheritdoc
@@ -61,7 +62,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
     /**
      * Finds user by username
      *
-     * @param  string      $username
+     * @param  string $username
      * @return static|null
      */
     public static function findByUsername($username)
@@ -72,14 +73,14 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
     /**
      * Finds user by password reset token
      *
-     * @param  string      $token password reset token
+     * @param  string $token password reset token
      * @return static|null
      */
     public static function findByPasswordResetToken($token)
     {
         $expire = \Yii::$app->params['user.passwordResetTokenExpire'];
         $parts = explode('_', $token);
-        $timestamp = (int) end($parts);
+        $timestamp = (int)end($parts);
         if ($timestamp + $expire < time()) {
             // token expired
             return null;
@@ -117,7 +118,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
     /**
      * Validates password
      *
-     * @param  string  $password password to validate
+     * @param  string $password password to validate
      * @return boolean if password provided is valid for current user
      */
     public function validatePassword($password)
@@ -158,6 +159,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
     {
         $this->PASSWORD_RESET_TOKEN = null;
     }
+
     /**
      * @inheritdoc
      */
@@ -173,6 +175,8 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             [['USERNAME', 'PASSWORD', 'FULL_NAMES', 'EMAIL_ADDRESS'], 'required'],
+            [['USERNAME','EMAIL_ADDRESS'], 'unique'],
+            [['REPEAT_PASSWORD'], 'required', 'on'=>'signup'],
             [['SOCIAL_ID'], 'integer'],
             [['DATE_CREATED', 'DATE_UPDATED'], 'safe'],
             [['USERNAME'], 'string', 'max' => 20],
@@ -181,6 +185,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
             [['PHONE_NO'], 'string', 'max' => 30],
             [['TIMEZONE'], 'string', 'max' => 10],
             [['COUNTRY'], 'string', 'max' => 15],
+            ['REPEAT_PASSWORD', 'compare', 'compareAttribute'=>'PASSWORD', 'skipOnEmpty' => false, 'message'=>"Passwords don't match",'on'=>'signup'],
         ];
     }
 
@@ -193,8 +198,9 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
             'USER_ID' => 'User  ID',
             'USERNAME' => 'Username',
             'PASSWORD' => 'Password',
-            'FULL_NAMES' => 'Full  Names',
-            'EMAIL_ADDRESS' => 'Email  Address',
+            'REPEAT_PASSWORD' => 'Confirm Password',
+            'FULL_NAMES' => 'Full Names',
+            'EMAIL_ADDRESS' => 'Email Address',
             'LOGIN_ID' => 'Login  ID',
             'PHONE_NO' => 'Phone  No',
             'TIMEZONE' => 'Timezone',

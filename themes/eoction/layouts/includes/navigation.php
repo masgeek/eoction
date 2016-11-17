@@ -3,7 +3,7 @@ use yii\helpers\Html;
 
 use app\components\CartManager;
 
-$userid = yii::$app->user->id ? yii::$app->user->id : 1;
+$home = \yii\helpers\Url::toRoute(['//site']);
 ?>
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="navbar-header">
@@ -12,7 +12,7 @@ $userid = yii::$app->user->id ? yii::$app->user->id : 1;
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="./">
+        <a class="navbar-brand" href="<?= $home ?>">
             <?php
             $imgLink = '@web/images/logo.png';
             echo Html::img($imgLink, ['class' => 'img img-responsive', 'width' => 210, 'alt' => Yii::$app->name, 'title' => Yii::$app->name]);
@@ -29,13 +29,24 @@ $userid = yii::$app->user->id ? yii::$app->user->id : 1;
         <ul class="nav navbar-nav navbar-right" style="margin-right: 10px;">
             <?php if (Yii::$app->user->isGuest): ?>
                 <li><?= Html::a('Sign In', ['//site/login'], ['title' => 'Sign in to place bids', 'class' => 'text-capitalise']); ?></li>
-                <li><?= Html::a('Sign Up Now It\'s Free', ['//site/login'], ['title' => 'Sign in to place bids', 'class' => 'text-capitalise']); ?></li>
+                <li><?= Html::a('Sign Up Now It\'s Free', ['//user/users/signup'], ['title' => 'Sign in to place bids', 'class' => 'text-capitalise']); ?></li>
             <?php else: ?>
-                <li><?= Html::a('<span class="fa fa-user"></span> My Account', ['//users/user/index'], ['class' => 'text-capitalise']); ?></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">My Account
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><?= Html::a('<span class="fa fa-user"></span> My Account', ['//user/users/my-profile'], ['class' => 'text-capitalise']); ?></li>
+                        <!--<li><?= Html::a('<span class="fa fa-lock"></span> Logout', ['//site/logout'], ['class' => 'text-capitalise']); ?></li>-->
+                        <?= Html::beginForm(['/site/logout'], 'post') ?>
+                        <li><?= Html::submitButton('Logout (' . Yii::$app->user->identity->USERNAME . ')', ['class' => 'btn btn-link logout']) ?></li>
+                        <?= Html::endForm() ?>
+                    </ul>
+                </li>
                 <li><?= Html::a('<span class="fa fa-heart"></span> My Wishlist', ['//shop/wishlist'], ['title' => 'Items in your wish-list', 'class' => 'text-capitalise']); ?></li>
                 <li>
                     <a href="#">
-                        <span class="glyphicon glyphicon-shopping-cart"></span> Cart<small id="cart-item"><?= CartManager::GetCartItems($userid) ?> Items</small>
+                        <span class="glyphicon glyphicon-shopping-cart"></span> Cart
+                        <small id="cart-item"><?= CartManager::GetCartItems(yii::$app->user->id) ?> Items</small>
                     </a>
                 </li>
             <?php endif; ?>
