@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
+Source Server         : Localhost
 Source Server Version : 50711
 Source Host           : localhost:3306
 Source Database       : eoction
@@ -10,10 +10,40 @@ Target Server Type    : MYSQL
 Target Server Version : 50711
 File Encoding         : 65001
 
-Date: 2016-11-02 14:42:49
+Date: 2016-11-17 14:01:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for migration
+-- ----------------------------
+DROP TABLE IF EXISTS `migration`;
+CREATE TABLE `migration` (
+  `version` varchar(180) NOT NULL,
+  `apply_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`version`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of migration
+-- ----------------------------
+INSERT INTO `migration` VALUES ('m000000_000000_base', '1479323945');
+
+-- ----------------------------
+-- Table structure for tb_auth
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_auth`;
+CREATE TABLE `tb_auth` (
+  `AUTH_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `SOURCE` varchar(30) DEFAULT NULL,
+  `SOURCE_ID` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`AUTH_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tb_auth
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for tb_bid_activity
@@ -30,43 +60,29 @@ CREATE TABLE `tb_bid_activity` (
   KEY `PRODUCT_ID` (`PRODUCT_ID`),
   CONSTRAINT `tb_bid_activity_ibfk_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE,
   CONSTRAINT `tb_bid_activity_ibfk_2` FOREIGN KEY (`PRODUCT_SKU`) REFERENCES `tb_products` (`SKU`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=344 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=487 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_bid_activity
 -- ----------------------------
 INSERT INTO `tb_bid_activity` VALUES ('298', '2', 'NQH-J272582150000', '1', '2016-10-24 15:41:10');
-INSERT INTO `tb_bid_activity` VALUES ('299', '1', 'NHQ-J272582011000', '1', '2016-10-24 15:43:38');
+INSERT INTO `tb_bid_activity` VALUES ('299', '1', 'NHQ-J272582011000', '8', '2016-11-04 21:26:22');
 INSERT INTO `tb_bid_activity` VALUES ('300', '3', 'NQH-J273636202543', '1', '2016-10-24 15:44:33');
-INSERT INTO `tb_bid_activity` VALUES ('301', '4', 'NQH-J261702000000', '0', '2016-10-24 15:45:03');
 INSERT INTO `tb_bid_activity` VALUES ('302', '6', 'NQH-J268946V75000', '1', '2016-10-24 15:54:07');
-INSERT INTO `tb_bid_activity` VALUES ('303', '5', 'NQH-J267523273074', '0', '2016-10-24 15:54:37');
 INSERT INTO `tb_bid_activity` VALUES ('304', '124', 'C-AR0172-7-YSL', '1', '2016-10-24 16:00:10');
-INSERT INTO `tb_bid_activity` VALUES ('305', '7', 'NQH-J271679273543', '0', '2016-10-24 16:00:39');
 INSERT INTO `tb_bid_activity` VALUES ('306', '85', 'NQH-J260835M86581', '1', '2016-10-31 10:40:05');
-INSERT INTO `tb_bid_activity` VALUES ('307', '8', 'NQH-J268381202000', '0', '2016-10-31 10:40:35');
 INSERT INTO `tb_bid_activity` VALUES ('308', '161', 'M-CSE3345-BW-WSL', '1', '2016-10-31 10:49:56');
-INSERT INTO `tb_bid_activity` VALUES ('309', '9', 'NQH-J142308000000', '0', '2016-10-31 10:50:26');
 INSERT INTO `tb_bid_activity` VALUES ('310', '27', 'NQH-J268730000625', '1', '2016-10-31 10:57:45');
-INSERT INTO `tb_bid_activity` VALUES ('311', '10', 'NQH-J146242061668', '0', '2016-10-31 10:58:15');
 INSERT INTO `tb_bid_activity` VALUES ('312', '95', 'NQH-J269557027581', '1', '2016-10-31 10:58:59');
-INSERT INTO `tb_bid_activity` VALUES ('313', '11', 'NQH-J146242Z32668', '0', '2016-10-31 10:59:29');
 INSERT INTO `tb_bid_activity` VALUES ('314', '119', 'C-JSGE311-YSL', '1', '2016-10-31 11:00:27');
 INSERT INTO `tb_bid_activity` VALUES ('315', '12', 'NQH-J149533012000', '1', '2016-10-31 11:03:13');
-INSERT INTO `tb_bid_activity` VALUES ('316', '13', 'NQH-J149810G84000', '0', '2016-10-31 11:03:44');
 INSERT INTO `tb_bid_activity` VALUES ('317', '23', 'NQH-J261947848074', '1', '2016-10-31 11:08:21');
-INSERT INTO `tb_bid_activity` VALUES ('318', '14', 'NQH-J149874848000', '0', '2016-10-31 11:08:52');
 INSERT INTO `tb_bid_activity` VALUES ('319', '98', 'NQH-J274405S69000', '1', '2016-10-31 11:15:47');
 INSERT INTO `tb_bid_activity` VALUES ('320', '15', 'NQH-J152527154000', '1', '2016-10-31 11:16:50');
 INSERT INTO `tb_bid_activity` VALUES ('321', '42', 'NQH-J278075848000', '1', '2016-10-31 11:17:10');
-INSERT INTO `tb_bid_activity` VALUES ('322', '16', 'NQH-J152745848000', '0', '2016-10-31 11:17:20');
-INSERT INTO `tb_bid_activity` VALUES ('323', '17', 'NQH-J155009848000', '0', '2016-10-31 11:17:41');
 INSERT INTO `tb_bid_activity` VALUES ('324', '115', 'I-CMWB2099-YSL', '1', '2016-10-31 11:23:09');
 INSERT INTO `tb_bid_activity` VALUES ('325', '148', 'M-400653235075-YG10K', '1', '2016-10-31 11:23:10');
-INSERT INTO `tb_bid_activity` VALUES ('326', '18', 'NQH-J155099680593', '0', '2016-10-31 11:23:39');
-INSERT INTO `tb_bid_activity` VALUES ('327', '19', 'NQH-J155863680074', '0', '2016-10-31 11:23:40');
 INSERT INTO `tb_bid_activity` VALUES ('328', '133', 'I-CMEI3421-CZ-WG10K', '1', '2016-10-31 11:31:00');
-INSERT INTO `tb_bid_activity` VALUES ('329', '20', 'NQH-J157199000074', '0', '2016-10-31 11:31:30');
 INSERT INTO `tb_bid_activity` VALUES ('330', '165', 'I-MME22-CZ-YG14K', '2', '2016-10-31 12:02:09');
 INSERT INTO `tb_bid_activity` VALUES ('331', '21', 'NQH-J158331000000', '0', '2016-10-31 12:02:39');
 INSERT INTO `tb_bid_activity` VALUES ('332', '31', 'NQH-J271446680000', '2', '2016-10-31 12:02:49');
@@ -81,6 +97,147 @@ INSERT INTO `tb_bid_activity` VALUES ('340', '157', 'I-MME17-WG14K', '1', '2016-
 INSERT INTO `tb_bid_activity` VALUES ('341', '25', 'NQH-J267422012000', '0', '2016-10-31 12:07:11');
 INSERT INTO `tb_bid_activity` VALUES ('342', '101', '22016-J280761000000', '1', '2016-11-02 10:03:58');
 INSERT INTO `tb_bid_activity` VALUES ('343', '26', 'NQH-J267422202000', '0', '2016-11-02 10:04:28');
+INSERT INTO `tb_bid_activity` VALUES ('344', '108', 'NQH-J157984013000', '2', '2016-11-03 19:31:09');
+INSERT INTO `tb_bid_activity` VALUES ('345', '28', 'NQH-J270038000000', '2', '2016-11-03 19:32:20');
+INSERT INTO `tb_bid_activity` VALUES ('346', '29', 'NQH-J270196848000', '0', '2016-11-03 19:32:54');
+INSERT INTO `tb_bid_activity` VALUES ('347', '152', 'M-270955296680-WG14K', '2', '2016-11-03 19:33:15');
+INSERT INTO `tb_bid_activity` VALUES ('348', '30', 'NQH-J270200061000', '0', '2016-11-03 19:33:45');
+INSERT INTO `tb_bid_activity` VALUES ('349', '72', 'NQH-J148169112581', '1', '2016-11-03 19:42:36');
+INSERT INTO `tb_bid_activity` VALUES ('350', '156', 'I-CME3341-WG14K', '2', '2016-11-03 19:42:54');
+INSERT INTO `tb_bid_activity` VALUES ('351', '170', 'M-181592990932-WSL', '2', '2016-11-03 19:43:29');
+INSERT INTO `tb_bid_activity` VALUES ('352', '32', 'NQH-J271847180074', '0', '2016-11-03 19:43:59');
+INSERT INTO `tb_bid_activity` VALUES ('353', '45', 'NQH-J287256987074', '0', '2016-11-04 19:17:36');
+INSERT INTO `tb_bid_activity` VALUES ('354', '54', 'NQH-J282026000362', '0', '2016-11-04 19:17:36');
+INSERT INTO `tb_bid_activity` VALUES ('355', '86', 'NQH-J260948012581', '0', '2016-11-04 19:18:39');
+INSERT INTO `tb_bid_activity` VALUES ('356', '66', 'NQH-J278888240351', '0', '2016-11-04 19:18:40');
+INSERT INTO `tb_bid_activity` VALUES ('357', '37', 'NQH-J273993012000', '0', '2016-11-04 19:19:44');
+INSERT INTO `tb_bid_activity` VALUES ('358', '162', 'I-MME24BU-WG14K', '0', '2016-11-04 19:19:45');
+INSERT INTO `tb_bid_activity` VALUES ('359', '138', 'M-201211010007-WG14K', '0', '2016-11-04 19:20:49');
+INSERT INTO `tb_bid_activity` VALUES ('360', '70', 'NQH-J144021052000', '0', '2016-11-04 19:20:49');
+INSERT INTO `tb_bid_activity` VALUES ('361', '167', 'I-CME2870BS-CZ-WG14K', '0', '2016-11-04 19:21:53');
+INSERT INTO `tb_bid_activity` VALUES ('362', '126', 'M-201336082649-YG14K', '0', '2016-11-04 19:21:54');
+INSERT INTO `tb_bid_activity` VALUES ('363', '63', 'NQH-J265828000351', '0', '2016-11-04 19:22:58');
+INSERT INTO `tb_bid_activity` VALUES ('364', '36', 'NQH-J272583000543', '0', '2016-11-04 19:22:58');
+INSERT INTO `tb_bid_activity` VALUES ('365', '43', 'NQH-J281709000074', '0', '2016-11-04 19:24:03');
+INSERT INTO `tb_bid_activity` VALUES ('366', '151', 'M-271675421296-YG14K', '0', '2016-11-04 19:24:03');
+INSERT INTO `tb_bid_activity` VALUES ('367', '113', 'QH-J146059-silvertone-32-green-set', '0', '2016-11-04 19:25:08');
+INSERT INTO `tb_bid_activity` VALUES ('368', '38', 'NQH-J274599000000', '0', '2016-11-04 19:25:08');
+INSERT INTO `tb_bid_activity` VALUES ('369', '106', 'NQH-J155010030000', '0', '2016-11-04 19:26:13');
+INSERT INTO `tb_bid_activity` VALUES ('370', '134', 'I-CSRGE1865BL-RSL-AFSJ', '0', '2016-11-04 19:26:13');
+INSERT INTO `tb_bid_activity` VALUES ('371', '68', 'NQH-J269025150000', '0', '2016-11-04 19:27:17');
+INSERT INTO `tb_bid_activity` VALUES ('372', '40', 'NQH-J275927013000', '0', '2016-11-04 19:27:17');
+INSERT INTO `tb_bid_activity` VALUES ('373', '135', 'C-CME3293-WG14K', '0', '2016-11-04 19:28:21');
+INSERT INTO `tb_bid_activity` VALUES ('374', '90', 'NQH-J264354680000', '0', '2016-11-04 19:28:21');
+INSERT INTO `tb_bid_activity` VALUES ('375', '153', 'M-350897512094-WSL', '0', '2016-11-04 19:29:26');
+INSERT INTO `tb_bid_activity` VALUES ('376', '127', 'I-CZ-CSE3263-H966516-WG10K', '0', '2016-11-04 19:29:26');
+INSERT INTO `tb_bid_activity` VALUES ('377', '80', 'NQH-J155101S69000', '0', '2016-11-04 19:30:30');
+INSERT INTO `tb_bid_activity` VALUES ('378', '51', 'NQH-J282421180352', '0', '2016-11-04 19:30:30');
+INSERT INTO `tb_bid_activity` VALUES ('379', '83', 'NQH-J156724M86000', '0', '2016-11-04 19:31:34');
+INSERT INTO `tb_bid_activity` VALUES ('380', '129', 'I-CZ-CME3091-WG10K', '0', '2016-11-04 19:31:34');
+INSERT INTO `tb_bid_activity` VALUES ('381', '173', 'I-CSE2234BL-WSL', '0', '2016-11-04 19:32:38');
+INSERT INTO `tb_bid_activity` VALUES ('382', '81', 'NQH-J155315012000', '0', '2016-11-04 19:32:38');
+INSERT INTO `tb_bid_activity` VALUES ('383', '171', 'I-CSRGE1853-CZ-WSL', '0', '2016-11-04 19:33:42');
+INSERT INTO `tb_bid_activity` VALUES ('384', '168', 'I-JSE245-CZ-WSL', '0', '2016-11-04 19:33:43');
+INSERT INTO `tb_bid_activity` VALUES ('385', '104', 'NQH-J148918I28000', '0', '2016-11-04 19:34:47');
+INSERT INTO `tb_bid_activity` VALUES ('386', '76', 'NQH-J155041000', '0', '2016-11-04 19:34:47');
+INSERT INTO `tb_bid_activity` VALUES ('387', '116', 'M-12549-WG10K', '0', '2016-11-04 19:35:52');
+INSERT INTO `tb_bid_activity` VALUES ('388', '149', 'M-271122570286-WG14K', '0', '2016-11-04 19:35:52');
+INSERT INTO `tb_bid_activity` VALUES ('389', '55', 'NQH-J282026000352', '0', '2016-11-04 19:36:57');
+INSERT INTO `tb_bid_activity` VALUES ('390', '93', 'NQH-J268371027581', '0', '2016-11-04 19:36:57');
+INSERT INTO `tb_bid_activity` VALUES ('391', '158', 'I-CME3346-WG10K', '0', '2016-11-04 19:38:01');
+INSERT INTO `tb_bid_activity` VALUES ('392', '107', 'NQH-J157984011000', '0', '2016-11-04 19:38:01');
+INSERT INTO `tb_bid_activity` VALUES ('393', '44', 'NQH-J287256182074', '0', '2016-11-04 19:39:06');
+INSERT INTO `tb_bid_activity` VALUES ('394', '41', '22016-J277989000000', '0', '2016-11-04 19:39:06');
+INSERT INTO `tb_bid_activity` VALUES ('395', '121', 'I-JSRGE1041-RSL-AFSJ', '0', '2016-11-04 19:40:11');
+INSERT INTO `tb_bid_activity` VALUES ('396', '78', 'NQH-J155100S69000', '0', '2016-11-04 19:40:11');
+INSERT INTO `tb_bid_activity` VALUES ('397', '122', 'C-MSE27-WSL', '0', '2016-11-04 19:41:17');
+INSERT INTO `tb_bid_activity` VALUES ('398', '155', 'M-CSE3340BW-WSL', '0', '2016-11-04 19:41:17');
+INSERT INTO `tb_bid_activity` VALUES ('399', '34', 'NQH-J272543000000', '0', '2016-11-04 19:42:22');
+INSERT INTO `tb_bid_activity` VALUES ('400', '58', 'NQH-J152042000351', '0', '2016-11-04 19:42:22');
+INSERT INTO `tb_bid_activity` VALUES ('401', '88', 'NQH-J263131680000', '0', '2016-11-04 19:43:27');
+INSERT INTO `tb_bid_activity` VALUES ('402', '118', 'I-V-6-STUD-WSL', '0', '2016-11-04 19:43:27');
+INSERT INTO `tb_bid_activity` VALUES ('403', '75', 'NQH-J152965000000', '0', '2016-11-04 19:44:31');
+INSERT INTO `tb_bid_activity` VALUES ('404', '67', 'NQH-J269025011000', '0', '2016-11-04 19:44:31');
+INSERT INTO `tb_bid_activity` VALUES ('405', '100', 'NQH-J279224CA9000', '0', '2016-11-04 19:45:35');
+INSERT INTO `tb_bid_activity` VALUES ('406', '130', 'QH-J09283', '0', '2016-11-04 19:45:36');
+INSERT INTO `tb_bid_activity` VALUES ('407', '154', 'I-MME22-CZ-WG14K', '0', '2016-11-04 19:46:40');
+INSERT INTO `tb_bid_activity` VALUES ('408', '97', '22016-J273263000453', '0', '2016-11-04 19:46:40');
+INSERT INTO `tb_bid_activity` VALUES ('409', '84', 'NQH-J157957S69000', '0', '2016-11-04 19:47:45');
+INSERT INTO `tb_bid_activity` VALUES ('410', '174', 'M-201211010007-WSL', '0', '2016-11-04 19:47:45');
+INSERT INTO `tb_bid_activity` VALUES ('411', '145', 'I-JSE323-CZ-WSL', '0', '2016-11-04 19:48:50');
+INSERT INTO `tb_bid_activity` VALUES ('412', '120', 'I-CSRGE1865BL-RSL', '0', '2016-11-04 19:48:50');
+INSERT INTO `tb_bid_activity` VALUES ('413', '114', '22016-J25877-silvertone-14.5-clear', '0', '2016-11-04 19:49:54');
+INSERT INTO `tb_bid_activity` VALUES ('414', '64', 'NQH-J263161000352', '0', '2016-11-04 19:49:54');
+INSERT INTO `tb_bid_activity` VALUES ('415', '33', 'NQH-J272318061000', '0', '2016-11-04 19:50:59');
+INSERT INTO `tb_bid_activity` VALUES ('416', '141', 'M-251860783457-WG14K', '0', '2016-11-04 19:50:59');
+INSERT INTO `tb_bid_activity` VALUES ('417', '110', 'F-39-716-13-YG14K', '0', '2016-11-04 19:52:03');
+INSERT INTO `tb_bid_activity` VALUES ('418', '46', 'NQH-J289729000543', '0', '2016-11-04 19:52:03');
+INSERT INTO `tb_bid_activity` VALUES ('419', '61', 'NQH-J158934849352', '0', '2016-11-04 19:53:08');
+INSERT INTO `tb_bid_activity` VALUES ('420', '160', 'I-CME2096-BLMO-1.00-WG14K', '0', '2016-11-04 19:53:08');
+INSERT INTO `tb_bid_activity` VALUES ('421', '56', 'NQH-J282026000358', '0', '2016-11-04 19:54:12');
+INSERT INTO `tb_bid_activity` VALUES ('422', '146', 'I-CSEI3595-WSL-ADJ', '0', '2016-11-04 19:54:12');
+INSERT INTO `tb_bid_activity` VALUES ('423', '48', 'NQH-J293410S69625', '0', '2016-11-04 19:55:16');
+INSERT INTO `tb_bid_activity` VALUES ('424', '147', 'M-181395207-WGYG-10K', '0', '2016-11-04 19:55:16');
+INSERT INTO `tb_bid_activity` VALUES ('425', '39', 'NQH-J274611848000', '0', '2016-11-04 19:56:22');
+INSERT INTO `tb_bid_activity` VALUES ('426', '159', 'I-CME3374-CZ-WG14K', '0', '2016-11-04 19:56:22');
+INSERT INTO `tb_bid_activity` VALUES ('427', '164', 'M-221535834520-WSL', '0', '2016-11-04 19:57:27');
+INSERT INTO `tb_bid_activity` VALUES ('428', '103', '22016-J32074848000', '0', '2016-11-04 19:57:27');
+INSERT INTO `tb_bid_activity` VALUES ('429', '73', 'NQH-J149134011000', '0', '2016-11-04 19:58:32');
+INSERT INTO `tb_bid_activity` VALUES ('430', '163', 'I-CSGE2870BS-YG14K', '0', '2016-11-04 19:58:32');
+INSERT INTO `tb_bid_activity` VALUES ('431', '150', 'I-CME3281BU-WG14K', '0', '2016-11-04 19:59:37');
+INSERT INTO `tb_bid_activity` VALUES ('432', '142', 'I-CSE1964BW-WSL', '0', '2016-11-04 19:59:37');
+INSERT INTO `tb_bid_activity` VALUES ('433', '172', 'I-JSE299-CZ-WSL', '0', '2016-11-04 20:00:42');
+INSERT INTO `tb_bid_activity` VALUES ('434', '112', '22016-J262934-GT-E', '0', '2016-11-04 20:00:42');
+INSERT INTO `tb_bid_activity` VALUES ('435', '47', 'NQH-J289729000625', '0', '2016-11-04 20:01:47');
+INSERT INTO `tb_bid_activity` VALUES ('436', '65', 'NQH-J278888171351', '0', '2016-11-04 20:01:47');
+INSERT INTO `tb_bid_activity` VALUES ('437', '60', 'NQH-J158934273352', '0', '2016-11-04 20:02:52');
+INSERT INTO `tb_bid_activity` VALUES ('439', '53', 'NQH-J279193000352', '0', '2016-11-04 20:03:57');
+INSERT INTO `tb_bid_activity` VALUES ('440', '87', '22016-J261322062000', '0', '2016-11-04 20:05:02');
+INSERT INTO `tb_bid_activity` VALUES ('441', '111', 'F-37-565-25-YG14K', '0', '2016-11-04 20:06:06');
+INSERT INTO `tb_bid_activity` VALUES ('442', '69', 'NQH-J274573240000', '0', '2016-11-04 20:07:10');
+INSERT INTO `tb_bid_activity` VALUES ('443', '125', 'I-CSRGE1866BL-BLACK-RSL', '0', '2016-11-04 20:08:14');
+INSERT INTO `tb_bid_activity` VALUES ('444', '136', 'I-CSE1982BL-WSL', '0', '2016-11-04 20:09:20');
+INSERT INTO `tb_bid_activity` VALUES ('445', '128', 'I-CME1865BL-RG9K', '0', '2016-11-04 20:10:25');
+INSERT INTO `tb_bid_activity` VALUES ('446', '57', 'NQH-J283124000351', '0', '2016-11-04 20:11:30');
+INSERT INTO `tb_bid_activity` VALUES ('447', '137', 'I-JME312-YG10K', '0', '2016-11-04 20:13:03');
+INSERT INTO `tb_bid_activity` VALUES ('448', '89', 'NQH-J263318154581', '0', '2016-11-04 20:13:03');
+INSERT INTO `tb_bid_activity` VALUES ('449', '74', 'NQH-J149134AB1000', '0', '2016-11-04 20:13:03');
+INSERT INTO `tb_bid_activity` VALUES ('450', '62', 'NQH-J277268000351', '0', '2016-11-04 20:13:03');
+INSERT INTO `tb_bid_activity` VALUES ('451', '109', 'I-CSWB830', '0', '2016-11-04 20:13:03');
+INSERT INTO `tb_bid_activity` VALUES ('452', '117', 'M-160892265630-WG14K', '0', '2016-11-04 20:13:03');
+INSERT INTO `tb_bid_activity` VALUES ('453', '52', 'I-CMR15830AM', '0', '2016-11-04 20:13:03');
+INSERT INTO `tb_bid_activity` VALUES ('454', '77', 'NQH-J155100680000', '0', '2016-11-04 20:13:03');
+INSERT INTO `tb_bid_activity` VALUES ('455', '139', 'M-171726019512-WG14K', '0', '2016-11-04 20:14:08');
+INSERT INTO `tb_bid_activity` VALUES ('456', '169', 'I-MME299-WG14k', '0', '2016-11-04 20:14:08');
+INSERT INTO `tb_bid_activity` VALUES ('457', '50', 'NQH-J282421180351', '0', '2016-11-04 20:14:08');
+INSERT INTO `tb_bid_activity` VALUES ('458', '94', 'NQH-J269557013581', '0', '2016-11-04 20:14:08');
+INSERT INTO `tb_bid_activity` VALUES ('459', '102', 'NQH-J280763AB1000', '0', '2016-11-04 20:14:08');
+INSERT INTO `tb_bid_activity` VALUES ('461', '59', 'NQH-J158934849351', '0', '2016-11-04 20:14:08');
+INSERT INTO `tb_bid_activity` VALUES ('462', '123', 'C-MSGE200-WSL', '0', '2016-11-04 20:14:09');
+INSERT INTO `tb_bid_activity` VALUES ('463', '49', 'NQH-J157215000074', '0', '2016-11-04 20:16:17');
+INSERT INTO `tb_bid_activity` VALUES ('464', '71', 'NQH-J148169112453', '0', '2016-11-04 20:16:17');
+INSERT INTO `tb_bid_activity` VALUES ('465', '140', 'I-CSE1986BW-WSL', '0', '2016-11-04 20:16:17');
+INSERT INTO `tb_bid_activity` VALUES ('466', '8', 'NQH-J268381202000', '0', '2016-11-04 20:16:17');
+INSERT INTO `tb_bid_activity` VALUES ('467', '82', 'NQH-J155315202000', '0', '2016-11-04 20:16:17');
+INSERT INTO `tb_bid_activity` VALUES ('468', '99', '22016-J279224130000', '0', '2016-11-04 20:16:17');
+INSERT INTO `tb_bid_activity` VALUES ('469', '79', 'NQH-J155101680000', '0', '2016-11-04 20:16:17');
+INSERT INTO `tb_bid_activity` VALUES ('470', '10', 'NQH-J146242061668', '0', '2016-11-04 20:17:21');
+INSERT INTO `tb_bid_activity` VALUES ('471', '131', 'C-JSRGE1039BL-RSL', '0', '2016-11-04 20:17:21');
+INSERT INTO `tb_bid_activity` VALUES ('472', '9', 'NQH-J142308000000', '0', '2016-11-04 20:17:21');
+INSERT INTO `tb_bid_activity` VALUES ('473', '5', 'NQH-J267523273074', '0', '2016-11-04 20:17:21');
+INSERT INTO `tb_bid_activity` VALUES ('474', '143', 'I-CSE2232BL-WSL', '0', '2016-11-04 20:17:21');
+INSERT INTO `tb_bid_activity` VALUES ('475', '13', 'NQH-J149810G84000', '0', '2016-11-04 20:17:21');
+INSERT INTO `tb_bid_activity` VALUES ('476', '91', '22016-J267073848000', '0', '2016-11-04 20:17:23');
+INSERT INTO `tb_bid_activity` VALUES ('477', '92', 'NQH-J267073S69000', '0', '2016-11-04 20:18:26');
+INSERT INTO `tb_bid_activity` VALUES ('478', '4', 'NQH-J261702000000', '0', '2016-11-04 20:18:26');
+INSERT INTO `tb_bid_activity` VALUES ('479', '17', 'NQH-J155009848000', '0', '2016-11-04 20:18:26');
+INSERT INTO `tb_bid_activity` VALUES ('480', '96', '22016-J271636000581', '0', '2016-11-04 20:18:26');
+INSERT INTO `tb_bid_activity` VALUES ('481', '19', 'NQH-J155863680074', '0', '2016-11-04 20:18:26');
+INSERT INTO `tb_bid_activity` VALUES ('482', '14', 'NQH-J149874848000', '0', '2016-11-04 20:18:26');
+INSERT INTO `tb_bid_activity` VALUES ('483', '18', 'NQH-J155099680593', '0', '2016-11-04 20:18:26');
+INSERT INTO `tb_bid_activity` VALUES ('484', '20', 'NQH-J157199000074', '0', '2016-11-04 20:25:58');
+INSERT INTO `tb_bid_activity` VALUES ('485', '11', 'NQH-J146242Z32668', '7', '2016-11-04 21:26:04');
+INSERT INTO `tb_bid_activity` VALUES ('486', '16', 'NQH-J152745848000', '0', '2016-11-04 20:31:20');
 
 -- ----------------------------
 -- Table structure for tb_bid_settings
@@ -150,6 +307,26 @@ CREATE TABLE `tb_items_cart` (
 
 -- ----------------------------
 -- Records of tb_items_cart
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for tb_items_wishlist
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_items_wishlist`;
+CREATE TABLE `tb_items_wishlist` (
+  `CART_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `USER_ID` int(11) NOT NULL,
+  `PRODUCT_ID` int(11) NOT NULL,
+  `DATE_ADDED` datetime NOT NULL,
+  PRIMARY KEY (`CART_ID`),
+  KEY `USER_ID` (`USER_ID`),
+  KEY `PRODUCT_ID` (`PRODUCT_ID`),
+  CONSTRAINT `tb_items_wishlist_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE,
+  CONSTRAINT `tb_items_wishlist_ibfk_2` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tb_items_wishlist
 -- ----------------------------
 
 -- ----------------------------
@@ -393,39 +570,11 @@ CREATE TABLE `tb_product_bids` (
   KEY `USER_ID` (`USER_ID`),
   CONSTRAINT `tb_product_bids_ibfk_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE,
   CONSTRAINT `tb_product_bids_ibfk_2` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_product_bids
 -- ----------------------------
-INSERT INTO `tb_product_bids` VALUES ('48', '3', '1', '65.00', '2016-10-24 15:44:34', '0');
-INSERT INTO `tb_product_bids` VALUES ('49', '2', '1', '50.00', '2016-10-24 15:41:11', '0');
-INSERT INTO `tb_product_bids` VALUES ('50', '1', '1', '55.00', '2016-10-24 15:43:38', '0');
-INSERT INTO `tb_product_bids` VALUES ('51', '6', '1', '70.00', '2016-10-24 15:54:08', '0');
-INSERT INTO `tb_product_bids` VALUES ('52', '124', '1', '75.00', '2016-10-24 16:00:10', '0');
-INSERT INTO `tb_product_bids` VALUES ('53', '85', '1', '80.00', '2016-10-31 10:40:05', '0');
-INSERT INTO `tb_product_bids` VALUES ('54', '161', '1', '85.00', '2016-10-31 10:49:56', '0');
-INSERT INTO `tb_product_bids` VALUES ('55', '27', '1', '90.00', '2016-10-31 10:57:45', '0');
-INSERT INTO `tb_product_bids` VALUES ('56', '95', '1', '95.00', '2016-10-31 10:58:59', '0');
-INSERT INTO `tb_product_bids` VALUES ('57', '119', '1', '100.00', '2016-10-31 11:00:27', '0');
-INSERT INTO `tb_product_bids` VALUES ('58', '12', '1', '105.00', '2016-10-31 11:03:14', '0');
-INSERT INTO `tb_product_bids` VALUES ('59', '23', '1', '110.00', '2016-10-31 11:08:22', '0');
-INSERT INTO `tb_product_bids` VALUES ('60', '98', '1', '115.00', '2016-10-31 11:15:47', '0');
-INSERT INTO `tb_product_bids` VALUES ('61', '15', '1', '120.00', '2016-10-31 11:16:50', '0');
-INSERT INTO `tb_product_bids` VALUES ('62', '42', '1', '125.00', '2016-10-31 11:17:10', '0');
-INSERT INTO `tb_product_bids` VALUES ('63', '115', '1', '130.00', '2016-10-31 11:23:09', '0');
-INSERT INTO `tb_product_bids` VALUES ('64', '148', '1', '135.00', '2016-10-31 11:23:10', '0');
-INSERT INTO `tb_product_bids` VALUES ('65', '133', '1', '140.00', '2016-10-31 11:31:00', '0');
-INSERT INTO `tb_product_bids` VALUES ('66', '165', '1', '150.00', '2016-10-31 12:02:09', '0');
-INSERT INTO `tb_product_bids` VALUES ('67', '31', '1', '160.00', '2016-10-31 12:02:49', '0');
-INSERT INTO `tb_product_bids` VALUES ('68', '132', '1', '170.00', '2016-10-31 12:03:23', '0');
-INSERT INTO `tb_product_bids` VALUES ('69', '105', '1', '175.00', '2016-10-31 12:03:51', '0');
-INSERT INTO `tb_product_bids` VALUES ('70', '35', '1', '180.00', '2016-10-31 12:04:49', '0');
-INSERT INTO `tb_product_bids` VALUES ('71', '24', '1', '185.00', '2016-10-31 12:05:21', '0');
-INSERT INTO `tb_product_bids` VALUES ('72', '144', '1', '190.00', '2016-10-31 12:06:01', '0');
-INSERT INTO `tb_product_bids` VALUES ('73', '166', '1', '195.00', '2016-10-31 12:06:30', '0');
-INSERT INTO `tb_product_bids` VALUES ('74', '157', '1', '200.00', '2016-10-31 12:06:41', '0');
-INSERT INTO `tb_product_bids` VALUES ('75', '101', '1', '205.00', '2016-11-02 10:03:58', '0');
 
 -- ----------------------------
 -- Table structure for tb_product_images
@@ -471,21 +620,24 @@ INSERT INTO `tb_product_video` VALUES ('1', '1', '3123', '1');
 DROP TABLE IF EXISTS `tb_users`;
 CREATE TABLE `tb_users` (
   `USER_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `USERNAME` varchar(20) NOT NULL,
   `FULL_NAMES` varchar(255) NOT NULL,
-  `EMAIL_ADDRESS` varchar(255) DEFAULT NULL,
+  `EMAIL_ADDRESS` varchar(255) NOT NULL,
+  `USERNAME` varchar(20) NOT NULL COMMENT 'Defaults to email address at first',
+  `PASSWORD` varchar(255) NOT NULL,
+  `PASSWORD_RESET_TOKEN` varchar(255) DEFAULT NULL,
+  `AUTH_KEY` varchar(255) DEFAULT NULL,
   `LOGIN_ID` varchar(300) DEFAULT NULL,
   `PHONE_NO` varchar(30) DEFAULT NULL,
   `TIMEZONE` varchar(10) DEFAULT NULL,
-  `COUNTRY` varchar(10) DEFAULT NULL,
+  `COUNTRY` varchar(15) DEFAULT NULL,
   `SOCIAL_ID` int(11) DEFAULT NULL,
   `DATE_CREATED` datetime DEFAULT NULL,
   `DATE_UPDATED` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `STATUS` int(1) DEFAULT '1' COMMENT 'Active or inactive',
   PRIMARY KEY (`USER_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_users
 -- ----------------------------
-INSERT INTO `tb_users` VALUES ('1', 'fatelord', 'sammy barasa', 'barsamms@gmail.com', 'fatelord', '254713196504', '+3GMT', 'KE', '1', '2016-10-17 12:31:21', '2016-10-17 12:31:25');
-INSERT INTO `tb_users` VALUES ('2', 'masgeek', 'Sammy M', 'barsamms@gmail.com', 'masgeek', '254713196504', '+3GMT', 'KE', '1', '2016-10-17 12:31:21', '2016-10-21 14:29:33');
+SET FOREIGN_KEY_CHECKS=1;
