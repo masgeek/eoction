@@ -77,7 +77,7 @@ class UsersController extends Controller
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['//site/login']);//redirect to the login page
+            return $this->redirect(['//site/login']);//redirect to the login page afer successful signup
         } else {
             return $this->render('signup', [
                 'model' => $model,
