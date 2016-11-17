@@ -24,7 +24,7 @@ $biddingUrl = Url::toRoute(['site/place-bid']);
 $productUrl = Url::toRoute(['site/next-item']);
 
 
-$userId = 1;
+$userId = yii::$app->user->id ? yii::$app->user->id : 0;
 //$helper::AddItemsToBidActivity($listDataProvider);
 //BidManager::AddItemsToBidActivity($listDataProvider);
 //BidManager::RemoveItemsFromBidActivity('NHQ-J272582011000');
@@ -111,4 +111,3 @@ $listviewWidget = ListView::widget([
         display: none;
     }
 </style>
-

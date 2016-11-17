@@ -25,7 +25,8 @@ class BowerAsset extends AssetBundle
         //'timer.jquery/dist/timer.jquery.js'
         //'countdown360/dist/jquery.countdown360.js'
         'velocity/velocity.min.js',
-        'velocity/velocity.ui.min.js'
+        'velocity/velocity.ui.min.js',
+        '//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js'
     ];
 
     public $depends = [

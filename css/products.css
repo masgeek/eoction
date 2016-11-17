@@ -98,8 +98,6 @@
 }
 
 .crossed{
-    color: red;
-}
-.crossed.retail-price{
     text-decoration: line-through;
+    color: red;
 }

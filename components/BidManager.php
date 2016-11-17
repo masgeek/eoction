@@ -63,7 +63,7 @@ class BidManager
      * @param $sku
      * @throws \Exception
      */
-    public static function RemoveItemsFromBidActivity($product_id=0)
+    public static function RemoveItemsFromBidActivity($product_id = 0)
     {
         //BidActivity::findOne(['PRODUCT_ID' => $product_id, 'ACTIVITY_COUNT' => 0])->delete();
         BidActivity::findOne(['ACTIVITY_COUNT' => 0])->delete();
@@ -132,6 +132,15 @@ class BidManager
         return $next_bid_amount;
     }
 
+    public static function GetInitialBidAmount($product_id)
+    {
+        $starting_bid = Products::find([
+            'PRODUCT_ID' => $product_id,
+        ])->max('PRICE');
+
+        return (float)$starting_bid;
+    }
+
     /**
      * Returns the maximum amount for an item
      * @param $product_id
@@ -142,8 +151,11 @@ class BidManager
         $max_bid_amount = ProductBids::find([
             'PRODUCT_ID' => $product_id,
         ])->max('BID_AMOUNT');
-
-        return (float)$max_bid_amount;
+        if ($max_bid_amount == null || (int)$max_bid_amount <= 0) {
+            return BidManager::GetInitialBidAmount($product_id);
+        } else {
+            return (float)$max_bid_amount;
+        }
     }
 
     /**
@@ -188,7 +200,7 @@ class BidManager
         //add the item to bid activity
         BidManager::AddItemsToBidActivity($productModel, $multimodel = false); //add the picked item to bid activity table
         $product_list = BidManager::BuildList($productModel->PRODUCT_ID, $productModel->SKU,
-            $productModel->PRODUCT_NAME,$productModel->RETAIL_PRICE,$productModel->PRICE);
+            $productModel->PRODUCT_NAME, $productModel->RETAIL_PRICE, $productModel->PRICE);
         return $product_list;
     }
 
@@ -203,7 +215,7 @@ class BidManager
             ->select('PRODUCT_SKU')
             //->where('ACTIVITY_COUNT <= 0')
             ->asArray()
-        ->all();
+            ->all();
         //flatten the nested arrays
         $item_array = [];
         foreach ($nested_items_array as $item) {
@@ -249,7 +261,8 @@ class BidManager
         ];
         return $product_box;
     }
-    private static function BuildListBackup($product_id, $sku, $product_name,$retail_price,$starting_bid_price)
+
+    private static function BuildListBackup($product_id, $sku, $product_name, $retail_price, $starting_bid_price)
     {
         $shipping_cost = ProductManager::ComputeShippingCost($product_id);
         $bids = 0;
@@ -304,7 +317,8 @@ class BidManager
         ];
         return $product_box;
     }
-    private static function BuildList($product_id, $sku, $product_name,$retail_price_raw,$starting_bid_price_raw)
+
+    private static function BuildList($product_id, $sku, $product_name, $retail_price_raw, $starting_bid_price_raw)
     {
         $formatter = \Yii::$app->formatter;
 
@@ -371,7 +385,7 @@ class BidManager
         $product_box = [
             'bid_price' => $starting_bid_price,
             'discount' => $discount,
-            'bid_count'=>$bids,
+            'bid_count' => $bids,
             'product_id' => $product_id,
             'sku' => $sku,
             'html_data' => $html_list

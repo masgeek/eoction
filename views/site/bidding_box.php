@@ -24,11 +24,9 @@ $imageA = '@web/images/placeholder.png';
 
 //calculate the percentage discount based on the retail price and the bidded amount
 $starting_bid_price = $model->PRICE;
-
-$userid = yii::$app->user->id ? yii::$app->user->id : 0;
 $sku = $model->SKU;
 
-$bids = 0;
+$bids = ProductManager::GetNumberOfBids($model->PRODUCT_ID);
 
 $product_id = $model->PRODUCT_ID;
 $product_name = $model->PRODUCT_NAME;
@@ -39,7 +37,10 @@ $bidStartTime = 60;// * $productID; //initial start time for the bid
 
 $shipping_cost = $formatter->asCurrency($shipping);
 $retail_price = $formatter->asCurrency($model->RETAIL_PRICE);
-$starting_bid_price = $formatter->asCurrency($model->PRICE);
+
+$bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
+
+$starting_bid_price = $formatter->asCurrency($bid_price);
 ?>
 
 
@@ -63,14 +64,14 @@ $starting_bid_price = $formatter->asCurrency($model->PRICE);
                 'alt' => $product_name,
             ]); ?>
             <div class="col-md-12 col-xs-6 text-center">
-                <span class="bidding-price">Starting Bid: <?= $starting_bid_price ?></span><br/>
+                <span class="bidding-price">Bid Price: <span id="bid_price<?=$product_id?>"><?= $starting_bid_price ?></span></span><br/>
                 <span class="crossed retail-price"><?= $retail_price; ?></span>
             </div>
             <div class="col-md-12 col-xs-6 text-center">
                 <span>Shipping <?= $shipping_cost ?></span>
             </div>
             <div class="col-md-12 col-xs-6 text-center text-uppercase">
-                <span id="bids_placed_<?= $product_id ?>"><?= $bids ?></span> Bid
+                <span id="bids_placed_<?= $product_id ?>"><?= $bids ?></span> Bid(s)
             </div>
             <div class="col-md-12 col-xs-6 progress-container">
             <div class="bidProgress noplacedbids" id="progressBar<?= $product_id ?>"></div>

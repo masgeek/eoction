@@ -184,8 +184,8 @@ function placeBid($product_id, $sku) {
     //return;
     var $bidUrl = $('#bid_url').val();
     var $user_id = $('#user_id').val();
-    var bidCount = $('#bid_count_' + $product_id);
     var bidsPlaced = $('#bids_placed_' + $product_id);
+    var bid_price = $('#bid_price' + $product_id);
     console.log($bidUrl);
     console.log($user_id);
     console.log($sku);
@@ -214,7 +214,7 @@ function placeBid($product_id, $sku) {
              .append($title)
              .append($description);*/
             bidsPlaced.html(data.bid_count);
-
+            bid_price.html(numeral(data.bid_price).format('$0,0.00'));
         },
         type: 'GET'
     });
@@ -262,8 +262,10 @@ function RefreshSomeEventListener($product_id, $sku) {
 }
 
 function ItemUpdate($product_id, $sku, $toclear) {
-    var updateUrl = $('#update_url').val();
-    var intervals = Math.floor((Math.random() * 1500) + 2500);
+    //var updateUrl = $('#update_url').val();
+    var $bidPrice = $('#bid_price' + $product_id);
+    var bidsPlaced = $('#bids_placed_' + $product_id);
+    var intervals = 3000;//Math.floor((Math.random() * 3000) + 2500);
     /*$.get(updateUrl, {product_id: $product_id, sku: $sku}, function (data) {
      var $bid_count = data.bid_count;
      var $new_bid_price = data.bid_price;
@@ -276,10 +278,14 @@ function ItemUpdate($product_id, $sku, $toclear) {
     if ($toclear == 'NO') { //if its not in non clear mode do set another interval
         intervalObj[$product_id] = setInterval(function () {
             var updateUrl = $('#update_url').val();
-            $.get(updateUrl, {product_id: $product_id, sku: $sku}, function (data) {
+            $.getJSON(updateUrl,{product_id: $product_id, sku: $sku}, function (data) {
                 var $bid_count = data.bid_count;
                 var $new_bid_price = data.bid_price;
-                console.log(data);
+
+
+                $bidPrice.html(numeral($new_bid_price).format('$0,0.00'));
+                bidsPlaced.html($bid_count);
+                //console.log(test+' - '+data.bid_count);
             });
         }, intervals); //check every n seconds
         console.log('Set interval ' + intervalObj[$product_id]);
