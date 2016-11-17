@@ -8,7 +8,9 @@
 
 namespace app\controllers;
 
+use app\module\products\models\Products;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -64,6 +66,17 @@ class ShopController extends Controller
     //entry page
     public function actionIndex()
     {
-        return $this->render('//site/about');
+        $dataProvider = new ActiveDataProvider([
+            'query' => Products::find()
+                ->where(['>=', 'CURRENT_STOCK_LEVEL', 1])//stock levels should be greater or equal to 1
+                ->orderBy('PRODUCT_ID ASC'),
+            'pagination' => [
+                'pageSize' => 20
+            ],
+        ]);
+
+
+        $this->view->title = 'Online Shopping';
+        return $this->render('//site/shop', ['listDataProvider' => $dataProvider]);
     }
 }
