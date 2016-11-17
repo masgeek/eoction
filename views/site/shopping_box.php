@@ -33,7 +33,6 @@ $bids = 0;
 $product_id = $model->PRODUCT_ID;
 $product_name = $model->PRODUCT_NAME;
 
-$discount = ProductManager::ComputePercentageDiscount($product_id);
 $shipping = ProductManager::ComputeShippingCost($product_id);
 $bidStartTime = 60;// * $productID; //initial start time for the bid
 
@@ -52,10 +51,6 @@ $starting_bid_price = $formatter->asCurrency($model->PRICE);
         <input type="text" id="product_sku_<?= $product_id; ?>" value="<?= $sku ?>" readonly="readonly"/>
     </div>
     <div class="offer offer-default">
-        <div class="shape">
-            <span class="shape-text" id="discount_<?= $product_id ?>"><?= $discount ?>%</span>
-            <span class="shape-text quickview"><i class="fa fa-eye "></i> Quick View</span>
-        </div>
         <div class="offer-content">
             <?= Html::img($imageA, [
                 'id' => 'product_image_' . $product_id,
@@ -63,38 +58,20 @@ $starting_bid_price = $formatter->asCurrency($model->PRICE);
                 'alt' => $product_name,
             ]); ?>
             <div class="col-md-12 col-xs-6 text-center">
-                <span class="bidding-price">Starting Bid: <?= $starting_bid_price ?></span><br/>
                 <span class="retail-price"><?= $retail_price; ?></span>
             </div>
             <div class="col-md-12 col-xs-6 text-center">
                 <span>Shipping <?= $shipping_cost ?></span>
             </div>
-            <div class="col-md-12 col-xs-6 text-center text-uppercase">
-                <span id="bids_placed_<?= $product_id ?>"><?= $bids ?></span> Bid
-            </div>
-            <div class="col-md-12 col-xs-6 progress-container">
-            <div class="bidProgress noplacedbids" id="progressBar<?= $product_id ?>"></div>
-                </div>
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 col-xs-12" id="bid_button_<?=$product_id?>">
-                    <?= Html::button('<span class="hammer-icon pull-left"></span>BID NOW', [
-                        'class' => 'btn btn-bid btn-bid-active btn-block noradius',
-                        'id' => "placebid_$product_id"
+                    <?= Html::button('BUY NOW', [
+                        'class' => 'btn btn-primary btn-block noradius',
+                        'id' => "buynow_$product_id"
                     ]) ?>
                 </div>
 
             </div>
-            <div class="col-md-12 col-xs-6 text-center">
-                <div id="bid_status_<?= $product_id; ?>" class="text-uppercase bid-message">Accepting Bids</div>
-            </div>
         </div>
     </div>
 </div>
-
-<!-- start the script -->
-<?php
-$this->registerJs("
-   SetupProgressBar($product_id,$bidStartTime);
-", View::POS_READY)
-?>
-

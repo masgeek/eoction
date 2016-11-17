@@ -39,7 +39,7 @@ $listviewWidget = ListView::widget([
     'layout' => "{items}",
     //'layout' => "{pager}\n{items}\n{summary}",
     //'itemView' => '_product_view_old',
-    'itemView' => 'product_box',
+    'itemView' => 'bidding_box',
 ]);
 //static text fields
 ?>

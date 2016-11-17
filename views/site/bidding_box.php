@@ -64,7 +64,7 @@ $starting_bid_price = $formatter->asCurrency($model->PRICE);
             ]); ?>
             <div class="col-md-12 col-xs-6 text-center">
                 <span class="bidding-price">Starting Bid: <?= $starting_bid_price ?></span><br/>
-                <span class="retail-price"><?= $retail_price; ?></span>
+                <span class="crossed retail-price"><?= $retail_price; ?></span>
             </div>
             <div class="col-md-12 col-xs-6 text-center">
                 <span>Shipping <?= $shipping_cost ?></span>

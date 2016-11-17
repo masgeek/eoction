@@ -94,7 +94,12 @@
 }
 
 .retail-price {
-    font-size: 1.1em;
+    font-size: 2rem;
+}
+
+.crossed{
     color: red;
+}
+.crossed.retail-price{
     text-decoration: line-through;
 }
