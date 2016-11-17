@@ -2,10 +2,12 @@
 
 namespace app\module\users\models;
 
+use app\module\products\models\ProductBids;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
-use yii\helpers\Security;
+//use yii\helpers\Security
+use yii\base\Security;
 use yii\web\IdentityInterface;
 
 /**
@@ -35,6 +37,96 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
 {
 
     public $REPEAT_PASSWORD;
+    //public $AUTH_KEY;
+    public $PASSWORD;
+    //public $PASSWORD_RESET_TOKEN;
+    public $passwordHashCost = 13;
+
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'tb_users';
+    }
+
+    /*public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        //$scenarios['signup'] = ['USERNAME', 'PASSWORD', 'FULL_NAMES', 'EMAIL_ADDRESS','REPEAT_PASSWORD'];//Scenario Values Only Accepted
+        $scenarios['changepass'] = ['PASSWORD','REPEAT_PASSWORD'];//Scenario Values Only Accepted
+        return $scenarios;
+    }*/
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['USERNAME', 'PASSWORD', 'FULL_NAMES', 'EMAIL_ADDRESS'], 'required'],
+            [['USERNAME', 'EMAIL_ADDRESS','AUTH_KEY'], 'unique'],
+            [['REPEAT_PASSWORD'], 'required'],
+            [['SOCIAL_ID'], 'integer'],
+            [['DATE_CREATED', 'DATE_UPDATED'], 'safe'],
+            [['USERNAME'], 'string', 'max' => 20],
+            [['PASSWORD', 'FULL_NAMES', 'EMAIL_ADDRESS', 'AUTH_KEY', 'PASSWORD_RESET_TOKEN'], 'string', 'max' => 255],
+            [['LOGIN_ID'], 'string', 'max' => 300],
+            [['PHONE_NO'], 'string', 'max' => 30],
+            [['TIMEZONE'], 'string', 'max' => 10],
+            [['COUNTRY'], 'string', 'max' => 15],
+            ['REPEAT_PASSWORD', 'compare', 'compareAttribute' => 'PASSWORD', 'skipOnEmpty' => false, 'message' => "Passwords don't match"],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'USER_ID' => 'User  ID',
+            'USERNAME' => 'Username',
+            'PASSWORD' => 'Password',
+            'REPEAT_PASSWORD' => 'Confirm Password',
+            'FULL_NAMES' => 'Full Names',
+            'EMAIL_ADDRESS' => 'Email Address',
+            'LOGIN_ID' => 'Login  ID',
+            'PHONE_NO' => 'Phone  No',
+            'TIMEZONE' => 'Timezone',
+            'COUNTRY' => 'Country',
+            'SOCIAL_ID' => 'Social  ID',
+            'DATE_CREATED' => 'Date  Created',
+            'DATE_UPDATED' => 'Date  Updated',
+            'AUTH_KEY' => 'Auth  Key',
+            'PASSWORD_RESET_TOKEN' => 'Password  Reset  Token',
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTbHashTables()
+    {
+        return $this->hasMany(HashTable::className(), ['USER_ID' => 'USER_ID']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTbItemsCarts()
+    {
+        return $this->hasMany(ItemsCart::className(), ['USER_ID' => 'USER_ID']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTbProductBids()
+    {
+        return $this->hasMany(ProductBids::className(), ['USER_ID' => 'USER_ID']);
+    }
+
     /** INCLUDE USER LOGIN VALIDATION FUNCTIONS**/
     /**
      * @inheritdoc
@@ -50,7 +142,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
     /* modified */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        return static::findOne(['access_token' => $token]);
+        return static::findOne(['ACCESS_TOKEN' => $token]);
     }
 
     /* removed
@@ -115,6 +207,17 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
         return $this->getAuthKey() === $authKey;
     }
 
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->AUTH_KEY = \Yii::$app->security->generateRandomString();
+            }
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Validates password
      *
@@ -133,6 +236,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function setPassword($password)
     {
+
         $this->PASSWORD = Security::generatePasswordHash($password);
     }
 
@@ -148,10 +252,10 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
     /**
      * Generates "remember me" authentication key
      */
-    public function generateAuthKey()
-    {
-        $this->AUTH_KEY = Security::generateRandomKey();
-    }
+    /* public function generateAuthKey()
+     {
+         $this->AUTH_KEY = Security::generateRandomKey();
+     }*/
 
     /**
      * Generates new password reset token
@@ -167,82 +271,5 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->PASSWORD_RESET_TOKEN = null;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return '{{%tb_users}}';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['USERNAME', 'PASSWORD', 'FULL_NAMES', 'EMAIL_ADDRESS'], 'required'],
-            [['USERNAME', 'EMAIL_ADDRESS'], 'unique'],
-            [['REPEAT_PASSWORD'], 'required', 'on' => 'signup,changepass'],
-            [['SOCIAL_ID'], 'integer'],
-            [['DATE_CREATED', 'DATE_UPDATED'], 'safe'],
-            [['USERNAME'], 'string', 'max' => 20],
-            [['PASSWORD', 'FULL_NAMES', 'EMAIL_ADDRESS', 'AUTH_KEY', 'PASSWORD_RESET_TOKEN'], 'string', 'max' => 255],
-            [['LOGIN_ID'], 'string', 'max' => 300],
-            [['PHONE_NO'], 'string', 'max' => 30],
-            [['TIMEZONE'], 'string', 'max' => 10],
-            [['COUNTRY'], 'string', 'max' => 15],
-            ['REPEAT_PASSWORD', 'compare', 'compareAttribute' => 'PASSWORD', 'skipOnEmpty' => false, 'message' => "Passwords don't match", 'on' => 'signup,changepass'],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'USER_ID' => 'User  ID',
-            'USERNAME' => 'Username',
-            'PASSWORD' => 'Password',
-            'REPEAT_PASSWORD' => 'Confirm Password',
-            'FULL_NAMES' => 'Full Names',
-            'EMAIL_ADDRESS' => 'Email Address',
-            'LOGIN_ID' => 'Login  ID',
-            'PHONE_NO' => 'Phone  No',
-            'TIMEZONE' => 'Timezone',
-            'COUNTRY' => 'Country',
-            'SOCIAL_ID' => 'Social  ID',
-            'DATE_CREATED' => 'Date  Created',
-            'DATE_UPDATED' => 'Date  Updated',
-            'AUTH_KEY' => 'Auth  Key',
-            'PASSWORD_RESET_TOKEN' => 'Password  Reset  Token',
-        ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTbHashTables()
-    {
-        return $this->hasMany(TbHashTable::className(), ['USER_ID' => 'USER_ID']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTbItemsCarts()
-    {
-        return $this->hasMany(TbItemsCart::className(), ['USER_ID' => 'USER_ID']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTbProductBids()
-    {
-        return $this->hasMany(TbProductBids::className(), ['USER_ID' => 'USER_ID']);
     }
 }

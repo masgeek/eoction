@@ -52,7 +52,7 @@ $config = [
         'user' => [
             //'identityClass' => 'app\models\User',
             'identityClass' => 'app\module\users\models\Users',
-            'enableAutoLogin' => true,
+            'enableAutoLogin' => false,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
