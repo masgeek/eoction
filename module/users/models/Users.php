@@ -137,6 +137,15 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
+     * gets the hashed password
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->PASSWORD;
+    }
+
+    /**
      * Generates "remember me" authentication key
      */
     public function generateAuthKey()
@@ -175,8 +184,8 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             [['USERNAME', 'PASSWORD', 'FULL_NAMES', 'EMAIL_ADDRESS'], 'required'],
-            [['USERNAME','EMAIL_ADDRESS'], 'unique'],
-            [['REPEAT_PASSWORD'], 'required', 'on'=>'signup,changepass'],
+            [['USERNAME', 'EMAIL_ADDRESS'], 'unique'],
+            [['REPEAT_PASSWORD'], 'required', 'on' => 'signup,changepass'],
             [['SOCIAL_ID'], 'integer'],
             [['DATE_CREATED', 'DATE_UPDATED'], 'safe'],
             [['USERNAME'], 'string', 'max' => 20],
@@ -185,7 +194,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
             [['PHONE_NO'], 'string', 'max' => 30],
             [['TIMEZONE'], 'string', 'max' => 10],
             [['COUNTRY'], 'string', 'max' => 15],
-            ['REPEAT_PASSWORD', 'compare', 'compareAttribute'=>'PASSWORD', 'skipOnEmpty' => false, 'message'=>"Passwords don't match",'on'=>'signup,changepass'],
+            ['REPEAT_PASSWORD', 'compare', 'compareAttribute' => 'PASSWORD', 'skipOnEmpty' => false, 'message' => "Passwords don't match", 'on' => 'signup,changepass'],
         ];
     }
 

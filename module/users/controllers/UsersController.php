@@ -67,7 +67,7 @@ class UsersController extends Controller
 
         $model = new Users();
         $model->scenario = 'signup';
-        if (isset($_POST['Users'])) {
+        if (isset($_POST['Users']) && $model->load(Yii::$app->request->post())) {
             $date = new Expression('NOW()');
             $model_post = (array)Yii::$app->request->post('Users');
             $username = $model_post['EMAIL_ADDRESS'];
@@ -84,16 +84,17 @@ class UsersController extends Controller
             $model->USERNAME = $username;
             $model->DATE_CREATED = $date;
             $model->DATE_UPDATED = $date;
+
+            //if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if ($model->save()) {
+                return $this->redirect(['//site/login']);//redirect to the login page afer successful signup
+            }
         }
 
-        //if ($model->load(Yii::$app->request->post()) && $model->save()) {
-        if ($model->save()) {
-            return $this->redirect(['//site/login']);//redirect to the login page afer successful signup
-        } else {
-            return $this->render('signup', [
-                'model' => $model,
-            ]);
-        }
+        return $this->render('signup', [
+            'model' => $model,
+        ]);
+
     }
 
     /**

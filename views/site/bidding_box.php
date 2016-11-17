@@ -38,9 +38,8 @@ $bidStartTime = 60;// * $productID; //initial start time for the bid
 $shipping_cost = $formatter->asCurrency($shipping);
 $retail_price = $formatter->asCurrency($model->RETAIL_PRICE);
 
-$bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
+$starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
 
-$starting_bid_price = $formatter->asCurrency($bid_price);
 ?>
 
 

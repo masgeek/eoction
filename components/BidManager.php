@@ -134,11 +134,12 @@ class BidManager
 
     public static function GetInitialBidAmount($product_id)
     {
-        $starting_bid = Products::find([
-            'PRODUCT_ID' => $product_id,
-        ])->max('PRICE');
+        $starting_bid = Products::find()
+            ->select('PRICE')
+            ->where(['PRODUCT_ID'=>$product_id])
+            ->max('PRICE');
 
-        return (float)$starting_bid;
+        return $starting_bid;
     }
 
     /**
@@ -148,14 +149,16 @@ class BidManager
      */
     public static function GetMaxBidAmount($product_id)
     {
-        $max_bid_amount = ProductBids::find([
+        $formatter = \Yii::$app->formatter;
+        $bid_amount = ProductBids::find([
             'PRODUCT_ID' => $product_id,
         ])->max('BID_AMOUNT');
-        if ($max_bid_amount == null || (int)$max_bid_amount <= 0) {
-            return BidManager::GetInitialBidAmount($product_id);
-        } else {
-            return (float)$max_bid_amount;
+        if ($bid_amount == null || (int)$bid_amount <= 0) {
+            $bid_amount = BidManager::GetInitialBidAmount($product_id);
         }
+
+        $max_bid_amount = $formatter->asCurrency($bid_amount);
+        return $max_bid_amount;
     }
 
     /**

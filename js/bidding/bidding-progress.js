@@ -214,7 +214,7 @@ function placeBid($product_id, $sku) {
              .append($title)
              .append($description);*/
             bidsPlaced.html(data.bid_count);
-            bid_price.html(numeral(data.bid_price).format('$0,0.00'));
+            bid_price.html(data.bid_price);
         },
         type: 'GET'
     });
@@ -283,7 +283,7 @@ function ItemUpdate($product_id, $sku, $toclear) {
                 var $new_bid_price = data.bid_price;
 
 
-                $bidPrice.html(numeral($new_bid_price).format('$0,0.00'));
+                $bidPrice.html($new_bid_price);
                 bidsPlaced.html($bid_count);
                 //console.log(test+' - '+data.bid_count);
             });
