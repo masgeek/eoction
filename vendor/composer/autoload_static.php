@@ -29,6 +29,10 @@ class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
         array (
             'rmrevin\\yii\\fontawesome\\' => 24,
         ),
+        'k' => 
+        array (
+            'kartik\\base\\' => 12,
+        ),
         'c' => 
         array (
             'cebe\\markdown\\' => 14,
@@ -87,6 +91,10 @@ class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
         'rmrevin\\yii\\fontawesome\\' => 
         array (
             0 => __DIR__ . '/..' . '/rmrevin/yii2-fontawesome',
+        ),
+        'kartik\\base\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base',
         ),
         'cebe\\markdown\\' => 
         array (

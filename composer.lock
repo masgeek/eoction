@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9960e8353e6e9a4e2c2a4f5867d2bf2f",
-    "content-hash": "a091baf41e3fb49e3df02b224cb8c42a",
+    "hash": "b7eb8aea3fc7420f3e6d826cc8a002c6",
+    "content-hash": "8a255a864af3ac1c4027564b8eee0120",
     "packages": [
         {
             "name": "amnah/yii2-user",
@@ -278,6 +278,57 @@
                 "html"
             ],
             "time": "2016-07-16 12:58:58"
+        },
+        {
+            "name": "kartik-v/yii2-krajee-base",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-krajee-base.git",
+                "reference": "71b4204c9966ea16393c736a06f76bffaa12e165"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/71b4204c9966ea16393c736a06f76bffaa12e165",
+                "reference": "71b4204c9966ea16393c736a06f76bffaa12e165",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2-bootstrap": "@dev"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.8.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "kartik\\base\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "Base library and foundation components for all Yii2 Krajee extensions.",
+            "homepage": "https://github.com/kartik-v/yii2-krajee-base",
+            "keywords": [
+                "base",
+                "extension",
+                "foundation",
+                "krajee",
+                "widget",
+                "yii2"
+            ],
+            "time": "2016-10-13 16:44:25"
         },
         {
             "name": "rmrevin/yii2-fontawesome",
@@ -1027,7 +1078,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "kartik-v/yii2-krajee-base": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

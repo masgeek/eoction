@@ -10,7 +10,13 @@ use yii\widgets\ActiveForm;
 
 <div class="users-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+        'id' => 'active-form',
+        'options' => [
+            'class' => 'form-vertical',
+            'enctype' => 'multipart/form-data'
+        ],
+    ]); ?>
 
     <!--<?= $form->field($model, 'USERNAME')->textInput(['maxlength' => true]) ?>
 
@@ -41,7 +47,7 @@ use yii\widgets\ActiveForm;
 
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => 'btn btn-primary btn-block']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

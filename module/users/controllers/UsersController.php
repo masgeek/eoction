@@ -105,9 +105,9 @@ class UsersController extends Controller
     public function actionMyProfile($id)
     {
         $model = $this->findModel($id);
-        $model->scenario = 'update';
+        //$model->scenario = 'update';
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->USER_ID]);
+            return $this->redirect(['my-profile', 'id' => $model->USER_ID]);
         } else {
             return $this->render('update', [
                 'model' => $model,
