@@ -20,7 +20,6 @@ use yii\widgets\ActiveForm;
             ],
         ])
         ?>
-        <!--<?= $form->field($model, 'USERNAME')->textInput(['maxlength' => true]) ?>-->
 
         <div class="row">
             <?= $form->field($model, 'FULL_NAMES')->textInput(['maxlength' => true, 'placeholder' => 'Name']) ?>
@@ -31,7 +30,7 @@ use yii\widgets\ActiveForm;
 
         <div class="row">
             <div class="col-md-6">
-                <?= $form->field($model, 'LOGIN_ID')->passwordInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'PASSWORD_HASH')->passwordInput(['maxlength' => true]) ?>
             </div>
             <div class="col-md-6">
                 <?= $form->field($model, 'REPEAT_PASSWORD')->passwordInput(['maxlength' => true]) ?>

@@ -10,8 +10,9 @@ use Yii;
  * @property integer $USER_ID
  * @property string $FULL_NAMES
  * @property string $EMAIL_ADDRESS
- * @property string $USERNAME
  * @property string $PASSWORD_HASH
+ * @property string $REPEAT_PASSWORD
+ * @property string $ACCOUNT_ACCESS_TOKEN
  * @property string $ACCOUNT_AUTH_KEY
  * @property string $PHONE_NO
  * @property string $TIMEZONE
@@ -28,6 +29,7 @@ use Yii;
  */
 class Users extends \yii\db\ActiveRecord
 {
+    public $REPEAT_PASSWORD;
     /**
      * @inheritdoc
      */
@@ -42,11 +44,10 @@ class Users extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['FULL_NAMES', 'EMAIL_ADDRESS', 'USERNAME', 'PASSWORD_HASH'], 'required'],
+            [['FULL_NAMES', 'EMAIL_ADDRESS', 'PASSWORD_HASH'], 'required'],
             [['SOCIAL_ID', 'STATUS'], 'integer'],
             [['DATE_CREATED', 'DATE_UPDATED'], 'safe'],
-            [['FULL_NAMES', 'EMAIL_ADDRESS', 'PASSWORD_HASH', 'ACCOUNT_AUTH_KEY'], 'string', 'max' => 255],
-            [['USERNAME'], 'string', 'max' => 20],
+            [['FULL_NAMES', 'EMAIL_ADDRESS', 'PASSWORD_HASH', 'ACCOUNT_ACCESS_TOKEN', 'ACCOUNT_AUTH_KEY'], 'string', 'max' => 255],
             [['PHONE_NO'], 'string', 'max' => 30],
             [['TIMEZONE'], 'string', 'max' => 10],
             [['COUNTRY'], 'string', 'max' => 15],
@@ -62,8 +63,8 @@ class Users extends \yii\db\ActiveRecord
             'USER_ID' => 'User  ID',
             'FULL_NAMES' => 'Full  Names',
             'EMAIL_ADDRESS' => 'Email  Address',
-            'USERNAME' => 'Defaults to email address at first',
             'PASSWORD_HASH' => 'Password  Hash',
+            'ACCOUNT_ACCESS_TOKEN' => 'Account  Access  Token',
             'ACCOUNT_AUTH_KEY' => 'Account  Auth  Key',
             'PHONE_NO' => 'Phone  No',
             'TIMEZONE' => 'Timezone',
@@ -75,6 +76,16 @@ class Users extends \yii\db\ActiveRecord
         ];
     }
 
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->ACCOUNT_AUTH_KEY = \Yii::$app->security->generateRandomString();
+            }
+            return true;
+        }
+        return false;
+    }
     /**
      * @return \yii\db\ActiveQuery
      */

@@ -38,7 +38,7 @@ $home = \yii\helpers\Url::toRoute(['//site']);
                         <li><?= Html::a('<span class="fa fa-user"></span> My Account', ['//user/users/my-profile', 'id' => yii::$app->user->id], ['class' => 'text-capitalise']); ?></li>
                         <!--<li><?= Html::a('<span class="fa fa-lock"></span> Logout', ['//site/logout'], ['class' => 'text-capitalise']); ?></li>-->
                         <?= Html::beginForm(['/site/logout'], 'post') ?>
-                        <li><?= Html::submitButton('Logout (' . Yii::$app->user->identity->USERNAME . ')', ['class' => 'btn btn-link logout']) ?></li>
+                        <li><?= Html::submitButton('Logout (' . Yii::$app->user->identity->EMAIL_ADDRESS . ')', ['class' => 'btn btn-link logout']) ?></li>
                         <?= Html::endForm() ?>
                     </ul>
                 </li>

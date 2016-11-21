@@ -66,26 +66,23 @@ class UsersController extends Controller
     {
 
         $model = new Users();
-        $model->scenario = 'signup';
+        //$model->scenario = 'signup';
         if (isset($_POST['Users'])) {
 
             $date = new Expression('NOW()');
             $model_post = (array)Yii::$app->request->post('Users');
-            $username = $model_post['EMAIL_ADDRESS'];
             $names = $model_post['FULL_NAMES'];
             $email = $model_post['EMAIL_ADDRESS'];
-            //$raw_password = $model_post['PASSWORD'];
-            $raw_password = $model_post['LOGIN_ID'];
+            $raw_password = $model_post['PASSWORD_HASH'];
+            //$raw_password = $model_post['LOGIN_ID'];
             $hashed_password = sha1($raw_password);
 
 
 
             $model->FULL_NAMES = $names;
             $model->EMAIL_ADDRESS = $email;
-            $model->LOGIN_ID = $hashed_password;
-            $model->PASSWORD = $hashed_password;
+            $model->PASSWORD_HASH = $hashed_password;
             $model->REPEAT_PASSWORD = $hashed_password;
-            $model->USERNAME = $username;
             $model->DATE_CREATED = $date;
             $model->DATE_UPDATED = $date;
 
