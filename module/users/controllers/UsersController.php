@@ -66,37 +66,35 @@ class UsersController extends Controller
     {
 
         $model = new Users();
-        //$model->scenario = 'signup';
-        if (isset($_POST['Users'])) {
+        $model->scenario = 'signup';
+        //if (isset($_POST['Users'])) {
 
-            $date = new Expression('NOW()');
-            $model_post = (array)Yii::$app->request->post('Users');
-            $names = $model_post['FULL_NAMES'];
-            $email = $model_post['EMAIL_ADDRESS'];
-            $raw_password = $model_post['PASSWORD_HASH'];
-            //$raw_password = $model_post['LOGIN_ID'];
-            $hashed_password = sha1($raw_password);
+        /*$date = new Expression('NOW()');
+        $model_post = (array)Yii::$app->request->post('Users');
+        $names = $model_post['FULL_NAMES'];
+        $email = $model_post['EMAIL_ADDRESS'];
+        $raw_password = $model_post['PASSWORD_HASH'];
+        //$raw_password = $model_post['LOGIN_ID'];
+        $hashed_password = sha1($raw_password);
 
 
 
-            $model->FULL_NAMES = $names;
-            $model->EMAIL_ADDRESS = $email;
-            $model->PASSWORD_HASH = $hashed_password;
-            $model->REPEAT_PASSWORD = $hashed_password;
-            $model->DATE_CREATED = $date;
-            $model->DATE_UPDATED = $date;
-
-            //echo '<pre>';
-            //var_dump($_POST);
-            //var_dump($model->attributes);
-            //die;
-            //if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            if ($model->save()) {
-               return $this->redirect(['//site/login']);//redirect to the login page afer successful signup
-            }else{
-                $t = $model->getErrors();;
-            }
+        $model->FULL_NAMES = $names;
+        $model->EMAIL_ADDRESS = $email;
+        $model->PASSWORD_HASH = $hashed_password;
+        $model->REPEAT_PASSWORD = $hashed_password;
+        $model->DATE_CREATED = $date;*/
+        //echo '<pre>';
+        //var_dump($_POST);
+        //var_dump($model->attributes);
+        //die;
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            //if ($model->save()) {
+            return $this->redirect(['//site/login']);//redirect to the login page afer successful signup
+        } else {
+            $t = $model->getErrors();;
         }
+        //}
 
         return $this->render('signup', [
             'model' => $model,
@@ -114,13 +112,15 @@ class UsersController extends Controller
     {
         $model = $this->findModel($id);
         //$model->scenario = 'update';
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['my-profile', 'id' => $model->USER_ID]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        if (isset($_POST['Users'])) {
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                //return $this->redirect(['my-profile', 'id' => $model->USER_ID]);
+                return $this->redirect(['view', 'id' => $model->USER_ID]);
+            }
         }
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     public function actionUpdate($id)

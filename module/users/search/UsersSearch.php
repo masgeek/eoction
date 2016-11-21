@@ -19,7 +19,7 @@ class UsersSearch extends Users
     {
         return [
             [['USER_ID', 'SOCIAL_ID'], 'integer'],
-            [['USERNAME', 'PASSWORD', 'PASSWORD_RESET_TOKEN', 'AUTH_KEY', 'FULL_NAMES', 'EMAIL_ADDRESS', 'LOGIN_ID', 'PHONE_NO', 'TIMEZONE', 'COUNTRY', 'DATE_CREATED', 'DATE_UPDATED'], 'safe'],
+            [['FULL_NAMES', 'EMAIL_ADDRESS','PHONE_NO', 'TIMEZONE', 'COUNTRY', 'DATE_CREATED', 'DATE_UPDATED'], 'safe'],
         ];
     }
 
@@ -65,15 +65,9 @@ class UsersSearch extends Users
             'DATE_UPDATED' => $this->DATE_UPDATED,
         ]);
 
-        $query->andFilterWhere(['like', 'USERNAME', $this->USERNAME])
-            ->andFilterWhere(['like', 'PASSWORD', $this->PASSWORD])
-            ->andFilterWhere(['like', 'PASSWORD_RESET_TOKEN', $this->PASSWORD_RESET_TOKEN])
-            ->andFilterWhere(['like', 'AUTH_KEY', $this->AUTH_KEY])
-            ->andFilterWhere(['like', 'FULL_NAMES', $this->FULL_NAMES])
+        $query->andFilterWhere(['like', 'FULL_NAMES', $this->FULL_NAMES])
             ->andFilterWhere(['like', 'EMAIL_ADDRESS', $this->EMAIL_ADDRESS])
-            ->andFilterWhere(['like', 'LOGIN_ID', $this->LOGIN_ID])
             ->andFilterWhere(['like', 'PHONE_NO', $this->PHONE_NO])
-            ->andFilterWhere(['like', 'TIMEZONE', $this->TIMEZONE])
             ->andFilterWhere(['like', 'COUNTRY', $this->COUNTRY]);
 
         return $dataProvider;

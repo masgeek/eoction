@@ -17,16 +17,29 @@ use yii\widgets\ActiveForm;
             'enctype' => 'multipart/form-data'
         ],
     ]); ?>
+
+    <?= $form->field($model, 'PASSWORD_HASH')->passwordInput(['maxlength' => true]) ?>
+
+
+    <?= $form->field($model, 'ACCOUNT_AUTH_KEY')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'SOCIAL_ID')->textInput() ?>
+
+    <?= $form->field($model, 'DATE_CREATED')->textInput() ?>
+
+    <?= $form->field($model, 'DATE_UPDATED')->textInput() ?>
+
     <?= $form->field($model, 'FULL_NAMES')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'EMAIL_ADDRESS')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'SOCIAL_ID')->textInput() ?>
 
     <?= $form->field($model, 'PHONE_NO')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'COUNTRY')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'TIMEZONE')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'COUNTRY')->textInput(['maxlength' => true]) ?>
+
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => 'btn btn-primary btn-block']) ?>
