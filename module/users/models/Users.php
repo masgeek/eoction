@@ -45,6 +45,8 @@ class Users extends \yii\db\ActiveRecord
     {
         return [
             [['FULL_NAMES', 'EMAIL_ADDRESS', 'PASSWORD_HASH','REPEAT_PASSWORD'], 'required'],
+            [['EMAIL_ADDRESS'], 'unique'],
+            [['EMAIL_ADDRESS'], 'email'],
             [['SOCIAL_ID', 'STATUS'], 'integer'],
             [['DATE_CREATED', 'DATE_UPDATED'], 'safe'],
             [['FULL_NAMES', 'EMAIL_ADDRESS', 'PASSWORD_HASH','REPEAT_PASSWORD', 'ACCOUNT_ACCESS_TOKEN', 'ACCOUNT_AUTH_KEY'], 'string', 'max' => 255],
