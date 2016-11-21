@@ -15,33 +15,19 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'USER_ID') ?>
 
-    <?= $form->field($model, 'USERNAME') ?>
+    <?= $form->field($model, 'FULL_NAMES') ?>
 
-    <?= $form->field($model, 'PASSWORD') ?>
+    <?= $form->field($model, 'EMAIL_ADDRESS') ?>
 
-    <?= $form->field($model, 'PASSWORD_RESET_TOKEN') ?>
 
-    <?= $form->field($model, 'AUTH_KEY') ?>
+    <?= $form->field($model, 'PHONE_NO') ?>
 
-    <?php // echo $form->field($model, 'FULL_NAMES') ?>
+    <?= $form->field($model, 'COUNTRY') ?>
 
-    <?php // echo $form->field($model, 'EMAIL_ADDRESS') ?>
+    <?= $form->field($model, 'DATE_CREATED') ?>
 
-    <?php // echo $form->field($model, 'LOGIN_ID') ?>
-
-    <?php // echo $form->field($model, 'PHONE_NO') ?>
-
-    <?php // echo $form->field($model, 'TIMEZONE') ?>
-
-    <?php // echo $form->field($model, 'COUNTRY') ?>
-
-    <?php // echo $form->field($model, 'SOCIAL_ID') ?>
-
-    <?php // echo $form->field($model, 'DATE_CREATED') ?>
-
-    <?php // echo $form->field($model, 'DATE_UPDATED') ?>
+    <?= $form->field($model, 'DATE_UPDATED') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
