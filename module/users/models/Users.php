@@ -62,20 +62,20 @@ class Users extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'USER_ID' => 'User  ID',
-            'FULL_NAMES' => 'Full  Names',
-            'EMAIL_ADDRESS' => 'Email  Address',
+            'USER_ID' => 'User ID',
+            'FULL_NAMES' => 'Full Names',
+            'EMAIL_ADDRESS' => 'Email Address',
             'PASSWORD_HASH' => 'Password',
             'REPEAT_PASSWORD' => 'Confirm Password',
-            'ACCOUNT_ACCESS_TOKEN' => 'Account  Access  Token',
-            'ACCOUNT_AUTH_KEY' => 'Account  Auth  Key',
-            'PHONE_NO' => 'Phone  No',
+            'ACCOUNT_ACCESS_TOKEN' => 'Account Access Token',
+            'ACCOUNT_AUTH_KEY' => 'Account Auth Key',
+            'PHONE_NO' => 'Phone Number',
             'TIMEZONE' => 'Timezone',
             'COUNTRY' => 'Country',
-            'SOCIAL_ID' => 'Social  ID',
+            'SOCIAL_ID' => 'Social ID',
             'STATUS' => 'Active or inactive',
-            'DATE_CREATED' => 'Date  Created',
-            'DATE_UPDATED' => 'Date  Updated',
+            'DATE_CREATED' => 'Date Created',
+            'DATE_UPDATED' => 'Date Updated',
         ];
     }
 
