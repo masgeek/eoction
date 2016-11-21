@@ -44,10 +44,10 @@ class Users extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['FULL_NAMES', 'EMAIL_ADDRESS', 'PASSWORD_HASH'], 'required'],
+            [['FULL_NAMES', 'EMAIL_ADDRESS', 'PASSWORD_HASH','REPEAT_PASSWORD'], 'required'],
             [['SOCIAL_ID', 'STATUS'], 'integer'],
             [['DATE_CREATED', 'DATE_UPDATED'], 'safe'],
-            [['FULL_NAMES', 'EMAIL_ADDRESS', 'PASSWORD_HASH', 'ACCOUNT_ACCESS_TOKEN', 'ACCOUNT_AUTH_KEY'], 'string', 'max' => 255],
+            [['FULL_NAMES', 'EMAIL_ADDRESS', 'PASSWORD_HASH','REPEAT_PASSWORD', 'ACCOUNT_ACCESS_TOKEN', 'ACCOUNT_AUTH_KEY'], 'string', 'max' => 255],
             [['PHONE_NO'], 'string', 'max' => 30],
             [['TIMEZONE'], 'string', 'max' => 10],
             [['COUNTRY'], 'string', 'max' => 15],
@@ -63,7 +63,8 @@ class Users extends \yii\db\ActiveRecord
             'USER_ID' => 'User  ID',
             'FULL_NAMES' => 'Full  Names',
             'EMAIL_ADDRESS' => 'Email  Address',
-            'PASSWORD_HASH' => 'Password  Hash',
+            'PASSWORD_HASH' => 'Password',
+            'REPEAT_PASSWORD' => 'Confirm Password',
             'ACCOUNT_ACCESS_TOKEN' => 'Account  Access  Token',
             'ACCOUNT_AUTH_KEY' => 'Account  Auth  Key',
             'PHONE_NO' => 'Phone  No',
