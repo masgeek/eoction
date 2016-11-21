@@ -74,29 +74,30 @@ class UsersController extends Controller
             $username = $model_post['EMAIL_ADDRESS'];
             $names = $model_post['FULL_NAMES'];
             $email = $model_post['EMAIL_ADDRESS'];
-            $raw_password = $model_post['PASSWORD'];
+            //$raw_password = $model_post['PASSWORD'];
+            $raw_password = $model_post['LOGIN_ID'];
             $hashed_password = sha1($raw_password);
+
 
 
             $model->FULL_NAMES = $names;
             $model->EMAIL_ADDRESS = $email;
+            $model->LOGIN_ID = $hashed_password;
             $model->PASSWORD = $hashed_password;
             $model->REPEAT_PASSWORD = $hashed_password;
             $model->USERNAME = $username;
             $model->DATE_CREATED = $date;
             $model->DATE_UPDATED = $date;
 
-            echo '<pre>';
+            //echo '<pre>';
             //var_dump($_POST);
-            var_dump($model->attributes);
-            die;
+            //var_dump($model->attributes);
+            //die;
             //if ($model->load(Yii::$app->request->post()) && $model->save()) {
             if ($model->save()) {
                return $this->redirect(['//site/login']);//redirect to the login page afer successful signup
             }else{
-                $t = $model->getErrors();
-                var_dump($t);
-                die;
+                $t = $model->getErrors();;
             }
         }
 

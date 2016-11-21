@@ -37,9 +37,9 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
 {
 
     public $REPEAT_PASSWORD;
-    //public $AUTH_KEY;
-    public $PASSWORD;
-    //public $PASSWORD_RESET_TOKEN;
+    public $AUTH_KEY;
+    //public $PASSWORD;
+    public $PASSWORD_RESET_TOKEN;
     public $passwordHashCost = 13;
 
     /**
@@ -50,13 +50,13 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
         return 'tb_users';
     }
 
-    /*public function scenarios()
+    public function scenarios()
     {
         $scenarios = parent::scenarios();
-        //$scenarios['signup'] = ['USERNAME', 'PASSWORD', 'FULL_NAMES', 'EMAIL_ADDRESS','REPEAT_PASSWORD'];//Scenario Values Only Accepted
+        $scenarios['signup'] = ['USERNAME', 'PASSWORD', 'FULL_NAMES', 'EMAIL_ADDRESS','REPEAT_PASSWORD'];//Scenario Values Only Accepted
         $scenarios['changepass'] = ['PASSWORD','REPEAT_PASSWORD'];//Scenario Values Only Accepted
         return $scenarios;
-    }*/
+    }
 
     /**
      * @inheritdoc
@@ -65,17 +65,17 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             [['USERNAME', 'PASSWORD', 'FULL_NAMES', 'EMAIL_ADDRESS'], 'required'],
-            [['USERNAME', 'EMAIL_ADDRESS','AUTH_KEY'], 'unique'],
+            [['USERNAME', 'EMAIL_ADDRESS'], 'unique'],
             [['REPEAT_PASSWORD'], 'required'],
             [['SOCIAL_ID'], 'integer'],
-            [['DATE_CREATED', 'DATE_UPDATED'], 'safe'],
+            [['DATE_CREATED', 'DATE_UPDATED','PASSWORD_RESET_TOKEN'], 'safe'],
             [['USERNAME'], 'string', 'max' => 20],
             [['PASSWORD', 'FULL_NAMES', 'EMAIL_ADDRESS', 'AUTH_KEY', 'PASSWORD_RESET_TOKEN'], 'string', 'max' => 255],
             [['LOGIN_ID'], 'string', 'max' => 300],
             [['PHONE_NO'], 'string', 'max' => 30],
             [['TIMEZONE'], 'string', 'max' => 10],
             [['COUNTRY'], 'string', 'max' => 15],
-            ['REPEAT_PASSWORD', 'compare', 'compareAttribute' => 'PASSWORD', 'skipOnEmpty' => false, 'message' => "Passwords don't match"],
+            //['REPEAT_PASSWORD', 'compare', 'compareAttribute' => 'LOGIN_ID', 'skipOnEmpty' => false, 'message' => "Passwords don't match"],
         ];
     }
 
@@ -91,7 +91,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
             'REPEAT_PASSWORD' => 'Confirm Password',
             'FULL_NAMES' => 'Full Names',
             'EMAIL_ADDRESS' => 'Email Address',
-            'LOGIN_ID' => 'Login  ID',
+            'LOGIN_ID' => 'Password',
             'PHONE_NO' => 'Phone  No',
             'TIMEZONE' => 'Timezone',
             'COUNTRY' => 'Country',
@@ -226,7 +226,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->PASSWORD === sha1($password);
+        return $this->LOGIN_ID === sha1($password);
     }
 
     /**
@@ -237,7 +237,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
     public function setPassword($password)
     {
 
-        $this->PASSWORD = Security::generatePasswordHash($password);
+        $this->LOGIN_ID = Security::generatePasswordHash($password);
     }
 
     /**
@@ -246,7 +246,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function getPassword()
     {
-        return $this->PASSWORD;
+        return $this->LOGIN_ID;
     }
 
     /**

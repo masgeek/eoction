@@ -67,20 +67,21 @@ class SiteController extends Controller
     /**
      * @inheritdoc
      */
-   /* public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
-        ];
-    }*/
+    /* public function actions()
+     {
+         return [
+             'error' => [
+                 'class' => 'yii\web\ErrorAction',
+             ],
+             'captcha' => [
+                 'class' => 'yii\captcha\CaptchaAction',
+                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+             ],
+         ];
+     }*/
 
-    public function actions() {
+    public function actions()
+    {
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
@@ -99,7 +100,8 @@ class SiteController extends Controller
      * @param yii\authclient\ClientInterface $client
      * @return boolean|yii\web\Response
      */
-    public function oAuthSuccess($client) {
+    public function oAuthSuccess($client)
+    {
         // get user data from client
         $userAttributes = $client->getUserAttributes();
         //(new AuthHandler($client))->handle();
@@ -126,10 +128,10 @@ class SiteController extends Controller
                 ->where(['ALLOW_AUCTION' => 1,])
                 ->andWhere(['>=', 'CURRENT_STOCK_LEVEL', 1])//stock levels should be greater or equal to 1
                 ->andWhere(['NOT IN', 'SKU', $item_array])
-               // ->orderBy(['rand()' => SORT_DESC]),
-            ->orderBy('PRODUCT_ID ASC')->limit(12),
+                ->orderBy(['rand()' => SORT_DESC]),
+               // ->orderBy('PRODUCT_ID ASC'),
             'pagination' => [
-                'pageSize' => 1
+                'pageSize' => 20
             ],
         ]);
 
@@ -182,7 +184,7 @@ class SiteController extends Controller
                     'sku' => $model->PRODUCT_SKU,
                     'bid_price' => BidManager::GetMaxBidAmount($model->PRODUCT_ID),
                     'discount' => ProductManager::ComputePercentageDiscount($model->PRODUCT_ID),
-                    'bid_count'=>ProductManager::GetNumberOfBids($model->PRODUCT_ID)
+                    'bid_count' => ProductManager::GetNumberOfBids($model->PRODUCT_ID)
                 ];
             } else {
                 //alert user
@@ -210,7 +212,7 @@ class SiteController extends Controller
                     'sku' => $bidactivity->PRODUCT_SKU,
                     'bid_price' => BidManager::GetMaxBidAmount($bidactivity->PRODUCT_ID),
                     'discount' => ProductManager::ComputePercentageDiscount($bidactivity->PRODUCT_ID),
-                    'bid_count'=>ProductManager::GetNumberOfBids($bidactivity->PRODUCT_ID)
+                    'bid_count' => ProductManager::GetNumberOfBids($bidactivity->PRODUCT_ID)
                 ];
             } else {
                 //alert user
