@@ -131,7 +131,7 @@ class SiteController extends Controller
                 //->orderBy(['rand()' => SORT_DESC]),
             ->orderBy('PRODUCT_ID ASC'),
             'pagination' => [
-                'pageSize' => 1
+                'pageSize' => 20
             ],
         ]);
 
