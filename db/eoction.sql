@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50711
 File Encoding         : 65001
 
-Date: 2016-11-22 19:19:01
+Date: 2016-11-22 19:20:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -452,6 +452,7 @@ CREATE TABLE `tb_user_history` (
   `PRODUCT_ID` int(11) NOT NULL,
   `PRICE_BOUGHT` decimal(2,0) NOT NULL DEFAULT '0',
   `DATE_ADDED` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `ACTION_TYPE` varchar(20) DEFAULT NULL COMMENT 'Bid or direct purchase',
   PRIMARY KEY (`HISTORY_ID`),
   KEY `USER_ID` (`USER_ID`),
   KEY `PRODUCT_ID` (`PRODUCT_ID`),
