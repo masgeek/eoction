@@ -73,10 +73,8 @@ class ItemsCart extends \yii\db\ActiveRecord
             if ($this->isNewRecord) {
                 $this->DATE_ADDED = $date;
                 $this->EXPIRY_DATE = $date; //@TODO update expiry date and inquire after how long
-            } else {
-                $this->DATE_BOUGHT = $date;
             }
-
+            $this->DATE_BOUGHT = $date;
             return true;
         }
         return false;

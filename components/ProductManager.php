@@ -59,17 +59,4 @@ class ProductManager
         }
         return $bidsCount;
     }
-
-    public static function AddItemsToCart($user_id, $product_id, $price)
-    {
-        $cartModel = new ItemsCart();
-        $cartModel->isNewRecord = true;
-
-        //add the data
-        $cartModel->PRODUCT_ID = $product_id;
-        $cartModel->USER_ID = $user_id;
-        $cartModel->PRODUCT_PRICE = $price;
-        //User::updateAllCounters(['states' => 1]);
-        return BidActivity::updateAll(['ACTIVITY_COUNT' => 1], ['PRODUCT_ID' => $product_id]);
-    }
 }
