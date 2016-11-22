@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50711
 File Encoding         : 65001
 
-Date: 2016-11-21 23:22:23
+Date: 2016-11-22 16:22:14
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,35 +20,24 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_bid_activity`;
 CREATE TABLE `tb_bid_activity` (
-  `PLACED_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ACTIVITY_ID` int(11) NOT NULL AUTO_INCREMENT,
   `PRODUCT_ID` int(11) NOT NULL,
+  `LAST_BIDDING_USER_ID` int(11) NOT NULL COMMENT 'Last bidding user',
   `PRODUCT_SKU` varchar(255) NOT NULL COMMENT 'Product SKU',
-  `ACTIVITY_COUNT` int(5) NOT NULL COMMENT 'Bid Activity Count',
+  `ACTIVITY_COUNT` int(5) NOT NULL DEFAULT '0' COMMENT 'Bid Activity Count',
   `BID_DATE` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`PLACED_ID`),
+  PRIMARY KEY (`ACTIVITY_ID`),
   UNIQUE KEY `PRODUCT_SKU` (`PRODUCT_SKU`),
   KEY `PRODUCT_ID` (`PRODUCT_ID`),
+  KEY `LAST_BIDDING_USER` (`LAST_BIDDING_USER_ID`),
   CONSTRAINT `tb_bid_activity_ibfk_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE,
-  CONSTRAINT `tb_bid_activity_ibfk_2` FOREIGN KEY (`PRODUCT_SKU`) REFERENCES `tb_products` (`SKU`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+  CONSTRAINT `tb_bid_activity_ibfk_2` FOREIGN KEY (`PRODUCT_SKU`) REFERENCES `tb_products` (`SKU`) ON UPDATE CASCADE,
+  CONSTRAINT `tb_bid_activity_ibfk_3` FOREIGN KEY (`LAST_BIDDING_USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=156 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_bid_activity
 -- ----------------------------
-INSERT INTO `tb_bid_activity` VALUES ('1', '116', 'M-12549-WG10K', '0', '2016-11-21 23:21:52');
-INSERT INTO `tb_bid_activity` VALUES ('2', '90', 'NQH-J264354680000', '0', '2016-11-21 23:21:53');
-INSERT INTO `tb_bid_activity` VALUES ('3', '136', 'I-CSE1982BL-WSL', '0', '2016-11-21 23:21:55');
-INSERT INTO `tb_bid_activity` VALUES ('4', '31', 'NQH-J271446680000', '0', '2016-11-21 23:21:55');
-INSERT INTO `tb_bid_activity` VALUES ('5', '51', 'NQH-J282421180352', '0', '2016-11-21 23:21:56');
-INSERT INTO `tb_bid_activity` VALUES ('6', '25', 'NQH-J267422012000', '0', '2016-11-21 23:21:56');
-INSERT INTO `tb_bid_activity` VALUES ('7', '74', 'NQH-J149134AB1000', '0', '2016-11-21 23:21:58');
-INSERT INTO `tb_bid_activity` VALUES ('8', '164', 'M-221535834520-WSL', '0', '2016-11-21 23:21:58');
-INSERT INTO `tb_bid_activity` VALUES ('9', '102', 'NQH-J280763AB1000', '0', '2016-11-21 23:22:00');
-INSERT INTO `tb_bid_activity` VALUES ('10', '57', 'NQH-J283124000351', '0', '2016-11-21 23:22:00');
-INSERT INTO `tb_bid_activity` VALUES ('11', '18', 'NQH-J155099680593', '0', '2016-11-21 23:22:00');
-INSERT INTO `tb_bid_activity` VALUES ('12', '95', 'NQH-J269557027581', '0', '2016-11-21 23:22:00');
-INSERT INTO `tb_bid_activity` VALUES ('13', '75', 'NQH-J152965000000', '0', '2016-11-21 23:22:01');
-INSERT INTO `tb_bid_activity` VALUES ('14', '118', 'I-V-6-STUD-WSL', '0', '2016-11-21 23:22:02');
 
 -- ----------------------------
 -- Table structure for tb_bid_settings
@@ -381,11 +370,13 @@ CREATE TABLE `tb_product_bids` (
   KEY `USER_ID` (`USER_ID`),
   CONSTRAINT `tb_product_bids_ibfk_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE,
   CONSTRAINT `tb_product_bids_ibfk_2` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_product_bids
 -- ----------------------------
+INSERT INTO `tb_product_bids` VALUES ('1', '100', '5', '5.00', '2016-11-22 16:00:41', '0');
+INSERT INTO `tb_product_bids` VALUES ('2', '72', '5', '5.00', '2016-11-22 16:03:38', '0');
 
 -- ----------------------------
 -- Table structure for tb_product_images
@@ -398,7 +389,7 @@ CREATE TABLE `tb_product_images` (
   PRIMARY KEY (`IMAGE_ID`),
   KEY `PRODUCT_ID` (`PRODUCT_ID`),
   CONSTRAINT `tb_product_images_ibfk_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_product_images
@@ -441,10 +432,11 @@ CREATE TABLE `tb_users` (
   `DATE_CREATED` datetime DEFAULT NULL,
   `DATE_UPDATED` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`USER_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_users
 -- ----------------------------
-INSERT INTO `tb_users` VALUES ('1', 'sammy barasa', '12334', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', null, 'GsnfacKha4_1QE6-YWuKSIYMTCggfmEx', null, 'GMT +3', null, null, '1', '2016-11-21 22:45:59', '2016-11-21 22:45:59');
+INSERT INTO `tb_users` VALUES ('5', 'Sammy Barasa', 'barsamms@gmail.com', '63aaa47cb0b76f0b157c40cdba9bf78653a7af37', null, 'g5BcDmUAkeXf0uQd31E8lHD0SXtZGScK', null, 'GMT +3', null, null, '1', '2016-11-22 14:29:53', '2016-11-22 14:29:53');
+INSERT INTO `tb_users` VALUES ('6', 'Sammy Barasa', 'barsamms@gmail.coms', '63aaa47cb0b76f0b157c40cdba9bf78653a7af37', null, 'JeDUzV6IyfXktOHTBgq2OPgdNDFcattz', null, 'GMT +3', null, null, '1', '2016-11-22 14:30:36', '2016-11-22 14:30:36');
 SET FOREIGN_KEY_CHECKS=1;
