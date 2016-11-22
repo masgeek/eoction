@@ -10,6 +10,8 @@ nbproject
 .project
 .settings
 
+#misc files
+phploy.log
 # windows thumbnail cache
 Thumbs.db
 
