@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50711
 File Encoding         : 65001
 
-Date: 2016-11-22 16:22:14
+Date: 2016-11-22 19:19:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -33,11 +33,12 @@ CREATE TABLE `tb_bid_activity` (
   CONSTRAINT `tb_bid_activity_ibfk_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE,
   CONSTRAINT `tb_bid_activity_ibfk_2` FOREIGN KEY (`PRODUCT_SKU`) REFERENCES `tb_products` (`SKU`) ON UPDATE CASCADE,
   CONSTRAINT `tb_bid_activity_ibfk_3` FOREIGN KEY (`LAST_BIDDING_USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=156 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=164 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_bid_activity
 -- ----------------------------
+INSERT INTO `tb_bid_activity` VALUES ('163', '1', '5', 'NHQ-J272582011000', '1', '2016-11-22 19:13:50');
 
 -- ----------------------------
 -- Table structure for tb_bid_settings
@@ -95,9 +96,11 @@ CREATE TABLE `tb_items_cart` (
   `USER_ID` int(11) NOT NULL,
   `PRODUCT_ID` int(11) NOT NULL,
   `PRODUCT_PRICE` decimal(10,2) NOT NULL,
+  `BIDDED_ITEM` int(1) DEFAULT '0',
+  `IS_SOLD` int(1) NOT NULL DEFAULT '0',
   `DATE_ADDED` datetime NOT NULL,
   `EXPIRY_DATE` datetime NOT NULL,
-  `IS_SOLD` int(1) NOT NULL DEFAULT '0',
+  `DATE_BOUGHT` datetime NOT NULL,
   PRIMARY KEY (`CART_ID`),
   KEY `USER_ID` (`USER_ID`),
   KEY `PRODUCT_ID` (`PRODUCT_ID`),
@@ -370,13 +373,12 @@ CREATE TABLE `tb_product_bids` (
   KEY `USER_ID` (`USER_ID`),
   CONSTRAINT `tb_product_bids_ibfk_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE,
   CONSTRAINT `tb_product_bids_ibfk_2` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_product_bids
 -- ----------------------------
-INSERT INTO `tb_product_bids` VALUES ('1', '100', '5', '5.00', '2016-11-22 16:00:41', '0');
-INSERT INTO `tb_product_bids` VALUES ('2', '72', '5', '5.00', '2016-11-22 16:03:38', '0');
+INSERT INTO `tb_product_bids` VALUES ('14', '1', '5', '101.00', '2016-11-22 19:11:13', '0');
 
 -- ----------------------------
 -- Table structure for tb_product_images
@@ -439,4 +441,25 @@ CREATE TABLE `tb_users` (
 -- ----------------------------
 INSERT INTO `tb_users` VALUES ('5', 'Sammy Barasa', 'barsamms@gmail.com', '63aaa47cb0b76f0b157c40cdba9bf78653a7af37', null, 'g5BcDmUAkeXf0uQd31E8lHD0SXtZGScK', null, 'GMT +3', null, null, '1', '2016-11-22 14:29:53', '2016-11-22 14:29:53');
 INSERT INTO `tb_users` VALUES ('6', 'Sammy Barasa', 'barsamms@gmail.coms', '63aaa47cb0b76f0b157c40cdba9bf78653a7af37', null, 'JeDUzV6IyfXktOHTBgq2OPgdNDFcattz', null, 'GMT +3', null, null, '1', '2016-11-22 14:30:36', '2016-11-22 14:30:36');
+
+-- ----------------------------
+-- Table structure for tb_user_history
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_user_history`;
+CREATE TABLE `tb_user_history` (
+  `HISTORY_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `USER_ID` int(11) NOT NULL,
+  `PRODUCT_ID` int(11) NOT NULL,
+  `PRICE_BOUGHT` decimal(2,0) NOT NULL DEFAULT '0',
+  `DATE_ADDED` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`HISTORY_ID`),
+  KEY `USER_ID` (`USER_ID`),
+  KEY `PRODUCT_ID` (`PRODUCT_ID`),
+  CONSTRAINT `tb_user_history_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `tb_user_history_ibfk_2` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tb_user_history
+-- ----------------------------
 SET FOREIGN_KEY_CHECKS=1;

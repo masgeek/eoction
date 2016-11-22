@@ -60,6 +60,7 @@ class ProductManager
 
     public static function AddItemsToCart($user_id, $product_id, $price)
     {
-
+//User::updateAllCounters(['states' => 1]);
+        return BidActivity::updateAll(['ACTIVITY_COUNT' => 1],['PRODUCT_ID' => $product_id]);
     }
 }
