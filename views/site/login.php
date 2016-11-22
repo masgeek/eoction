@@ -9,6 +9,10 @@ use yii\bootstrap\ActiveForm;
 
 $this->title = 'Eoction Login';
 $this->params['breadcrumbs'][] = $this->title;
+
+foreach(Yii::app()->user->getFlashes() as $key => $message) {
+    echo '<div class="flash-' . $key . '">' . $message . "</div>\n";
+}
 ?>
 <div class="site-login">
     <h1><?= Html::encode($this->title) ?></h1>

@@ -67,34 +67,23 @@ class UsersController extends Controller
 
         $model = new Users();
         $model->scenario = 'signup';
-        //if (isset($_POST['Users'])) {
-
-        /*$date = new Expression('NOW()');
-        $model_post = (array)Yii::$app->request->post('Users');
-        $names = $model_post['FULL_NAMES'];
-        $email = $model_post['EMAIL_ADDRESS'];
-        $raw_password = $model_post['PASSWORD_HASH'];
-        //$raw_password = $model_post['LOGIN_ID'];
-        $hashed_password = sha1($raw_password);
-
-
-
-        $model->FULL_NAMES = $names;
-        $model->EMAIL_ADDRESS = $email;
-        $model->PASSWORD_HASH = $hashed_password;
-        $model->REPEAT_PASSWORD = $hashed_password;
-        $model->DATE_CREATED = $date;*/
-        //echo '<pre>';
-        //var_dump($_POST);
-        //var_dump($model->attributes);
-        //die;
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            //if ($model->save()) {
-            return $this->redirect(['//site/login']);//redirect to the login page afer successful signup
-        } else {
-            $t = $model->getErrors();;
+        if (isset($_POST['Users'])) {
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                //if ($model->save()) {
+                Yii::$app->session->setFlash('notice', "Account created successfully. You can now log in");
+                return $this->redirect(['//site/login']);//redirect to the login page afer successful signup
+            } else {
+                $errors = $model->getErrors();
+                $errorList = '<ul class="list-group">';
+                foreach ($errors as $key => $error) {
+                    $errorList .='<li class="list-group-item">';
+                    $errorList .=$errors[$key][0];
+                    $errorList .='</li>';
+                }
+                $errorList .= '</ul>';
+                Yii::$app->session->setFlash('error', "Kindly correct the following errors $errorList");
+            }
         }
-        //}
 
         return $this->render('signup', [
             'model' => $model,

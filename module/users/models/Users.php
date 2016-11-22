@@ -46,7 +46,7 @@ class Users extends \yii\db\ActiveRecord
     {
         $scenarios = parent::scenarios();
         //$scenarios['update'] = [];//Scenario Values Only Accepted
-        $scenarios['signup'] = ['PASSWORD_HASH', 'REPEAT_PASSWORD'];//Scenario Values Only Accepted
+        $scenarios['signup'] = ['PASSWORD_HASH', 'REPEAT_PASSWORD', 'FULL_NAMES', 'EMAIL_ADDRESS', 'CHANGE_PASS','SOCIAL_ID'];//Scenario Values Only Accepted
         return $scenarios;
     }
 
@@ -56,7 +56,7 @@ class Users extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['FULL_NAMES', 'EMAIL_ADDRESS'], 'required'],
+            [['FULL_NAMES', 'EMAIL_ADDRESS', 'CHANGE_PASS','SOCIAL_ID'], 'required'],
             [['PASSWORD_HASH', 'REPEAT_PASSWORD'], 'required', 'on' => 'signup'],
             [['EMAIL_ADDRESS'], 'unique'],
             [['EMAIL_ADDRESS'], 'email'],
