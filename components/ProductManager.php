@@ -8,12 +8,14 @@
 
 namespace app\components;
 
+
 use yii\db\Expression;
 use yii\helpers\Html;
 
 use app\models\BidActivity;
 use app\module\products\models\Products;
 use app\module\products\models\ProductBids;
+use app\module\products\models\ItemsCart;
 
 class ProductManager
 {
@@ -60,7 +62,9 @@ class ProductManager
 
     public static function AddItemsToCart($user_id, $product_id, $price)
     {
-//User::updateAllCounters(['states' => 1]);
-        return BidActivity::updateAll(['ACTIVITY_COUNT' => 1],['PRODUCT_ID' => $product_id]);
+        $cartModel = new ItemsCart();
+
+        //User::updateAllCounters(['states' => 1]);
+        return BidActivity::updateAll(['ACTIVITY_COUNT' => 1], ['PRODUCT_ID' => $product_id]);
     }
 }
