@@ -5,6 +5,7 @@
  * Date: 11/22/2016
  * Time: 2:04 PM
  */
+
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model app\models\LoginForm */
 
@@ -32,7 +33,7 @@ use yii\bootstrap\ActiveForm;
 ]) ?>
     <div class="form-group">
         <div class="col-md-8 col-md-offset-2">
-            <?= Html::submitButton('Login', ['class' => 'btn btn-primary btn-block', 'name' => 'login-button']) ?>
+            <?= Html::submitButton('Login', ['class' => 'btn btn-bid btn-bid-active btn-block btn-lg', 'name' => 'login-button']) ?>
         </div>
     </div>
 <?php ActiveForm::end(); ?>

@@ -39,7 +39,7 @@ use yii\widgets\ActiveForm;
     </div>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Sign Up' : 'Update', ['class' => 'btn btn-primary btn-lg btn-block']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Sign Up' : 'Update', ['class' => 'btn btn-bid btn-bid-active btn-block btn-lg']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
