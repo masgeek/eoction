@@ -126,7 +126,7 @@ class BidManager
     public static function NextBidAmount($product_id)
     {
         //BidManager::GetNextItemToBid();
-        $max_amount = BidManager::GetMaxBidAmount($product_id);
+        $max_amount = (int)BidManager::GetMaxBidAmount($product_id, $format = false);
         //increment this amount by 5
         $next_bid_amount = $max_amount + 5;
         return $next_bid_amount;
@@ -136,10 +136,54 @@ class BidManager
     {
         $starting_bid = Products::find()
             ->select('PRICE')
-            ->where(['PRODUCT_ID'=>$product_id])
+            ->where(['PRODUCT_ID' => $product_id])
             ->max('PRICE');
 
         return $starting_bid;
+    }
+
+
+    /**
+     * @param $product_id
+     * @param $sku
+     * @return int
+     */
+    public static function GetBidWinner($product_id, $sku)
+    {
+        $bid_winner = 0;
+        $bid_winner_data = BidActivity::find()
+            ->select('LAST_BIDDING_USER_ID')
+            ->where(['PRODUCT_ID' => $product_id])
+            ->andWhere(['PRODUCT_SKU' => $sku])
+            ->asArray()
+            ->one();
+        if (count($bid_winner_data) == 1) {
+            $bid_winner = $bid_winner_data['LAST_BIDDING_USER_ID'];
+        }
+        return (int)$bid_winner;
+    }
+
+    public static function MarkBidAsWon($user_id, $product_id)
+    {
+        //then add it to the cart
+
+        $bid_won_model = ProductBids::findOne([
+                'USER_ID' => $user_id,
+                'PRODUCT_ID' => $product_id,
+                'BID_WON' => 0]
+        );
+        if($bid_won_model!=null) {
+            $bid_won_model->BID_WON = 1; //indicate this bid as won
+
+            if ($bid_won_model->save()) {
+                //add to cart
+                //remove the same item not won from the bid activity table
+                ProductBids::deleteAll(['PRODUCT_ID' => $product_id, 'BID_WON' => 0]);
+            }
+            return $bid_won_model->primaryKey;
+        }
+
+        return null;
     }
 
     /**
@@ -147,17 +191,20 @@ class BidManager
      * @param $product_id
      * @return float
      */
-    public static function GetMaxBidAmount($product_id)
+    public static function GetMaxBidAmount($product_id, $format = true)
     {
         $formatter = \Yii::$app->formatter;
         $bid_amount = ProductBids::find([
             'PRODUCT_ID' => $product_id,
-        ])->max('BID_AMOUNT');
+        ])->where(['BID_WON' => 0])->max('BID_AMOUNT');
         if ($bid_amount == null || (int)$bid_amount <= 0) {
             $bid_amount = BidManager::GetInitialBidAmount($product_id);
         }
-
-        $max_bid_amount = $formatter->asCurrency($bid_amount);
+        if ($format) {
+            $max_bid_amount = $formatter->asCurrency($bid_amount);
+        } else {
+            $max_bid_amount = $bid_amount;
+        }
         return $max_bid_amount;
     }
 
@@ -180,6 +227,10 @@ class BidManager
 
     }
 
+    /**
+     * @param int $product_id
+     * @return array
+     */
     public static function GetNextItemToBid($product_id = 0)
     {
         //sleep for a second to allow randomization
@@ -197,7 +248,7 @@ class BidManager
             ])
             ->andWhere(['>=', 'CURRENT_STOCK_LEVEL', 1])//stock levels should be greater or equal to 1
             //->andWhere('!=','PRODUCT_ID',$product_id)
-            ->orderBy(['rand()' => SORT_DESC])
+            //->orderBy(['rand()' => SORT_DESC])
             ->one();
 
         //add the item to bid activity
@@ -229,98 +280,14 @@ class BidManager
         return [];//$item_array;
     }
 
-    private static function BuildListOld($product_id, $sku, $product_name)
-    {
-        $img = 'http://placehold.it/800/c66/000';
-        $imageHtml = Html::img($img, [
-            'width' > '200',
-            'id' => 'product_image_' . $product_id,
-            'class' => 'img img-responsive',
-            'alt' => $product_name,
-        ]);
-
-        $html_list = '<div class="col-xs-18 col-sm-4 col-md-3 fadein" id="item_box_' . $product_id . '">
-            <ul class="price">
-                <li>' . $imageHtml . '</li>
-                <li>Starting Bid</li>
-                <li>Shipping</li>
-                <li class="hidden_">
-                    <input type="text" id="bid_type_' . $product_id . '" value="0" readonly="readonly"/>
-                    <input type="text" id="bid_placed_' . $product_id . '" value="0" readonly="readonly"/>
-                    <input type="text" id="product_sku_' . $product_id . '" value="' . $sku . '" readonly="readonly"/>
-                </li>
-                <li><div class="bidProgress noplacedbids" id="progressBar' . $product_id . '"></div></li>
-                <li id="bids_placed' . $product_id . '">0 Bids</li>
-                <li><button id="placebid_' . $product_id . '" class="btn btn-primary btn-block">Bid Now</button></li>
-                <li id="bid_status_' . $product_id . '">Awaiting Bid</li>
-            </ul>
-            </div>';
-
-        //return the item list now
-        $product_box = [
-            'product_id' => $product_id,
-            'sku' => $sku,
-            'html_data' => $html_list
-        ];
-        return $product_box;
-    }
-
-    private static function BuildListBackup($product_id, $sku, $product_name, $retail_price, $starting_bid_price)
-    {
-        $shipping_cost = ProductManager::ComputeShippingCost($product_id);
-        $bids = 0;
-        $discount = ProductManager::ComputePercentageDiscount($product_id);
-
-        //$img = 'http://placehold.it/400/500';
-        $img = '//lorempixel.com/400/400/food';
-        $imageHtml = Html::img($img, [
-            'id' => 'product_image_' . $product_id,
-            'class' => 'img img-responsive',
-            'alt' => $product_name,
-        ]);
-
-        $html_list = "<div class=\"col-xs-18 col-sm-6 col-md-3\" id=\"item_box_$product_id\">
-    <div class=\"offer offer-default\">
-        <div class=\"shape\">
-            <span class=\"shape-text\">$discount%</span>
-            <span class=\"shape-text quickview\"><i class=\"fa fa-eye \"></i> Quick View</span>
-        </div>
-        <div class=\"offer-content\">
-        $imageHtml
-            <ul class=\"price\">
-                <li class=\"hidden\">
-                    <input type=\"text\" id=\"bid_type_$product_id\" value=\"0\" readonly=\"readonly\"/>
-                    <input type=\"text\" id=\"bid_placed_$product_id\" value=\"0\" readonly=\"readonly\"/>
-                    <input type=\"text\" id=\"product_sku_$product_id\" value=\"$sku\" readonly=\"readonly\"/>
-                </li>
-                <li>
-                    <h1 class=\"bidding-price\">Starting Bid: $starting_bid_price</h1>
-                    <small class=\"retail-price\">$retail_price</small>
-                </li>
-                <li>Shipping $shipping_cost</li>
-                <li>$bids Bid</li>
-                <li>
-                    <!-- progress bar here -->
-                    <div class=\"bidProgress noplacedbids\" id=\"progressBar$product_id\"></div>
-                    <!-- end of progress bar -->
-                </li>
-                <li id=\"bid_status_$product_id\">Awaiting Bid</li>
-            </ul>
-            <button id=\"placebid_$product_id\" class=\"btn btn-primary btn-block\">BID NOW</button>
-        </div>
-    </div>
-</div>
-";
-
-        //return the item list now
-        $product_box = [
-            'product_id' => $product_id,
-            'sku' => $sku,
-            'html_data' => $html_list
-        ];
-        return $product_box;
-    }
-
+    /**
+     * @param $product_id
+     * @param $sku
+     * @param $product_name
+     * @param $retail_price_raw
+     * @param $starting_bid_price_raw
+     * @return array
+     */
     private static function BuildList($product_id, $sku, $product_name, $retail_price_raw, $starting_bid_price_raw)
     {
         $formatter = \Yii::$app->formatter;
@@ -341,8 +308,7 @@ class BidManager
             'alt' => $product_name,
         ]);
 
-        $html_list = "
-<div class=\"col-xs-18 col-sm-6 col-md-3\" id=\"item_box_$product_id\">
+        $html_list = "<div class=\"col-xs-18 col-sm-6 col-md-3\" id=\"item_box_$product_id\">
     <div class=\"hidden\">
         <input type=\"text\" id=\"bid_count_$product_id\" value=\"0\" readonly=\"readonly\"/>
         <input type=\"text\" id=\"bid_price_$product_id\" value=\"0\" readonly=\"readonly\"/>
@@ -351,33 +317,34 @@ class BidManager
         <input type=\"text\" id=\"product_sku_$product_id\" value=\"$sku\" readonly=\"readonly\"/>
     </div>
     <div class=\"offer offer-default\">
-        <div class=\"shape text-uppercase\">
+        <div class=\"shape\">
             <span class=\"shape-text\" id=\"discount_$product_id\">$discount%</span>
             <span class=\"shape-text quickview\"><i class=\"fa fa-eye \"></i> Quick View</span>
         </div>
         <div class=\"offer-content\">
-        $imageHtml
-            <div class=\"row text-center text-uppercase\">
-                <span class=\"bidding-price\">Starting Bid: $starting_bid_price</span><br/>
-                <span class=\"retail-price\">$retail_price</span>
+            $imageHtml
+            <div class=\"col-md-12 col-xs-6 text-center\">
+                <span class=\"bidding-price\">Bid Price: <span id=\"bid_price$product_id\">$starting_bid_price</span></span><br/>
+                <span class=\"crossed retail-price\">$retail_price</span>
             </div>
-            <div class=\"row text-center text-uppercase\">
+            <div class=\"col-md-12 col-xs-6 text-center\">
                 <span>Shipping $shipping_cost</span>
             </div>
-            <div class=\"row text-center text-uppercase\">
-                <span id=\"bids_placed_$product_id\">$bids</span> Bids
+            <div class=\"col-md-12 col-xs-6 text-center text-uppercase\">
+                <span id=\"bids_placed_$product_id\">$bids</span> Bid(s)
             </div>
-            <div class=\"row progress-container\">
+            <div class=\"col-md-12 col-xs-6 progress-container\">
             <div class=\"bidProgress noplacedbids\" id=\"progressBar$product_id\"></div>
                 </div>
             <div class=\"row\">
-                <div class=\"col-md-8 col-md-offset-2\">
+                <div class=\"col-md-10 col-md-offset-1 col-xs-12\" id=\"bid_button_$product_id\">
                     <button class=\"btn btn-bid btn-bid-active btn-block noradius text-uppercase\" id=\"placebid_$product_id\">
                         <span class=\"hammer-icon pull-left\"></span>Bid Now
                     </button>
                 </div>
+
             </div>
-            <div class=\"row text-center\">
+            <div class=\"col-md-12 col-xs-6 text-center\">
                 <div id=\"bid_status_$product_id\" class=\"text-uppercase bid-message\">Accepting Bids</div>
             </div>
         </div>

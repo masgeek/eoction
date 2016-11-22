@@ -52,9 +52,14 @@ class ProductManager
     {
         $bidsCount = 0;
         $bids = BidActivity::findOne(['PRODUCT_ID' => $product_id]);
-        if($bids!=null) {
-            $bidsCount =  $bids->ACTIVITY_COUNT; //return the count
+        if ($bids != null) {
+            $bidsCount = $bids->ACTIVITY_COUNT; //return the count
         }
         return $bidsCount;
+    }
+
+    public static function AddItemsToCart($user_id, $product_id, $price)
+    {
+
     }
 }

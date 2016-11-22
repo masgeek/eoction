@@ -49,20 +49,6 @@ class ShopController extends Controller
         ];
     }
 
-    public function actionItemUpdate($product_id, $sku)
-    {
-        //lets fetch the auction details of a product
-        //number of bids
-        //current bid price
-        $updateData = [
-            'product_id' => $product_id,
-            'bid_price' => BidManager::GetMaxBidAmount($product_id),
-            'bid_count' => ProductManager::GetNumberOfBids($product_id),
-            'discount' => ProductManager::ComputePercentageDiscount($product_id),
-        ];
-        return json_encode($updateData);
-    }
-
     //entry page
     public function actionIndex()
     {
@@ -83,10 +69,45 @@ class ShopController extends Controller
     }
 
     /**
-     * @param $id
-     * @param null $sku
+     * @param $product_id
+     * @param $sku
+     * @return string
      */
-    public function actionAddToCart($id, $sku = null)
+    public function actionItemUpdate($product_id, $sku)
+    {
+        //lets fetch the auction details of a product
+        //number of bids
+        //current bid price
+        $updateData = [
+            'product_id' => $product_id,
+            'bid_price' => BidManager::GetMaxBidAmount($product_id),
+            'bid_count' => ProductManager::GetNumberOfBids($product_id),
+            'discount' => ProductManager::ComputePercentageDiscount($product_id),
+        ];
+        return json_encode($updateData);
+    }
+
+    /**
+     * @param $user_id
+     * @param $product_id
+     * @param $sku
+     */
+    public function actionBidWon($user_id, $product_id, $sku)
+    {
+        $bid_winner = BidManager::GetBidWinner($product_id, $sku);
+        if ($bid_winner > 0) {
+            $resp = BidManager::MarkBidAsWon($user_id, $product_id);
+            var_dump($resp);
+        }
+    }
+
+    /**
+     * @param $id
+     * @param $user_id
+     * @param null $sku
+     * @return string
+     */
+    public function actionAddToCart($id, $user_id, $sku = null)
     {
         //--[  ]--\\
 

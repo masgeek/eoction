@@ -22,6 +22,7 @@ $this->registerJsFile('@web/js/bidding/bidding-progress.js');
 $updateUrl = Url::toRoute(['shop/item-update']);
 $biddingUrl = Url::toRoute(['site/place-bid']);
 $productUrl = Url::toRoute(['site/next-item']);
+$bidwonUrl = Url::toRoute(['shop/bid-won']);
 
 
 $userId = yii::$app->user->id ? yii::$app->user->id : 0;
@@ -44,7 +45,9 @@ $listviewWidget = ListView::widget([
 //static text fields
 ?>
 
+
 <?= Html::textInput('update_url', $updateUrl, ['readonly' => true, 'id' => 'update_url', 'class' => 'hidden']) ?>
+<?= Html::textInput('bidwon_url', $bidwonUrl, ['readonly' => true, 'id' => 'bidwon_url', 'class' => 'hidden']) ?>
 <?= Html::textInput('bid_url', $biddingUrl, ['readonly' => true, 'id' => 'bid_url', 'class' => 'hidden']) ?>
 <?= Html::textInput('product_url', $productUrl, ['readonly' => true, 'id' => 'product_url', 'class' => 'hidden']) ?>
 <?= Html::textInput('user_id', $userId, ['readonly' => true, 'id' => 'user_id', 'class' => 'hidden']) ?>

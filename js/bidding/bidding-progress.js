@@ -32,7 +32,7 @@ function SetupProgressBar($productid, $bid_start_time) {
         duration: starttime, //milliseconds
         begin: function (elements) {
             //call the timer function on begin
-            console.log('Begin timer');
+//            console.log('Begin timer');
             ItemUpdate($productid, $sku, 'NO');
         },
         progress: function (elements, percentComplete, timeRemaining, timeStart) {
@@ -265,29 +265,34 @@ function ItemUpdate($product_id, $sku, $toclear) {
     //var updateUrl = $('#update_url').val();
     var $bidPrice = $('#bid_price' + $product_id);
     var bidsPlaced = $('#bids_placed_' + $product_id);
-    var intervals = 3000;//Math.floor((Math.random() * 3000) + 2500);
+    var intervals = Math.floor((Math.random() * 1500) + 2500);
     /*$.get(updateUrl, {product_id: $product_id, sku: $sku}, function (data) {
      var $bid_count = data.bid_count;
      var $new_bid_price = data.bid_price;
      var $discount = data.discount;
      console.log(data);
      });*/
-    console.log('Clear interval ' + intervalObj[$product_id]);
+    //console.log('Clear interval ' + intervalObj[$product_id]);
     clearInterval(intervalObj[$product_id]); //remove the interval
 
     if ($toclear == 'NO') { //if its not in non clear mode do set another interval
         intervalObj[$product_id] = setInterval(function () {
             var updateUrl = $('#update_url').val();
-            $.getJSON(updateUrl,{product_id: $product_id, sku: $sku}, function (data) {
+            $.getJSON(updateUrl, {product_id: $product_id, sku: $sku}, function (data) {
                 var $bid_count = data.bid_count;
                 var $new_bid_price = data.bid_price;
-
-
                 $bidPrice.html($new_bid_price);
                 bidsPlaced.html($bid_count);
-                //console.log(test+' - '+data.bid_count);
             });
         }, intervals); //check every n seconds
-        console.log('Set interval ' + intervalObj[$product_id]);
+        //console.log('Set interval ' + intervalObj[$product_id]);
+    } else {
+        //flag the item as won in the DB
+        //alert('clearing and winning bid');
+        var userId = $('#user_id').val();
+        var bidwonUrl = $('#bidwon_url').val();
+        $.getJSON(bidwonUrl, {user_id: userId, product_id: $product_id, sku: $sku}, function (data) {
+            //mark the item as won..no data is acted upon in the response
+        });
     }
 }

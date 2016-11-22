@@ -128,10 +128,10 @@ class SiteController extends Controller
                 ->where(['ALLOW_AUCTION' => 1,])
                 ->andWhere(['>=', 'CURRENT_STOCK_LEVEL', 1])//stock levels should be greater or equal to 1
                 ->andWhere(['NOT IN', 'SKU', $item_array])
-                ->orderBy(['rand()' => SORT_DESC]),
-               // ->orderBy('PRODUCT_ID ASC'),
+                //->orderBy(['rand()' => SORT_DESC]),
+            ->orderBy('PRODUCT_ID ASC'),
             'pagination' => [
-                'pageSize' => 20
+                'pageSize' => 1
             ],
         ]);
 
@@ -157,10 +157,9 @@ class SiteController extends Controller
         $resp = [
             'success' => false
         ];
-        $activitycount = 1; //this counts the number of activities for the product
+        $activity_count = 1; //this counts the number of activities for the product
         $bidactivity = BidActivity::findOne(['PRODUCT_SKU' => $sku]);
 
-        $expression = new Expression('NOW()');
 
         if ($bidactivity == null) {
             //insert a new record
@@ -169,12 +168,11 @@ class SiteController extends Controller
             $model->isNewRecord = true;
             $model->PRODUCT_ID = $id;
             $model->PRODUCT_SKU = $sku;
-            $model->ACTIVITY_COUNT = $activitycount;
-            $model->BID_DATE = $expression;
+            $model->LAST_BIDDING_USER_ID = $user_id;
+            $model->ACTIVITY_COUNT = $activity_count;
             //save the data
             if ($model->save()) {
                 //no need to alert user return indicator so that we can switch to auction countdown
-
                 //track the bid
                 BidManager::TrackUsersBids($user_id, $id, $sku);
                 $resp = [
@@ -196,10 +194,10 @@ class SiteController extends Controller
         } else {
             //update the existing record
             // get the last activity count
-            $activitycount = (int)$bidactivity->ACTIVITY_COUNT;
+            $activity_count = (int)$bidactivity->ACTIVITY_COUNT;
             //now inrement it by one and save it back
-            $bidactivity->ACTIVITY_COUNT = $activitycount + 1;
-            $bidactivity->BID_DATE = $expression;
+            $bidactivity->LAST_BIDDING_USER_ID = $user_id;
+            $bidactivity->ACTIVITY_COUNT = $activity_count + 1; //increment by 1
             //save the data
             if ($bidactivity->save()) {
                 //no need to alert user return indicator so that we can swithc to auction countdown
