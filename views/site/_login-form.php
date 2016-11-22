@@ -26,9 +26,10 @@ use yii\bootstrap\ActiveForm;
 
 <?= $form->field($model, 'password')->passwordInput(['placeholder' => 'Password']) ?>
 
-<!--?= $form->field($model, 'rememberMe')->checkbox([
+<?= $form->field($model, 'rememberMe')->checkbox([
+    'checked' => false, 'value' => 0,
     'template' => "<div class=\"col-md-12\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
-]) ?-->
+]) ?>
     <div class="form-group">
         <div class="col-md-8 col-md-offset-2">
             <?= Html::submitButton('Login', ['class' => 'btn btn-primary btn-block', 'name' => 'login-button']) ?>
