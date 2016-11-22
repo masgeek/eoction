@@ -8,12 +8,14 @@
 
 namespace app\components;
 
+
 use yii\db\Expression;
 use yii\helpers\Html;
 
 use app\models\BidActivity;
 use app\module\products\models\Products;
 use app\module\products\models\ProductBids;
+use app\module\products\models\ItemsCart;
 
 class ProductManager
 {
@@ -38,7 +40,7 @@ class ProductManager
 
     public static function ComputeShippingCost($product_id)
     {
-        $shipping_cost = 5;
+        $shipping_cost = 0;
         $product = Products::findOne(['PRODUCT_ID' => $product_id]);
         if ($product != null) {
             $retail_price = $product->RETAIL_PRICE;
@@ -50,6 +52,24 @@ class ProductManager
 
     public static function GetNumberOfBids($product_id)
     {
-        return 10;
+        $bidsCount = 0;
+        $bids = BidActivity::findOne(['PRODUCT_ID' => $product_id]);
+        if ($bids != null) {
+            $bidsCount = $bids->ACTIVITY_COUNT; //return the count
+        }
+        return $bidsCount;
+    }
+
+    public static function AddItemsToCart($user_id, $product_id, $price)
+    {
+        $cartModel = new ItemsCart();
+        $cartModel->isNewRecord = true;
+
+        //add the data
+        $cartModel->PRODUCT_ID = $product_id;
+        $cartModel->USER_ID = $user_id;
+        $cartModel->PRODUCT_PRICE = $price;
+        //User::updateAllCounters(['states' => 1]);
+        return BidActivity::updateAll(['ACTIVITY_COUNT' => 1], ['PRODUCT_ID' => $product_id]);
     }
 }

@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
+Source Server         : Localhost
 Source Server Version : 50711
 Source Host           : localhost:3306
 Source Database       : eoction
@@ -10,11 +10,8 @@ Target Server Type    : MYSQL
 Target Server Version : 50711
 File Encoding         : 65001
 
-Date: 2016-10-17 15:40:20
+Date: 2016-11-22 19:20:15
 */
-
-/*create schema eoction;*/
-/*USE eoction;*/
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -23,23 +20,25 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_bid_activity`;
 CREATE TABLE `tb_bid_activity` (
-  `PLACED_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ACTIVITY_ID` int(11) NOT NULL AUTO_INCREMENT,
   `PRODUCT_ID` int(11) NOT NULL,
+  `LAST_BIDDING_USER_ID` int(11) NOT NULL COMMENT 'Last bidding user',
   `PRODUCT_SKU` varchar(255) NOT NULL COMMENT 'Product SKU',
-  `ACTIVITY_COUNT` int(5) NOT NULL COMMENT 'Bid Activity Count',
+  `ACTIVITY_COUNT` int(5) NOT NULL DEFAULT '0' COMMENT 'Bid Activity Count',
   `BID_DATE` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`PLACED_ID`),
+  PRIMARY KEY (`ACTIVITY_ID`),
   UNIQUE KEY `PRODUCT_SKU` (`PRODUCT_SKU`),
   KEY `PRODUCT_ID` (`PRODUCT_ID`),
+  KEY `LAST_BIDDING_USER` (`LAST_BIDDING_USER_ID`),
   CONSTRAINT `tb_bid_activity_ibfk_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE,
-  CONSTRAINT `tb_bid_activity_ibfk_2` FOREIGN KEY (`PRODUCT_SKU`) REFERENCES `tb_products` (`SKU`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+  CONSTRAINT `tb_bid_activity_ibfk_2` FOREIGN KEY (`PRODUCT_SKU`) REFERENCES `tb_products` (`SKU`) ON UPDATE CASCADE,
+  CONSTRAINT `tb_bid_activity_ibfk_3` FOREIGN KEY (`LAST_BIDDING_USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=164 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_bid_activity
 -- ----------------------------
-INSERT INTO `tb_bid_activity` VALUES ('2', '1', 'NHQ-J272582011000', '80', '2016-10-17 14:33:55');
-INSERT INTO `tb_bid_activity` VALUES ('3', '2', 'NQH-J272582150000', '25', '2016-10-17 14:30:23');
+INSERT INTO `tb_bid_activity` VALUES ('163', '1', '5', 'NHQ-J272582011000', '1', '2016-11-22 19:13:50');
 
 -- ----------------------------
 -- Table structure for tb_bid_settings
@@ -89,6 +88,51 @@ CREATE TABLE `tb_hash_table` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for tb_items_cart
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_items_cart`;
+CREATE TABLE `tb_items_cart` (
+  `CART_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `USER_ID` int(11) NOT NULL,
+  `PRODUCT_ID` int(11) NOT NULL,
+  `PRODUCT_PRICE` decimal(10,2) NOT NULL,
+  `BIDDED_ITEM` int(1) DEFAULT '0',
+  `IS_SOLD` int(1) NOT NULL DEFAULT '0',
+  `DATE_ADDED` datetime NOT NULL,
+  `EXPIRY_DATE` datetime NOT NULL,
+  `DATE_BOUGHT` datetime NOT NULL,
+  PRIMARY KEY (`CART_ID`),
+  KEY `USER_ID` (`USER_ID`),
+  KEY `PRODUCT_ID` (`PRODUCT_ID`),
+  CONSTRAINT `tb_items_cart_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE,
+  CONSTRAINT `tb_items_cart_ibfk_2` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tb_items_cart
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for tb_items_wishlist
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_items_wishlist`;
+CREATE TABLE `tb_items_wishlist` (
+  `WISHLIST_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `USER_ID` int(11) NOT NULL,
+  `PRODUCT_ID` int(11) NOT NULL,
+  `DATE_ADDED` datetime NOT NULL,
+  PRIMARY KEY (`WISHLIST_ID`),
+  KEY `USER_ID` (`USER_ID`),
+  KEY `PRODUCT_ID` (`PRODUCT_ID`),
+  CONSTRAINT `tb_items_wishlist_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE,
+  CONSTRAINT `tb_items_wishlist_ibfk_2` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tb_items_wishlist
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for tb_products
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_products`;
@@ -121,10 +165,10 @@ CREATE TABLE `tb_products` (
 -- Records of tb_products
 -- ----------------------------
 INSERT INTO `tb_products` VALUES ('1', 'M795N6ZONQW', 'NHQ-J272582011000', 'Hidalgo Blue Diamonique Stainless Steel Watch Bezel', 'Watches/Fixed/Wristwatches', '', '96.00', '98.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-17 13:23:48');
-INSERT INTO `tb_products` VALUES ('2', 'M0LEKOEVD4W', 'NQH-J272582150000', 'Hidalgo Pink Diamonique Stainless Steel Watch Bezel', 'Watches/Fixed/Wristwatches', '', '59.50', '179.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-10 15:14:51');
+INSERT INTO `tb_products` VALUES ('2', 'M0LEKOEVD4W', 'NQH-J272582150000', 'Hidalgo Pink Diamonique Stainless Steel Watch Bezel', 'Watches/Fixed/Wristwatches', '', '800.00', '899.45', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-24 15:27:30');
 INSERT INTO `tb_products` VALUES ('3', 'M1W4N47ON5P', 'NQH-J273636202543', 'Ecclissi Sterling Silver Round Dial Acetate Strap White Large Watch', 'Watches/Fixed/Wristwatches', '', '150.00', '450.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-10 15:14:51');
 INSERT INTO `tb_products` VALUES ('4', 'M71YN5GYNVQ', 'NQH-J261702000000', 'Dweck Diamonds Sterling S/2 Bracelets W/Figure 8 Charm', 'Top Selling/Jewelry/Bracelet', '', '122.00', '366.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-10 15:14:51');
-INSERT INTO `tb_products` VALUES ('5', 'MLVQD8PRD4E', 'NQH-J267523273074', 'Novica Sterling Silver Polished Gemstone Nugget Average Bracelet', 'Top Selling/Jewelry/Bracelet', '', '29.00', '87.00', '1', '1', '1', '1', 'by product', '26', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-10 15:14:51');
+INSERT INTO `tb_products` VALUES ('5', 'MLVQD8PRD4E', 'NQH-J267523273074', 'Novica Sterling Silver Polished Gemstone Nugget Average Bracelet', 'Top Selling/Jewelry/Bracelet', '', '29.95', '30.00', '1', '1', '1', '1', 'by product', '26', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-24 15:53:34');
 INSERT INTO `tb_products` VALUES ('6', 'M128N0JPK57', 'NQH-J268946V75000', 'Ippocampo Sterling 8\" Smoky Quartz Gemstone Link Toggle Bracelet', 'Top Selling/Jewelry/Bracelet', '', '139.00', '417.00', '1', '1', '1', '1', 'by product', '15', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-10 15:14:51');
 INSERT INTO `tb_products` VALUES ('7', 'MYOMK185NP0', 'NQH-J271679273543', 'Erica Courtney Amethyst Gemstone & Diamonique Hinged Kim Large Cuff Sterling', 'Top Selling/Jewelry/Bracelet', '', '174.00', '522.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-10 15:14:51');
 INSERT INTO `tb_products` VALUES ('8', 'M879D297K12', 'NQH-J268381202000', 'Vicenzagold Large Textured Twist Design Round Bangle 14K Yellow Gold', 'Top Selling/Jewelry/Bracelet', '', '216.00', '648.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-10-10 15:14:51');
@@ -254,7 +298,7 @@ INSERT INTO `tb_products` VALUES ('131', 'M1W4N4V6D5P', 'C-JSRGE1039BL-RSL', '14
 INSERT INTO `tb_products` VALUES ('132', 'M71YN565DVQ', 'I-JSE413-WSL', '.925 Sterling Silver 0.14Ct White Diamond Stud Earrings Lowest On Ebay', 'Auction/Jewelry/Fine Jewelry/Earrings/Diamond', '', '39.99', '120.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
 INSERT INTO `tb_products` VALUES ('133', 'MLVQD8LZN4E', 'I-CMEI3421-CZ-WG10K', 'Solid 10K White Gold 3.12 ct Princess Cut D/Vvs1 Lever Back Dangle Earrings', 'Top Selling/Jewelry/Earrings', '', '199.99', '300.00', '1', '1', '1', '1', 'by product', '97', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
 INSERT INTO `tb_products` VALUES ('134', 'MYOMK1P7NP0', 'I-CSRGE1865BL-RSL-AFSJ', 'Female Girls 1/20Ct 14K Rose Gold Finish Real Black Diamond Heart Stud Earrings', 'Top Selling/Jewelry/Earrings', '', '24.99', '75.00', '1', '1', '1', '1', 'by product', '97', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
-INSERT INTO `tb_products` VALUES ('135', 'M879D2RON12', 'C-CME3293-WG14K', '1.60Ct Hoop Earrings I1/G In & Out Side Diamond White Gold Appraisal 360Ã‚Â° Video', 'Top Selling/Jewelry/Earrings', '', '631.99', '1927.00', '1', '1', '1', '1', 'by product', '94', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
+INSERT INTO `tb_products` VALUES ('135', 'M879D2RON12', 'C-CME3293-WG14K', '1.60Ct Hoop Earrings I1/G In & Out Side Diamond White Gold Appraisal 360Â° Video', 'Top Selling/Jewelry/Earrings', '', '631.99', '1927.00', '1', '1', '1', '1', 'by product', '94', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
 INSERT INTO `tb_products` VALUES ('136', 'MG3PDX95NLX', 'I-CSE1982BL-WSL', '0.68 Ct Black Diamond Round Stud Earrings In Sterling Silver', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', '', '161.49', '484.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
 INSERT INTO `tb_products` VALUES ('137', 'M0YGNJZQDJ7', 'I-JME312-YG10K', 'Mens Ladies 10K Yellow Gold Designer Square Diamond Earrings Studs 0.15 Ct', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', '', '139.99', '420.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
 INSERT INTO `tb_products` VALUES ('138', 'MZ34K9ORN2Q', 'M-201211010007-WG14K', 'White D/VVS1 Halo Solitaire Stud Bridal Earrings Jackets 14K White Gold', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', '', '336.29', '958.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-10-10 15:14:54');
@@ -329,11 +373,12 @@ CREATE TABLE `tb_product_bids` (
   KEY `USER_ID` (`USER_ID`),
   CONSTRAINT `tb_product_bids_ibfk_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE,
   CONSTRAINT `tb_product_bids_ibfk_2` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_product_bids
 -- ----------------------------
+INSERT INTO `tb_product_bids` VALUES ('14', '1', '5', '101.00', '2016-11-22 19:11:13', '0');
 
 -- ----------------------------
 -- Table structure for tb_product_images
@@ -346,13 +391,11 @@ CREATE TABLE `tb_product_images` (
   PRIMARY KEY (`IMAGE_ID`),
   KEY `PRODUCT_ID` (`PRODUCT_ID`),
   CONSTRAINT `tb_product_images_ibfk_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_product_images
 -- ----------------------------
-INSERT INTO `tb_product_images` VALUES ('1', '1', 'http://www.eoction.com/wp-content/uploads/2016/08/M-JTV-IDA205-1.jpg');
-INSERT INTO `tb_product_images` VALUES ('2', '2', 'http://www.eoction.com/wp-content/uploads/2016/08/281169019228.jpg');
 
 -- ----------------------------
 -- Table structure for tb_product_video
@@ -366,12 +409,11 @@ CREATE TABLE `tb_product_video` (
   PRIMARY KEY (`VIDEO_ID`),
   KEY `PRODUCT_ID` (`PRODUCT_ID`),
   CONSTRAINT `tb_product_video_ibfk_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_product_video
 -- ----------------------------
-INSERT INTO `tb_product_video` VALUES ('1', '1', '3123', '1');
 
 -- ----------------------------
 -- Table structure for tb_users
@@ -379,20 +421,46 @@ INSERT INTO `tb_product_video` VALUES ('1', '1', '3123', '1');
 DROP TABLE IF EXISTS `tb_users`;
 CREATE TABLE `tb_users` (
   `USER_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `USERNAME` varchar(20) NOT NULL,
   `FULL_NAMES` varchar(255) NOT NULL,
-  `EMAIL_ADDRESS` varchar(255) DEFAULT NULL,
-  `LOGIN_ID` varchar(300) DEFAULT NULL,
+  `EMAIL_ADDRESS` varchar(255) NOT NULL,
+  `PASSWORD_HASH` varchar(255) NOT NULL,
+  `ACCOUNT_ACCESS_TOKEN` varchar(255) DEFAULT NULL,
+  `ACCOUNT_AUTH_KEY` varchar(255) DEFAULT '1',
   `PHONE_NO` varchar(30) DEFAULT NULL,
-  `TIMEZONE` varchar(10) DEFAULT NULL,
-  `COUNTRY` varchar(10) DEFAULT NULL,
+  `TIMEZONE` varchar(10) DEFAULT 'GMT +3',
+  `COUNTRY` varchar(15) DEFAULT NULL,
   `SOCIAL_ID` int(11) DEFAULT NULL,
+  `STATUS` int(1) DEFAULT '1' COMMENT 'Active or inactive',
   `DATE_CREATED` datetime DEFAULT NULL,
   `DATE_UPDATED` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`USER_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_users
 -- ----------------------------
-INSERT INTO `tb_users` VALUES ('1', 'fatelord', 'sammy barasa', 'barsamms@gmail.com', 'fatelord', '254713196504', '+3GMT', 'KE', '1', '2016-10-17 12:31:21', '2016-10-17 12:31:25');
+INSERT INTO `tb_users` VALUES ('5', 'Sammy Barasa', 'barsamms@gmail.com', '63aaa47cb0b76f0b157c40cdba9bf78653a7af37', null, 'g5BcDmUAkeXf0uQd31E8lHD0SXtZGScK', null, 'GMT +3', null, null, '1', '2016-11-22 14:29:53', '2016-11-22 14:29:53');
+INSERT INTO `tb_users` VALUES ('6', 'Sammy Barasa', 'barsamms@gmail.coms', '63aaa47cb0b76f0b157c40cdba9bf78653a7af37', null, 'JeDUzV6IyfXktOHTBgq2OPgdNDFcattz', null, 'GMT +3', null, null, '1', '2016-11-22 14:30:36', '2016-11-22 14:30:36');
+
+-- ----------------------------
+-- Table structure for tb_user_history
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_user_history`;
+CREATE TABLE `tb_user_history` (
+  `HISTORY_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `USER_ID` int(11) NOT NULL,
+  `PRODUCT_ID` int(11) NOT NULL,
+  `PRICE_BOUGHT` decimal(2,0) NOT NULL DEFAULT '0',
+  `DATE_ADDED` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `ACTION_TYPE` varchar(20) DEFAULT NULL COMMENT 'Bid or direct purchase',
+  PRIMARY KEY (`HISTORY_ID`),
+  KEY `USER_ID` (`USER_ID`),
+  KEY `PRODUCT_ID` (`PRODUCT_ID`),
+  CONSTRAINT `tb_user_history_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `tb_user_history_ibfk_2` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tb_user_history
+-- ----------------------------
+SET FOREIGN_KEY_CHECKS=1;

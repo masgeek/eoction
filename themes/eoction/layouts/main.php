@@ -3,14 +3,14 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+use yii\base\Controller;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
-use app\assets\AppAsset;
-use app\assets\FontAssets;
-use app\assets\BowerAsset;
-use yii\base\Controller;
+use app\assetmanager\AppAsset;
+use app\assetmanager\FontAssets;
+use app\assetmanager\BowerAsset;
 
 AppAsset::register($this);
 BowerAsset::register($this);
@@ -29,6 +29,9 @@ FontAssets::register($this);
 
 <!-- container -->
 <div class="container-fluid">
+    <?= Breadcrumbs::widget([
+        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+    ]) ?>
     <?= $content; ?>
 </div> <!-- /container -->
 
@@ -37,3 +40,11 @@ FontAssets::register($this);
 </body>
 </html>
 <?php $this->endPage() ?>
+
+
+<?php
+$this->registerJs('
+    $(".nav a").on("click", function(){
+        $(".nav").find(".active").removeClass("active");
+        $(this).parent().addClass("active");
+    });');

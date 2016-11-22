@@ -8,12 +8,16 @@
 
 namespace app\controllers;
 
+use app\module\products\models\Products;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\components\BidManager;
+use app\components\ProductManager;
 
 class ShopController extends Controller
 {
@@ -45,24 +49,69 @@ class ShopController extends Controller
         ];
     }
 
+    //entry page
+    public function actionIndex()
+    {
+        $min_stock = 1;
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => Products::find()
+                ->where(['>=', 'CURRENT_STOCK_LEVEL', $min_stock])//stock levels should be greater or equal to 1
+                ->orderBy('PRODUCT_ID ASC'),
+            'pagination' => [
+                'pageSize' => 20
+            ],
+        ]);
+
+
+        $this->view->title = 'Online Shopping';
+        return $this->render('//site/shop', ['listDataProvider' => $dataProvider]);
+    }
+
+    /**
+     * @param $product_id
+     * @param $sku
+     * @return string
+     */
     public function actionItemUpdate($product_id, $sku)
     {
         //lets fetch the auction details of a product
         //number of bids
         //current bid price
-        $bid_price = 40;
-        $bid_count = 9;
         $updateData = [
-            'ID'=>$product_id,
-            'BID_PRICE'=>$bid_price,
-            'BID_COUNT'=>$bid_count
+            'product_id' => $product_id,
+            'bid_price' => BidManager::GetMaxBidAmount($product_id),
+            'bid_count' => ProductManager::GetNumberOfBids($product_id),
+            'discount' => ProductManager::ComputePercentageDiscount($product_id),
         ];
-        echo json_encode($updateData);
+        return json_encode($updateData);
     }
 
-    //entry page
-    public function actionIndex()
+    /**
+     * @param $user_id
+     * @param $product_id
+     * @param $sku
+     */
+    public function actionBidWon($user_id, $product_id, $sku)
     {
-        echo 'under implmentation';
+        $bid_winner = BidManager::GetBidWinner($product_id, $sku);
+        if ($bid_winner > 0) {
+            $resp = BidManager::MarkBidAsWon($user_id, $product_id);
+            var_dump($resp);
+        }
+    }
+
+    /**
+     * @param $id
+     * @param $user_id
+     * @param null $sku
+     * @return string
+     */
+    public function actionAddToCart($id, $user_id, $sku = null)
+    {
+        //--[  ]--\\
+
+        //add it to the cart
+        return $this->render('//site/index');
     }
 }

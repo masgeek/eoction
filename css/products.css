@@ -7,61 +7,67 @@
     right: 20px;
     /* border-style: solid;*/
     /*border-width: 0 70px 40px 0;*/
-    float:right;
+    float: right;
     /*height: 0px;*/
     /*width: 50px;*/
-    background-color: red;
+    background-color: #E27C7C;
     /*z-index: 1;*/
-    padding:5px;
+    padding: 5px;
 }
 
-.offer{
-    background:#fff;
-    border:1px solid #ddd;
+.offer {
+    background: #fff;
+    border: 1px solid #ddd;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     margin: 15px 0;
-    overflow:hidden;
+    overflow: hidden;
     cursor: pointer;
 }
 
-.offer-radius{
-    border-radius:5px;
+.offer-radius {
+    border-radius: 5px;
 }
 
 .offer-default {
     border-color: #999999;
 }
-.offer-default .shape{
+
+.offer-default .shape {
     border-color: transparent #999999 transparent transparent;
 }
 
-.shape-text{
-    color:#fff;
+.shape-text {
+    color: #fff;
     /*font-size:12px;
     font-weight:bold;
     position:relative;
     right:-40px; top:10px;*/
 }
 
-.quickview{
-    display:none;
+.quickview {
+    display: none;
 }
 
-.offer:hover .shape-text{
-    display:none;
-    -webkit-transition: 0.3s;
-    transition: 0.3s;
+.offer:hover .shape-text {
+    display: none;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
 }
 
-.offer:hover .quickview{
-     display:inline-block;
-     -webkit-transition: 0.3s;
-     transition: 0.3s;
- }
+.offer:hover .quickview {
+    display: inline-block;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
 
-.offer-content{
+}
+
+.offer:hover > .shape {
+    background-color: #a07936;
+}
+
+.offer-content {
     /*padding:0 20px 10px;*/
-    padding:10px;
+    padding: 5px;
 }
 
 /* list styling */
@@ -70,10 +76,11 @@
     border: 1px solid #eee;
     margin: 0;
     padding: 0;
-    margin-bottom:70px;
+    margin-bottom: 70px;
     -webkit-transition: 0.3s;
     transition: 0.3s;
 }
+
 /* List items */
 .price li {
     border-bottom: 1px solid #eee;
@@ -81,12 +88,16 @@
     text-align: center;
 }
 
-/* fonmt stuff */
-.bidding-price{
-    font-size: 1.6em;
+/* font stuff */
+.bidding-price {
+    font-size: 2rem;
 }
-.retail-price{
-    font-size: 1.2em;
-    color:red;
+
+.retail-price {
+    font-size: 2rem;
+}
+
+.crossed{
     text-decoration: line-through;
+    color: red;
 }

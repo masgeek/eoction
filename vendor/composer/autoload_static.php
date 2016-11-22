@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit06d9667270d3c595a8c51bd9a509915a
+class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
 {
     public static $files = array (
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
@@ -28,6 +28,10 @@ class ComposerStaticInit06d9667270d3c595a8c51bd9a509915a
         'r' => 
         array (
             'rmrevin\\yii\\fontawesome\\' => 24,
+        ),
+        'k' => 
+        array (
+            'kartik\\base\\' => 12,
         ),
         'c' => 
         array (
@@ -88,6 +92,10 @@ class ComposerStaticInit06d9667270d3c595a8c51bd9a509915a
         array (
             0 => __DIR__ . '/..' . '/rmrevin/yii2-fontawesome',
         ),
+        'kartik\\base\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base',
+        ),
         'cebe\\markdown\\' => 
         array (
             0 => __DIR__ . '/..' . '/cebe/markdown',
@@ -122,9 +130,9 @@ class ComposerStaticInit06d9667270d3c595a8c51bd9a509915a
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit06d9667270d3c595a8c51bd9a509915a::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit06d9667270d3c595a8c51bd9a509915a::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit06d9667270d3c595a8c51bd9a509915a::$prefixesPsr0;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitd525214dc5ea8cb572dd856125093eab::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitd525214dc5ea8cb572dd856125093eab::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitd525214dc5ea8cb572dd856125093eab::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }

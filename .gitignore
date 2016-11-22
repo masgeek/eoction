@@ -10,13 +10,17 @@ nbproject
 .project
 .settings
 
+#misc files
+phploy.log
 # windows thumbnail cache
 Thumbs.db
 
 # composer vendor dir
+vendor
 /vendor/bin
 /vendor/phpspec
 /vendor/cebe
+source
 tests
 test
 testgit
@@ -43,4 +47,6 @@ composer.phar
 phpunit.phar
 # local phpunit config
 /phpunit.xml
-
+vendor/bower-asset/velocity/.bower.json
+vendor/ezyang/htmlpurifier/TODO
+vendor/ezyang/htmlpurifier/plugins/phorum/htmlpurifier/

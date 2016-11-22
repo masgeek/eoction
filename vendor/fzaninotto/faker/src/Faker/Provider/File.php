@@ -333,7 +333,7 @@ class File extends Base
         'application/x-tex'                                                         => 'tex',
         'application/x-tex-tfm'                                                     => 'tfm',
         'application/x-texinfo'                                                     => array('texinfo', 'texi'),
-        'application/x-tgif'                                                        => 'obj',
+        'application/x-tgif'                                                        => 'intervalObj',
         'application/x-ustar'                                                       => 'ustar',
         'application/x-wais-source'                                                 => 'src',
         'application/x-x509-ca-cert'                                                => array('der', 'crt'),
