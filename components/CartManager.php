@@ -27,7 +27,12 @@ class CartManager
 
         if ($cartModel->save() && $cartModel->validate()) {
             //User::updateAllCounters(['states' => 1]);
-            return BidActivity::updateAll(['ACTIVITY_COUNT' => 1], ['PRODUCT_ID' => $product_id]);
+            //delete the users bid activity it wont be needed from here
+            BidActivity::deleteAll([
+                'PRODUCT_ID' => $product_id,
+                'LAST_BIDDING_USER_ID' => $user_id
+            ]);
+            return $cartModel->primaryKey;
         } else {
             return $cartModel->getErrors();
         }

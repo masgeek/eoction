@@ -173,13 +173,13 @@ class BidManager
                 'BID_WON' => 0]
         );
         if ($bid_won_model != null) {
-            $bid_won_model->BID_WON = 0; //indicate this bid as won
+            $bid_won_model->BID_WON = 1; //indicate this bid as won
 
             if ($bid_won_model->save()) {
                 //remove the same item not won from the bid activity table
-                //ProductBids::deleteAll(['PRODUCT_ID' => $product_id, 'BID_WON' => 0]);
+                ProductBids::deleteAll(['PRODUCT_ID' => $product_id, 'BID_WON' => 0]);
                 //add to cart to await payment
-                $resp = CartManager::AddItemsToCart($bid_won_model->USER_ID, $bid_won_model->PRODUCT_ID, $bid_won_model->BID_AMOUNT,$bidden_item = 1);
+                $resp = CartManager::AddItemsToCart($bid_won_model->USER_ID, $bid_won_model->PRODUCT_ID, $bid_won_model->BID_AMOUNT, $bidden_item = 1);
             }
             return $resp;
         }

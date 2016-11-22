@@ -44,10 +44,11 @@ $home = \yii\helpers\Url::toRoute(['//site']);
                 </li>
                 <li><?= Html::a('<span class="fa fa-heart"></span> My Wishlist', ['//shop/wishlist'], ['title' => 'Items in your wish-list', 'class' => 'text-capitalise']); ?></li>
                 <li>
-                    <a href="#">
+                    <?= Html::a('<span class="glyphicon glyphicon-shopping-cart"></span> Cart <small class="badge">' . CartManager::GetCartItems(yii::$app->user->id) . '</small>', ['//shop/cart'], ['title' => 'Items in your wish-list', 'class' => 'text-capitalise']); ?>
+                    <!--<a href="#">
                         <span class="glyphicon glyphicon-shopping-cart"></span> Cart
-                        <small id="cart-item"><?= CartManager::GetCartItems(yii::$app->user->id) ?> Items</small>
-                    </a>
+                        <small id="cart-item"><span class="badge"><?= CartManager::GetCartItems(yii::$app->user->id) ?></span> Items</small>
+                    </a>-->
                 </li>
             <?php endif; ?>
         </ul>

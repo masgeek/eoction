@@ -9,14 +9,11 @@
 namespace app\components;
 
 
-use yii\db\Expression;
-use yii\helpers\Html;
+
+
 
 use app\models\BidActivity;
 use app\module\products\models\Products;
-use app\module\products\models\ProductBids;
-use app\module\products\models\ItemsCart;
-
 class ProductManager
 {
     /**
