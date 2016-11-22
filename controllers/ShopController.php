@@ -8,6 +8,7 @@
 
 namespace app\controllers;
 
+use app\components\CartManager;
 use app\module\products\models\Products;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -101,17 +102,11 @@ class ShopController extends Controller
         }
     }
 
-    /**
-     * @param $id
-     * @param $user_id
-     * @param null $sku
-     * @return string
-     */
-    public function actionAddToCart($id, $user_id, $sku = null)
-    {
-        //--[  ]--\\
 
+    public function actionAddToCart($user_id, $product_id, $price)
+    {
         //add it to the cart
+        $resp = CartManager::AddItemsToCart($user_id, $product_id, $price);
         return $this->render('//site/index');
     }
 }
