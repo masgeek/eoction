@@ -2,8 +2,10 @@
 
 namespace app\module\products\models;
 
-use app\module\users\models\Users;
+
 use Yii;
+use yii\db\Expression;
+use app\module\users\models\Users;
 
 /**
  * This is the model class for table "{{%tb_items_cart}}".
@@ -55,13 +57,29 @@ class ItemsCart extends \yii\db\ActiveRecord
             'CART_ID' => 'Cart  ID',
             'USER_ID' => 'User  ID',
             'PRODUCT_ID' => 'Product  ID',
-            'PRODUCT_PRICE' => 'Product  Price',
-            'BIDDED_ITEM' => 'Bidded  Item',
+            'PRODUCT_PRICE' => 'Product Price',
+            'BIDDED_ITEM' => 'Bidded Item',
             'IS_SOLD' => 'Is  Sold',
-            'DATE_ADDED' => 'Date  Added',
-            'EXPIRY_DATE' => 'Expiry  Date',
-            'DATE_BOUGHT' => 'Date  Bought',
+            'DATE_ADDED' => 'Date Added',
+            'EXPIRY_DATE' => 'Expiry Date',
+            'DATE_BOUGHT' => 'Date Bought',
         ];
+    }
+
+    public function beforeValidate()
+    {
+        $date = new Expression('NOW()');
+        if (parent::beforeValidate()) {
+            if ($this->isNewRecord) {
+                $this->DATE_ADDED = $date;
+                $this->EXPIRY_DATE = $date; //@TODO update expiry date and inquire after how long
+            } else {
+                $this->DATE_BOUGHT = $date;
+            }
+
+            return true;
+        }
+        return false;
     }
 
     /**
