@@ -12,14 +12,19 @@ $this->title = 'Create Account';
 
 ?>
 
-<div class="alert alert-danger alert-dismissable">
-    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>
-    <?= Yii::$app->session->getFlash('error') ?>
-</div>
-
 <div class="users-create col-md-8 col-md-offset-2">
-    <?= $this->render('_signup-form', [
-        'model' => $model,
-    ]) ?>
-
+    <div class="panel panel-default">
+        <div class="panel-heading">Panel Heading</div>
+        <div class="panel-body">
+            <?php if (Yii::$app->session->hasFlash('error')): ?>
+                <div class="alert alert-danger alert-dismissable">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">CLOSE</button>
+                    <?= Yii::$app->session->getFlash('error') ?>
+                </div>
+            <?php endif; ?>
+            <?= $this->render('_signup-form', [
+                'model' => $model,
+            ]) ?>
+        </div>
+    </div>
 </div>

@@ -10,13 +10,17 @@ use yii\bootstrap\ActiveForm;
 $this->title = 'Eoction Login';
 $this->params['breadcrumbs'][] = $this->title;
 
-foreach(Yii::app()->user->getFlashes() as $key => $message) {
+foreach (Yii::app()->user->getFlashes() as $key => $message) {
     echo '<div class="flash-' . $key . '">' . $message . "</div>\n";
 }
 ?>
 <div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
-
+    <?php if (Yii::$app->session->hasFlash('success')): ?>
+        <div class="alert alert-success alert-dismissable">
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>
+            <?= Yii::$app->session->getFlash('success') ?>
+        </div>
+    <?php endif; ?>
     <?php $form = ActiveForm::begin([
         'id' => 'login-form',
         'options' => ['class' => 'form-vertical'],
@@ -26,17 +30,17 @@ foreach(Yii::app()->user->getFlashes() as $key => $message) {
         ],
     ]); ?>
 
-        <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+    <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
 
-        <?= $form->field($model, 'password')->passwordInput() ?>
+    <?= $form->field($model, 'password')->passwordInput() ?>
 
-        <?= $form->field($model, 'rememberMe')->checkbox([
-            'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
-        ]) ?>
-        <div class="form-group">
-            <div class="col-lg-offset-1 col-lg-11">
-                <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-            </div>
+    <?= $form->field($model, 'rememberMe')->checkbox([
+        'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
+    ]) ?>
+    <div class="form-group">
+        <div class="col-lg-offset-1 col-lg-11">
+            <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
         </div>
+    </div>
     <?php ActiveForm::end(); ?>
 </div>

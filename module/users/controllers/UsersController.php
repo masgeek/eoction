@@ -70,7 +70,7 @@ class UsersController extends Controller
         if (isset($_POST['Users'])) {
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 //if ($model->save()) {
-                Yii::$app->session->setFlash('notice', "Account created successfully. You can now log in");
+                Yii::$app->session->setFlash('success', "Account created successfully. You can now log in");
                 return $this->redirect(['//site/login']);//redirect to the login page afer successful signup
             } else {
                 $errors = $model->getErrors();
