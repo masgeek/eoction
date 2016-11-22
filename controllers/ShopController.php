@@ -92,17 +92,25 @@ class ShopController extends Controller
      * @param $user_id
      * @param $product_id
      * @param $sku
+     * @return string
      */
     public function actionBidWon($user_id, $product_id, $sku)
     {
         $bid_winner = BidManager::GetBidWinner($product_id, $sku);
         if ($bid_winner > 0) {
             $resp = BidManager::MarkBidAsWon($user_id, $product_id);
-            var_dump($resp);
         }
+
+        return json_encode($resp);
     }
 
 
+    /**
+     * @param $user_id
+     * @param $product_id
+     * @param $price
+     * @return string
+     */
     public function actionAddToCart($user_id, $product_id, $price)
     {
         //add it to the cart
