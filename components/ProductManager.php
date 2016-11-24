@@ -84,6 +84,11 @@ class ProductManager
         return $item_provider;
     }
 
+    /**
+     * @param $user_id
+     * @param array $sold_status
+     * @return ActiveDataProvider
+     */
     public static function GetUserCartItems($user_id, $sold_status = [0, 1])
     {
         $query = ItemsCart::find()
@@ -103,6 +108,11 @@ class ProductManager
         return $cart_item_data;
     }
 
+    /**
+     * @param $user_id
+     * @param array $sold_status
+     * @return array
+     */
     public static function GetUserCartItemsTotal($user_id, $sold_status = [0, 1])
     {
         $total = [];
@@ -137,6 +147,47 @@ class ProductManager
         return $total_summary;
     }
 
+    /**
+     * @param $user_id
+     * @return array
+     */
+    public static function GetPaypalItems($user_id)
+    {
+
+        $paypalItems = [];
+        $cartItems = ProductManager::GetUserCartItems($user_id, $sold_status = [0]);
+        foreach ($cartItems->models as $model) {
+            if ($model->BIDDED_ITEM == '1') {
+                $product_price = $model->PRODUCT_PRICE;
+            } else {
+                $product_price = $model->pRODUCT->RETAIL_PRICE; //get the retail price if its not a bid item
+            }
+            $total[] = (float)$product_price;
+            $shipping[] = ProductManager::ComputeShippingCost($model->pRODUCT->PRODUCT_ID);
+
+            $paypalItems['ITEMS'][]= [
+                'NAME' => $model->pRODUCT->PRODUCT_NAME,
+                'DESC' => isset($model->pRODUCT->PRODUCT_DESCRIPTION) ? $model->pRODUCT->PRODUCT_DESCRIPTION : 'N/A',
+                'PRICE' => $product_price,
+            ];
+        }
+
+        $sub_total = array_sum($total);
+        $shipping_total = array_sum($shipping);
+
+        $total_summary = [
+            'SUB_TOTAL' => $sub_total,
+            'SHIPPING_TOTAL' => $shipping_total,
+            'TOTAL' => $sub_total + $shipping_total
+        ];
+
+        $paypalItems['SUMMARY'] = ['SUMMARY' => $total_summary];
+        return $paypalItems;
+    }
+
+    /**
+     *
+     */
     public static function CleanBiddingData()
     {
         BidActivity::deleteAll();

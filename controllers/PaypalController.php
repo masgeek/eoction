@@ -8,6 +8,7 @@
 
 namespace app\controllers;
 
+use app\components\ProductManager;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -36,27 +37,50 @@ class PaypalController extends Controller
     {
         //initalize the paypal extension so that we can get the default parameters
         Yii::$app->paypal->init();
-        $apiContext = Yii::$app->paypal->getApiContext();
 
+        $subtotal = 0;
+        $shipping = 0;
+        $total = 0;
+
+        $apiContext = Yii::$app->paypal->getApiContext();
         $payer = new Payer();
         $payer->setPaymentMethod("paypal"); //method is by paypal account
 
 
-        $item1 = new \PayPal\Api\Item(); //set item details
-        $item1->setName('Software')
-            ->setCurrency('USD')
-            ->setQuantity(1)
-            ->setPrice(50);
+        $paypal_items = ProductManager::GetPaypalItems($id);
+
+        $itemsArr = [];
+        foreach ($paypal_items['ITEMS'] as $summary_item) {
+            $item1 = new \PayPal\Api\Item(); //set item details
+            $item1->setName($summary_item['NAME'])
+                ->setDescription($summary_item['DESC'])
+                ->setCurrency('USD')
+                ->setQuantity(1)
+                ->setPrice($summary_item['PRICE']);
+
+            $itemsArr[] = $item1;
+        }
+
+
+        foreach ($paypal_items['SUMMARY'] as $summary_item) {
+            $subtotal = $summary_item['SUB_TOTAL'];
+            $shipping = $summary_item['SHIPPING_TOTAL'];
+            $total = $summary_item['TOTAL'];
+
+        }
 
         $itemList = new ItemList();
-        $itemList->setItems(array($item1));
+        //$itemList->setItems(array($item1,$item1));
+        $itemList->setItems($itemsArr);
         $details = new Details();
-        /*$details->setShipping(1.2) ///no need for shipping on this one its a digitl good
-            ->setTax(1.3)
-            ->setSubtotal(17.50);*/
+
+
+        $details->setShipping($shipping)///no need for shipping on this one its a digitl good
+        ->setTax(0)
+            ->setSubtotal($subtotal);
         $amount = new Amount();
         $amount->setCurrency("USD")
-            ->setTotal(50)//set the amount
+            ->setTotal($total)//set the amount
             ->setDetails($details);
 
         $transaction = new Transaction();
@@ -64,6 +88,7 @@ class PaypalController extends Controller
             ->setItemList($itemList)
             ->setDescription("Payment description")
             ->setInvoiceNumber(uniqid());
+
 
         $baseUrl = 'http://localhost:81';//getBaseUrl(); //we will need to host it so that the redirect after payment works okay
 
@@ -88,7 +113,6 @@ class PaypalController extends Controller
 
         //now let us redirect to the approval URL to allow the client to pay
         $this->redirect($approvalUrl);
-
     }
 
     /**
