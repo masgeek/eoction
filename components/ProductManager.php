@@ -190,6 +190,7 @@ class ProductManager
      */
     public static function CleanBiddingData()
     {
+        ItemsCart::deleteAll();
         BidActivity::deleteAll();
         ProductBids::deleteAll();
     }
