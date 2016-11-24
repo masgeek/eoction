@@ -137,6 +137,7 @@ class SiteController extends Controller
 
         $dataProvider = Products::findAll();
 
+        echo '<pre>';
         var_dump($dataProvider);
         die;
         $this->view->title = 'Live Auction';
