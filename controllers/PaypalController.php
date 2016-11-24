@@ -90,7 +90,8 @@ class PaypalController extends Controller
             ->setInvoiceNumber(uniqid());
 
 
-        $baseUrl = 'http://localhost:81';//getBaseUrl(); //we will need to host it so that the redirect after payment works okay
+        //$baseUrl = 'http://localhost:81';//getBaseUrl(); //we will need to host it so that the redirect after payment works okay
+        $baseUrl = \yii\helpers\Url::home(true);
 
         $redirectUrls = new RedirectUrls();
         $redirectUrls->setReturnUrl("$baseUrl/eoction/paypal/result?id=$id&status=true")

@@ -31,6 +31,7 @@ $shipping = $formatter->asCurrency($total_summary['SHIPPING_TOTAL']);
 $total = $formatter->asCurrency($total_summary['TOTAL']);
 
 $paypalAction = \yii\helpers\Url::to(['//paypal/paypal-checkout', 'id' => $user_id]);
+
 ?>
 
 <!-- this will show the flash messages-->
