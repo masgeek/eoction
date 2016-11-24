@@ -10,6 +10,7 @@ namespace app\components;
 
 
 use app\models\BidActivity;
+use app\module\products\models\ItemsCart;
 use app\module\products\models\ProductBids;
 use app\module\products\models\Products;
 use app\module\products\product;
@@ -81,6 +82,25 @@ class ProductManager
         ]);
 
         return $item_provider;
+    }
+
+    public static function GetUserCartItems($user_id, $sold_status = [0, 1])
+    {
+        $query = ItemsCart::find()
+            ->where(['USER_ID' => $user_id,])
+            ->andWhere(['IN', 'IS_SOLD', $sold_status])//get bot sold and unsold items or one of the two
+            // ->orderBy(['rand()' => SORT_DESC]), //randomly pick items
+            ->orderBy('DATE_ADDED ASC');
+
+        $cart_item_data = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => false,
+            /*'pagination' => [
+                'pageSize' => 1
+            ],*/
+        ]);
+
+        return $cart_item_data;
     }
 
     public static function CleanBiddingData()

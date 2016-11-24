@@ -9,6 +9,7 @@
 namespace app\controllers;
 
 use app\components\CartManager;
+use app\module\products\models\ItemsCart;
 use app\module\products\models\Products;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -107,7 +108,9 @@ class ShopController extends Controller
         return $this->render('//site/index');
     }
 
-    public function actionCart($id){
-
+    public function actionCart($id)
+    {
+        $cartDataProvider = ProductManager::GetUserCartItems($id);
+        return $this->render('my-cart', ['cartDataProvider' => $cartDataProvider]);
     }
 }

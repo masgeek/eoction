@@ -11,6 +11,7 @@ use Yii;
  * @property string $UID
  * @property string $SKU
  * @property string $PRODUCT_NAME
+ * @property string $PRODUCT_DESCRIPTION
  * @property string $CATEGORIES
  * @property string $BRAND_NAME
  * @property string $PRICE
@@ -50,7 +51,7 @@ class Products extends \yii\db\ActiveRecord
             [['SKU', 'PRODUCT_NAME', 'BRAND_NAME', 'PRICE', 'RETAIL_PRICE', 'CURRENT_STOCK_LEVEL'], 'required'],
             [['PRICE', 'RETAIL_PRICE'], 'number'],
             [['ALLOW_PURCHASES', 'VISIBLE', 'AVAILABLE', 'ALLOW_AUCTION', 'CURRENT_STOCK_LEVEL', 'MIN_STOCK_LEVEL'], 'integer'],
-            [['DATE_ADDED', 'DATE_UPDATED'], 'safe'],
+            [['DATE_ADDED', 'DATE_UPDATED','PRODUCT_DESCRIPTION'], 'safe'],
             [['UID'], 'string', 'max' => 100],
             [['SKU', 'PRODUCT_NAME', 'CATEGORIES', 'BRAND_NAME', 'TRACK_INVENTORY', 'STOCK_LOCATION', 'STOCK_TYPE'], 'string', 'max' => 255],
         ];
@@ -66,6 +67,7 @@ class Products extends \yii\db\ActiveRecord
             'UID' => 'Universal ID',
             'SKU' => 'Stock Keeping Unit',
             'PRODUCT_NAME' => 'Product Name',
+            'PRODUCT_DESCRIPTION' => 'Product Description',
             'CATEGORIES' => 'Categories',
             'BRAND_NAME' => 'Brand  Name',
             'PRICE' => 'Price',
