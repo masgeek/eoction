@@ -46,7 +46,7 @@ class PaypalController extends Controller
         $item1->setName('Software')
             ->setCurrency('USD')
             ->setQuantity(1)
-            ->setPrice(10);
+            ->setPrice(50);
 
         $itemList = new ItemList();
         $itemList->setItems(array($item1));
@@ -56,7 +56,7 @@ class PaypalController extends Controller
             ->setSubtotal(17.50);*/
         $amount = new Amount();
         $amount->setCurrency("USD")
-            ->setTotal(10)//set the amount
+            ->setTotal(50)//set the amount
             ->setDetails($details);
 
         $transaction = new Transaction();
@@ -109,6 +109,6 @@ class PaypalController extends Controller
             //$this->redirect(['purchase']);
         }
         $this->redirect(['//shop/cart', 'id' => $id]);
-        var_dump($_REQUEST);
+        //var_dump($_REQUEST);
     }
 }
