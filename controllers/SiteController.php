@@ -135,7 +135,11 @@ class SiteController extends Controller
             ],
         ]);
 
-        $dataProvider = Products::find()->asArray();
+        $dataProvider = Products::find()
+            ->where(['ALLOW_AUCTION' => 1,])
+            ->andWhere(['>=', 'CURRENT_STOCK_LEVEL', 1])//stock levels should be greater or equal to 1
+            //->andWhere(['NOT IN', 'SKU', $item_array])
+            ->orderBy(['rand()' => SORT_DESC])->asArray();
 
         echo '<pre>';
         var_dump($dataProvider);
