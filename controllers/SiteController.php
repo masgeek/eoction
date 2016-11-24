@@ -127,7 +127,7 @@ class SiteController extends Controller
             'query' => Products::find()
                 ->where(['ALLOW_AUCTION' => 1,])
                 ->andWhere(['>=', 'CURRENT_STOCK_LEVEL', 1])//stock levels should be greater or equal to 1
-                //->andWhere(['NOT IN', 'SKU', $item_array])
+                ->andWhere(['NOT IN', 'SKU', $item_array])
                 ->orderBy(['rand()' => SORT_DESC]),
             //->orderBy('PRODUCT_ID ASC'),
             'pagination' => [
@@ -135,15 +135,6 @@ class SiteController extends Controller
             ],
         ]);
 
-        $dataProvider = Products::find()
-            ->where(['ALLOW_AUCTION' => 1,])
-            ->andWhere(['>=', 'CURRENT_STOCK_LEVEL', 1])//stock levels should be greater or equal to 1
-            //->andWhere(['NOT IN', 'SKU', $item_array])
-            ->orderBy(['rand()' => SORT_DESC])->asArray();
-
-        echo '<pre>';
-        var_dump($dataProvider);
-        die;
         $this->view->title = 'Live Auction';
         return $this->render('index', ['listDataProvider' => $dataProvider]);
     }
