@@ -17,6 +17,7 @@ Thumbs.db
 
 # composer vendor dir
 vendor
+!autoload.php
 /vendor/bin
 /vendor/phpspec
 /vendor/cebe
