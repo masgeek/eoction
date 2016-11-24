@@ -105,7 +105,7 @@ $config = [
         ],
 //Paypal module
         //lets add the paypal components to allow us to do paypal sandbox simulations
-        'paypal' => [
+        /*'paypal' => [
             'class' => 'kongoon\yii2\paypal\Paypal',
             'clientId' => 'AQymVlI9wso_vCWTOUZXoqQUdg78w3_Mz8VmNWms7eSJYXf9B7UAh4kel-SggfCaZ6oORqXEjKaBGuBo',
             'clientSecret' => 'EIHkGryugLStmJgZP1uwEBKXb5q8nj6JAzjmyxlJdMqprZSbS-gTGTimh2VPwVb-KrmrqHSKaj_69ZLM',
@@ -120,7 +120,7 @@ $config = [
                 'log.FileName' => '@runtime/logs/paypal.log', //logs directory
                 'log.LogLevel' => \kongoon\yii2\paypal\Paypal::LOG_LEVEL_FINE,  // FINE | INFO | WARN | ERROR
             ]
-        ],
+        ],*/
         //yii2 authclient
         'authClientCollection' => [
             'class' => 'yii\authclient\Collection',
