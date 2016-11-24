@@ -126,7 +126,7 @@ class PaypalController extends Controller
     public function actionResult($id, $status, $token)
     {
         if ($status == 'true') {
-            Yii::$app->getSession()->setFlash('success', 'Item purchased successfully, please click on the link to download');
+            Yii::$app->getSession()->setFlash('success', 'Item purchased successfully');
             //return $this->redirect(['download']);
         } else {
             //go back to the main page and say it was cancelled
