@@ -7,6 +7,9 @@
  */
 
 /* @var $cartDataProvider app\module\products\models\ItemsCart */
+/* @var $user_id */
+
+$formatter = \Yii::$app->formatter;
 
 $listviewWidget = \yii\widgets\ListView::widget([
     'dataProvider' => $cartDataProvider,
@@ -21,9 +24,13 @@ $listviewWidget = \yii\widgets\ListView::widget([
     'itemView' => '_cart-list',
 ]);
 
-$subtotal = 0;
-$total = 0;
-$shipping = 0;
+$total_summary = \app\components\ProductManager::GetUserCartItemsTotal($user_id);
+
+$subtotal =$formatter->asCurrency($total_summary['SUB_TOTAL']);
+$shipping = $formatter->asCurrency($total_summary['SHIPPING_TOTAL']);
+$total = $formatter->asCurrency($total_summary['TOTAL']);
+
+
 ?>
 
 <div class="col-sm-12 col-md-10 col-md-offset-1">

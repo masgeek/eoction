@@ -88,7 +88,7 @@ class ProductManager
     {
         $query = ItemsCart::find()
             ->where(['USER_ID' => $user_id,])
-            ->andWhere(['IN', 'IS_SOLD', $sold_status])//get bot sold and unsold items or one of the two
+            ->andWhere(['IN', 'IS_SOLD', $sold_status])//get both sold and unsold items or one of the two
             // ->orderBy(['rand()' => SORT_DESC]), //randomly pick items
             ->orderBy('DATE_ADDED ASC');
 
@@ -101,6 +101,40 @@ class ProductManager
         ]);
 
         return $cart_item_data;
+    }
+
+    public static function GetUserCartItemsTotal($user_id, $sold_status = [0, 1])
+    {
+        $total = [];
+        $shipping = [];
+        $query = ItemsCart::find()
+            ->where(['USER_ID' => $user_id,])
+            ->andWhere(['IN', 'IS_SOLD', $sold_status]);
+
+        $cart_item_data = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => false,
+        ]);
+
+        foreach ($cart_item_data->models as $model) {
+            if ($model->BIDDED_ITEM == '1') {
+                $product_price = $model->PRODUCT_PRICE;
+            } else {
+                $product_price = $model->pRODUCT->RETAIL_PRICE; //get the retail price if its not a bid item
+            }
+            $total[] = (float)$product_price;
+            $shipping[] = ProductManager::ComputeShippingCost($model->pRODUCT->PRODUCT_ID);
+        }
+
+        $sub_total = array_sum($total);
+        $shipping_total = array_sum($shipping);
+        $total_summary = [
+            'SUB_TOTAL' => $sub_total,
+            'SHIPPING_TOTAL' => $shipping_total,
+            'TOTAL' => $sub_total + $shipping_total
+        ];
+
+        return $total_summary;
     }
 
     public static function CleanBiddingData()
