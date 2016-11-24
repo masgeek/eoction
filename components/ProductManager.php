@@ -12,14 +12,14 @@ namespace app\components;
 use app\models\BidActivity;
 use app\module\products\models\ProductBids;
 use app\module\products\models\Products;
+use app\module\products\product;
 use yii\data\ActiveDataProvider;
 
 class ProductManager
 {
     /**
      * compute the percentage discount
-     * @param $retail_price
-     * @param $bid_price
+     * @param $product_id
      * @return int
      */
     public static function ComputePercentageDiscount($product_id)
