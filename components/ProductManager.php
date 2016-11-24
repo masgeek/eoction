@@ -9,11 +9,11 @@
 namespace app\components;
 
 
-
-
-
 use app\models\BidActivity;
+use app\module\products\models\ProductBids;
 use app\module\products\models\Products;
+use yii\data\ActiveDataProvider;
+
 class ProductManager
 {
     /**
@@ -55,5 +55,35 @@ class ProductManager
             $bidsCount = $bids->ACTIVITY_COUNT; //return the count
         }
         return $bidsCount;
+    }
+
+    /**
+     * @param int $no_of_items
+     * @param int $for_auction
+     * @param int $min_stock
+     * @param array $exclusion_list
+     * @return ActiveDataProvider
+     */
+    public static function GetItemsForSale($no_of_items = 20, $for_auction = 0, $min_stock = 1, $exclusion_list = [])
+    {
+        $item_provider = new ActiveDataProvider([
+            'query' => Products::find()
+                ->where(['ALLOW_AUCTION' => $for_auction,])
+                ->andWhere(['>=', 'CURRENT_STOCK_LEVEL', $min_stock])//stock levels should be greater or equal to 1
+                ->andWhere(['NOT IN', 'SKU', $exclusion_list])
+                ->orderBy(['rand()' => SORT_DESC]),
+            //->orderBy('PRODUCT_ID ASC'),
+            'pagination' => [
+                'pageSize' => $no_of_items
+            ],
+        ]);
+
+        return $item_provider;
+    }
+
+    public static function CleanBiddingData()
+    {
+        BidActivity::deleteAll();
+        ProductBids::deleteAll();
     }
 }
