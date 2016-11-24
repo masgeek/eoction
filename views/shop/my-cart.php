@@ -26,13 +26,20 @@ $listviewWidget = \yii\widgets\ListView::widget([
 
 $total_summary = \app\components\ProductManager::GetUserCartItemsTotal($user_id);
 
-$subtotal =$formatter->asCurrency($total_summary['SUB_TOTAL']);
+$subtotal = $formatter->asCurrency($total_summary['SUB_TOTAL']);
 $shipping = $formatter->asCurrency($total_summary['SHIPPING_TOTAL']);
 $total = $formatter->asCurrency($total_summary['TOTAL']);
 
-
+$paypalAction = \yii\helpers\Url::to(['//paypal/paypal-checkout', 'id' => $user_id]);
 ?>
 
+<!-- this will show the flash messages-->
+<div class="row"><?php
+    foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
+        echo '<div class="alert alert-' . $key . '">' . $message . '</div>';
+    }
+    ?>
+</div>
 <div class="col-sm-12 col-md-10 col-md-offset-1">
     <table class="table table-responsive table-bordered">
         <thead>
@@ -81,9 +88,13 @@ $total = $formatter->asCurrency($total_summary['TOTAL']);
                 </button>
             </td>
             <td>
+                <?= \yii\helpers\Html::a('Checkout <span class="glyphicon glyphicon-play"></span>',
+                    $paypalAction, ['class' => 'btn btn-success', 'role' => 'button']) ?>
+                <!--
                 <button type="button" class="btn btn-success">
                     Checkout <span class="glyphicon glyphicon-play"></span>
                 </button>
+                -->
             </td>
         </tr>
         </tbody>

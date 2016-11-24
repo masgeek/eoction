@@ -105,10 +105,11 @@ $config = [
         ],
 //Paypal module
         //lets add the paypal components to allow us to do paypal sandbox simulations
+        //sanbox accouhnt lody.tacastacas-facilitator@pristone.net
         'paypal' => [
             'class' => 'kongoon\yii2\paypal\Paypal',
-            'clientId' => 'AQymVlI9wso_vCWTOUZXoqQUdg78w3_Mz8VmNWms7eSJYXf9B7UAh4kel-SggfCaZ6oORqXEjKaBGuBo',
-            'clientSecret' => 'EIHkGryugLStmJgZP1uwEBKXb5q8nj6JAzjmyxlJdMqprZSbS-gTGTimh2VPwVb-KrmrqHSKaj_69ZLM',
+            'clientId' => 'AcH9OlDvwD4g5S7fE4U1m-7tee_CiC6mPH_fxFKzgbiknxg8fTt9xH-VjKNuiLwXhDVg5mLmFx_wKhlS',
+            'clientSecret' => 'ECucZFofNjTKFaTBKqaFHLJxwTGtLfm9dP-s5LIE64IVVNucnwX9qqhfbc6ILyGcI0-WZFJhriThIBtL',
             'currency' => 'USD',
             'isProduction' => false,
             // This is config file for the PayPal system
