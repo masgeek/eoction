@@ -278,7 +278,7 @@ class BidManager
             $item_array[] = $item['PRODUCT_SKU'];
         }
 
-        return $item_array;
+        return [];//$item_array;
     }
 
     /**
