@@ -57,9 +57,11 @@ class ProductManager
         return $bidsCount;
     }
 
+
     /**
+     * returns items to either be sold or auctioned off
      * @param int $no_of_items
-     * @param int $auction_param
+     * @param array $auction_param
      * @param int $min_stock
      * @param array $exclusion_list
      * @return ActiveDataProvider
@@ -71,7 +73,7 @@ class ProductManager
                 ->where(['IN', 'ALLOW_AUCTION', $auction_param,])
                 ->andWhere(['>=', 'CURRENT_STOCK_LEVEL', $min_stock])//stock levels should be greater or equal to 1
                 ->andWhere(['NOT IN', 'SKU', $exclusion_list])
-                ->orderBy(['rand()' => SORT_DESC]),
+                ->orderBy(['rand()' => SORT_DESC]), //randomly pick items
             //->orderBy('PRODUCT_ID ASC'),
             'pagination' => [
                 'pageSize' => $no_of_items
