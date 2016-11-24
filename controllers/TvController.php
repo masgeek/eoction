@@ -10,7 +10,7 @@ namespace app\controllers;
 
 use yii\web\Controller;
 
-class VideoController extends Controller
+class TvController extends Controller
 {
     public function actionLiveTv()
     {
