@@ -110,6 +110,7 @@ class ShopController extends Controller
 
     public function actionCart($id)
     {
+        ProductManager::CleanBiddingData();
         $cartDataProvider = ProductManager::GetUserCartItems($id);
         return $this->render('my-cart', ['cartDataProvider' => $cartDataProvider, 'user_id' => $id]);
     }
