@@ -123,10 +123,9 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        BidActivity::deleteAll();
-        ProductBids::deleteAll();
+        //BidActivity::deleteAll();
+        //ProductBids::deleteAll();
 
-        return false;
         $item_array = BidManager::GetExclusionItems();
         $dataProvider = new ActiveDataProvider([
             'query' => Products::find()
