@@ -23,7 +23,7 @@ $home = \yii\helpers\Url::toRoute(['//site']);
     <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav product-nav">
             <li class="active"><?= Html::a('Live Auctions', ['//site/index'], ['title' => 'live auctions']); ?></li>
-            <li><?= Html::a('Live TV', ['#'], ['title' => 'live TV']); ?></li>
+            <li><?= Html::a('Live TV', ['//video/live-tv'], ['title' => 'live TV']); ?></li>
             <li><?= Html::a('Online Shopping', ['//shop/'], ['title' => 'Online Shopping']); ?></li>
         </ul>
         <ul class="nav navbar-nav navbar-right" style="margin-right: 10px;">

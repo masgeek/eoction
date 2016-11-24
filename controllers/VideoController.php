@@ -12,8 +12,9 @@ use yii\web\Controller;
 
 class VideoController extends Controller
 {
-    public function actionLiveTV()
+    public function actionLiveTv()
     {
-        return 'Coming soon';
+        $this->view->title = 'Live TV Shopping';
+        return $this->render('//site/coming-soon');
     }
 }
