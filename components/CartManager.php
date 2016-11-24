@@ -14,6 +14,14 @@ use app\module\products\models\ItemsCart;
 
 class CartManager
 {
+    /**
+     * Add items to car to purchase processing
+     * @param $user_id
+     * @param $product_id
+     * @param $price
+     * @param int $bidden_item
+     * @return array|mixed|null
+     */
     public static function AddItemsToCart($user_id, $product_id, $price, $bidden_item = 0)
     {
         $cartModel = new ItemsCart();
@@ -26,7 +34,6 @@ class CartManager
         $cartModel->BIDDED_ITEM = $bidden_item;
 
         if ($cartModel->save() && $cartModel->validate()) {
-            //User::updateAllCounters(['states' => 1]);
             //delete the users bid activity it wont be needed from here
             BidActivity::deleteAll([
                 'PRODUCT_ID' => $product_id,
@@ -40,6 +47,11 @@ class CartManager
         return null;
     }
 
+    /**
+     * get the number of items in the cart
+     * @param $user_id
+     * @return int
+     */
     public static function GetCartItems($user_id)
     {
         $cart_count = ItemsCart::findAll([

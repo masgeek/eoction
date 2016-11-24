@@ -17,8 +17,10 @@ return array(
     'yii\\authclient\\' => array($vendorDir . '/yiisoft/yii2-authclient'),
     'yii\\' => array($vendorDir . '/yiisoft/yii2'),
     'rmrevin\\yii\\fontawesome\\' => array($vendorDir . '/rmrevin/yii2-fontawesome'),
+    'kongoon\\yii2\\paypal\\' => array($vendorDir . '/kongoon/yii2-paypal'),
     'kartik\\base\\' => array($vendorDir . '/kartik-v/yii2-krajee-base'),
     'cebe\\markdown\\' => array($vendorDir . '/cebe/markdown'),
     'amnah\\yii2\\user\\' => array($vendorDir . '/amnah/yii2-user'),
+    'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'Faker\\' => array($vendorDir . '/fzaninotto/faker/src/Faker'),
 );
