@@ -135,7 +135,7 @@ class SiteController extends Controller
             ],
         ]);
 
-        $dataProvider = Products::find();
+        $dataProvider = Products::find()->asArray();
 
         echo '<pre>';
         var_dump($dataProvider);
