@@ -94,8 +94,8 @@ class PaypalController extends Controller
         $baseUrl = \yii\helpers\Url::home(true);
 
         $redirectUrls = new RedirectUrls();
-        $redirectUrls->setReturnUrl("$baseUrl/eoction/paypal/result?id=$id&status=true")
-            ->setCancelUrl("$baseUrl/eoction/paypal/result?id=$id&status=false");
+        $redirectUrls->setReturnUrl("$baseUrl/paypal/result?id=$id&status=true")
+            ->setCancelUrl("$baseUrl/paypal/result?id=$id&status=false");
 
         $payment = new Payment();
         $payment->setIntent("sale")
