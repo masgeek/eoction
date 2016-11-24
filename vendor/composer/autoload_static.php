@@ -31,7 +31,6 @@ class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
         ),
         'k' => 
         array (
-            'kongoon\\yii2\\paypal\\' => 20,
             'kartik\\base\\' => 12,
         ),
         'c' => 
@@ -41,10 +40,6 @@ class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
         'a' => 
         array (
             'amnah\\yii2\\user\\' => 16,
-        ),
-        'P' => 
-        array (
-            'Psr\\Log\\' => 8,
         ),
         'F' => 
         array (
@@ -97,10 +92,6 @@ class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
         array (
             0 => __DIR__ . '/..' . '/rmrevin/yii2-fontawesome',
         ),
-        'kongoon\\yii2\\paypal\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/kongoon/yii2-paypal',
-        ),
         'kartik\\base\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base',
@@ -113,10 +104,6 @@ class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
         array (
             0 => __DIR__ . '/..' . '/amnah/yii2-user',
         ),
-        'Psr\\Log\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
-        ),
         'Faker\\' => 
         array (
             0 => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker',
@@ -124,13 +111,6 @@ class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
     );
 
     public static $prefixesPsr0 = array (
-        'P' => 
-        array (
-            'PayPal' => 
-            array (
-                0 => __DIR__ . '/..' . '/paypal/rest-api-sdk-php/lib',
-            ),
-        ),
         'H' => 
         array (
             'HTMLPurifier' => 
