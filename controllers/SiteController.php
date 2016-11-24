@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\module\products\models\ProductBids;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -122,6 +123,10 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        BidActivity::deleteAll();
+        ProductBids::deleteAll();
+
+        return false;
         $item_array = BidManager::GetExclusionItems();
         $dataProvider = new ActiveDataProvider([
             'query' => Products::find()
