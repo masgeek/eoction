@@ -195,9 +195,11 @@ class BidManager
     public static function GetMaxBidAmount($product_id, $format = true)
     {
         $formatter = \Yii::$app->formatter;
-        $bid_amount = ProductBids::find([
-            'PRODUCT_ID' => $product_id,
-        ])->where(['BID_WON' => 0])->max('BID_AMOUNT');
+        $bid_amount = ProductBids::find()
+            ->where(['PRODUCT_ID' => $product_id])
+            ->andWhere(['BID_WON' => 0])
+            ->max('BID_AMOUNT');
+
         if ($bid_amount == null || (int)$bid_amount <= 0) {
             $bid_amount = BidManager::GetInitialBidAmount($product_id);
         }
