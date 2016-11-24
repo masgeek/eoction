@@ -135,7 +135,10 @@ class SiteController extends Controller
             ],
         ]);
 
+        $dataProvider = Products::findAll();
 
+        var_dump($dataProvider);
+        die;
         $this->view->title = 'Live Auction';
         return $this->render('index', ['listDataProvider' => $dataProvider]);
     }
