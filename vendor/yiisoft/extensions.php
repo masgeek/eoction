@@ -102,4 +102,13 @@ return array (
       '@yii/debug' => $vendorDir . '/yiisoft/yii2-debug',
     ),
   ),
+  'kongoon/yii2-paypal' => 
+  array (
+    'name' => 'kongoon/yii2-paypal',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@kongoon/yii2/paypal' => $vendorDir . '/kongoon/yii2-paypal',
+    ),
+  ),
 );
