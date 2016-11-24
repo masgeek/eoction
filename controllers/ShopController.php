@@ -106,4 +106,8 @@ class ShopController extends Controller
         $resp = CartManager::AddItemsToCart($user_id, $product_id, $price);
         return $this->render('//site/index');
     }
+
+    public function actionCart($id){
+
+    }
 }
