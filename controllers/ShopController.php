@@ -114,7 +114,7 @@ class ShopController extends Controller
         return $this->render('my-cart', ['cartDataProvider' => $cartDataProvider, 'user_id' => $id]);
     }
 
-    public function PurgeDB($action)
+    public function actionPurgeDb($action)
     {
         ProductManager::CleanBiddingData();
     }
