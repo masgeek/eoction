@@ -59,16 +59,16 @@ class ProductManager
 
     /**
      * @param int $no_of_items
-     * @param int $for_auction
+     * @param int $auction_param
      * @param int $min_stock
      * @param array $exclusion_list
      * @return ActiveDataProvider
      */
-    public static function GetItemsForSale($no_of_items = 20, $for_auction = 0, $min_stock = 1, $exclusion_list = [])
+    public static function GetItemsForSale($no_of_items = 10, $auction_param = [1, 0], $min_stock = 1, $exclusion_list = [])
     {
         $item_provider = new ActiveDataProvider([
             'query' => Products::find()
-                ->where(['ALLOW_AUCTION' => $for_auction,])
+                ->where(['IN', 'ALLOW_AUCTION', $auction_param,])
                 ->andWhere(['>=', 'CURRENT_STOCK_LEVEL', $min_stock])//stock levels should be greater or equal to 1
                 ->andWhere(['NOT IN', 'SKU', $exclusion_list])
                 ->orderBy(['rand()' => SORT_DESC]),

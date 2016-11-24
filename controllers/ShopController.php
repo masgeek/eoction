@@ -53,16 +53,15 @@ class ShopController extends Controller
     //entry page
     public function actionIndex()
     {
-        $min_stock = 1;
-
-        $dataProvider = new ActiveDataProvider([
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 20, $for_auction = [1, 0], $min_stock = 1, $exclusion_list = []);
+        /*$dataProvider = new ActiveDataProvider([
             'query' => Products::find()
                 ->where(['>=', 'CURRENT_STOCK_LEVEL', $min_stock])//stock levels should be greater or equal to 1
                 ->orderBy('PRODUCT_ID ASC'),
             'pagination' => [
                 'pageSize' => 20
             ],
-        ]);
+        ]);*/
 
 
         $this->view->title = 'Online Shopping';
