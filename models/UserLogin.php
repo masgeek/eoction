@@ -15,7 +15,7 @@ use yii\web\IdentityInterface;
  * @property integer $USER_ID
  * @property string $FULL_NAMES
  * @property string $EMAIL_ADDRESS
- * @property string $USERNAME
+ * @property string $ACCOUNT_TYPE
  * @property string $PASSWORD_HASH
  * @property string $ACCOUNT_ACCESS_TOKEN
  * @property string $ACCOUNT_AUTH_KEY
@@ -27,10 +27,10 @@ use yii\web\IdentityInterface;
  * @property string $DATE_CREATED
  * @property string $DATE_UPDATED
  *
- * @property TbHashTable[] $tbHashTables
- * @property TbItemsCart[] $tbItemsCarts
- * @property TbItemsWishlist[] $tbItemsWishlists
- * @property TbProductBids[] $tbProductBids
+ * @property HashTable[] $tbHashTables
+ * @property ItemsCart[] $tbItemsCarts
+ * @property ItemsWishlist[] $tbItemsWishlists
+ * @property ProductBids[] $tbProductBids
  */
 class UserLogin extends ActiveRecord implements IdentityInterface
 {
@@ -102,6 +102,15 @@ class UserLogin extends ActiveRecord implements IdentityInterface
         return static::findOne(['EMAIL_ADDRESS' => $username]);
     }
 
+    /**
+     * @return bool
+     */
+    public function getAccountType(){
+        if($this->ACCOUNT_TYPE=='A'){ //A means it is an admin account
+            return true;
+        }
+        return false;
+    }
     /**
      * @inheritdoc
      */

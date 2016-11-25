@@ -36,6 +36,11 @@ $home = \yii\helpers\Url::toRoute(['//site']);
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><?= Html::a('<span class="fa fa-user"></span> My Account', ['//user/users/my-profile', 'id' => yii::$app->user->id], ['class' => 'text-capitalise']); ?></li>
+                        <?php if (Yii::$app->user->identity->accounttype) { ?>
+                            <hr/>
+                            <li><?= Html::a('<span class="fa fa-cog"></span> Product Manager', ['//products'], ['class' => 'text-capitalise']); ?></li>
+                        <?php } ?>
+                        <hr/>
                         <!--<li><?= Html::a('<span class="fa fa-lock"></span> Logout', ['//site/logout'], ['class' => 'text-capitalise']); ?></li>-->
                         <?= Html::beginForm(['/site/logout'], 'post') ?>
                         <li><?= Html::submitButton('Logout (' . Yii::$app->user->identity->EMAIL_ADDRESS . ')', ['class' => 'btn btn-link logout']) ?></li>

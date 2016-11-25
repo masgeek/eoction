@@ -12,6 +12,9 @@ $config = [
     ],
     /* modules */
     'modules' => [
+        'gridview' => [
+            'class' => 'kartik\grid\Module'
+        ],
         'product' => [
             'class' => 'app\module\products\product',
         ],
@@ -89,6 +92,7 @@ $config = [
                 'login' => 'site/login',
                 'logout' => 'site/logout',
                 'signup' => 'user/users/signup',
+                'products' => 'product/product/index',
                 'request-password-reset' => 'site/request-password-reset',
                 'reset-password' => 'site/reset-password',
             ],
