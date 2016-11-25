@@ -74,7 +74,7 @@ class Images extends \yii\db\ActiveRecord
     public function getImageUrl()
     {
         // return a default image placeholder if your source avatar is not found
-        $image_file = isset($this->IMAGE) ? $this->IMAGE : 'placeholder.jpg';
+        $image_file = isset($this->IMAGE) ? $this->IMAGE : 'placeholder.png';
         $imagesFolder = Yii::$app->params['imagesFolder'];
         //$path = Yii::$app->basePath . $imagesFolder;
         $path = $imagesFolder;

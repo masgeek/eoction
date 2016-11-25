@@ -86,6 +86,7 @@ class ShopController extends Controller
      */
     public function actionBidWon($user_id, $product_id, $sku)
     {
+        $resp = [];
         $bid_winner = BidManager::GetBidWinner($product_id, $sku);
         if ($bid_winner > 0) {
             $resp = BidManager::MarkBidAsWon($user_id, $product_id);

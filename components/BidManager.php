@@ -11,6 +11,7 @@
 
 namespace app\components;
 
+use app\module\products\models\Images;
 use yii\db\Expression;
 use yii\helpers\Html;
 
@@ -293,6 +294,7 @@ class BidManager
      */
     private static function BuildList($product_id, $sku, $product_name, $retail_price_raw, $starting_bid_price_raw)
     {
+        $imageModel = new Products();
         $formatter = \Yii::$app->formatter;
 
         $shipping_cost = $formatter->asCurrency(ProductManager::ComputeShippingCost($product_id));
@@ -302,10 +304,15 @@ class BidManager
         $bids = ProductManager::GetNumberOfBids($product_id);
         $discount = ProductManager::ComputePercentageDiscount($product_id);
 
-        //$img = 'http://placehold.it/400/500';
-        //$img = '//lorempixel.com/400/400/food';
-        $imageA = '@web/images/placeholder.png';
-        $imageHtml = Html::img($imageA, [
+        //$alias_path =  \Yii::getAlias('@web');
+
+        $imageObject = $imageModel->getSingleImage($product_id);
+
+
+        $product_image = $imageObject ? "@web$imageObject" : '@web/product_images/placeholder.png';
+
+
+        $imageHtml = Html::img($product_image, [
             'id' => 'product_image_' . $product_id,
             'class' => 'img img-responsive',
             'alt' => $product_name,

@@ -35,6 +35,7 @@ use Yii;
 class Products extends \yii\db\ActiveRecord
 {
     public $PRODUCT_DESCRIPTION;
+
     /**
      * @inheritdoc
      */
@@ -52,7 +53,7 @@ class Products extends \yii\db\ActiveRecord
             [['SKU', 'PRODUCT_NAME', 'BRAND_NAME', 'PRICE', 'RETAIL_PRICE', 'CURRENT_STOCK_LEVEL'], 'required'],
             [['PRICE', 'RETAIL_PRICE'], 'number'],
             [['ALLOW_PURCHASES', 'VISIBLE', 'AVAILABLE', 'ALLOW_AUCTION', 'CURRENT_STOCK_LEVEL', 'MIN_STOCK_LEVEL'], 'integer'],
-            [['DATE_ADDED', 'DATE_UPDATED','PRODUCT_DESCRIPTION'], 'safe'],
+            [['DATE_ADDED', 'DATE_UPDATED', 'PRODUCT_DESCRIPTION'], 'safe'],
             [['UID'], 'string', 'max' => 100],
             [['SKU', 'PRODUCT_NAME', 'CATEGORIES', 'BRAND_NAME', 'TRACK_INVENTORY', 'STOCK_LOCATION', 'STOCK_TYPE'], 'string', 'max' => 255],
         ];
@@ -111,12 +112,25 @@ class Products extends \yii\db\ActiveRecord
         return $this->hasMany(ProductVideos::className(), ['PRODUCT_ID' => 'PRODUCT_ID']);
     }
 
-    public function getSingleImage()
+    /**
+     * @param null $product_id
+     * @return Images|mixed|null|string
+     */
+    public function getSingleImage($product_id = null)
     {
         $image = null;
-        $images = $this->productImages;
-        if (is_array($images) && !empty($images)) {
-            $image = $images[0]; //get only the first index
+        if ($product_id == null) {
+            $images = $this->productImages;
+            if (is_array($images) && !empty($images)) {
+                $image = $images[0]; //get only the first index
+            }
+        } else {
+            $images = Images::find()
+                ->where(['PRODUCT_ID' => $product_id])
+                ->one();
+            if ($images != null) {
+                $image = $images->IMAGE_URL;
+            }
         }
         return $image;
     }
