@@ -47,16 +47,8 @@ $gridColumns = [
     'SKU',
     [
         'attribute' => 'PRODUCT_DESCRIPTION',
-        //'width' => '100%',
-        'value' => function ($model, $key, $index, $widget) {
-            if ($model->PRODUCT_DESCRIPTION != null) {
-                $names = $model->PRODUCT_DESCRIPTION;
-                $student = "$names";
-            } else {
-                $student = 'N/A';
-            }
-            return $student;
-        },
+        //'width' => '10%',
+        'filter'=>false
     ],
 //'PRODUCT_ID',
     //'UID',
@@ -97,12 +89,13 @@ $gridColumns = [
     // Action column
     [
         'class' => '\kartik\grid\ActionColumn',
-        'dropdown' => true,
+        'width' => '10%',
+        'dropdown' => false,
         'vAlign' => 'middle',
-        'template' => '{delete}{image}',
+        'template' => '{image}',
         'buttons' => [
             'image' => function ($url, $model, $key) {
-                return Html::a('<i class="glyphicon glyphicon-remove"></i> Add Image', $url);
+                return Html::a('Add Image <i class="glyphicon glyphicon-camera"></i>', $url);
             },
         ],
         'urlCreator' => function ($action, $model, $key, $index) {
@@ -111,9 +104,14 @@ $gridColumns = [
                 return $url;
             }
         },
-        'viewOptions' => ['title' => 'View Product', 'data-toggle' => 'tooltip'],
-        'updateOptions' => ['title' => 'Update Product', 'data-toggle' => 'tooltip'],
-        //'deleteOptions' => ['label' => '<i class="glyphicon glyphicon-remove"></i>']
+    ],
+    [
+        'class' => '\kartik\grid\ActionColumn',
+        'dropdown' => true,
+        'vAlign' => 'middle',
+        'template' => '{update}{view}{delete}',
+        'deleteOptions' => ['label' => '<i class="glyphicon glyphicon-remove"></i>Remove'],
+        'visible'=>true
     ]
 ];
 ?>

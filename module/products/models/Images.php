@@ -29,9 +29,10 @@ class Images extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['PRODUCT_ID', 'IMAGE_URL'], 'required'],
             [['PRODUCT_ID'], 'integer'],
             [['IMAGE_URL'], 'string', 'max' => 255],
-            [['PRODUCT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => TbProducts::className(), 'targetAttribute' => ['PRODUCT_ID' => 'PRODUCT_ID']],
+            [['PRODUCT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Products::className(), 'targetAttribute' => ['PRODUCT_ID' => 'PRODUCT_ID']],
         ];
     }
 
@@ -41,9 +42,9 @@ class Images extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'IMAGE_ID' => 'Image  ID',
-            'PRODUCT_ID' => 'Product  ID',
-            'IMAGE_URL' => 'Image  Url',
+            'IMAGE_ID' => 'Image ID',
+            'PRODUCT_ID' => 'Product ID',
+            'IMAGE_URL' => 'Image Url',
         ];
     }
 
