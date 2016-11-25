@@ -1,4 +1,4 @@
-#Ignore everything except the files below
 *
+#Ignore everything except the files below
 !.gitignore
 !placeholder.png
