@@ -103,14 +103,20 @@ class ShopController extends Controller
      */
     public function actionAddToCart($user_id, $product_id, $price)
     {
-        //add it to the cart
-        $resp = CartManager::AddItemsToCart($user_id, $product_id, $price);
+        //check if user is logged in
+        if (Yii::$app->user->isGuest):
+            //redirect to login
+            return $this->redirect(['//login']);
+        else:
+            //add it to the cart
+            $resp = CartManager::AddItemsToCart($user_id, $product_id, $price);
 
-        if($resp==true) {
-            return $this->redirect(['//shop/cart', 'id' => $user_id]);
-        }
-        //return to shopping page
-        return $this->redirect(['//shop/index']);
+            if ($resp == true) {
+                return $this->redirect(['//shop/cart', 'id' => $user_id]);
+            }
+            //return to shopping page
+            return $this->redirect(['//shop/index']);
+        endif;
     }
 
     public function actionCart($id)
