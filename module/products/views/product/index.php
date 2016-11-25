@@ -131,6 +131,7 @@ $gridColumns = [
                 'filterModel' => $searchModel,
                 'layout' => '{summary}{pager}{items}{pager}',
                 'export' => false,
+                'pjax' => true,
                 'summary' => '',
                 'responsive' => true,
                 'hover' => true,
