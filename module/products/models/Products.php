@@ -34,7 +34,7 @@ use Yii;
  */
 class Products extends \yii\db\ActiveRecord
 {
-    public $PRODUCT_DESCRIPTION;
+    //public $PRODUCT_DESCRIPTION;
 
     /**
      * @inheritdoc
