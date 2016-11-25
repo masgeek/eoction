@@ -100,7 +100,7 @@ $gridColumns = [
         ],
         'urlCreator' => function ($action, $model, $key, $index) {
             if ($action === 'image') {
-                $url = \yii\helpers\Url::toRoute(['//images/add-images', 'id' => $model->PRODUCT_ID]);
+                $url = \yii\helpers\Url::toRoute(['//product/images/add-image', 'product_id' => $model->PRODUCT_ID]);
                 return $url;
             }
         },

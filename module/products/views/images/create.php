@@ -5,6 +5,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model app\module\products\models\Images */
+/* @var $product_id string */
 
 $this->title = 'Create Images';
 $this->params['breadcrumbs'][] = ['label' => 'Images', 'url' => ['index']];
@@ -16,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'product_id'=>$product_id
     ]) ?>
 
 </div>

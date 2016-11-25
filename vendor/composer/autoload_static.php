@@ -39,6 +39,7 @@ class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
             'kartik\\plugins\\popover\\' => 23,
             'kartik\\plugins\\fileinput\\' => 25,
             'kartik\\grid\\' => 12,
+            'kartik\\form\\' => 12,
             'kartik\\file\\' => 12,
             'kartik\\editable\\' => 16,
             'kartik\\dialog\\' => 14,
@@ -139,6 +140,10 @@ class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
         'kartik\\grid\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-grid',
+        ),
+        'kartik\\form\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-activeform',
         ),
         'kartik\\file\\' => 
         array (
