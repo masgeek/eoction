@@ -74,10 +74,10 @@ class ProductManager
                 ->where(['IN', 'ALLOW_AUCTION', $auction_param,])
                 ->andWhere(['>=', 'CURRENT_STOCK_LEVEL', $min_stock])//stock levels should be greater or equal to 1
                 ->andWhere(['NOT IN', 'SKU', $exclusion_list])
-                //->orderBy(['rand()' => SORT_DESC]), //randomly pick items
-            ->orderBy('PRODUCT_ID ASC'),
+                ->orderBy(['rand()' => SORT_DESC]), //randomly pick items
+            //->orderBy('PRODUCT_ID ASC'),
             'pagination' => [
-                'pageSize' => $no_of_items = 2
+                'pageSize' => $no_of_items
             ],
         ]);
 
@@ -165,7 +165,7 @@ class ProductManager
             $total[] = (float)$product_price;
             $shipping[] = ProductManager::ComputeShippingCost($model->pRODUCT->PRODUCT_ID);
 
-            $paypalItems['ITEMS'][]= [
+            $paypalItems['ITEMS'][] = [
                 'NAME' => $model->pRODUCT->PRODUCT_NAME,
                 'DESC' => isset($model->pRODUCT->PRODUCT_DESCRIPTION) ? $model->pRODUCT->PRODUCT_DESCRIPTION : 'N/A',
                 'PRICE' => $product_price,
