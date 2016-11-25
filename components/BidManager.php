@@ -309,7 +309,7 @@ class BidManager
         $imageObject = $imageModel->getSingleImage($product_id);
 
 
-        $product_image = $imageObject ? "@web$imageObject" : '@web/product_images/placeholder.png';
+        $product_image = $imageObject ? "@web{$imageObject->IMAGE_URL}": '@web/product_images/placeholder.png';
 
 
         $imageHtml = Html::img($product_image, [

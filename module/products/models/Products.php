@@ -129,7 +129,7 @@ class Products extends \yii\db\ActiveRecord
                 ->where(['PRODUCT_ID' => $product_id])
                 ->one();
             if ($images != null) {
-                $image = $images->IMAGE_URL;
+                $image = $images;
             }
         }
         return $image;
