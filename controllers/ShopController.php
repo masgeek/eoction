@@ -99,13 +99,18 @@ class ShopController extends Controller
      * @param $user_id
      * @param $product_id
      * @param $price
-     * @return string
+     * @return \yii\web\Response
      */
     public function actionAddToCart($user_id, $product_id, $price)
     {
         //add it to the cart
         $resp = CartManager::AddItemsToCart($user_id, $product_id, $price);
-        return $this->render('//site/index');
+
+        if($resp==true) {
+            return $this->redirect(['//shop/cart', 'id' => $user_id]);
+        }
+        //return to shopping page
+        return $this->redirect(['//shop/index']);
     }
 
     public function actionCart($id)

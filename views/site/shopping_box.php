@@ -63,9 +63,9 @@ $starting_bid_price = $formatter->asCurrency($model->PRICE);
                         'id' => "buynow_$product_id"
                     ]) ?-->
                     <?= Html::a("BUY NOW",
-                        ['//shop/add-to-cart', 'id' => $product_id, 'sku' => $sku],
+                        ['//shop/add-to-cart', 'user_id' => $userid, 'product_id' => $product_id, 'price' => $model->RETAIL_PRICE],
                         [
-                            'class'=>'btn btn-primary btn-block btn-lg noradius',
+                            'class' => 'btn btn-primary btn-block btn-lg noradius',
                         ]) ?>
                 </div>
 

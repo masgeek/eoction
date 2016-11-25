@@ -39,12 +39,12 @@ class CartManager
                 'PRODUCT_ID' => $product_id,
                 'LAST_BIDDING_USER_ID' => $user_id
             ]);
-            return $cartModel->primaryKey;
+            return true;
         } else {
             return $cartModel->getErrors();
         }
 
-        return null;
+        return false;
     }
 
     /**
