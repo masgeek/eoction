@@ -34,7 +34,7 @@ use yii\web\IdentityInterface;
  */
 class UserLogin extends ActiveRecord implements IdentityInterface
 {
-    public $ACCOUNT_TYPE;
+    //public $ACCOUNT_TYPE;
     public $ACCOUNT_AUTH_KEY;
     public $PASSWORD_RESET_TOKEN;
     public $passwordHashCost = 13;
