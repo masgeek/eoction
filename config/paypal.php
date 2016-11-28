@@ -20,7 +20,7 @@ return [
         'http.Retry' => 2, //retry only once
         'mode' => \kongoon\yii2\paypal\Paypal::MODE_SANDBOX,    // sandbox | live
         'log.LogEnabled' => YII_DEBUG ? 1 : 0, //based on our environment logs will b enabled or not
-        'log.FileName' => '@runtime/logs/paypal.log', //logs directory
+        //'log.FileName' => '@runtime/logs/paypal.log', //logs directory
         'log.LogLevel' => \kongoon\yii2\paypal\Paypal::LOG_LEVEL_FINE,  // FINE | INFO | WARN | ERROR
     ]
 ];

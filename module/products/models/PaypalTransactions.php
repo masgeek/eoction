@@ -4,6 +4,7 @@ namespace app\module\products\models;
 
 use app\module\users\models\Users;
 use Yii;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "{{%tb_paypal_transactions}}".
@@ -16,7 +17,7 @@ use Yii;
  * @property string $CREATE_TIME
  * @property string $UPDATE_TIME
  *
- * @property Users $uSER
+ * @property TbUsers $uSER
  */
 class PaypalTransactions extends \yii\db\ActiveRecord
 {
@@ -34,7 +35,7 @@ class PaypalTransactions extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['USER_ID', 'PAYMENT_ID', 'HASH', 'CREATE_TIME'], 'required'],
+            [['USER_ID', 'PAYMENT_ID', 'HASH'], 'required'],
             [['USER_ID', 'COMPLETE'], 'integer'],
             [['CREATE_TIME', 'UPDATE_TIME'], 'safe'],
             [['PAYMENT_ID', 'HASH'], 'string', 'max' => 100],
@@ -73,7 +74,6 @@ class PaypalTransactions extends \yii\db\ActiveRecord
         }
         return false;
     }
-
     /**
      * @return \yii\db\ActiveQuery
      */

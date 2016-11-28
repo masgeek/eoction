@@ -11,6 +11,7 @@ namespace app\controllers;
 use app\components\ProductManager;
 use app\module\products\models\PaypalTransactions;
 use app\module\products\product;
+use PayPal\Api\PaymentExecution;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -110,16 +111,20 @@ class PaypalController extends Controller
             $payment->create($apiContext);
             $hash = md5($payment->getId());
 
-            \Yii::$app->session['paypal_hash'] = $hash; //has to track the transaction in browser session
+            \Yii::$app->session['paypal_hash'] = $hash; //used to track the transaction in browser session
             //let us save this transaction to the paypal tables
             $paypalTransactions = new PaypalTransactions();
             $paypalTransactions->USER_ID = $id;
             $paypalTransactions->PAYMENT_ID = $payment->getId();
             $paypalTransactions->HASH = $hash;
+            $paypalTransactions->COMPLETE = 0;
 
+            //save the transaction details
+            $paypalTransactions->save();
         } catch (Exception $ex) {
-            ResultPrinter::printError("Created Payment Order Using PayPal. Please visit the URL to Approve.", "Payment", null, $request, $ex);
-            exit(1);
+            // ResultPrinter::printError("Created Payment Order Using PayPal. Please visit the URL to Approve.", "Payment", null, $request, $ex);
+            //exit(1);
+            $this->redirect('error');
         }
         $approvalUrl = $payment->getApprovalLink();
 
@@ -127,29 +132,52 @@ class PaypalController extends Controller
         $this->redirect($approvalUrl);
     }
 
-    /**
-     * @return \yii\web\Response
-     *
-     * process the result from the paypal payment action
-     *
-     * I will need to move to a live domain and cleanup the URL for better and roust evaluation
-     */
-    public function actionResult($id, $status, $token)
+    public function actionSuccess()
     {
+        return $this->render('success');
+    }
 
-        $get = Yii::$app->request->get();
+    public function actionCancel()
+    {
+        return $this->render('cancel');
+    }
+
+    public function actionError()
+    {
+        return $this->render('paypal-error');
+    }
+
+
+    /**
+     * Process teh result from the paypal gateway
+     * @param $status
+     * @param null $PayerID
+     */
+    public function actionResult($status, $PayerID = null)
+    {
         if ($status == 'true') {
             Yii::$app->getSession()->setFlash('success', 'Item purchased successfully');
+            $context = Yii::$app->paypal->getApiContext();
+            $transactionPayment = PaypalTransactions::findOne(['HASH' => Yii::$app->session['paypal_hash']]);
+            //var_dump($transactionPayment);
 
-            //let us execute the payment
-            //return $this->redirect(['download']);
+            $payment = Payment::get($transactionPayment->PAYMENT_ID, $context);
+            //var_dump($payment);
+            $execution = new PaymentExecution();
+            $execution->setPayerId($PayerID);
+            //now charge the user account
+            $payment->execute($execution, $context);
+
+            //update the transaction
+            $transactionPayment->COMPLETE = 1;
+            $transactionPayment->save(); //update the changes to the table
+
+            //SEND email to the user
+            $this->redirect(['success']);
         } else {
             //go back to the main page and say it was cancelled
             Yii::$app->getSession()->setFlash('warning', 'You have cancelled the transaction');
-            //$this->redirect(['purchase']);
+            $this->redirect(['cancel']);
         }
-
-        var_dump($get);
-        //$this->redirect(['//shop/cart', 'id' => $id]);
     }
 }

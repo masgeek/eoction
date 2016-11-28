@@ -46,6 +46,7 @@ class UserLogin extends ActiveRecord implements IdentityInterface
     {
         return '{{%tb_users}}';
     }
+
     /**
      * @inheritdoc
      */
@@ -106,11 +107,22 @@ class UserLogin extends ActiveRecord implements IdentityInterface
     /**
      * @return bool
      */
-    public function getAccountType(){
-        if($this->ACCOUNT_TYPE=='A'){ //A means it is an admin account
+    public function getAccountType()
+    {
+        if ($this->ACCOUNT_TYPE == 'A') { //A means it is an admin account
             return true;
         }
         return false;
+    }
+
+    public function getFullNames()
+    {
+        return $this->FULL_NAMES;
+    }
+
+    public function getEmailAddress()
+    {
+        return $this->EMAIL_ADDRESS;
     }
     /**
      * @inheritdoc
@@ -140,7 +152,6 @@ class UserLogin extends ActiveRecord implements IdentityInterface
     {
         return $this->getAuthKey() === $authKey;
     }
-
 
 
     /**

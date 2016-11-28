@@ -24,8 +24,8 @@ class m161128_141131_create_transaction_paypal extends Migration
             //'PRODUCT_ID' => $this->integer(11). ' NOT NULL',
             'PAYMENT_ID' => $this->string(100). ' NOT NULL',
             'HASH' => $this->string(100). ' NOT NULL',
-            'COMPLETE' => $this->integer(1). ' NOT NULL DEFAULT 0',
-            'CREATE_TIME' => $this->dateTime(). ' NOT NULL',
+            'COMPLETE' => $this->boolean(). ' NOT NULL DEFAULT false',
+            'CREATE_TIME' => $this->dateTime(),
             'UPDATE_TIME' => $this->dateTime(). ' ON UPDATE CURRENT_TIMESTAMP',
         ]);
         //add foreign keys
