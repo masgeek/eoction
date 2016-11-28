@@ -186,11 +186,11 @@ class PaypalController extends Controller
 
                 //update the car items as paid for so that they no longer appear in the cart
                 //SEND email to the user
-                $this->redirect(['success']);
+                return $this->redirect(['success']);
             }
         } else {
-            $this->redirect(['cancel']);
+            return $this->redirect(['cancel']);
         }
-        $this->redirect(['error']); //redirect to error page by default
+        return $this->redirect(['error']); //redirect to error page by default
     }
 }
