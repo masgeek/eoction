@@ -52,16 +52,16 @@ class PaypalController extends Controller
 
         $paypal_items = ProductManager::GetPaypalItems($id);
 
-        $itemsArr = [];
+        $cartItemsArr = [];
         foreach ($paypal_items['ITEMS'] as $summary_item) {
-            $item1 = new \PayPal\Api\Item(); //set item details
-            $item1->setName($summary_item['NAME'])
+            $cart_item = new \PayPal\Api\Item(); //set item details
+            $cart_item->setName($summary_item['NAME'])
                 ->setDescription($summary_item['DESC'])
                 ->setCurrency('USD')
                 ->setQuantity(1)
                 ->setPrice($summary_item['PRICE']);
 
-            $itemsArr[] = $item1;
+            $cartItemsArr[] = $cart_item;
         }
 
 
@@ -74,7 +74,7 @@ class PaypalController extends Controller
 
         $itemList = new ItemList();
         //$itemList->setItems(array($item1,$item1));
-        $itemList->setItems($itemsArr);
+        $itemList->setItems($cartItemsArr);
         $details = new Details();
 
 
@@ -98,7 +98,7 @@ class PaypalController extends Controller
 
         $redirectUrls = new RedirectUrls();
         $redirectUrls->setReturnUrl("{$baseUrl}paypal/result?id={$id}&status=true")
-            ->setCancelUrl("{$baseUrl}paypal/result?id={$id}&status=false");
+            ->setCancelUrl("{$baseUrl}paypal/result?id=status=false");
 
         $payment = new Payment();
         $payment->setIntent("sale")
@@ -153,30 +153,27 @@ class PaypalController extends Controller
      * @param $status
      * @param null $PayerID
      */
-    public function actionResult($status, $PayerID = null)
+    public function actionResult($status, $id = null, $PayerID = null)
     {
         if ($status == 'true') {
             Yii::$app->getSession()->setFlash('success', 'Item purchased successfully');
             $context = Yii::$app->paypal->getApiContext();
             $transactionPayment = PaypalTransactions::findOne(['HASH' => Yii::$app->session['paypal_hash']]);
             //var_dump($transactionPayment);
-
             $payment = Payment::get($transactionPayment->PAYMENT_ID, $context);
             //var_dump($payment);
             $execution = new PaymentExecution();
             $execution->setPayerId($PayerID);
             //now charge the user account
             $payment->execute($execution, $context);
-
             //update the transaction
             $transactionPayment->COMPLETE = 1;
             $transactionPayment->save(); //update the changes to the table
 
+            //update the car items as paid for so that they no longer appear in the cart
             //SEND email to the user
             $this->redirect(['success']);
         } else {
-            //go back to the main page and say it was cancelled
-            Yii::$app->getSession()->setFlash('warning', 'You have cancelled the transaction');
             $this->redirect(['cancel']);
         }
     }

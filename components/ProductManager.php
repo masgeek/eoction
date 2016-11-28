@@ -185,6 +185,12 @@ class ProductManager
         return $paypalItems;
     }
 
+    public static function RemovedPaidCartItems($user_id)
+    {
+
+        ItemsCart::updateAll(['IS_SOLD'=>1],['USER_ID'=>]);
+    }
+
     /**
      *
      */
