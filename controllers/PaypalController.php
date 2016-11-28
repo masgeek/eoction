@@ -98,7 +98,7 @@ class PaypalController extends Controller
         $baseUrl = \yii\helpers\Url::home(true);
 
         $redirectUrls = new RedirectUrls();
-        $redirectUrls->setReturnUrl("{$baseUrl}paypal/result?id={$id}&status=true")
+        $redirectUrls->setReturnUrl("{$baseUrl}paypal/result?status=true")
             ->setCancelUrl("{$baseUrl}paypal/result?id=status=false");
 
         $payment = new Payment();
@@ -117,9 +117,6 @@ class PaypalController extends Controller
                 $pk = $summary_item['ITEM_ID'];
                 ProductManager::AddPaypalHash($pk, $paypal_hash);
             }
-
-            //let us update teh has values
-            ProductManager::RemovedPaidCartItems($id, $paypal_hash);
             //let us save this transaction to the paypal tables
             $paypalTransactions = new PaypalTransactions();
             $paypalTransactions->USER_ID = $id;
@@ -129,10 +126,7 @@ class PaypalController extends Controller
 
             //save the transaction details
             $paypalTransactions->save();
-            die('stopped');
         } catch (Exception $ex) {
-            // ResultPrinter::printError("Created Payment Order Using PayPal. Please visit the URL to Approve.", "Payment", null, $request, $ex);
-            //exit(1);
             $this->redirect('error');
         }
         $approvalUrl = $payment->getApprovalLink();
@@ -162,23 +156,28 @@ class PaypalController extends Controller
      * @param $status
      * @param null $PayerID
      */
-    public function actionResult($status, $id = null, $PayerID = null)
+    public function actionResult($status, $PayerID = null)
     {
         if ($status == 'true') {
+            $paypal_hash = Yii::$app->session['paypal_hash'];
             Yii::$app->getSession()->setFlash('success', 'Item purchased successfully');
             $context = Yii::$app->paypal->getApiContext();
-            $transactionPayment = PaypalTransactions::findOne(['HASH' => Yii::$app->session['paypal_hash']]);
+            $transactionPayment = PaypalTransactions::findOne(['HASH' => $paypal_hash]);
             //var_dump($transactionPayment);
             $payment = Payment::get($transactionPayment->PAYMENT_ID, $context);
-            var_dump($payment);
-            die;
+            //var_dump($payment);
+
             $execution = new PaymentExecution();
             $execution->setPayerId($PayerID);
             //now charge the user account
             $payment->execute($execution, $context);
             //update the transaction
             $transactionPayment->COMPLETE = 1;
-            $transactionPayment->save(); //update the changes to the table
+            if ($transactionPayment->save())//update the changes to the table
+            {
+                //let us update teh has values
+                ProductManager::UpdatePaidCartItems($id, $paypal_hash);
+            }
 
             //update the car items as paid for so that they no longer appear in the cart
             //SEND email to the user
