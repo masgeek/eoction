@@ -111,40 +111,9 @@ $config = [
 //Paypal module
         //lets add the paypal components to allow us to do paypal sandbox simulations
         //sanbox accouhnt lody.tacastacas-facilitator@pristone.net
-        'paypal' => [
-            'class' => 'kongoon\yii2\paypal\Paypal',
-            'clientId' => 'AcH9OlDvwD4g5S7fE4U1m-7tee_CiC6mPH_fxFKzgbiknxg8fTt9xH-VjKNuiLwXhDVg5mLmFx_wKhlS',
-            'clientSecret' => 'ECucZFofNjTKFaTBKqaFHLJxwTGtLfm9dP-s5LIE64IVVNucnwX9qqhfbc6ILyGcI0-WZFJhriThIBtL',
-            'currency' => 'USD',
-            'isProduction' => false,
-            // This is config file for the PayPal system
-            'config' => [
-                'http.ConnectionTimeOut' => 30,
-                'http.Retry' => 2, //retry only once
-                'mode' => \kongoon\yii2\paypal\Paypal::MODE_SANDBOX,    // sandbox | live
-                'log.LogEnabled' => YII_DEBUG ? 1 : 0, //based on our environment logs will b enabled or not
-                'log.FileName' => '@runtime/logs/paypal.log', //logs directory
-                'log.LogLevel' => \kongoon\yii2\paypal\Paypal::LOG_LEVEL_FINE,  // FINE | INFO | WARN | ERROR
-            ]
-        ],
+        'paypal' => require(__DIR__ . '/paypal.php'),
         //yii2 authclient
-        'authClientCollection' => [
-            'class' => 'yii\authclient\Collection',
-            'clients' => [
-                'facebook' => [
-                    'class' => 'yii\authclient\clients\Facebook',
-                    'authUrl' => 'https://www.facebook.com/dialog/oauth?display=popup',
-                    'clientId' => '1789588324654575',
-                    'clientSecret' => 'ababaa956d050715bba974c068a27206',
-                    'attributeNames' => ['name', 'email', 'first_name', 'last_name'],
-                ],
-                'google' => [
-                    'class' => 'yii\authclient\clients\Google',
-                    'clientId' => '381959696099-97vdona6f7lqm5gmi80ldjnlb4im4cku.apps.googleusercontent.com',
-                    'clientSecret' => '6pWTmWc9bO4dMa7MyIVGyV6U',
-                ],
-            ],
-        ],
+        'authClientCollection' => require(__DIR__ . '/oauth.php'),
     ],
     'params' => $params,
 ];
