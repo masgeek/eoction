@@ -9,6 +9,8 @@
 namespace app\controllers;
 
 use app\components\ProductManager;
+use app\module\products\models\PaypalTransactions;
+use app\module\products\product;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -106,6 +108,15 @@ class PaypalController extends Controller
 
         try {
             $payment->create($apiContext);
+            $hash = md5($payment->getId());
+
+            \Yii::$app->session['paypal_hash'] = $hash; //has to track the transaction in browser session
+            //let us save this transaction to the paypal tables
+            $paypalTransactions = new PaypalTransactions();
+            $paypalTransactions->USER_ID = $id;
+            $paypalTransactions->PAYMENT_ID = $payment->getId();
+            $paypalTransactions->HASH = $hash;
+
         } catch (Exception $ex) {
             ResultPrinter::printError("Created Payment Order Using PayPal. Please visit the URL to Approve.", "Payment", null, $request, $ex);
             exit(1);

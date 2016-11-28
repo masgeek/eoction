@@ -10,14 +10,12 @@ use Yii;
  *
  * @property integer $ID
  * @property integer $USER_ID
- * @property integer $PRODUCT_ID
  * @property string $PAYMENT_ID
  * @property string $HASH
  * @property integer $COMPLETE
  * @property string $CREATE_TIME
  * @property string $UPDATE_TIME
  *
- * @property Products $pRODUCT
  * @property Users $uSER
  */
 class PaypalTransactions extends \yii\db\ActiveRecord
@@ -36,11 +34,10 @@ class PaypalTransactions extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['USER_ID', 'PRODUCT_ID', 'PAYMENT_ID', 'HASH', 'CREATE_TIME'], 'required'],
-            [['USER_ID', 'PRODUCT_ID', 'COMPLETE'], 'integer'],
+            [['USER_ID', 'PAYMENT_ID', 'HASH', 'CREATE_TIME'], 'required'],
+            [['USER_ID', 'COMPLETE'], 'integer'],
             [['CREATE_TIME', 'UPDATE_TIME'], 'safe'],
             [['PAYMENT_ID', 'HASH'], 'string', 'max' => 100],
-            [['PRODUCT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Products::className(), 'targetAttribute' => ['PRODUCT_ID' => 'PRODUCT_ID']],
             [['USER_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['USER_ID' => 'USER_ID']],
         ];
     }
@@ -53,7 +50,6 @@ class PaypalTransactions extends \yii\db\ActiveRecord
         return [
             'ID' => 'ID',
             'USER_ID' => 'User  ID',
-            'PRODUCT_ID' => 'Product  ID',
             'PAYMENT_ID' => 'Payment  ID',
             'HASH' => 'Hash',
             'COMPLETE' => 'Complete',
@@ -63,11 +59,19 @@ class PaypalTransactions extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @inheritdoc
      */
-    public function getPRODUCT()
+    public function beforeSave($insert)
     {
-        return $this->hasOne(Products::className(), ['PRODUCT_ID' => 'PRODUCT_ID']);
+        $date = new Expression('NOW()');
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->CREATE_TIME = $date;
+            }
+            $this->UPDATE_TIME = $date;
+            return true;
+        }
+        return false;
     }
 
     /**
