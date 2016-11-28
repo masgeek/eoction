@@ -6,9 +6,13 @@
  * Time: 9:51 PM
  */
 
+/* @var $this yii\web\View */
 /* @var $cartDataProvider app\module\products\models\ItemsCart */
 /* @var $user_id */
 
+$this->title = 'My Cart';
+$this->params['breadcrumbs'][] = ['label' => 'Shopping', 'url' => ['//shop']];
+$this->params['breadcrumbs'][] = $this->title;
 $formatter = \Yii::$app->formatter;
 
 $listviewWidget = \yii\widgets\ListView::widget([

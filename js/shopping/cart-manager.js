@@ -50,7 +50,7 @@ function RemoveCartItem($cart_item_id) {
     $.getJSON(removal_url, {id: $cart_item_id}, function (data) {
         //mark the item as won..no data is acted upon in the response
         if (data.REMOVED === true) {
-            $productBox.fadeOut(1500, function () { //remove the item in the list
+            $productBox.fadeOut(900, function () { //remove the item in the list
                 $(this).remove();
             });
         }

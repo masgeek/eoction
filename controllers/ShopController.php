@@ -124,11 +124,11 @@ class ShopController extends Controller
     {
         //delete cart item
         $resp = [
-            'REMOVED' => true
+            'REMOVED' => false
         ];
-        /*if (ItemsCart::findOne($id)->delete()) {
+        if (ItemsCart::findOne($id)->delete()) {
             $resp = ['REMOVED' => true];
-        }*/
+        }
         return json_encode($resp);
     }
 
