@@ -25,7 +25,14 @@ composer.phar
 phpunit.phar
 # local phpunit config
 /phpunit.xml
+# Created by .ignore support plugin (hsz.mobi)
+#Ignore everything except the files below
+# composer vendor dir
+!autoload.php
+!.gitignore
 bin/
 paypal/
 phpspec/
 psr/
+vendor/
+vendor/bower-asset/
