@@ -154,9 +154,9 @@ class PaypalController extends Controller
 
 
     /**
-     * Process teh result from the paypal gateway
      * @param $status
      * @param null $PayerID
+     * @return \yii\web\Response
      */
     public function actionResult($status, $PayerID = null)
     {
