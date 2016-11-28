@@ -4,6 +4,9 @@
  * User: KRONOS
  * Date: 11/28/2016
  * Time: 4:52 PM
+ *
+ * lets add the paypal components to allow us to do paypal sandbox simulations
+ * sandbox accouhnt lody.tacastacas-facilitator@pristone.net
  */
 return [
     'class' => 'kongoon\yii2\paypal\Paypal',

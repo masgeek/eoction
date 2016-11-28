@@ -94,8 +94,8 @@ class PaypalController extends Controller
         $baseUrl = \yii\helpers\Url::home(true);
 
         $redirectUrls = new RedirectUrls();
-        $redirectUrls->setReturnUrl("$baseUrl/paypal/result?id=$id&status=true")
-            ->setCancelUrl("$baseUrl/paypal/result?id=$id&status=false");
+        $redirectUrls->setReturnUrl("{$baseUrl}paypal/result?id={$id}&status=true")
+            ->setCancelUrl("{$baseUrl}paypal/result?id={$id}&status=false");
 
         $payment = new Payment();
         $payment->setIntent("sale")
@@ -125,15 +125,20 @@ class PaypalController extends Controller
      */
     public function actionResult($id, $status, $token)
     {
+
+        $get = Yii::$app->request->get();
         if ($status == 'true') {
             Yii::$app->getSession()->setFlash('success', 'Item purchased successfully');
+
+            //let us execute the payment
             //return $this->redirect(['download']);
         } else {
             //go back to the main page and say it was cancelled
             Yii::$app->getSession()->setFlash('warning', 'You have cancelled the transaction');
             //$this->redirect(['purchase']);
         }
-        $this->redirect(['//shop/cart', 'id' => $id]);
-        //var_dump($_REQUEST);
+
+        var_dump($get);
+        //$this->redirect(['//shop/cart', 'id' => $id]);
     }
 }

@@ -109,8 +109,6 @@ $config = [
             'nullDisplay' => '0',
         ],
 //Paypal module
-        //lets add the paypal components to allow us to do paypal sandbox simulations
-        //sanbox accouhnt lody.tacastacas-facilitator@pristone.net
         'paypal' => require(__DIR__ . '/paypal.php'),
         //yii2 authclient
         'authClientCollection' => require(__DIR__ . '/oauth.php'),
