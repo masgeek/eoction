@@ -16,12 +16,20 @@ use yii\widgets\Pjax;
 use app\components\ProductManager;
 
 $formatter = \Yii::$app->formatter;
+$userid = yii::$app->user->id;
 
 $imageModel = new \app\module\products\models\Products();
-$imageObject = $imageModel->getSingleImage();
-$product_image = $imageObject ? "@web{$imageObject->IMAGE_URL}" : '@web/product_images/placeholder.png';
+
 
 var_dump($imageObject);
+$cart_item_id = $model->CART_ID;
+$product_id = $model->PRODUCT_ID;
+$product_name = $model->pRODUCT->PRODUCT_NAME;
+$product_description = $model->pRODUCT->PRODUCT_DESCRIPTION;
+$brand_name = $model->pRODUCT->BRAND_NAME;
+
+$imageObject = $imageModel->getSingleImage($product_id);
+$product_image = $imageObject ? "@web{$imageObject->IMAGE_URL}" : '@web/product_images/placeholder.png';
 //calculate the percentage discount based on the retail price and the bidded amount
 if ($model->BIDDED_ITEM == '1') {
     $product_price = $model->PRODUCT_PRICE;
@@ -29,14 +37,6 @@ if ($model->BIDDED_ITEM == '1') {
     $product_price = $model->pRODUCT->RETAIL_PRICE; //get the retail price if its not a bid item
 }
 
-$userid = yii::$app->user->id;
-//$sku = $model->SKU;
-
-$cart_item_id = $model->CART_ID;
-$product_id = $model->PRODUCT_ID;
-$product_name = $model->pRODUCT->PRODUCT_NAME;
-$product_description = $model->pRODUCT->PRODUCT_DESCRIPTION;
-$brand_name = $model->pRODUCT->BRAND_NAME;
 
 $shipping = ProductManager::ComputeShippingCost($product_id);
 $shipping_cost = $formatter->asCurrency($shipping);
