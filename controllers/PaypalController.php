@@ -100,7 +100,7 @@ class PaypalController extends Controller
 
             $redirectUrls = new RedirectUrls();
             $redirectUrls->setReturnUrl("{$baseUrl}paypal/result?status=true")
-                ->setCancelUrl("{$baseUrl}paypal/result?id=status=false");
+                ->setCancelUrl("{$baseUrl}paypal/result?status=false");
 
             $payment = new Payment();
             $payment->setIntent("sale")
