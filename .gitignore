@@ -15,22 +15,6 @@ phploy.log
 # windows thumbnail cache
 Thumbs.db
 
-# composer vendor dir
-vendor/*
-!autoload.php
-/vendor/bin
-/vendor/phpspec
-/vendor/cebe
-source
-tests
-test
-testgit
-doc
-docs
-nuget
-src
-extras
-
 # composer itself is not needed
 composer.phar
 
@@ -43,3 +27,32 @@ phpunit.phar
 /phpunit.xml
 
 
+bin/
+bower-asset/bootstrap3-dialog/
+bower-asset/tingle/
+bower-asset/velocity/.editorconfig
+Would skip repository kartik-v/yii2-editable
+Would skip repository kartik-v/yii2-grid
+Would skip repository kartik-v/yii2-krajee-base
+Would skip repository kartik-v/yii2-widget-activeform
+Would skip repository kartik-v/yii2-widget-fileinput
+Would skip repository kartik-v/yii2-widget-select2
+Would skip repository kartik-v/yii2-widget-touchspin
+Would skip repository kartik-v/yii2-widget-typeahead
+kartik-v/bootstrap-fileinput
+kartik-v/bootstrap-popover-x
+kartik-v/yii2-dialog
+kartik-v/yii2-popover-x
+kartik-v/yii2-widget-colorinput
+Would skip repository kongoon/yii2-paypal
+paypal/
+phpspec/
+psr/
+yiisoft/yii2-debug/TimelineAsset.php
+yiisoft/yii2-debug/assets/timeline.css
+yiisoft/yii2-debug/assets/timeline.js
+yiisoft/yii2-debug/components/TimelineDataProvider.php
+yiisoft/yii2-debug/components/search/matchers/GreaterThanOrEqual.php
+yiisoft/yii2-debug/models/search/Timeline.php
+yiisoft/yii2-debug/panels/TimelinePanel.php
+yiisoft/yii2-debug/views/default/panels/timeline/

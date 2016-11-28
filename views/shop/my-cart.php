@@ -24,17 +24,23 @@ $listviewWidget = \yii\widgets\ListView::widget([
     'itemView' => '_cart-list',
 ]);
 
-$total_summary = \app\components\ProductManager::GetUserCartItemsTotal($user_id);
+$total_summary = \app\components\ProductManager::GetUserCartItemsTotal($user_id, $sold_status = [0]);
 
 $subtotal = $formatter->asCurrency($total_summary['SUB_TOTAL']);
 $shipping = $formatter->asCurrency($total_summary['SHIPPING_TOTAL']);
 $total = $formatter->asCurrency($total_summary['TOTAL']);
 
 $paypalAction = \yii\helpers\Url::to(['//paypal/paypal-checkout', 'id' => $user_id]);
+$continueShopping = \yii\helpers\Url::to(['//shop']);
+$itemRemovalAction = \yii\helpers\Url::to(['//shop/remove-item']);
+
+$this->registerJsFile('@web/js/shopping/cart-manager.js');
 
 ?>
 
 <!-- this will show the flash messages-->
+<?= \yii\helpers\Html::textInput('remove_url', $itemRemovalAction, ['readonly' => true, 'id' => 'remove_url', 'class' => 'hidden']) ?>
+
 <div class="row"><?php
     foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
         echo '<div class="alert alert-' . $key . '">' . $message . '</div>';
@@ -42,7 +48,7 @@ $paypalAction = \yii\helpers\Url::to(['//paypal/paypal-checkout', 'id' => $user_
     ?>
 </div>
 <div class="col-sm-12 col-md-10 col-md-offset-1">
-    <table class="table table-responsive table-bordered">
+    <table class="table table-responsive table-bordered table-hover">
         <thead>
         <tr>
             <th colspan="2">Product</th>
@@ -55,42 +61,23 @@ $paypalAction = \yii\helpers\Url::to(['//paypal/paypal-checkout', 'id' => $user_
         <tbody>
         <?= $listviewWidget ?>
         <tr>
-            <td> &nbsp;</td>
-            <td> &nbsp;</td>
-            <td> &nbsp;</td>
-            <td> &nbsp;</td>
+            <td colspan="4"> &nbsp;</td>
             <td><h5>Subtotal</h5></td>
             <td class="text-right"><h5><strong><?= $subtotal ?></strong></h5></td>
         </tr>
         <tr>
-            <td> &nbsp;</td>
-            <td> &nbsp;</td>
-            <td> &nbsp;</td>
-            <td> &nbsp;</td>
+            <td colspan="4"> &nbsp;</td>
             <td><h5>Estimated shipping</h5></td>
             <td class="text-right"><h5><strong><?= $shipping ?></strong></h5></td>
         </tr>
         <tr>
-            <td> &nbsp;</td>
-            <td> &nbsp;</td>
-            <td> &nbsp;</td>
-            <td> &nbsp;</td>
-            <td><h3>Total</h3></td>
+            <td colspan="5" class="text-right"><h3>Total</h3></td>
             <td class="text-right"><h3><strong><?= $total ?></strong></h3></td>
         </tr>
         <tr>
-            <td> &nbsp;</td>
-            <td> &nbsp;</td>
-            <td> &nbsp;</td>
-            <td> &nbsp;</td>
-            <td>
-                <button type="button" class="btn btn-default">
-                    <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
-                </button>
-            </td>
-            <td>
-                <?= \yii\helpers\Html::a('Checkout <span class="glyphicon glyphicon-play"></span>',
-                    $paypalAction, ['class' => 'btn btn-success', 'role' => 'button']) ?>
+            <td align="right" colspan="6">
+                <?= \yii\helpers\Html::a($total > 0 ? 'Checkout <span class="glyphicon glyphicon-play"></span>' : 'Continue Shopping <span class="glyphicon glyphicon-shopping-cart"></span>',
+                    $total > 0 ? $paypalAction : $continueShopping, ['class' => $total > 0 ? 'btn btn-success btn-lg' : 'btn btn-default btn-lg', 'role' => 'button']) ?>
                 <!--
                 <button type="button" class="btn btn-success">
                     Checkout <span class="glyphicon glyphicon-play"></span>

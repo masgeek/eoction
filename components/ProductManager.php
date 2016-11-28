@@ -125,7 +125,6 @@ class ProductManager
             'query' => $query,
             'pagination' => false,
         ]);
-
         foreach ($cart_item_data->models as $model) {
             if ($model->BIDDED_ITEM == '1') {
                 $product_price = $model->PRODUCT_PRICE;
@@ -154,35 +153,40 @@ class ProductManager
     public static function GetPaypalItems($user_id)
     {
         /* @var $model ItemsCart */
+        $total = [];
+        $shipping = [];
         $paypalItems = [];
         $cartItems = ProductManager::GetUserCartItems($user_id, $sold_status = [0]);
-        foreach ($cartItems->models as $model) {
-            if ($model->BIDDED_ITEM == '1') {
-                $product_price = $model->PRODUCT_PRICE;
-            } else {
-                $product_price = $model->pRODUCT->RETAIL_PRICE; //get the retail price if its not a bid item
+        if ($cartItems->count > 0) {
+
+            foreach ($cartItems->models as $model) {
+                if ($model->BIDDED_ITEM == '1') {
+                    $product_price = $model->PRODUCT_PRICE;
+                } else {
+                    $product_price = $model->pRODUCT->RETAIL_PRICE; //get the retail price if its not a bid item
+                }
+                $total[] = (float)$product_price;
+                $shipping[] = ProductManager::ComputeShippingCost($model->pRODUCT->PRODUCT_ID);
+
+                $paypalItems['ITEMS'][] = [
+                    'NAME' => $model->pRODUCT->PRODUCT_NAME,
+                    'ITEM_ID' => $model->CART_ID,
+                    'DESC' => isset($model->pRODUCT->PRODUCT_DESCRIPTION) ? $model->pRODUCT->PRODUCT_DESCRIPTION : 'N/A',
+                    'PRICE' => $product_price,
+                ];
             }
-            $total[] = (float)$product_price;
-            $shipping[] = ProductManager::ComputeShippingCost($model->pRODUCT->PRODUCT_ID);
 
-            $paypalItems['ITEMS'][] = [
-                'NAME' => $model->pRODUCT->PRODUCT_NAME,
-                'ITEM_ID' => $model->CART_ID,
-                'DESC' => isset($model->pRODUCT->PRODUCT_DESCRIPTION) ? $model->pRODUCT->PRODUCT_DESCRIPTION : 'N/A',
-                'PRICE' => $product_price,
+            $sub_total = array_sum($total);
+            $shipping_total = array_sum($shipping);
+
+            $total_summary = [
+                'SUB_TOTAL' => $sub_total,
+                'SHIPPING_TOTAL' => $shipping_total,
+                'TOTAL' => $sub_total + $shipping_total
             ];
+
+            $paypalItems['SUMMARY'] = ['SUMMARY' => $total_summary];
         }
-
-        $sub_total = array_sum($total);
-        $shipping_total = array_sum($shipping);
-
-        $total_summary = [
-            'SUB_TOTAL' => $sub_total,
-            'SHIPPING_TOTAL' => $shipping_total,
-            'TOTAL' => $sub_total + $shipping_total
-        ];
-
-        $paypalItems['SUMMARY'] = ['SUMMARY' => $total_summary];
         return $paypalItems;
     }
 
@@ -202,14 +206,13 @@ class ProductManager
     }
 
     /**
-     * @param $user_id
      * @param $paypal_hash
      * @return int
      */
-    public static function UpdatePaidCartItems($user_id, $paypal_hash)
+    public static function UpdatePaidCartItems($paypal_hash)
     {
 
-        return ItemsCart::updateAll(['IS_SOLD' => 1], ['USER_ID' => $user_id, 'PAYPAL_HASH' => $paypal_hash]);
+        return ItemsCart::updateAll(['IS_SOLD' => 1], ['PAYPAL_HASH' => $paypal_hash]);
     }
 
     /**

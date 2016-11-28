@@ -120,9 +120,21 @@ class ShopController extends Controller
         endif;
     }
 
+    public function actionRemoveItem($id)
+    {
+        //delete cart item
+        $resp = [
+            'REMOVED' => true
+        ];
+        /*if (ItemsCart::findOne($id)->delete()) {
+            $resp = ['REMOVED' => true];
+        }*/
+        return json_encode($resp);
+    }
+
     public function actionCart($id)
     {
-        $cartDataProvider = ProductManager::GetUserCartItems($id);
+        $cartDataProvider = ProductManager::GetUserCartItems($id, $sold_status = [0]);
         return $this->render('my-cart', ['cartDataProvider' => $cartDataProvider, 'user_id' => $id]);
     }
 
