@@ -10,10 +10,26 @@ Target Server Type    : MYSQL
 Target Server Version : 50711
 File Encoding         : 65001
 
-Date: 2016-11-25 20:25:32
+Date: 2016-11-28 22:32:25
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for migration
+-- ----------------------------
+DROP TABLE IF EXISTS `migration`;
+CREATE TABLE `migration` (
+  `version` varchar(180) NOT NULL,
+  `apply_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`version`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of migration
+-- ----------------------------
+INSERT INTO `migration` VALUES ('m000000_000000_base', '1480344687');
+INSERT INTO `migration` VALUES ('m161128_141131_create_transaction_paypal', '1480344689');
 
 -- ----------------------------
 -- Table structure for tb_bid_activity
@@ -33,7 +49,7 @@ CREATE TABLE `tb_bid_activity` (
   CONSTRAINT `tb_bid_activity_ibfk_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE,
   CONSTRAINT `tb_bid_activity_ibfk_2` FOREIGN KEY (`PRODUCT_SKU`) REFERENCES `tb_products` (`SKU`) ON UPDATE CASCADE,
   CONSTRAINT `tb_bid_activity_ibfk_3` FOREIGN KEY (`LAST_BIDDING_USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_bid_activity
@@ -97,6 +113,7 @@ CREATE TABLE `tb_items_cart` (
   `PRODUCT_PRICE` decimal(10,2) NOT NULL,
   `BIDDED_ITEM` int(1) DEFAULT '0',
   `IS_SOLD` int(1) NOT NULL DEFAULT '0',
+  `PAYPAL_HASH` varchar(100) DEFAULT NULL COMMENT 'Use to track which items were paid for',
   `DATE_ADDED` datetime NOT NULL,
   `EXPIRY_DATE` datetime NOT NULL,
   `DATE_BOUGHT` datetime NOT NULL,
@@ -105,15 +122,12 @@ CREATE TABLE `tb_items_cart` (
   KEY `PRODUCT_ID` (`PRODUCT_ID`),
   CONSTRAINT `tb_items_cart_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE,
   CONSTRAINT `tb_items_cart_ibfk_2` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_items_cart
 -- ----------------------------
-INSERT INTO `tb_items_cart` VALUES ('27', '5', '10', '78.00', '0', '0', '2016-11-25 19:10:56', '2016-11-25 19:10:56', '2016-11-25 19:10:56');
-INSERT INTO `tb_items_cart` VALUES ('28', '5', '48', '113.00', '0', '0', '2016-11-25 19:11:19', '2016-11-25 19:11:19', '2016-11-25 19:11:19');
-INSERT INTO `tb_items_cart` VALUES ('29', '5', '48', '113.00', '0', '0', '2016-11-25 19:11:31', '2016-11-25 19:11:31', '2016-11-25 19:11:31');
-INSERT INTO `tb_items_cart` VALUES ('30', '5', '124', '90.00', '0', '0', '2016-11-25 19:11:55', '2016-11-25 19:11:55', '2016-11-25 19:11:55');
+INSERT INTO `tb_items_cart` VALUES ('53', '5', '85', '98.00', '0', '0', null, '2016-11-28 19:29:27', '2016-11-28 19:29:27', '2016-11-28 19:29:27');
 
 -- ----------------------------
 -- Table structure for tb_items_wishlist
@@ -134,6 +148,34 @@ CREATE TABLE `tb_items_wishlist` (
 -- ----------------------------
 -- Records of tb_items_wishlist
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for tb_paypal_transactions
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_paypal_transactions`;
+CREATE TABLE `tb_paypal_transactions` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `USER_ID` int(11) NOT NULL,
+  `PAYMENT_ID` varchar(100) NOT NULL,
+  `HASH` varchar(100) NOT NULL,
+  `COMPLETE` tinyint(1) NOT NULL DEFAULT '0',
+  `CREATE_TIME` datetime DEFAULT NULL,
+  `UPDATE_TIME` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ID`),
+  KEY `FK_USER_ID` (`USER_ID`),
+  CONSTRAINT `FK_USER_ID` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tb_paypal_transactions
+-- ----------------------------
+INSERT INTO `tb_paypal_transactions` VALUES ('2', '5', 'PAY-2JW30544U23175322LA6EKDI', '2a1583983c52190679b6ce4e82acd32e', '1', '2016-11-28 17:54:08', '2016-11-28 18:12:19');
+INSERT INTO `tb_paypal_transactions` VALUES ('3', '5', 'PAY-5LC243525R3621326LA6FAII', '4c03d1934545fca432a75e7129b1b5eb', '0', '2016-11-28 18:41:24', '2016-11-28 18:41:24');
+INSERT INTO `tb_paypal_transactions` VALUES ('4', '5', 'PAY-3K179654052688203LA6FM4I', '2365e55c1d2d47e40c00c641bb5f2271', '0', '2016-11-28 19:08:19', '2016-11-28 19:08:19');
+INSERT INTO `tb_paypal_transactions` VALUES ('5', '5', 'PAY-1KH48876D74179251LA6FM7Y', 'c89ffe70c354a5f3e1d8ea35b95b3ae6', '0', '2016-11-28 19:08:33', '2016-11-28 19:08:33');
+INSERT INTO `tb_paypal_transactions` VALUES ('6', '5', 'PAY-2SY197034H8247939LA6FNFQ', '3726bac502a0f1db3af66f5c543235d7', '0', '2016-11-28 19:08:57', '2016-11-28 19:08:57');
+INSERT INTO `tb_paypal_transactions` VALUES ('7', '5', 'PAY-3GP988747A3101531LA6FOCY', 'cfb2e2a8dbcc26645a41bf849234a14a', '0', '2016-11-28 19:10:54', '2016-11-28 19:10:54');
+INSERT INTO `tb_paypal_transactions` VALUES ('8', '5', 'PAY-58L62572GW3655525LA6FOMY', 'a4253c9332fb2241feee0d7d93ea8eaf', '0', '2016-11-28 19:11:34', '2016-11-28 19:11:34');
 
 -- ----------------------------
 -- Table structure for tb_products
@@ -171,7 +213,7 @@ CREATE TABLE `tb_products` (
 INSERT INTO `tb_products` VALUES ('1', 'M795N6ZONQW', 'NHQ-J272582011000', 'Hidalgo Blue Diamonique Stainless Steel Watch Bezel', 'Hidalgo Blue Diamonique Stainless Steel Watch Bezel', 'Watches/Fixed/Wristwatches', 'hidalgo', '96.00', '98.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:34');
 INSERT INTO `tb_products` VALUES ('2', 'M0LEKOEVD4W', 'NQH-J272582150000', 'Hidalgo Pink Diamonique Stainless Steel Watch Bezel', 'Hidalgo Pink Diamonique Stainless Steel Watch Bezel', 'Watches/Fixed/Wristwatches', 'hidalgo', '800.00', '899.45', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:34');
 INSERT INTO `tb_products` VALUES ('3', 'M1W4N47ON5P', 'NQH-J273636202543', 'Ecclissi Sterling Silver Round Dial Acetate Strap White Large Watch', 'Ecclissi Sterling Silver Round Dial Acetate Strap White Large Watch', 'Watches/Fixed/Wristwatches', 'hidalgo', '150.00', '450.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:34');
-INSERT INTO `tb_products` VALUES ('4', 'M71YN5GYNVQ', 'NQH-J261702000000', 'Dweck Diamonds Sterling S/2 Bracelets W/Figure 8 Charm', 'Dweck Diamonds Sterling S/2 Bracelets W/Figure 8 Charm', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '122.00', '366.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:34');
+INSERT INTO `tb_products` VALUES ('4', 'M71YN5GYNVQ', 'NQH-J261702000000', 'Dweck Diamonds Sterling S/2 Bracelets W/Figure 8 Charm', 'Dweck Diamonds Sterling S/2 Bracelets W/Figure 8 Charm', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '122.00', '366.00', '1', '1', '1', '1', 'by product', '20', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-25 20:37:06');
 INSERT INTO `tb_products` VALUES ('5', 'MLVQD8PRD4E', 'NQH-J267523273074', 'Novica Sterling Silver Polished Gemstone Nugget Average Bracelet', 'Novica Sterling Silver Polished Gemstone Nugget Average Bracelet', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '29.95', '30.00', '1', '1', '1', '1', 'by product', '26', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:34');
 INSERT INTO `tb_products` VALUES ('6', 'M128N0JPK57', 'NQH-J268946V75000', 'Ippocampo Sterling 8\" Smoky Quartz Gemstone Link Toggle Bracelet', 'Ippocampo Sterling 8\" Smoky Quartz Gemstone Link Toggle Bracelet', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '139.00', '417.00', '1', '1', '1', '1', 'by product', '15', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:34');
 INSERT INTO `tb_products` VALUES ('7', 'MYOMK185NP0', 'NQH-J271679273543', 'Erica Courtney Amethyst Gemstone & Diamonique Hinged Kim Large Cuff Sterling', 'Erica Courtney Amethyst Gemstone & Diamonique Hinged Kim Large Cuff Sterling', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '174.00', '522.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:34');
@@ -377,11 +419,13 @@ CREATE TABLE `tb_product_bids` (
   KEY `USER_ID` (`USER_ID`),
   CONSTRAINT `tb_product_bids_ibfk_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE,
   CONSTRAINT `tb_product_bids_ibfk_2` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_product_bids
 -- ----------------------------
+INSERT INTO `tb_product_bids` VALUES ('25', '1', '5', '101.00', '2016-11-25 23:34:46', '1');
+INSERT INTO `tb_product_bids` VALUES ('26', '2', '5', '810.00', '2016-11-25 23:36:06', '1');
 
 -- ----------------------------
 -- Table structure for tb_product_images
@@ -394,11 +438,19 @@ CREATE TABLE `tb_product_images` (
   PRIMARY KEY (`IMAGE_ID`),
   KEY `PRODUCT_ID` (`PRODUCT_ID`),
   CONSTRAINT `tb_product_images_ibfk_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_product_images
 -- ----------------------------
+INSERT INTO `tb_product_images` VALUES ('13', '1', '/product_images/zhsH8s3fgb7nYPsk1Y1qIUpTrQ-2zBRq.jpg');
+INSERT INTO `tb_product_images` VALUES ('14', '1', '/product_images/Qf3I8246UbXUy4VqyBdwXOHJG0X_sE1I.jpg');
+INSERT INTO `tb_product_images` VALUES ('15', '1', '/product_images/tBQ8xtJxPvWUm-G24ANf106MKUOHEv26.jpg');
+INSERT INTO `tb_product_images` VALUES ('16', '1', '/product_images/cyRbETAj187dBdAdU8SYTbIMMU4pEWRA.jpg');
+INSERT INTO `tb_product_images` VALUES ('17', '1', '/product_images/FTuose3DdOm42ZHZfAtWxzU3Cvj4cM_s.jpg');
+INSERT INTO `tb_product_images` VALUES ('18', '1', '/product_images/yf3XfRmUwsSqJp6_VFgDObK0ZOJp_o4X.jpg');
+INSERT INTO `tb_product_images` VALUES ('19', '1', '/product_images/btx3m0HLgqvCxDxVYFqphvMZ04_Ffxfy.jpg');
+INSERT INTO `tb_product_images` VALUES ('20', '1', '/product_images/Cmmz5tMm4rCNoeveqfaLIowr17DyqDEf.PNG');
 
 -- ----------------------------
 -- Table structure for tb_product_video
