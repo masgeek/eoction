@@ -57,6 +57,7 @@ class PaypalController extends Controller
             $cart_item = new \PayPal\Api\Item(); //set item details
             $cart_item->setName($summary_item['NAME'])
                 ->setDescription($summary_item['DESC'])
+                //->setUrl($summary_item['ITEM_ID'])
                 ->setCurrency('USD')
                 ->setQuantity(1)
                 ->setPrice($summary_item['PRICE']);
@@ -78,7 +79,7 @@ class PaypalController extends Controller
         $details = new Details();
 
 
-        $details->setShipping($shipping)///no need for shipping on this one its a digitl good
+        $details->setShipping($shipping)///no need for shipping on this one its a digital good
         ->setTax(0)
             ->setSubtotal($subtotal);
         $amount = new Amount();
@@ -105,22 +106,30 @@ class PaypalController extends Controller
             ->setPayer($payer)
             ->setRedirectUrls($redirectUrls)
             ->setTransactions(array($transaction));
-        $request = clone $payment;
-
         try {
             $payment->create($apiContext);
-            $hash = md5($payment->getId());
+            $paypal_hash = md5($payment->getId());
 
-            \Yii::$app->session['paypal_hash'] = $hash; //used to track the transaction in browser session
+            \Yii::$app->session['paypal_hash'] = $paypal_hash; //used to track the transaction in browser session
+
+            //update teh cart with the new paypal hash values
+            foreach ($paypal_items['ITEMS'] as $summary_item) {
+                $pk = $summary_item['ITEM_ID'];
+                ProductManager::AddPaypalHash($pk, $paypal_hash);
+            }
+
+            //let us update teh has values
+            ProductManager::RemovedPaidCartItems($id, $paypal_hash);
             //let us save this transaction to the paypal tables
             $paypalTransactions = new PaypalTransactions();
             $paypalTransactions->USER_ID = $id;
             $paypalTransactions->PAYMENT_ID = $payment->getId();
-            $paypalTransactions->HASH = $hash;
+            $paypalTransactions->HASH = $paypal_hash;
             $paypalTransactions->COMPLETE = 0;
 
             //save the transaction details
             $paypalTransactions->save();
+            die('stopped');
         } catch (Exception $ex) {
             // ResultPrinter::printError("Created Payment Order Using PayPal. Please visit the URL to Approve.", "Payment", null, $request, $ex);
             //exit(1);
@@ -161,7 +170,8 @@ class PaypalController extends Controller
             $transactionPayment = PaypalTransactions::findOne(['HASH' => Yii::$app->session['paypal_hash']]);
             //var_dump($transactionPayment);
             $payment = Payment::get($transactionPayment->PAYMENT_ID, $context);
-            //var_dump($payment);
+            var_dump($payment);
+            die;
             $execution = new PaymentExecution();
             $execution->setPayerId($PayerID);
             //now charge the user account

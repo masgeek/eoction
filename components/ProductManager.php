@@ -154,6 +154,7 @@ class ProductManager
     public static function GetPaypalItems($user_id)
     {
 
+        /* @var $model ItemsCart */
         $paypalItems = [];
         $cartItems = ProductManager::GetUserCartItems($user_id, $sold_status = [0]);
         foreach ($cartItems->models as $model) {
@@ -167,6 +168,7 @@ class ProductManager
 
             $paypalItems['ITEMS'][] = [
                 'NAME' => $model->pRODUCT->PRODUCT_NAME,
+                'ITEM_ID' => $model->CART_ID,
                 'DESC' => isset($model->pRODUCT->PRODUCT_DESCRIPTION) ? $model->pRODUCT->PRODUCT_DESCRIPTION : 'N/A',
                 'PRICE' => $product_price,
             ];
@@ -185,10 +187,30 @@ class ProductManager
         return $paypalItems;
     }
 
-    public static function RemovedPaidCartItems($user_id)
+    /**
+     * @param $cart_item_id
+     * @param $paypal_hash
+     * @return bool
+     */
+    public static function AddPaypalHash($cart_item_id, $paypal_hash)
+    {
+        $model = ItemsCart::findOne($cart_item_id);
+        if ($model != null) {
+            $model->PAYPAL_HASH = $paypal_hash;
+            $model->save();//save the has data
+        }
+        return false;
+    }
+
+    /**
+     * @param $user_id
+     * @param $paypal_hash
+     * @return int
+     */
+    public static function RemovedPaidCartItems($user_id, $paypal_hash)
     {
 
-        ItemsCart::updateAll(['IS_SOLD'=>1],['USER_ID'=>]);
+        return ItemsCart::updateAll(['IS_SOLD' => 1], ['USER_ID' => $user_id, 'PAYPAL_HASH' => $paypal_hash]);
     }
 
     /**
