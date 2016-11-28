@@ -20,8 +20,6 @@ $userid = yii::$app->user->id;
 
 $imageModel = new \app\module\products\models\Products();
 
-
-var_dump($imageObject);
 $cart_item_id = $model->CART_ID;
 $product_id = $model->PRODUCT_ID;
 $product_name = $model->pRODUCT->PRODUCT_NAME;
