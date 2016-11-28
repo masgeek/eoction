@@ -21,6 +21,7 @@ $imageModel = new \app\module\products\models\Products();
 $imageObject = $imageModel->getSingleImage();
 $product_image = $imageObject ? "@web{$imageObject->IMAGE_URL}" : '@web/product_images/placeholder.png';
 
+var_dump($imageObject);
 //calculate the percentage discount based on the retail price and the bidded amount
 if ($model->BIDDED_ITEM == '1') {
     $product_price = $model->PRODUCT_PRICE;
