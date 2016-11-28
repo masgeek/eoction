@@ -26,9 +26,11 @@ $listviewWidget = \yii\widgets\ListView::widget([
 
 $total_summary = \app\components\ProductManager::GetUserCartItemsTotal($user_id, $sold_status = [0]);
 
+$total_raw = $total_summary['TOTAL'];
 $subtotal = $formatter->asCurrency($total_summary['SUB_TOTAL']);
 $shipping = $formatter->asCurrency($total_summary['SHIPPING_TOTAL']);
-$total = $formatter->asCurrency($total_summary['TOTAL']);
+$total = $formatter->asCurrency($total_raw);
+
 
 $paypalAction = \yii\helpers\Url::to(['//paypal/paypal-checkout', 'id' => $user_id]);
 $continueShopping = \yii\helpers\Url::to(['//shop']);
@@ -76,8 +78,8 @@ $this->registerJsFile('@web/js/shopping/cart-manager.js');
         </tr>
         <tr>
             <td align="right" colspan="6">
-                <?= \yii\helpers\Html::a($total > 0 ? 'Checkout <span class="glyphicon glyphicon-play"></span>' : 'Continue Shopping <span class="glyphicon glyphicon-shopping-cart"></span>',
-                    $total > 0 ? $paypalAction : $continueShopping, ['class' => $total > 0 ? 'btn btn-success btn-lg' : 'btn btn-default btn-lg', 'role' => 'button']) ?>
+                <?= \yii\helpers\Html::a($total_raw > 0 ? 'Checkout <span class="glyphicon glyphicon-play"></span>' : 'Continue Shopping <span class="glyphicon glyphicon-shopping-cart"></span>',
+                    $total_raw > 0 ? $paypalAction : $continueShopping, ['class' => $total_raw > 0 ? 'btn btn-success btn-lg' : 'btn btn-default btn-lg', 'role' => 'button']) ?>
                 <!--
                 <button type="button" class="btn btn-success">
                     Checkout <span class="glyphicon glyphicon-play"></span>
