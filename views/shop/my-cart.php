@@ -81,7 +81,9 @@ $this->registerJsFile('@web/js/shopping/cart-manager.js');
             <td class="text-right"><h3><strong><?= $total ?></strong></h3></td>
         </tr>
         <tr>
-            <td align="right" colspan="6">
+            <td colspan="2"> <?= \yii\helpers\Html::a('Continue Shopping <span class="glyphicon glyphicon-shopping-cart"></span>',
+                    $continueShopping, ['class' => 'btn btn-default btn-lg', 'role' => 'button']) ?></td>
+            <td align="right" colspan="4">
                 <?= \yii\helpers\Html::a($total_raw > 0 ? 'Checkout <span class="glyphicon glyphicon-play"></span>' : 'Continue Shopping <span class="glyphicon glyphicon-shopping-cart"></span>',
                     $total_raw > 0 ? $paypalAction : $continueShopping, ['class' => $total_raw > 0 ? 'btn btn-success btn-lg' : 'btn btn-default btn-lg', 'role' => 'button']) ?>
                 <!--
