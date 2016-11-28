@@ -13,7 +13,7 @@ use yii\web\UploadedFile;
  * @property string $IMAGE_URL
  * @property string $IMAGE
  *
- * @property Products $PRODUCT
+ * @property Products $pRODUCT
  */
 class Images extends \yii\db\ActiveRecord
 {

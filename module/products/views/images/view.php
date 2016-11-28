@@ -27,10 +27,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= DetailView::widget([
         'model' => $model,
+        //'template' => "<tr><th>{label}</th><td>{value}</td></tr>",
         'attributes' => [
             'IMAGE_ID',
             'PRODUCT_ID',
-            'IMAGE_URL:url',
+            [                      // the owner name of the model
+                'label' => 'Product Image',
+                //'format' => 'image',
+                'format' => ['image', ['height' => '100', 'alt' => $model->pRODUCT->PRODUCT_NAME]],
+                'value' => "@web{$model->IMAGE_URL}"
+            ]
         ],
     ]) ?>
 
