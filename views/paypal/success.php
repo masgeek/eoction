@@ -12,7 +12,7 @@ $email = Yii::$app->user->identity->emailaddress;
         <p style="font-size:20px;color:#5C5C5C;">Thank you for completing your purchase. We have sent you an email to
             "<?= $email ?>" confirming your payment</p>
         <?= \yii\helpers\Html::a('Continue Shopping',
-            ['//shop/cart'],
+            ['//shop'],
             ['title' => 'Continue Shopping', 'class' => 'btn btn-success btn-lg']); ?>
         <br/>
         <br/>
