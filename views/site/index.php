@@ -53,8 +53,8 @@ $listviewWidget = ListView::widget([
 <?= Html::textInput('user_id', $userId, ['readonly' => true, 'id' => 'user_id', 'class' => 'hidden']) ?>
 
 <div class="col-md-10 col-md-offset-1">
-<?= $listviewWidget ?>
-    </div>
+    <?= $listviewWidget ?>
+</div>
 
 
 <!--= yii\authclient\widgets\AuthChoice::widget([
@@ -75,31 +75,32 @@ $listviewWidget = ListView::widget([
         background-color: pink;
     }
 
-    .progress-container{
+    .progress-container {
         padding: 0 15px; /* padding {top/bottom} and {right/left}}*/
     }
+
     .bidProgress {
         width: 100%;
         height: 10px;
-        margin-bottom:5px;
+        margin-bottom: 5px;
     }
 
     .noplacedbids, .awaitingbid {
         /*background-color: purple;*/
-        background-image: linear-gradient(to right, #f00439, #f28d0d,pink);
+        background-image: linear-gradient(to right, #f00439, #f28d0d, pink);
     }
 
     .awaitingbid-old {
         /*background-color: #42e83e;*/
-        background-image: linear-gradient(to right, #3b389b, #5d5aff,yellow);
+        background-image: linear-gradient(to right, #3b389b, #5d5aff, yellow);
     }
 
     .goingonce {
-        background-image: linear-gradient(to right, #f09208, #b46e08,red);
+        background-image: linear-gradient(to right, #f09208, #b46e08, red);
     }
 
     .goingtwice {
-        background-image: linear-gradient(to right, #f00439, #f28d0d,red);
+        background-image: linear-gradient(to right, #f00439, #f28d0d, red);
     }
 
     .bidwon {

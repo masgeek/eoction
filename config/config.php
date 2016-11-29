@@ -12,6 +12,9 @@ $config = [
     ],
     /* modules */
     'modules' => [
+        'gridview' => [
+            'class' => 'kartik\grid\Module'
+        ],
         'product' => [
             'class' => 'app\module\products\product',
         ],
@@ -78,7 +81,21 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'enableStrictParsing' => false,
             'rules' => [
+                //default rules
+                '<controller:\w+>/<id:\d+>' => '<controller>',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                //custom rules
+                '/' => 'site',
+                'login' => 'site/login',
+                'logout' => 'site/logout',
+                'signup' => 'user/users/signup',
+                'products' => 'product/product/index',
+                'add-image' => 'product/images/add-image',
+                'request-password-reset' => 'site/request-password-reset',
+                'reset-password' => 'site/reset-password',
             ],
         ],
 
@@ -91,25 +108,10 @@ $config = [
             'currencyCode' => 'USD',
             'nullDisplay' => '0',
         ],
-
+//Paypal module
+        'paypal' => require(__DIR__ . '/paypal.php'),
         //yii2 authclient
-        'authClientCollection' => [
-            'class' => 'yii\authclient\Collection',
-            'clients' => [
-                'facebook' => [
-                    'class' => 'yii\authclient\clients\Facebook',
-                    'authUrl' => 'https://www.facebook.com/dialog/oauth?display=popup',
-                    'clientId' => '1789588324654575',
-                    'clientSecret' => 'ababaa956d050715bba974c068a27206',
-                    'attributeNames' => ['name', 'email', 'first_name', 'last_name'],
-                ],
-                'google' => [
-                    'class' => 'yii\authclient\clients\Google',
-                    'clientId' => '381959696099-97vdona6f7lqm5gmi80ldjnlb4im4cku.apps.googleusercontent.com',
-                    'clientSecret' => '6pWTmWc9bO4dMa7MyIVGyV6U',
-                ],
-            ],
-        ],
+        'authClientCollection' => require(__DIR__ . '/oauth.php'),
     ],
     'params' => $params,
 ];

@@ -15,7 +15,7 @@ use yii\web\IdentityInterface;
  * @property integer $USER_ID
  * @property string $FULL_NAMES
  * @property string $EMAIL_ADDRESS
- * @property string $USERNAME
+ * @property string $ACCOUNT_TYPE
  * @property string $PASSWORD_HASH
  * @property string $ACCOUNT_ACCESS_TOKEN
  * @property string $ACCOUNT_AUTH_KEY
@@ -27,13 +27,14 @@ use yii\web\IdentityInterface;
  * @property string $DATE_CREATED
  * @property string $DATE_UPDATED
  *
- * @property TbHashTable[] $tbHashTables
- * @property TbItemsCart[] $tbItemsCarts
- * @property TbItemsWishlist[] $tbItemsWishlists
- * @property TbProductBids[] $tbProductBids
+ * @property HashTable[] $tbHashTables
+ * @property ItemsCart[] $tbItemsCarts
+ * @property ItemsWishlist[] $tbItemsWishlists
+ * @property ProductBids[] $tbProductBids
  */
 class UserLogin extends ActiveRecord implements IdentityInterface
 {
+    //public $ACCOUNT_TYPE;
     public $ACCOUNT_AUTH_KEY;
     public $PASSWORD_RESET_TOKEN;
     public $passwordHashCost = 13;
@@ -45,6 +46,7 @@ class UserLogin extends ActiveRecord implements IdentityInterface
     {
         return '{{%tb_users}}';
     }
+
     /**
      * @inheritdoc
      */
@@ -103,6 +105,26 @@ class UserLogin extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * @return bool
+     */
+    public function getAccountType()
+    {
+        if ($this->ACCOUNT_TYPE == 'A') { //A means it is an admin account
+            return true;
+        }
+        return false;
+    }
+
+    public function getFullNames()
+    {
+        return $this->FULL_NAMES;
+    }
+
+    public function getEmailAddress()
+    {
+        return $this->EMAIL_ADDRESS;
+    }
+    /**
      * @inheritdoc
      */
     public function getId()
@@ -130,7 +152,6 @@ class UserLogin extends ActiveRecord implements IdentityInterface
     {
         return $this->getAuthKey() === $authKey;
     }
-
 
 
     /**

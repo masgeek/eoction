@@ -8,6 +8,8 @@
 
 namespace app\controllers;
 
+use app\components\CartManager;
+use app\module\products\models\ItemsCart;
 use app\module\products\models\Products;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -52,18 +54,7 @@ class ShopController extends Controller
     //entry page
     public function actionIndex()
     {
-        $min_stock = 1;
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => Products::find()
-                ->where(['>=', 'CURRENT_STOCK_LEVEL', $min_stock])//stock levels should be greater or equal to 1
-                ->orderBy('PRODUCT_ID ASC'),
-            'pagination' => [
-                'pageSize' => 20
-            ],
-        ]);
-
-
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 20, $for_auction = [1, 0], $min_stock = 1, $exclusion_list = []);
         $this->view->title = 'Online Shopping';
         return $this->render('//site/shop', ['listDataProvider' => $dataProvider]);
     }
@@ -91,27 +82,64 @@ class ShopController extends Controller
      * @param $user_id
      * @param $product_id
      * @param $sku
+     * @return string
      */
     public function actionBidWon($user_id, $product_id, $sku)
     {
+        $resp = [];
         $bid_winner = BidManager::GetBidWinner($product_id, $sku);
         if ($bid_winner > 0) {
             $resp = BidManager::MarkBidAsWon($user_id, $product_id);
-            var_dump($resp);
         }
+
+        return json_encode($resp);
     }
 
-    /**
-     * @param $id
-     * @param $user_id
-     * @param null $sku
-     * @return string
-     */
-    public function actionAddToCart($id, $user_id, $sku = null)
-    {
-        //--[  ]--\\
 
-        //add it to the cart
-        return $this->render('//site/index');
+    /**
+     * @param $user_id
+     * @param $product_id
+     * @param $price
+     * @return \yii\web\Response
+     */
+    public function actionAddToCart($user_id, $product_id, $price)
+    {
+        //check if user is logged in
+        if (Yii::$app->user->isGuest):
+            //redirect to login
+            return $this->redirect(['//login']);
+        else:
+            //add it to the cart
+            $resp = CartManager::AddItemsToCart($user_id, $product_id, $price);
+
+            if ($resp == true) {
+                return $this->redirect(['//shop/cart', 'id' => $user_id]);
+            }
+            //return to shopping page
+            return $this->redirect(['//shop/index']);
+        endif;
+    }
+
+    public function actionRemoveItem($id)
+    {
+        //delete cart item
+        $resp = [
+            'REMOVED' => false
+        ];
+        if (ItemsCart::findOne($id)->delete()) {
+            $resp = ['REMOVED' => true];
+        }
+        return json_encode($resp);
+    }
+
+    public function actionCart($id)
+    {
+        $cartDataProvider = ProductManager::GetUserCartItems($id, $sold_status = [0]);
+        return $this->render('my-cart', ['cartDataProvider' => $cartDataProvider, 'user_id' => $id]);
+    }
+
+    public function actionPurgeDb($action)
+    {
+        ProductManager::CleanBiddingData();
     }
 }

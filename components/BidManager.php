@@ -11,6 +11,7 @@
 
 namespace app\components;
 
+use app\module\products\models\Images;
 use yii\db\Expression;
 use yii\helpers\Html;
 
@@ -173,13 +174,13 @@ class BidManager
                 'BID_WON' => 0]
         );
         if ($bid_won_model != null) {
-            $bid_won_model->BID_WON = 0; //indicate this bid as won
+            $bid_won_model->BID_WON = 1; //indicate this bid as won
 
             if ($bid_won_model->save()) {
                 //remove the same item not won from the bid activity table
-                //ProductBids::deleteAll(['PRODUCT_ID' => $product_id, 'BID_WON' => 0]);
+                ProductBids::deleteAll(['PRODUCT_ID' => $product_id, 'BID_WON' => 0]);
                 //add to cart to await payment
-                $resp = ProductManager::AddItemsToCart($bid_won_model->USER_ID, $bid_won_model->PRODUCT_ID, $bid_won_model->BID_AMOUNT);
+                $resp = CartManager::AddItemsToCart($bid_won_model->USER_ID, $bid_won_model->PRODUCT_ID, $bid_won_model->BID_AMOUNT, $bidden_item = 1);
             }
             return $resp;
         }
@@ -195,9 +196,11 @@ class BidManager
     public static function GetMaxBidAmount($product_id, $format = true)
     {
         $formatter = \Yii::$app->formatter;
-        $bid_amount = ProductBids::find([
-            'PRODUCT_ID' => $product_id,
-        ])->where(['BID_WON' => 0])->max('BID_AMOUNT');
+        $bid_amount = ProductBids::find()
+            ->where(['PRODUCT_ID' => $product_id])
+            ->andWhere(['BID_WON' => 0])
+            ->max('BID_AMOUNT');
+
         if ($bid_amount == null || (int)$bid_amount <= 0) {
             $bid_amount = BidManager::GetInitialBidAmount($product_id);
         }
@@ -291,6 +294,7 @@ class BidManager
      */
     private static function BuildList($product_id, $sku, $product_name, $retail_price_raw, $starting_bid_price_raw)
     {
+        $imageModel = new Products();
         $formatter = \Yii::$app->formatter;
 
         $shipping_cost = $formatter->asCurrency(ProductManager::ComputeShippingCost($product_id));
@@ -300,10 +304,15 @@ class BidManager
         $bids = ProductManager::GetNumberOfBids($product_id);
         $discount = ProductManager::ComputePercentageDiscount($product_id);
 
-        //$img = 'http://placehold.it/400/500';
-        //$img = '//lorempixel.com/400/400/food';
-        $imageA = '@web/images/placeholder.png';
-        $imageHtml = Html::img($imageA, [
+        //$alias_path =  \Yii::getAlias('@web');
+
+        $imageObject = $imageModel->getSingleImage($product_id);
+
+
+        $product_image = $imageObject ? "@web{$imageObject->IMAGE_URL}": '@web/product_images/placeholder.png';
+
+
+        $imageHtml = Html::img($product_image, [
             'id' => 'product_image_' . $product_id,
             'class' => 'img img-responsive',
             'alt' => $product_name,

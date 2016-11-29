@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\module\products\models\ProductBids;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -120,21 +121,13 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
+    /**
+     * @return string
+     */
     public function actionIndex()
     {
-        $item_array = BidManager::GetExclusionItems();
-        $dataProvider = new ActiveDataProvider([
-            'query' => Products::find()
-                ->where(['ALLOW_AUCTION' => 1,])
-                ->andWhere(['>=', 'CURRENT_STOCK_LEVEL', 1])//stock levels should be greater or equal to 1
-                ->andWhere(['NOT IN', 'SKU', $item_array])
-                //->orderBy(['rand()' => SORT_DESC]),
-            ->orderBy('PRODUCT_ID ASC'),
-            'pagination' => [
-                'pageSize' => 1
-            ],
-        ]);
-
+        $exclusion_list = BidManager::GetExclusionItems();
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 20, $auction_param = [1], $min_stock = 1, $exclusion_list);
 
         $this->view->title = 'Live Auction';
         return $this->render('index', ['listDataProvider' => $dataProvider]);

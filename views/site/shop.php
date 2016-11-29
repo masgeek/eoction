@@ -13,7 +13,7 @@ use app\vendor\customhelper\BidManager;
 //var_dump($listDataProvider);
 
 //set page title
-$this->title = 'Live Auction';
+$this->title = 'Buy Items';
 
 //register js file
 $this->registerJsFile('@web/js/bidding/bidding-progress.js');

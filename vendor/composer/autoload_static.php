@@ -31,6 +31,19 @@ class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
         ),
         'k' => 
         array (
+            'kongoon\\yii2\\paypal\\' => 20,
+            'kartik\\typeahead\\' => 17,
+            'kartik\\touchspin\\' => 17,
+            'kartik\\select2\\' => 15,
+            'kartik\\popover\\' => 15,
+            'kartik\\plugins\\popover\\' => 23,
+            'kartik\\plugins\\fileinput\\' => 25,
+            'kartik\\grid\\' => 12,
+            'kartik\\form\\' => 12,
+            'kartik\\file\\' => 12,
+            'kartik\\editable\\' => 16,
+            'kartik\\dialog\\' => 14,
+            'kartik\\color\\' => 13,
             'kartik\\base\\' => 12,
         ),
         'c' => 
@@ -40,6 +53,10 @@ class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
         'a' => 
         array (
             'amnah\\yii2\\user\\' => 16,
+        ),
+        'P' => 
+        array (
+            'Psr\\Log\\' => 8,
         ),
         'F' => 
         array (
@@ -92,6 +109,58 @@ class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
         array (
             0 => __DIR__ . '/..' . '/rmrevin/yii2-fontawesome',
         ),
+        'kongoon\\yii2\\paypal\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kongoon/yii2-paypal',
+        ),
+        'kartik\\typeahead\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-typeahead',
+        ),
+        'kartik\\touchspin\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-touchspin',
+        ),
+        'kartik\\select2\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-select2',
+        ),
+        'kartik\\popover\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-popover-x',
+        ),
+        'kartik\\plugins\\popover\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/bootstrap-popover-x',
+        ),
+        'kartik\\plugins\\fileinput\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/bootstrap-fileinput',
+        ),
+        'kartik\\grid\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-grid',
+        ),
+        'kartik\\form\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-activeform',
+        ),
+        'kartik\\file\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-fileinput',
+        ),
+        'kartik\\editable\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-editable',
+        ),
+        'kartik\\dialog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-dialog',
+        ),
+        'kartik\\color\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-colorinput',
+        ),
         'kartik\\base\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base',
@@ -104,6 +173,10 @@ class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
         array (
             0 => __DIR__ . '/..' . '/amnah/yii2-user',
         ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
         'Faker\\' => 
         array (
             0 => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker',
@@ -111,6 +184,13 @@ class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
     );
 
     public static $prefixesPsr0 = array (
+        'P' => 
+        array (
+            'PayPal' => 
+            array (
+                0 => __DIR__ . '/..' . '/paypal/rest-api-sdk-php/lib',
+            ),
+        ),
         'H' => 
         array (
             'HTMLPurifier' => 

@@ -15,28 +15,6 @@ phploy.log
 # windows thumbnail cache
 Thumbs.db
 
-# composer vendor dir
-vendor
-/vendor/bin
-/vendor/phpspec
-/vendor/cebe
-source
-tests
-test
-testgit
-doc
-docs
-nuget
-src
-extras
-codeception
-vendor/guzzlehttp/guzzle/build/
-vendor/yiisoft/yii2/console/runtime/
-#phpunit
-#assets/*
-yii2-debug
-yii2-gii
-
 # composer itself is not needed
 composer.phar
 
@@ -47,6 +25,14 @@ composer.phar
 phpunit.phar
 # local phpunit config
 /phpunit.xml
-vendor/bower-asset/velocity/.bower.json
-vendor/ezyang/htmlpurifier/TODO
-vendor/ezyang/htmlpurifier/plugins/phorum/htmlpurifier/
+# Created by .ignore support plugin (hsz.mobi)
+#Ignore everything except the files below
+# composer vendor dir
+!autoload.php
+!.gitignore
+bin/
+paypal/
+phpspec/
+psr/
+vendor/
+vendor/bower-asset/

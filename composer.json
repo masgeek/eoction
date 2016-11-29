@@ -28,7 +28,16 @@
         "yiisoft/yii2-jui": "~2.0.0",
         "yiisoft/yii2-authclient": "^2.1",
         "amnah/yii2-user": "^5.0",
-        "kartik-v/yii2-krajee-base": "dev-master"
+        "kartik-v/yii2-krajee-base": "@dev",
+        "kartik-v/yii2-grid": "@dev",
+        "kartik-v/yii2-editable": "@dev",
+        "kartik-v/yii2-widget-colorinput": "*",
+        "kartik-v/yii2-widget-touchspin": "@dev",
+        "kartik-v/yii2-widget-select2": "@dev",
+        "kartik-v/yii2-widget-typeahead": "@dev",
+        "kartik-v/yii2-widget-fileinput": "@dev",
+        "kartik-v/yii2-widget-activeform": "@dev",
+        "kongoon/yii2-paypal": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "*",

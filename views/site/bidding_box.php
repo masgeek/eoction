@@ -17,10 +17,8 @@ use app\components\ProductManager;
 $formatter = \Yii::$app->formatter;
 
 $imageObject = $model->getSingleImage();
-//$imageA = $imageObject ? $imageObject->IMAGE_URL : 'http://placehold.it/700/c55/fff';
-//$imageA = '//lorempixel.com/400/400/nature';
-$imageA = '@web/images/placeholder.png';
-//$imageA = 'http://placeimg.com/640/480/any';
+$product_image = $imageObject ? '@web'.$imageObject->IMAGE_URL : '@web/product_images/placeholder.png';
+
 
 //calculate the percentage discount based on the retail price and the bidded amount
 $starting_bid_price = $model->PRICE;
@@ -57,7 +55,7 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
             <span class="shape-text quickview"><i class="fa fa-eye "></i> Quick View</span>
         </div>
         <div class="offer-content">
-            <?= Html::img($imageA, [
+            <?= Html::img($product_image, [
                 'id' => 'product_image_' . $product_id,
                 'class' => 'img img-responsive',
                 'alt' => $product_name,

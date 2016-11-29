@@ -9,20 +9,18 @@
 namespace app\components;
 
 
-use yii\db\Expression;
-use yii\helpers\Html;
-
 use app\models\BidActivity;
-use app\module\products\models\Products;
-use app\module\products\models\ProductBids;
 use app\module\products\models\ItemsCart;
+use app\module\products\models\ProductBids;
+use app\module\products\models\Products;
+use app\module\products\product;
+use yii\data\ActiveDataProvider;
 
 class ProductManager
 {
     /**
      * compute the percentage discount
-     * @param $retail_price
-     * @param $bid_price
+     * @param $product_id
      * @return int
      */
     public static function ComputePercentageDiscount($product_id)
@@ -60,16 +58,170 @@ class ProductManager
         return $bidsCount;
     }
 
-    public static function AddItemsToCart($user_id, $product_id, $price)
-    {
-        $cartModel = new ItemsCart();
-        $cartModel->isNewRecord = true;
 
-        //add the data
-        $cartModel->PRODUCT_ID = $product_id;
-        $cartModel->USER_ID = $user_id;
-        $cartModel->PRODUCT_PRICE = $price;
-        //User::updateAllCounters(['states' => 1]);
-        return BidActivity::updateAll(['ACTIVITY_COUNT' => 1], ['PRODUCT_ID' => $product_id]);
+    /**
+     * returns items to either be sold or auctioned off
+     * @param int $no_of_items
+     * @param array $auction_param
+     * @param int $min_stock
+     * @param array $exclusion_list
+     * @return ActiveDataProvider
+     */
+    public static function GetItemsForSale($no_of_items = 10, $auction_param = [1, 0], $min_stock = 1, $exclusion_list = [])
+    {
+        $item_provider = new ActiveDataProvider([
+            'query' => Products::find()
+                ->where(['IN', 'ALLOW_AUCTION', $auction_param,])
+                ->andWhere(['>=', 'CURRENT_STOCK_LEVEL', $min_stock])//stock levels should be greater or equal to 1
+                ->andWhere(['NOT IN', 'SKU', $exclusion_list])
+                ->orderBy(['rand()' => SORT_DESC]), //randomly pick items
+            //->orderBy('PRODUCT_ID ASC'),
+            'pagination' => [
+                'pageSize' => $no_of_items
+            ],
+        ]);
+
+        return $item_provider;
+    }
+
+    /**
+     * @param $user_id
+     * @param array $sold_status
+     * @return ActiveDataProvider
+     */
+    public static function GetUserCartItems($user_id, $sold_status = [0, 1])
+    {
+        $query = ItemsCart::find()
+            ->where(['USER_ID' => $user_id,])
+            ->andWhere(['IN', 'IS_SOLD', $sold_status])//get both sold and unsold items or one of the two
+            // ->orderBy(['rand()' => SORT_DESC]), //randomly pick items
+            ->orderBy('DATE_ADDED ASC');
+
+        $cart_item_data = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => false,
+            /*'pagination' => [
+                'pageSize' => 1
+            ],*/
+        ]);
+
+        return $cart_item_data;
+    }
+
+    /**
+     * @param $user_id
+     * @param array $sold_status
+     * @return array
+     */
+    public static function GetUserCartItemsTotal($user_id, $sold_status = [0, 1])
+    {
+        $total = [];
+        $shipping = [];
+        $query = ItemsCart::find()
+            ->where(['USER_ID' => $user_id,])
+            ->andWhere(['IN', 'IS_SOLD', $sold_status]);
+
+        $cart_item_data = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => false,
+        ]);
+        foreach ($cart_item_data->models as $model) {
+            if ($model->BIDDED_ITEM == '1') {
+                $product_price = $model->PRODUCT_PRICE;
+            } else {
+                $product_price = $model->pRODUCT->RETAIL_PRICE; //get the retail price if its not a bid item
+            }
+            $total[] = (float)$product_price;
+            $shipping[] = ProductManager::ComputeShippingCost($model->pRODUCT->PRODUCT_ID);
+        }
+
+        $sub_total = array_sum($total);
+        $shipping_total = array_sum($shipping);
+        $total_summary = [
+            'SUB_TOTAL' => $sub_total,
+            'SHIPPING_TOTAL' => $shipping_total,
+            'TOTAL' => $sub_total + $shipping_total
+        ];
+
+        return $total_summary;
+    }
+
+    /**
+     * @param $user_id
+     * @return array
+     */
+    public static function GetPaypalItems($user_id)
+    {
+        /* @var $model ItemsCart */
+        $total = [];
+        $shipping = [];
+        $paypalItems = [];
+        $cartItems = ProductManager::GetUserCartItems($user_id, $sold_status = [0]);
+        if ($cartItems->count > 0) {
+
+            foreach ($cartItems->models as $model) {
+                if ($model->BIDDED_ITEM == '1') {
+                    $product_price = $model->PRODUCT_PRICE;
+                } else {
+                    $product_price = $model->pRODUCT->RETAIL_PRICE; //get the retail price if its not a bid item
+                }
+                $total[] = (float)$product_price;
+                $shipping[] = ProductManager::ComputeShippingCost($model->pRODUCT->PRODUCT_ID);
+
+                $paypalItems['ITEMS'][] = [
+                    'NAME' => $model->pRODUCT->PRODUCT_NAME,
+                    'ITEM_ID' => $model->CART_ID,
+                    'DESC' => isset($model->pRODUCT->PRODUCT_DESCRIPTION) ? $model->pRODUCT->PRODUCT_DESCRIPTION : 'N/A',
+                    'PRICE' => $product_price,
+                ];
+            }
+
+            $sub_total = array_sum($total);
+            $shipping_total = array_sum($shipping);
+
+            $total_summary = [
+                'SUB_TOTAL' => $sub_total,
+                'SHIPPING_TOTAL' => $shipping_total,
+                'TOTAL' => $sub_total + $shipping_total
+            ];
+
+            $paypalItems['SUMMARY'] = ['SUMMARY' => $total_summary];
+        }
+        return $paypalItems;
+    }
+
+    /**
+     * @param $cart_item_id
+     * @param $paypal_hash
+     * @return bool
+     */
+    public static function AddPaypalHash($cart_item_id, $paypal_hash)
+    {
+        $model = ItemsCart::findOne($cart_item_id);
+        if ($model != null) {
+            $model->PAYPAL_HASH = $paypal_hash;
+            $model->save();//save the hash data
+        }
+        return false;
+    }
+
+    /**
+     * @param $paypal_hash
+     * @return int
+     */
+    public static function UpdatePaidCartItems($paypal_hash)
+    {
+
+        return ItemsCart::updateAll(['IS_SOLD' => 1], ['PAYPAL_HASH' => $paypal_hash]);
+    }
+
+    /**
+     *
+     */
+    public static function CleanBiddingData()
+    {
+        ItemsCart::deleteAll();
+        BidActivity::deleteAll();
+        ProductBids::deleteAll();
     }
 }
