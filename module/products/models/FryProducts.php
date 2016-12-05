@@ -168,6 +168,8 @@ use Yii;
  * @property string $minbestoffer
  * @property integer $ebay_qty
  * @property string $ebaysubtitle
+ *
+ * @property FryProductImages[] $fryProductImages
  */
 class FryProducts extends \yii\db\ActiveRecord
 {
@@ -193,10 +195,10 @@ class FryProducts extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['productid', 'prodcatids', 'stocklocation', 'lastpurchasedate', 'prodbullets', 'ifs_uid', 'amazonimageurls', 'ean', 'notes', 'images_on_ebay'], 'required'],
-            [['productid', 'notfoundcount', 'prodtype', 'prodsortorder', 'prodvisible', 'prodfeatured', 'prodvendorfeatured', 'prodcurrentinv', 'prodlowinv', 'prodoptionsrequired', 'prodfreeshipping', 'prodinvtrack', 'prodratingtotal', 'prodnumratings', 'prodnumsold', 'proddateadded', 'prodbrandid', 'prodnumviews', 'prodvariationid', 'prodallowpurchases', 'prodhideprice', 'prodlastmodified', 'prodvendorid', 'prodhastags', 'prodeventdaterequired', 'prodeventdatelimited', 'prodeventdatelimitedtype', 'prodeventdatelimitedstartdate', 'prodeventdatelimitedenddate', 'prodshowcondition', 'product_enable_optimizer', 'prodpreorder', 'prodreleasedate', 'prodreleasedateremove', 'prodminqty', 'prodmaxqty', 'tax_class_id', 'opengraph_use_product_name', 'opengraph_use_meta_description', 'opengraph_use_image', 'disable_google_checkout', 'last_import', 'google_ps_enabled', 'companystock', 'syncflag', 'imagesverified', 'to_check', 'ebayreviseflag', 'ebayenablebestoffer', 'ebayenablebuyitnow', 'scheduletime', 'scheduleswitch', 'prodebayschdulerequired', 'relistebay', 'ebaysiteid', 'autopay', 'post_html', 'shipdiscdoprofileid', 'shipdiscintprofileid', 'ebayupdatepq', 'handlingtime', 'ebay_qty'], 'integer'],
+            [['notfoundcount', 'prodtype', 'prodsortorder', 'prodvisible', 'prodfeatured', 'prodvendorfeatured', 'prodcurrentinv', 'prodlowinv', 'prodoptionsrequired', 'prodfreeshipping', 'prodinvtrack', 'prodratingtotal', 'prodnumratings', 'prodnumsold', 'proddateadded', 'prodbrandid', 'prodnumviews', 'prodvariationid', 'prodallowpurchases', 'prodhideprice', 'prodlastmodified', 'prodvendorid', 'prodhastags', 'prodeventdaterequired', 'prodeventdatelimited', 'prodeventdatelimitedtype', 'prodeventdatelimitedstartdate', 'prodeventdatelimitedenddate', 'prodshowcondition', 'product_enable_optimizer', 'prodpreorder', 'prodreleasedate', 'prodreleasedateremove', 'prodminqty', 'prodmaxqty', 'tax_class_id', 'opengraph_use_product_name', 'opengraph_use_meta_description', 'opengraph_use_image', 'disable_google_checkout', 'last_import', 'google_ps_enabled', 'companystock', 'syncflag', 'imagesverified', 'to_check', 'ebayreviseflag', 'ebayenablebestoffer', 'ebayenablebuyitnow', 'scheduletime', 'scheduleswitch', 'prodebayschdulerequired', 'relistebay', 'ebaysiteid', 'autopay', 'post_html', 'shipdiscdoprofileid', 'shipdiscintprofileid', 'ebayupdatepq', 'handlingtime', 'ebay_qty'], 'integer'],
             [['proddesc', 'prodsearchkeywords', 'prodwarranty', 'prodmetakeywords', 'prodmetadesc', 'prodcatids', 'prodwrapoptions', 'prodcondition', 'opengraph_description', 'prodbullets', 'amazonimageurls', 'images_on_ebay'], 'string'],
             [['prodprice', 'prodcostprice', 'prodretailprice', 'prodsaleprice', 'prodcalculatedprice', 'prodweight', 'prodwidth', 'prodheight', 'proddepth', 'prodfixedshippingcost', 'amazonprice', 'ebayprice', 'ebayauctionstartprice', 'ebayreserveprice', 'minbestoffer'], 'number'],
+            [['prodcatids', 'stocklocation', 'lastpurchasedate', 'prodbullets', 'ifs_uid', 'amazonimageurls', 'ean', 'notes', 'images_on_ebay'], 'required'],
             [['prodname', 'prodcode', 'prodfile', 'prodavailability', 'prodrelatedproducts', 'prodpagetitle', 'prodpreordermessage', 'opengraph_title'], 'string', 'max' => 250],
             [['prodlayoutfile'], 'string', 'max' => 50],
             [['prodcallforpricinglabel'], 'string', 'max' => 200],
@@ -383,5 +385,36 @@ class FryProducts extends \yii\db\ActiveRecord
             'ebay_qty' => 'Ebay Qty',
             'ebaysubtitle' => 'Ebaysubtitle',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFryProductImages()
+    {
+        return $this->hasMany(FryProductImages::className(), ['imageprodid' => 'productid']);
+    }
+
+    /**
+     * @param null $product_id
+     * @return Images|mixed|null|string
+     */
+    public function getSingleImage($product_id = null)
+    {
+        $image = null;
+        if ($product_id == null) {
+            $images = $this->fryProductImages;
+            if (is_array($images) && !empty($images)) {
+                $image = $images[0]; //get only the first index
+            }
+        } else {
+            $images = Images::find()
+                ->where(['productid' => $product_id])
+                ->one();
+            if ($images != null) {
+                $image = $images;
+            }
+        }
+        return $image;
     }
 }

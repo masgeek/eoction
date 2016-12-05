@@ -23,6 +23,8 @@ use Yii;
  * @property string $imagefilethumbsize
  * @property string $imagefilestdsize
  * @property string $imagefilezoomsize
+ *
+ * @property FryProducts $imageprod
  */
 class FryProductImages extends \yii\db\ActiveRecord
 {
@@ -54,6 +56,7 @@ class FryProductImages extends \yii\db\ActiveRecord
             [['imageprodhash'], 'string', 'max' => 32],
             [['imagefile', 'imagefiletiny', 'imagefilethumb', 'imagefilestd', 'imagefilezoom'], 'string', 'max' => 255],
             [['imagefiletinysize', 'imagefilethumbsize', 'imagefilestdsize', 'imagefilezoomsize'], 'string', 'max' => 11],
+            [['imageprodid'], 'exist', 'skipOnError' => true, 'targetClass' => FryProducts::className(), 'targetAttribute' => ['imageprodid' => 'productid']],
         ];
     }
 
@@ -63,9 +66,9 @@ class FryProductImages extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'imageid' => 'Imageid',
-            'imageprodid' => 'Imageprodid',
-            'imageprodhash' => 'Imageprodhash',
+            'imageid' => 'Image ID',
+            'imageprodid' => 'Product ID',
+            'imageprodhash' => 'Product Hash',
             'imagefile' => 'Imagefile',
             'imageisthumb' => 'Imageisthumb',
             'imagesort' => 'Imagesort',
@@ -80,5 +83,13 @@ class FryProductImages extends \yii\db\ActiveRecord
             'imagefilestdsize' => 'Imagefilestdsize',
             'imagefilezoomsize' => 'Imagefilezoomsize',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getImageprod()
+    {
+        return $this->hasOne(FryProducts::className(), ['productid' => 'imageprodid']);
     }
 }

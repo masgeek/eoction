@@ -10,6 +10,7 @@ namespace app\components;
 
 
 use app\models\BidActivity;
+use app\module\products\models\FryProducts;
 use app\module\products\models\ItemsCart;
 use app\module\products\models\ProductBids;
 use app\module\products\models\Products;
@@ -68,6 +69,22 @@ class ProductManager
      * @return ActiveDataProvider
      */
     public static function GetItemsForSale($no_of_items = 10, $auction_param = [1, 0], $min_stock = 1, $exclusion_list = [])
+    {
+        $item_provider = new ActiveDataProvider([
+            'query' => FryProducts::find()
+                ->where(['IN', 'prodvisible', $auction_param,])
+                ->andWhere(['>=', 'prodcurrentinv', $min_stock])//stock levels should be greater or equal to 1
+                ->andWhere(['NOT IN', 'prodcode', $exclusion_list])
+                ->orderBy(['rand()' => SORT_DESC]), //randomly pick items
+            //->orderBy('PRODUCT_ID ASC'),
+            'pagination' => [
+                'pageSize' => $no_of_items
+            ],
+        ]);
+
+        return $item_provider;
+    }
+    public static function GetItemsForSaleOld($no_of_items = 10, $auction_param = [1, 0], $min_stock = 1, $exclusion_list = [])
     {
         $item_provider = new ActiveDataProvider([
             'query' => Products::find()
