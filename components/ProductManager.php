@@ -176,6 +176,7 @@ class ProductManager
     public static function GetPaypalItems($user_id)
     {
         /* @var $model ItemsCart */
+        /* @var $productModel FryProducts */
         $total = [];
         $shipping = [];
         $paypalItems = [];
@@ -183,18 +184,19 @@ class ProductManager
         if ($cartItems->count > 0) {
 
             foreach ($cartItems->models as $model) {
+                $productModel = $model->getProductInfo($model->PRODUCT_ID);
                 if ($model->BIDDED_ITEM == '1') {
                     $product_price = $model->PRODUCT_PRICE;
                 } else {
-                    $product_price = $model->pRODUCT->RETAIL_PRICE; //get the retail price if its not a bid item
+                    $product_price = $productModel->prodretailprice; //get the retail price if its not a bid item
                 }
                 $total[] = (float)$product_price;
-                $shipping[] = ProductManager::ComputeShippingCost($model->pRODUCT->PRODUCT_ID);
+                $shipping[] = ProductManager::ComputeShippingCost($model->PRODUCT_ID);
 
                 $paypalItems['ITEMS'][] = [
-                    'NAME' => $model->pRODUCT->PRODUCT_NAME,
+                    'NAME' => $productModel->prodname,
                     'ITEM_ID' => $model->CART_ID,
-                    'DESC' => isset($model->pRODUCT->PRODUCT_DESCRIPTION) ? $model->pRODUCT->PRODUCT_DESCRIPTION : 'N/A',
+                    'DESC' => isset($productModel->proddesc) ? $productModel->proddesc : 'N/A',
                     'PRICE' => $product_price,
                 ];
             }

@@ -133,7 +133,7 @@ class PaypalController extends Controller
             $approvalUrl = $payment->getApprovalLink();
 
             //now let us redirect to the approval URL to allow the client to pay
-            $this->redirect($approvalUrl);
+            return $this->redirect($approvalUrl);
         }
     }
 
