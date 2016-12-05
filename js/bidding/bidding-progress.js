@@ -265,7 +265,7 @@ function ItemUpdate($product_id, $sku, $toclear) {
     //var updateUrl = $('#update_url').val();
     var $bidPrice = $('#bid_price' + $product_id);
     var bidsPlaced = $('#bids_placed_' + $product_id);
-    var intervals = Math.floor((Math.random() * 1500) + 2500);
+    var intervals = Math.floor((Math.random() * 6000) + 1560);
     /*$.get(updateUrl, {product_id: $product_id, sku: $sku}, function (data) {
      var $bid_count = data.bid_count;
      var $new_bid_price = data.bid_price;
@@ -285,7 +285,7 @@ function ItemUpdate($product_id, $sku, $toclear) {
                 bidsPlaced.html($bid_count);
             });
         }, intervals); //check every n seconds
-        //console.log('Set interval ' + intervalObj[$product_id]);
+        console.log('Set interval {' + intervalObj[$product_id]+'} {'+intervals+'}');
     } else {
         //flag the item as won in the DB
         //alert('clearing and winning bid');

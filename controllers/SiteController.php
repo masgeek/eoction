@@ -139,11 +139,12 @@ class SiteController extends Controller
         return json_encode($nextItem);
     }
 
+
     /**
      * @param $id
      * @param $user_id
      * @param $sku
-     * action should be called like these place-bid
+     * @return string
      */
     public function actionPlaceBid($id, $user_id, $sku)
     {
