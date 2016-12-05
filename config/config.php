@@ -76,7 +76,8 @@ $config = [
                 ],
             ],
         ],
-        'db' => require(__DIR__ . '/db.php'),
+        'db' => require(__DIR__ . '/eoction.php'),
+        'affy' => require(__DIR__ . '/affy.php'),
 
         'urlManager' => [
             'enablePrettyUrl' => true,
