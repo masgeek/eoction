@@ -81,7 +81,7 @@ class ProductManager
                 //->orderBy(['rand()' => SORT_DESC]), //randomly pick items
                 ->orderBy('productid ASC'),
             'pagination' => [
-                'pageSize' => $no_of_items = 2
+                'pageSize' => $no_of_items
             ],
         ]);
 
