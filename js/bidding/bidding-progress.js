@@ -223,7 +223,7 @@ function placeBid($product_id, $sku) {
 function FetchNextItem($previous_product_id) {
     var $productUrl = $('#product_url').val();
     var $productBox = $('#item_box_' + $previous_product_id);
-    var intervals = Math.floor((Math.random() * 1500) + 2500);
+    var intervals = 1000;///Math.floor((Math.random() * 1500) + 200);
     $.ajax({
         url: $productUrl,
         data: {
