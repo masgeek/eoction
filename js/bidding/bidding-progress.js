@@ -241,7 +241,7 @@ function FetchNextItem($previous_product_id) {
                 //$('#product_list').prepend(data.html_data);
                 $('.fadein').fadeIn(intervals);
                 //scroll to the top
-                $("html, body").animate({scrollTop: 0}, "slow");
+                //$("html, body").animate({scrollTop: 0}, "slow");
                 //next add the click event listeners to the dynamic items
                 RefreshSomeEventListener(data.product_id, data.sku);
             });
