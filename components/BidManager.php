@@ -32,14 +32,16 @@ class BidManager
     public static function AddItemsToBidActivity($listDataProvider, $multimodel = true)
     {
 
+        /* @var $item FryProducts */
+        /* @var $listDataProvider FryProducts */
         $expression = new Expression('NOW()');
         if ($multimodel) {
             foreach ($listDataProvider->models as $item) {
                 //loop through the model array
                 $model = new BidActivity();
                 $model->isNewRecord = true;
-                $model->PRODUCT_ID = $item->PRODUCT_ID;
-                $model->PRODUCT_SKU = $item->SKU;
+                $model->PRODUCT_ID = $item->productid;
+                $model->PRODUCT_SKU = $item->prodcode;
                 $model->ACTIVITY_COUNT = 0;
                 $model->BID_DATE = $expression;
                 //save the data
@@ -50,8 +52,8 @@ class BidManager
             //when only one model value is passed
             $model = new BidActivity();
             $model->isNewRecord = true;
-            $model->PRODUCT_ID = $listDataProvider->PRODUCT_ID;
-            $model->PRODUCT_SKU = $listDataProvider->SKU;
+            $model->PRODUCT_ID = $listDataProvider->productid;
+            $model->PRODUCT_SKU = $listDataProvider->prodcode;
             $model->ACTIVITY_COUNT = 0;
             $model->BID_DATE = $expression;
             //save the data
@@ -84,7 +86,6 @@ class BidManager
     {
         $bid_successful = false;
         $bid_amount_increment = BidManager::NextBidAmount($product_id);
-
 
 
         $expression = new Expression('NOW()');
@@ -246,14 +247,17 @@ class BidManager
 
         $item_array = BidManager::GetExclusionItems();
 
+
         $productModel = FryProducts::find()
             ->where([
                 'NOT IN', 'prodcode', $item_array,
             ])
             ->andWhere(['>=', 'prodcurrentinv', 1])//stock levels should be greater or equal to 1
             //->andWhere('!=','PRODUCT_ID',$product_id)
-            //->orderBy(['rand()' => SORT_DESC])
+            ->orderBy(['rand()' => SORT_DESC])
+            ->limit(1)//limit to one record only
             ->one();
+
 
         //add the item to bid activity
         BidManager::AddItemsToBidActivity($productModel, $multimodel = false); //add the picked item to bid activity table
