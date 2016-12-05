@@ -5,8 +5,8 @@
  * Date: 2016/10/10
  * Time: 14:40
  */
-/* @var $model app\module\products\models\Products */
-/* @var $image app\module\products\models\Images */
+/* @var $model app\module\products\models\FryProducts */
+/* @var $image app\module\products\models\FryProductImages */
 
 
 use yii\helpers\Html;
@@ -23,23 +23,17 @@ $imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
 $imageObject = $model->getSingleImage();
 $product_image = $imageObject ? "{$imageHost}/{$imageFolder}/{$imageObject->imagefile}" : '@web/product_images/placeholder.png';
 
-//calculate the percentage discount based on the retail price and the bidded amount
-$starting_bid_price = $model->PRICE;
+$retail_price_raw = $model->prodretailprice;
 
 $userid = yii::$app->user->id ? yii::$app->user->id : 0;
-$sku = $model->SKU;
-
-$bids = 0;
-
-$product_id = $model->PRODUCT_ID;
-$product_name = $model->PRODUCT_NAME;
+$sku = $model->prodcode;
+$product_id = $model->productid;
+$product_name = $model->prodname;
 
 $shipping = ProductManager::ComputeShippingCost($product_id);
-$bidStartTime = 60;// * $productID; //initial start time for the bid
 
 $shipping_cost = $formatter->asCurrency($shipping);
-$retail_price = $formatter->asCurrency($model->RETAIL_PRICE);
-$starting_bid_price = $formatter->asCurrency($model->PRICE);
+$retail_price = $formatter->asCurrency($retail_price_raw);
 ?>
 
 
@@ -64,7 +58,7 @@ $starting_bid_price = $formatter->asCurrency($model->PRICE);
                         'id' => "buynow_$product_id"
                     ]) ?-->
                     <?= Html::a("BUY NOW",
-                        ['//shop/add-to-cart', 'user_id' => $userid, 'product_id' => $product_id, 'price' => $model->RETAIL_PRICE],
+                        ['//shop/add-to-cart', 'user_id' => $userid, 'product_id' => $product_id, 'price' => $retail_price_raw],
                         [
                             'class' => 'btn btn-primary btn-block btn-lg noradius',
                         ]) ?>
