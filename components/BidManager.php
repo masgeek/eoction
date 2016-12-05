@@ -12,6 +12,7 @@
 
 namespace app\components;
 
+use app\module\products\models\FryProductImages;
 use app\module\products\models\FryProducts;
 use yii\db\Expression;
 use yii\helpers\Html;
@@ -136,10 +137,10 @@ class BidManager
 
     public static function GetInitialBidAmount($product_id)
     {
-        $starting_bid = Products::find()
-            ->select('PRICE')
-            ->where(['PRODUCT_ID' => $product_id])
-            ->max('PRICE');
+        $starting_bid = FryProducts::find()
+            ->select('prodprice')
+            ->where(['productid' => $product_id])
+            ->max('prodprice');
 
         return $starting_bid;
     }
@@ -290,8 +291,13 @@ class BidManager
      */
     private static function BuildList($product_id, $sku, $product_name, $retail_price_raw, $starting_bid_price_raw)
     {
-        $imageModel = new FryProducts();
+        /* @var $imageObject FryProductImages */
         $formatter = \Yii::$app->formatter;
+        $imageHost = \Yii::$app->params['ExternalImageServerLink'];
+        $imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
+
+        $imageModel = new FryProducts();
+
 
         $shipping_cost = $formatter->asCurrency(ProductManager::ComputeShippingCost($product_id));
         $retail_price = $formatter->asCurrency($retail_price_raw);
@@ -305,7 +311,7 @@ class BidManager
         $imageObject = $imageModel->getSingleImage($product_id);
 
 
-        $product_image = $imageObject ? "@web{$imageObject->IMAGE_URL}": '@web/product_images/placeholder.png';
+        $product_image = $imageObject ? "{$imageHost}/{$imageFolder}/{$imageObject->imagefile}" : '@web/product_images/placeholder.png';
 
 
         $imageHtml = Html::img($product_image, [

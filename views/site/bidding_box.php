@@ -6,7 +6,7 @@
  * Time: 14:40
  */
 /* @var $model app\module\products\models\FryProducts */
-/* @var $image app\module\products\models\FryProductImages */
+/* @var $imageObject app\module\products\models\FryProductImages */
 
 
 use yii\helpers\Html;
@@ -16,8 +16,11 @@ use app\components\ProductManager;
 
 $formatter = \Yii::$app->formatter;
 
+$imageHost = \Yii::$app->params['ExternalImageServerLink'];
+$imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
+
 $imageObject = $model->getSingleImage();
-$product_image = $imageObject ? '@web'.$imageObject->IMAGE_URL : '@web/product_images/placeholder.png';
+$product_image = $imageObject ? "{$imageHost}/{$imageFolder}/{$imageObject->imagefile}" : '@web/product_images/placeholder.png';
 
 
 //calculate the percentage discount based on the retail price and the bidded amount
@@ -61,7 +64,8 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
                 'alt' => $product_name,
             ]); ?>
             <div class="col-md-12 col-xs-6 text-center">
-                <span class="bidding-price">Bid Price: <span id="bid_price<?=$product_id?>"><?= $starting_bid_price ?></span></span><br/>
+                <span class="bidding-price">Bid Price: <span
+                        id="bid_price<?= $product_id ?>"><?= $starting_bid_price ?></span></span><br/>
                 <span class="crossed retail-price"><?= $retail_price; ?></span>
             </div>
             <div class="col-md-12 col-xs-6 text-center">
@@ -71,10 +75,10 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
                 <span id="bids_placed_<?= $product_id ?>"><?= $bids ?></span> Bid(s)
             </div>
             <div class="col-md-12 col-xs-6 progress-container">
-            <div class="bidProgress noplacedbids" id="progressBar<?= $product_id ?>"></div>
-                </div>
+                <div class="bidProgress noplacedbids" id="progressBar<?= $product_id ?>"></div>
+            </div>
             <div class="row">
-                <div class="col-md-10 col-md-offset-1 col-xs-12" id="bid_button_<?=$product_id?>">
+                <div class="col-md-10 col-md-offset-1 col-xs-12" id="bid_button_<?= $product_id ?>">
                     <?= Html::button('<span class="hammer-icon pull-left"></span>BID NOW', [
                         'class' => 'btn btn-bid btn-bid-active btn-block noradius',
                         'id' => "placebid_$product_id"
