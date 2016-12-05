@@ -8,16 +8,12 @@
 
 namespace app\controllers;
 
+use Yii;
+use yii\web\Controller;
+
+
 use app\components\ProductManager;
 use app\module\products\models\PaypalTransactions;
-use app\module\products\product;
-use PayPal\Api\PaymentExecution;
-use Yii;
-use yii\base\InvalidParamException;
-use yii\web\BadRequestHttpException;
-use yii\web\Controller;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 
 
 use PayPal\Api\Amount;
@@ -27,6 +23,7 @@ use PayPal\Api\Payment;
 use PayPal\Api\Transaction;
 use PayPal\Api\ItemList;
 use PayPal\Api\RedirectUrls;
+use PayPal\Api\PaymentExecution;
 
 class PaypalController extends Controller
 {
@@ -50,7 +47,7 @@ class PaypalController extends Controller
         $payer->setPaymentMethod("paypal"); //method is by paypal account
 
 
-        $paypal_items = ProductManager::GetPaypalItems($id);
+        $paypal_items = ProductManager::GetPaypalItems($id); //get the items to be paid for
 
         if (count($paypal_items) > 0) {
             $cartItemsArr = [];
@@ -60,7 +57,7 @@ class PaypalController extends Controller
                     ->setDescription($summary_item['DESC'])
                     //->setUrl($summary_item['ITEM_ID'])
                     ->setCurrency('USD')
-                    ->setQuantity(1)
+                    ->setQuantity(1)//always one item at a time
                     ->setPrice($summary_item['PRICE']);
 
                 $cartItemsArr[] = $cart_item;
@@ -188,7 +185,7 @@ class PaypalController extends Controller
                 //SEND email to the user
                 return $this->redirect(['success']);
             }
-        } else {
+        } elseif ($status == 'false') {
             return $this->redirect(['cancel']);
         }
         return $this->redirect(['error']); //redirect to error page by default
