@@ -229,6 +229,7 @@ function FetchNextItem($previous_product_id) {
         data: {
             product_id: $previous_product_id
         },
+        cache:false,
         error: function () {
             $('#info').html('<p>An error has occurred</p>');
         },
