@@ -17,7 +17,11 @@ use app\components\ProductManager;
 $formatter = \Yii::$app->formatter;
 
 $imageObject = $model->getSingleImage();
-$product_image = $imageObject ? "@web{$imageObject->IMAGE_URL}" : '@web/product_images/placeholder.png';
+$imageHost = \Yii::$app->params['ExternalImageServerLink'];
+$imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
+
+$imageObject = $model->getSingleImage();
+$product_image = $imageObject ? "{$imageHost}/{$imageFolder}/{$imageObject->imagefile}" : '@web/product_images/placeholder.png';
 
 //calculate the percentage discount based on the retail price and the bidded amount
 $starting_bid_price = $model->PRICE;

@@ -6,6 +6,8 @@
  * Time: 14:40
  */
 
+/* @var $productModel app\module\products\models\FryProducts */
+/* @var $imageObject app\module\products\models\FryProductImages */
 /* @var $model app\module\products\models\ItemsCart */
 
 
@@ -18,21 +20,29 @@ use app\components\ProductManager;
 $formatter = \Yii::$app->formatter;
 $userid = yii::$app->user->id;
 
-$imageModel = new \app\module\products\models\Products();
+$imageModel = new \app\module\products\models\FryProductImages();
 
 $cart_item_id = $model->CART_ID;
 $product_id = $model->PRODUCT_ID;
-$product_name = $model->pRODUCT->PRODUCT_NAME;
-$product_description = $model->pRODUCT->PRODUCT_DESCRIPTION;
-$brand_name = $model->pRODUCT->BRAND_NAME;
 
-$imageObject = $imageModel->getSingleImage($product_id);
-$product_image = $imageObject ? "@web{$imageObject->IMAGE_URL}" : '@web/product_images/placeholder.png';
+$productModel = $model->getProductInfo($product_id);
+
+$product_name = $productModel->prodname;
+$product_description = $productModel->proddesc;
+$brand_name = $productModel->prodbrandid;
+
+
+$imageHost = \Yii::$app->params['ExternalImageServerLink'];
+$imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
+$imageObject = $productModel->getSingleImage($product_id);
+
+$product_image = $imageObject ? "{$imageHost}/{$imageFolder}/{$imageObject->imagefile}" : '@web/product_images/placeholder.png';
+
 //calculate the percentage discount based on the retail price and the bidded amount
 if ($model->BIDDED_ITEM == '1') {
     $product_price = $model->PRODUCT_PRICE;
 } else {
-    $product_price = $model->pRODUCT->RETAIL_PRICE; //get the retail price if its not a bid item
+    $product_price = $productModel->prodretailprice; //get the retail price if its not a bid item
 }
 
 
@@ -54,7 +64,7 @@ $retail_price = $formatter->asCurrency($product_price);
             <div class="media">
                 <div class="media-body">
                     <h4 class="media-heading"><a href="#"><?= $product_name ?></a></h4>
-                    <h5 class="media-heading"> by <a href="#"><?= $brand_name ?></a></h5>
+                    <!--<h5 class="media-heading"> by <a href="#"><?= $brand_name ?></a></h5>-->
                     <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
                 </div>
             </div>

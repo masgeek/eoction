@@ -408,8 +408,8 @@ class FryProducts extends \yii\db\ActiveRecord
                 $image = $images[0]; //get only the first index
             }
         } else {
-            $images = Images::find()
-                ->where(['productid' => $product_id])
+            $images = FryProductImages::find()
+                ->where(['imageprodid' => $product_id])
                 ->one();
             if ($images != null) {
                 $image = $images;

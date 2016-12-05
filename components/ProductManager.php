@@ -78,9 +78,9 @@ class ProductManager
                 ->andWhere(['>=', 'prodcurrentinv', $min_stock])//stock levels should be greater or equal to 1
                 ->andWhere(['NOT IN', 'prodcode', $exclusion_list])
                 //->orderBy(['rand()' => SORT_DESC]), //randomly pick items
-            ->orderBy('productid ASC'),
+                ->orderBy('productid ASC'),
             'pagination' => [
-                'pageSize' => $no_of_items  =2
+                'pageSize' => $no_of_items = 2
             ],
         ]);
 
@@ -135,6 +135,8 @@ class ProductManager
      */
     public static function GetUserCartItemsTotal($user_id, $sold_status = [0, 1])
     {
+        /* @var $productModel FryProducts */
+
         $total = [];
         $shipping = [];
         $query = ItemsCart::find()
@@ -146,13 +148,14 @@ class ProductManager
             'pagination' => false,
         ]);
         foreach ($cart_item_data->models as $model) {
+            $productModel = $model->getProductInfo($model->PRODUCT_ID);
             if ($model->BIDDED_ITEM == '1') {
                 $product_price = $model->PRODUCT_PRICE;
             } else {
-                $product_price = $model->pRODUCT->RETAIL_PRICE; //get the retail price if its not a bid item
+                $product_price = $productModel->prodretailprice; //get the retail price if its not a bid item
             }
             $total[] = (float)$product_price;
-            $shipping[] = ProductManager::ComputeShippingCost($model->pRODUCT->PRODUCT_ID);
+            $shipping[] = ProductManager::ComputeShippingCost($productModel->productid);
         }
 
         $sub_total = array_sum($total);
