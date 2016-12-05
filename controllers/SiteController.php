@@ -98,8 +98,8 @@ class SiteController extends Controller
     /**
      * This function will be triggered when user is successfuly authenticated using some oAuth client.
      *
-     * @param yii\authclient\ClientInterface $client
-     * @return boolean|yii\web\Response
+     * @param ClientInterface $client
+     * @return Response
      */
     public function oAuthSuccess($client)
     {
@@ -164,10 +164,13 @@ class SiteController extends Controller
             $model->LAST_BIDDING_USER_ID = $user_id;
             $model->ACTIVITY_COUNT = $activity_count;
             //save the data
+
             if ($model->save()) {
                 //no need to alert user return indicator so that we can switch to auction countdown
                 //track the bid
                 BidManager::TrackUsersBids($user_id, $id, $sku);
+
+
                 $resp = [
                     'msg' => 'Bid placed successfully',
                     'success' => true,
@@ -222,7 +225,7 @@ class SiteController extends Controller
      * @param $id
      * @param $user_id
      * @param $sku
-     * action should be called like these update-bid
+     * @return string
      */
     public function actionUpdateBid($id, $user_id, $sku)
     {

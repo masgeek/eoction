@@ -85,12 +85,15 @@ class BidManager
         $bid_successful = false;
         $bid_amount_increment = BidManager::NextBidAmount($product_id);
 
+
+
         $expression = new Expression('NOW()');
         //first lets check if the product is already tracked
         $bidactivity = ProductBids::findOne([
             'PRODUCT_ID' => $product_id,
             'USER_ID' => $user_id,
         ]);
+
 
         if ($bidactivity != null) {
             //do the update

@@ -58,6 +58,7 @@ class ProductManager
         if ($bids != null) {
             $bidsCount = $bids->ACTIVITY_COUNT; //return the count
         }
+
         return $bidsCount;
     }
 
