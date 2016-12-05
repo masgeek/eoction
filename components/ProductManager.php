@@ -27,12 +27,14 @@ class ProductManager
     public static function ComputePercentageDiscount($product_id)
     {
         $discount_percentage = 0;
-        $product = Products::findOne(['PRODUCT_ID' => $product_id]);
+        $product = FryProducts::findOne(['productid' => $product_id]);
         if ($product != null) {
-            $retail_price = $product->RETAIL_PRICE;
-            $bid_price = $product->PRICE;
+            $retail_price = $product->prodretailprice;
+            $bid_price = $product->prodprice;
 
-            $discount_percentage = 100 - round((($bid_price * 100) / $retail_price), 2);
+            if ($retail_price > 0) {
+                $discount_percentage = 100 - round((($bid_price * 100) / $retail_price), 2);
+            }
         }
         return $discount_percentage;
     }
@@ -40,9 +42,9 @@ class ProductManager
     public static function ComputeShippingCost($product_id)
     {
         $shipping_cost = 0;
-        $product = Products::findOne(['PRODUCT_ID' => $product_id]);
+        $product = FryProducts::findOne(['productid' => $product_id]);
         if ($product != null) {
-            $retail_price = $product->RETAIL_PRICE;
+            $retail_price = $product->prodretailprice;
 
             $shipping_cost = round(((5 * $retail_price) / 100), 2);
         }
@@ -75,15 +77,16 @@ class ProductManager
                 ->where(['IN', 'prodvisible', $auction_param,])
                 ->andWhere(['>=', 'prodcurrentinv', $min_stock])//stock levels should be greater or equal to 1
                 ->andWhere(['NOT IN', 'prodcode', $exclusion_list])
-                ->orderBy(['rand()' => SORT_DESC]), //randomly pick items
-            //->orderBy('PRODUCT_ID ASC'),
+                //->orderBy(['rand()' => SORT_DESC]), //randomly pick items
+            ->orderBy('productid ASC'),
             'pagination' => [
-                'pageSize' => $no_of_items
+                'pageSize' => $no_of_items  =2
             ],
         ]);
 
         return $item_provider;
     }
+
     public static function GetItemsForSaleOld($no_of_items = 10, $auction_param = [1, 0], $min_stock = 1, $exclusion_list = [])
     {
         $item_provider = new ActiveDataProvider([

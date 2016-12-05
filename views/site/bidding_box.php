@@ -5,8 +5,8 @@
  * Date: 2016/10/10
  * Time: 14:40
  */
-/* @var $model app\module\products\models\Products */
-/* @var $image app\module\products\models\Images */
+/* @var $model app\module\products\models\FryProducts */
+/* @var $image app\module\products\models\FryProductImages */
 
 
 use yii\helpers\Html;
@@ -21,20 +21,20 @@ $product_image = $imageObject ? '@web'.$imageObject->IMAGE_URL : '@web/product_i
 
 
 //calculate the percentage discount based on the retail price and the bidded amount
-$starting_bid_price = $model->PRICE;
-$sku = $model->SKU;
+$starting_bid_price = $model->prodretailprice;
+$sku = $model->prodcode;
 
-$bids = ProductManager::GetNumberOfBids($model->PRODUCT_ID);
+$bids = ProductManager::GetNumberOfBids($model->productid);
 
-$product_id = $model->PRODUCT_ID;
-$product_name = $model->PRODUCT_NAME;
+$product_id = $model->productid;
+$product_name = $model->prodname;
 
 $discount = ProductManager::ComputePercentageDiscount($product_id);
 $shipping = ProductManager::ComputeShippingCost($product_id);
 $bidStartTime = 60;// * $productID; //initial start time for the bid
 
 $shipping_cost = $formatter->asCurrency($shipping);
-$retail_price = $formatter->asCurrency($model->RETAIL_PRICE);
+$retail_price = $formatter->asCurrency($model->prodretailprice);
 
 $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
 

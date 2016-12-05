@@ -9,9 +9,10 @@
  * @var \yii\data\ActiveDataProvider $listDataProvider
  */
 
+
 namespace app\components;
 
-use app\module\products\models\Images;
+use app\module\products\models\FryProducts;
 use yii\db\Expression;
 use yii\helpers\Html;
 
@@ -237,28 +238,23 @@ class BidManager
      */
     public static function GetNextItemToBid($product_id = 0)
     {
-        //sleep for a second to allow randomization
-        //usleep(1500);
+        /* @var $productModel FryProducts */
 
-        //$sleepInterval = mt_rand(0,5);
-        //sleep($sleepInterval); //sleep between calls to prevent return duplicate ids
-        $nested_items_array = BidActivity::find()->select('PRODUCT_SKU')->asArray()->all();
-        //flatten the nested arrays
         $item_array = BidManager::GetExclusionItems();
 
-        $productModel = Products::find()
+        $productModel = FryProducts::find()
             ->where([
-                'NOT IN', 'SKU', $item_array,
+                'NOT IN', 'prodcode', $item_array,
             ])
-            ->andWhere(['>=', 'CURRENT_STOCK_LEVEL', 1])//stock levels should be greater or equal to 1
+            ->andWhere(['>=', 'prodcurrentinv', 1])//stock levels should be greater or equal to 1
             //->andWhere('!=','PRODUCT_ID',$product_id)
             //->orderBy(['rand()' => SORT_DESC])
             ->one();
 
         //add the item to bid activity
         BidManager::AddItemsToBidActivity($productModel, $multimodel = false); //add the picked item to bid activity table
-        $product_list = BidManager::BuildList($productModel->PRODUCT_ID, $productModel->SKU,
-            $productModel->PRODUCT_NAME, $productModel->RETAIL_PRICE, $productModel->PRICE);
+        $product_list = BidManager::BuildList($productModel->productid, $productModel->prodcode,
+            $productModel->prodname, $productModel->prodretailprice, $productModel->prodprice);
         return $product_list;
     }
 
@@ -294,7 +290,7 @@ class BidManager
      */
     private static function BuildList($product_id, $sku, $product_name, $retail_price_raw, $starting_bid_price_raw)
     {
-        $imageModel = new Products();
+        $imageModel = new FryProducts();
         $formatter = \Yii::$app->formatter;
 
         $shipping_cost = $formatter->asCurrency(ProductManager::ComputeShippingCost($product_id));
