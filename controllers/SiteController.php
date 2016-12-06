@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 
+use app\components\ShipStationHandler;
 use MichaelB\ShipStation\Models\Address;
 use MichaelB\ShipStation\Models\Order;
 use MichaelB\ShipStation\Models\OrderItem;
@@ -169,6 +170,7 @@ class SiteController extends Controller
 
     public function actionShipStation()
     {
+
         $endpointurl = \Yii::$app->params['ShipStationApiUrl'];
         $apikey = \Yii::$app->params['ShipStationApiKey'];
         $apisecret = \Yii::$app->params['ShipStationApiSecret'];
@@ -184,11 +186,11 @@ class SiteController extends Controller
 
         $order = new Order();
         //$order->orderId = 1;
-        $order->orderNumber = "005";
+        $order->orderNumber = "EOCT001";
         //$order->orderKey = null; // if specified, the method becomes idempotent and the existing Order with that key will be updated
         $order->orderDate = date('Y-m-d') . 'T' . date('H:i:s') . '.0000000';
         $order->paymentDate = date('Y-m-d') . 'T' . date('H:i:s') . '.0000000';
-        $order->orderStatus = "awaiting_shipment"; // {awaiting_shipment, on_hold, shipped, cancelled}
+        $order->orderStatus = ShipStationHandler::ON_HOLD;
         $order->customerUsername = "Otoniel Ortega";
         $order->customerEmail = "ortega.x3@gmail.com";
         $order->amountPaid = 150.00;
@@ -242,7 +244,7 @@ class SiteController extends Controller
         for ($x = 0; $x <= 5; $x++) {
             $orderItem = new OrderItem();
             $orderItem->lineItemKey = '1';
-            $orderItem->sku = '580123456';
+            $orderItem->sku = '58012345-' . $x;
             $orderItem->name = "Awesome sweater {$x}";
             $orderItem->quantity = '1';
             $orderItem->unitPrice = '29.99';

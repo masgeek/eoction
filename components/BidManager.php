@@ -23,7 +23,6 @@ use app\module\products\models\ProductBids;
 
 class BidManager
 {
-
     /**
      *Add items to the bid activity table
      * this will help us avoid refetching the same product
