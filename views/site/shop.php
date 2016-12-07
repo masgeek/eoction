@@ -45,5 +45,5 @@ $listviewWidget = ListView::widget([
 ?>
 
 <div class="col-md-10 col-md-offset-1">
-<?= $listviewWidget ?>
-    </div>
+    <?= $listviewWidget ?>
+</div>

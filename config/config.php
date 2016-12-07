@@ -95,6 +95,7 @@ $config = [
                 'create-orders' => 'site/ship-station',
                 'get-orders' => 'site/ship-orders',
                 'signup' => 'user/users/signup',
+                'mailing-addresses' => 'user/address/index',
                 'products' => 'product/product/index',
                 'orders' => 'product/orders/index',
                 'add-image' => 'product/images/add-image',

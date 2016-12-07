@@ -43,7 +43,9 @@ use yii\bootstrap\ActiveForm;
                 <?= $form->field($model, 'TIMEZONE')->textInput(['maxlength' => true]) ?>
             </div>
         </div>
-        <?= $form->field($model, 'CHANGE_PASS')->hint('Click to change password')->checkbox(['checked' => false]); ?>
+
+            <?= $form->field($model, 'CHANGE_PASS')->hint('Click to change password')->checkbox(['checked' => false]); ?>
+
 
         <div class="row toggle-field" style="display: none;">
             <?= Html::textInput('PASSWORD', $model->PASSWORD_HASH, ['id' => 'password', 'class' => 'form-control hidden', 'readonly' => true]) ?>
@@ -59,7 +61,6 @@ use yii\bootstrap\ActiveForm;
         </div>
 
         <?php ActiveForm::end(); ?>
-
     </div>
 
 <?php
