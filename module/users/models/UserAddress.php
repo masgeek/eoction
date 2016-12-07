@@ -3,6 +3,7 @@
 namespace app\module\users\models;
 
 use Yii;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "{{%tb_user_address}}".
@@ -24,7 +25,7 @@ use Yii;
  * @property string $CREATED
  * @property string $UPDATED
  *
- * @property TbUsers $uSER
+ * @property Users $uSER
  */
 class UserAddress extends \yii\db\ActiveRecord
 {
@@ -51,8 +52,26 @@ class UserAddress extends \yii\db\ActiveRecord
             [['CITY', 'STATE', 'POSTALCODE', 'PHONE'], 'string', 'max' => 50],
             [['COUNTRY', 'ADDRESS_TYPE'], 'string', 'max' => 20],
             [['RESIDENTIAL'], 'string', 'max' => 10],
-            [['USER_ID'], 'exist', 'skipOnError' => true, 'targetClass' => TbUsers::className(), 'targetAttribute' => ['USER_ID' => 'USER_ID']],
+            [['USER_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['USER_ID' => 'USER_ID']],
         ];
+    }
+
+
+    /**
+     * @param bool $insert
+     * @return bool
+     */
+    public function beforeSave($insert)
+    {
+        $date = new Expression('NOW()');
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->CREATED = $date;
+            }
+            $this->UPDATED = $date;
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -85,6 +104,6 @@ class UserAddress extends \yii\db\ActiveRecord
      */
     public function getUSER()
     {
-        return $this->hasOne(TbUsers::className(), ['USER_ID' => 'USER_ID']);
+        return $this->hasOne(Users::className(), ['USER_ID' => 'USER_ID']);
     }
 }

@@ -12,7 +12,7 @@ use app\module\products\models;
  * @property integer $USER_ID
  * @property string $SALT
  *
- * @property TbUsers $uSER
+ * @property Users $uSER
  */
 class HashTable extends \yii\db\ActiveRecord
 {
@@ -54,6 +54,6 @@ class HashTable extends \yii\db\ActiveRecord
      */
     public function getUSER()
     {
-        return $this->hasOne(TbUsers::className(), ['USER_ID' => 'USER_ID']);
+        return $this->hasOne(Users::className(), ['USER_ID' => 'USER_ID']);
     }
 }

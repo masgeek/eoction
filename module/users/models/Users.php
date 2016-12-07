@@ -24,13 +24,16 @@ use yii\db\Expression;
  * @property string $DATE_CREATED
  * @property string $DATE_UPDATED
  *
- * @property TbHashTable[] $tbHashTables
- * @property TbItemsCart[] $tbItemsCarts
- * @property TbItemsWishlist[] $tbItemsWishlists
- * @property TbProductBids[] $tbProductBids
+ * @property HashTable[] $tbHashTables
+ * @property ItemsCart[] $tbItemsCarts
+ * @property ItemsWishlist[] $tbItemsWishlists
+ * @property ProductBids[] $tbProductBids
  */
 class Users extends \yii\db\ActiveRecord
 {
+    const SCENARIO_SIGNUP = 'signup';
+    const SCENARIO_UPDATE = 'test';
+
     public $REPEAT_PASSWORD;
     public $CHANGE_PASS;
 
@@ -45,8 +48,8 @@ class Users extends \yii\db\ActiveRecord
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        //$scenarios['update'] = [];//Scenario Values Only Accepted
-        $scenarios['signup'] = ['PASSWORD_HASH', 'REPEAT_PASSWORD', 'FULL_NAMES', 'EMAIL_ADDRESS'];//Scenario Values Only Accepted
+        $scenarios[self::SCENARIO_SIGNUP] = ['FULL_NAMES', 'EMAIL_ADDRESS', 'PASSWORD_HASH', 'REPEAT_PASSWORD'];//Scenario Values Only Accepted
+        $scenarios[self::SCENARIO_UPDATE] = ['FULL_NAMES','EMAIL_ADDRESS', 'PHONE_NO', 'TIMEZONE', 'COUNTRY'];//Scenario Values Only Accepted
         return $scenarios;
     }
 
@@ -56,17 +59,19 @@ class Users extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['FULL_NAMES', 'EMAIL_ADDRESS'], 'required'],
-            [['PASSWORD_HASH', 'REPEAT_PASSWORD'], 'required', 'on' => 'signup'],
+
+            [['FULL_NAMES', 'EMAIL_ADDRESS', 'PASSWORD_HASH', 'REPEAT_PASSWORD'], 'required', 'on' => [self::SCENARIO_SIGNUP, self::SCENARIO_UPDATE]],
+
+            [['FULL_NAMES', 'PHONE_NO', 'TIMEZONE', 'COUNTRY'], 'required', 'on' => self::SCENARIO_UPDATE],
             [['EMAIL_ADDRESS'], 'unique'],
             [['EMAIL_ADDRESS'], 'email'],
             [['SOCIAL_ID', 'STATUS'], 'integer'],
             [['CHANGE_PASS'], 'boolean'],
             [['DATE_CREATED', 'DATE_UPDATED'], 'safe'],
             [['FULL_NAMES', 'EMAIL_ADDRESS', 'PASSWORD_HASH', 'REPEAT_PASSWORD', 'ACCOUNT_ACCESS_TOKEN', 'ACCOUNT_AUTH_KEY'], 'string', 'max' => 255],
-            [['PHONE_NO'], 'string', 'max' => 30],
-            [['TIMEZONE'], 'string', 'max' => 10],
-            [['COUNTRY'], 'string', 'max' => 15],
+            [['PHONE_NO'], 'string', 'min' => 10, 'max' => 30],
+            [['TIMEZONE'], 'string', 'min' => '5', 'max' => 10],
+            [['COUNTRY'], 'string', 'min' => '2', 'max' => 15],
             ['REPEAT_PASSWORD', 'compare', 'compareAttribute' => 'PASSWORD_HASH', 'skipOnEmpty' => false, 'message' => "Passwords don't match"] //password confirmation rule
         ];
     }
@@ -118,7 +123,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getTbHashTables()
     {
-        return $this->hasMany(TbHashTable::className(), ['USER_ID' => 'USER_ID']);
+        return $this->hasMany(HashTable::className(), ['USER_ID' => 'USER_ID']);
     }
 
     /**
