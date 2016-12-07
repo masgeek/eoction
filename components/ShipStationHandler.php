@@ -21,7 +21,7 @@ class ShipStationHandler
 
     public function CreateNewOrder($paypal_hash)
     {
-
+//pull the product information from the said table
     }
 
     /**

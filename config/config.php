@@ -96,6 +96,7 @@ $config = [
                 'get-orders' => 'site/ship-orders',
                 'signup' => 'user/users/signup',
                 'products' => 'product/product/index',
+                'orders' => 'product/orders/index',
                 'add-image' => 'product/images/add-image',
                 'request-password-reset' => 'site/request-password-reset',
                 'reset-password' => 'site/reset-password',
