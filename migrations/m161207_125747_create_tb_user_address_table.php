@@ -28,7 +28,7 @@ class m161207_125747_create_tb_user_address_table extends Migration
             'RESIDENTIAL' => $this->string(10)->defaultValue('YES'),
             'ADDRESS_TYPE' => $this->string(20)->notNull()->defaultValue('billing'), #default will be a billing address
             'CREATED' => $this->timestamp(),
-            'UPDATED' => $this->timestamp()->defaultExpression(' ON UPDATE CURRENT_TIMESTAMP'),
+            'UPDATED' => $this->timestamp() . ' ON UPDATE CURRENT_TIMESTAMP',
         ]);
 
         $this->addForeignKey('FK_USER_ADDRESS_ID', 'tb_user_address', 'USER_ID', 'tb_users', 'USER_ID');
