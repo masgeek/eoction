@@ -49,7 +49,7 @@ class Users extends \yii\db\ActiveRecord
     {
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_SIGNUP] = ['FULL_NAMES', 'EMAIL_ADDRESS', 'PASSWORD_HASH', 'REPEAT_PASSWORD'];//Scenario Values Only Accepted
-        $scenarios[self::SCENARIO_UPDATE] = ['FULL_NAMES','EMAIL_ADDRESS', 'PHONE_NO', 'TIMEZONE', 'COUNTRY'];//Scenario Values Only Accepted
+        $scenarios[self::SCENARIO_UPDATE] = ['FULL_NAMES', 'EMAIL_ADDRESS','PASSWORD_HASH', 'REPEAT_PASSWORD', 'PHONE_NO', 'TIMEZONE', 'COUNTRY'];//Scenario Values Only Accepted
         return $scenarios;
     }
 
@@ -85,6 +85,7 @@ class Users extends \yii\db\ActiveRecord
             'USER_ID' => 'User ID',
             'FULL_NAMES' => 'Full Names',
             'EMAIL_ADDRESS' => 'Email Address',
+            'CHANGE_PASS' => 'Change Password',
             'PASSWORD_HASH' => 'Password',
             'REPEAT_PASSWORD' => 'Confirm Password',
             'ACCOUNT_ACCESS_TOKEN' => 'Account Access Token',
