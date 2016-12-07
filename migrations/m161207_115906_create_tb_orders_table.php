@@ -25,20 +25,20 @@ class m161207_115906_create_tb_orders_table extends Migration
 [customerUsername] => Otoniel Ortega
 [customerEmail] => ortega.x3@gmail.com*/
 
-        $this->createTable('tb_orders', [
+        $this->createTable('orders', [
             'id' => $this->primaryKey(),
-            'orderId' => $this->integer() . ' NOT NULL',
-            'orderNumber' => $this->string(100) . ' NOT NULL',
-            'orderKey' => $this->string(100) . ' NOT NULL',
-            'orderDate' => $this->timestamp() . ' NOT NULL',
-            'createDate' => $this->timestamp() . ' NOT NULL',
-            'modifyDate' => $this->timestamp() . ' NOT NULL',
-            'paymentDate' => $this->timestamp() . ' NOT NULL',
+            'orderId' => $this->integer()->notNull(),
+            'orderNumber' => $this->string(100)->notNull(),
+            'orderKey' => $this->string(100)->notNull(),
+            'orderDate' => $this->timestamp()->notNull(),
+            'createDate' => $this->timestamp()->notNull(),
+            'modifyDate' => $this->timestamp()->notNull(),
+            'paymentDate' => $this->timestamp()->notNull(),
             'shipByDate' => $this->timestamp(),
-            'orderStatus' => $this->string(10) . ' NOT NULL',
-            'customerId' => $this->integer() . ' NOT NULL',
-            'customerUsername' => $this->string(100) . ' NOT NULL',
-            'customerEmail' => $this->string(100) . ' NOT NULL',
+            'orderStatus' => $this->string(10)->notNull(),
+            'customerId' => $this->integer()->notNull(),
+            'customerUsername' => $this->string(100)->notNull(),
+            'customerEmail' => $this->string(100)->notNull(),
         ]);
     }
 
@@ -47,6 +47,6 @@ class m161207_115906_create_tb_orders_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('tb_orders');
+        $this->dropTable('orders');
     }
 }

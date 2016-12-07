@@ -26,7 +26,7 @@ class PaypalTransactions extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%tb_paypal_transactions}}';
+        return '{{%paypal_transactions}}';
     }
 
     /**
