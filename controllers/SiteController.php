@@ -4,9 +4,11 @@ namespace app\controllers;
 
 
 use app\components\ShipStationHandler;
+use MichaelB\ShipStation\Endpoints\Stores;
 use MichaelB\ShipStation\Models\Address;
 use MichaelB\ShipStation\Models\Order;
 use MichaelB\ShipStation\Models\OrderItem;
+use MichaelB\ShipStation\Models\Store;
 use MichaelB\ShipStation\ShipStationApi;
 use PayPal\Test\Api\OrderTest;
 use Yii;
@@ -135,9 +137,14 @@ class SiteController extends Controller
         ];
         $order = $orderservice->getOrder($id);
 
-        $body = $order->getBody();
 
-        echo $body;
+        $orderJsonResponse = $order->getBody();
+
+        $decoded = \GuzzleHttp\json_decode($orderJsonResponse);
+        echo '<pre>';
+        print_r($decoded);
+        echo '</pre>';
+
         /*$filters 	= array
         (
             'orderNumber'		=> $id = '005',
@@ -182,6 +189,7 @@ class SiteController extends Controller
         $orderservice = $shipstation->getOrdersService();
         $productservice = $shipstation->getProductsService();
         //echo "{$endpointurl}/{$apikey}/{$apisecret}";
+
 
 
         $order = new Order();
@@ -257,7 +265,12 @@ class SiteController extends Controller
 
         //$order = $orderservice->getOrder('1234');
         $createOrder = $orderservice->createOrder($order);
-        echo($createOrder->getBody());
+        $orderJsonResponse = $createOrder->getBody();
+
+        $decoded = \GuzzleHttp\json_decode($orderJsonResponse);
+        echo '<pre>';
+        print_r($decoded);
+        echo '</pre>';
 
 
         return $this->render('about');
