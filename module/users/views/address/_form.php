@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'NAME')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'COMPANY')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'COMPANY')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'STREET1')->textInput(['maxlength' => true]) ?>
 
@@ -37,6 +37,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'RESIDENTIAL')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'ADDRESS_TYPE')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'PRIMARY_ADDRESS')->textInput() ?>
 
     <?= $form->field($model, 'CREATED')->textInput() ?>
 

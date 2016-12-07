@@ -33,7 +33,7 @@ class AddressController extends Controller
      * Lists all UserAddress models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($id)
     {
         $dataProvider = new ActiveDataProvider([
             'query' => UserAddress::find(),
@@ -41,6 +41,7 @@ class AddressController extends Controller
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'id' => $id
         ]);
     }
 
@@ -58,25 +59,27 @@ class AddressController extends Controller
 
     /**
      * Creates a new UserAddress model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * If creation is successful, the browser will be redirected to the 'index' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionAdd($id)
     {
         $model = new UserAddress();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->ADDRESS_ID]);
+            return $this->redirect(['index', 'id' => $model->ADDRESS_ID]);
         } else {
+            $model->USER_ID = $id;
             return $this->render('create', [
                 'model' => $model,
+                'id' => $id
             ]);
         }
     }
 
     /**
      * Updates an existing UserAddress model.
-     * If update is successful, the browser will be redirected to the 'view' page.
+     * If update is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      */
@@ -85,7 +88,7 @@ class AddressController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->ADDRESS_ID]);
+            return $this->redirect(['index', 'id' => $model->ADDRESS_ID]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -97,13 +100,14 @@ class AddressController extends Controller
      * Deletes an existing UserAddress model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
+     * @param null $user_id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($id, $user_id = null)
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['index', 'id' => $user_id]);
     }
 
     /**

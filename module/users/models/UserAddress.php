@@ -3,7 +3,6 @@
 namespace app\module\users\models;
 
 use Yii;
-use yii\db\Expression;
 
 /**
  * This is the model class for table "{{%tb_user_address}}".
@@ -22,6 +21,7 @@ use yii\db\Expression;
  * @property string $PHONE
  * @property string $RESIDENTIAL
  * @property string $ADDRESS_TYPE
+ * @property integer $PRIMARY_ADDRESS
  * @property string $CREATED
  * @property string $UPDATED
  *
@@ -44,34 +44,16 @@ class UserAddress extends \yii\db\ActiveRecord
     {
         return [
             [['USER_ID', 'NAME', 'COMPANY', 'STREET1', 'CITY', 'POSTALCODE', 'COUNTRY', 'PHONE'], 'required'],
-            [['USER_ID'], 'integer'],
-            [['COMPANY'], 'string'],
+            [['USER_ID', 'PRIMARY_ADDRESS'], 'integer'],
             [['CREATED', 'UPDATED'], 'safe'],
             [['NAME'], 'string', 'max' => 100],
+            [['COMPANY'], 'string', 'max' => 150],
             [['STREET1', 'STREET2', 'STREET3'], 'string', 'max' => 200],
             [['CITY', 'STATE', 'POSTALCODE', 'PHONE'], 'string', 'max' => 50],
             [['COUNTRY', 'ADDRESS_TYPE'], 'string', 'max' => 20],
             [['RESIDENTIAL'], 'string', 'max' => 10],
             [['USER_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['USER_ID' => 'USER_ID']],
         ];
-    }
-
-
-    /**
-     * @param bool $insert
-     * @return bool
-     */
-    public function beforeSave($insert)
-    {
-        $date = new Expression('NOW()');
-        if (parent::beforeSave($insert)) {
-            if ($this->isNewRecord) {
-                $this->CREATED = $date;
-            }
-            $this->UPDATED = $date;
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -94,6 +76,7 @@ class UserAddress extends \yii\db\ActiveRecord
             'PHONE' => 'Phone',
             'RESIDENTIAL' => 'Residential',
             'ADDRESS_TYPE' => 'Address  Type',
+            'PRIMARY_ADDRESS' => 'Primary  Address',
             'CREATED' => 'Created',
             'UPDATED' => 'Updated',
         ];

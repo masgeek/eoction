@@ -4,10 +4,12 @@ use yii\helpers\Html;
 use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
+/* @var $id string*/
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'User Addresses';
+$this->title = 'Manage Address';
 $this->params['breadcrumbs'][] = $this->title;
+
 
 $listviewWidget = ListView::widget([
     'dataProvider' => $dataProvider,
@@ -21,27 +23,23 @@ $listviewWidget = ListView::widget([
     //'itemView' => '_product_view_old',
     'itemView' => '_address-box',
 ]);
-
 ?>
 
-<div class="col-md-10 col-md-offset-1">
-    <?= $listviewWidget ?>
+<div class="col-md-8 col-md-offset-2">
+    <?php if ($dataProvider->count > 0): ?>
+        <?= $listviewWidget ?>
+    <?php else: ?>
+        <div class="panel panel-primary">
+            <div class="panel-heading">Your Addresses</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        You have no addresses on file.
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+    <?= Html::a('<i class="fa fa-plus-circle"></i> Add Mailing Address', ['add','id'=>$id], ['class' => 'btn btn-primary btn-block btn-lg noradius']) ?>
+    <hr/>
 </div>
-
-<!--
-<div class="user-address-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Create User Address', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?= ListView::widget([
-        'dataProvider' => $dataProvider,
-        'itemOptions' => ['class' => 'item'],
-        'itemView' => function ($model, $key, $index, $widget) {
-            return Html::a(Html::encode($model->NAME), ['view', 'id' => $model->ADDRESS_ID]);
-        },
-    ]) ?>
-</div>
--->
