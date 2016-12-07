@@ -103,12 +103,12 @@ class UsersController extends Controller
         $model->scenario = Users::SCENARIO_UPDATE;
         if (isset($_POST['Users'])) {
 
+
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 //return $this->redirect(['my-profile', 'id' => $model->USER_ID]);
                 return $this->redirect(['view', 'id' => $model->USER_ID]);
             }
 
-            var_dump($model->getErrors());
         }
 
         return $this->render('update', [

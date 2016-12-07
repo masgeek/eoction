@@ -49,7 +49,7 @@ class Users extends \yii\db\ActiveRecord
     {
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_SIGNUP] = ['FULL_NAMES', 'EMAIL_ADDRESS', 'PASSWORD_HASH', 'REPEAT_PASSWORD'];//Scenario Values Only Accepted
-        $scenarios[self::SCENARIO_UPDATE] = ['FULL_NAMES', 'EMAIL_ADDRESS','PASSWORD_HASH', 'REPEAT_PASSWORD', 'PHONE_NO', 'TIMEZONE', 'COUNTRY'];//Scenario Values Only Accepted
+        $scenarios[self::SCENARIO_UPDATE] = ['FULL_NAMES', 'EMAIL_ADDRESS', 'PASSWORD_HASH', 'REPEAT_PASSWORD', 'PHONE_NO', 'TIMEZONE', 'COUNTRY', 'CHANGE_PASS'];//Scenario Values Only Accepted
         return $scenarios;
     }
 
@@ -62,7 +62,7 @@ class Users extends \yii\db\ActiveRecord
 
             [['FULL_NAMES', 'EMAIL_ADDRESS', 'PASSWORD_HASH', 'REPEAT_PASSWORD'], 'required', 'on' => [self::SCENARIO_SIGNUP, self::SCENARIO_UPDATE]],
 
-            [['FULL_NAMES', 'PHONE_NO', 'TIMEZONE', 'COUNTRY'], 'required', 'on' => self::SCENARIO_UPDATE],
+            [['FULL_NAMES', 'PHONE_NO', 'TIMEZONE', 'COUNTRY', 'CHANGE_PASS'], 'required', 'on' => self::SCENARIO_UPDATE],
             [['EMAIL_ADDRESS'], 'unique'],
             [['EMAIL_ADDRESS'], 'email'],
             [['SOCIAL_ID', 'STATUS'], 'integer'],
@@ -109,7 +109,7 @@ class Users extends \yii\db\ActiveRecord
                 $this->DATE_CREATED = $date;
                 $this->PASSWORD_HASH = sha1($this->PASSWORD_HASH); //hash the user password
             }
-            if ($this->CHANGE_PASS) {
+            if ($this->CHANGE_PASS == 'true' || $this->CHANGE_PASS == 1) { //when checkbox is checked to indicate password changed
                 //it is in update mode check if password change was requested
                 $this->PASSWORD_HASH = sha1($this->PASSWORD_HASH); //hash the user password
             }

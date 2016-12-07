@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\module\users\models\Users */
 
-$this->title = 'Update Profile';
+$this->title = 'Account Info | ' . Yii::$app->name;
 //$this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 //$this->params['breadcrumbs'][] = ['label' => 'Account', 'url' => ['my-profile', 'id' => $model->USER_ID]];
-$this->params['breadcrumbs'][] = 'My Profile';
+$this->params['breadcrumbs'][] = 'Account Info';
 ?>
 <div class="users-update row">
     <div class="col-md-4">
