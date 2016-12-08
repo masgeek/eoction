@@ -19,16 +19,28 @@ use \app\module\users\models\UserAddress;
         class="<?= $model->ADDRESS_TYPE == UserAddress::BILLING_ADDRESS ? 'panel panel-warning' : 'panel panel-info' ?>">
         <div class="panel-heading">
             <span
-                class="<?= $model->ADDRESS_TYPE == UserAddress::BILLING_ADDRESS ? 'label label-success' : 'label label-default' ?>"><?= $model->ADDRESS_TYPE ?></span>
+                class="<?= $model->ADDRESS_TYPE == UserAddress::BILLING_ADDRESS ? 'label label-success' : 'label label-default' ?>">
+                <i class="fa fa-map-marker"></i> <?= $model->ADDRESS_TYPE ?>
+            </span>
         </div>
 
         <div class="panel-body">
             <div class="row pull-right">
                 <div class="col-xs-6">
-                    <?= Html::a('<i class="fa fa-edit fa-1x"></i>', ['update', 'id' => $model->ADDRESS_ID], ['class' => 'btn btn-default']) ?>
+                    <?= Html::a('<i class="fa fa-edit fa-1x"></i>',
+                        ['update', 'id' => $model->ADDRESS_ID], [
+                            'class' => 'btn btn-success',
+                            'title' => 'Edit Address'
+                        ]) ?>
                 </div>
                 <div class="col-xs-6">
-                    <?= Html::a('<i class="fa fa-remove fa-1x"></i>', \yii\helpers\Url::toRoute(['delete', 'id' => $model->ADDRESS_ID, 'user_id' => $model->USER_ID]), ['data-method' => 'post', 'class' => 'btn btn-default']) ?>
+                    <?= Html::a('<i class="fa fa-remove fa-1x"></i>',
+                        \yii\helpers\Url::toRoute(['delete', 'id' => $model->ADDRESS_ID, 'user_id' => $model->USER_ID]),
+                        [
+                            'data-method' => 'post',
+                            'class' => 'btn btn-danger',
+                            'title' => 'Remove Address'
+                        ]) ?>
                 </div>
             </div>
             <address>
