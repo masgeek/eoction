@@ -30,8 +30,9 @@ use Yii;
 class UserAddress extends \yii\db\ActiveRecord
 {
     const BILLING_ADDRESS = 'BILLING ADDRESS';
-    const MAILING_ADDRESS = 'MAILING ADDRESS';
+    const SHIPPING_ADDRESS = 'MAILING ADDRESS';
     const PRIMARY_ADDRESS = true;
+    const SECONDARY_ADDRESS = false;
 
     /**
      * @inheritdoc
@@ -49,7 +50,7 @@ class UserAddress extends \yii\db\ActiveRecord
         return [
             [['USER_ID', 'NAME', 'COMPANY', 'STREET1', 'CITY', 'POSTALCODE', 'COUNTRY'], 'required'],
             [['USER_ID'], 'integer'],
-            [['USER_ID', 'PRIMARY_ADDRESS','RESIDENTIAL'], 'boolean'],
+            [[ 'PRIMARY_ADDRESS', 'RESIDENTIAL'], 'boolean'],
             [['CREATED', 'UPDATED', 'PHONE'], 'safe'],
             [['NAME'], 'string', 'max' => 100],
             [['COMPANY'], 'string', 'max' => 150],
@@ -78,7 +79,7 @@ class UserAddress extends \yii\db\ActiveRecord
             'POSTALCODE' => 'Postal Code',
             'COUNTRY' => 'Country',
             'PHONE' => 'Phone',
-            'RESIDENTIAL' => 'Is Residential address',
+            'RESIDENTIAL' => 'Address Category',
             'ADDRESS_TYPE' => 'Address Type',
             'PRIMARY_ADDRESS' => 'Primary Address',
             'CREATED' => 'Created On',

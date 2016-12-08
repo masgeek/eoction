@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model app\module\users\models\UserAddress */
 /* @var $id string */
 
-$this->title = 'Create User Address';
+$this->title = 'Add New Address';
 $this->params['breadcrumbs'][] = ['label' => 'User Addresses', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
