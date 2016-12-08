@@ -72,7 +72,7 @@ use yii\widgets\ActiveForm;
     </div>
 
     <!-- Hidden fields Section -->
-    <?= $form->field($model, 'USER_ID')->textInput(['value' => $id,'readonly'=>true])->label('') ?>
+    <?= $form->field($model, 'USER_ID')->hiddenInput(['value' => $id,'readonly'=>true])->label('') ?>
     <!-- /End of hidden fields -->
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create New Address' : 'Update Address', ['class' => $model->isNewRecord ? 'btn btn-success btn-block noradius' : 'btn btn-primary noradius btn-block']) ?>
