@@ -35,7 +35,7 @@ return array(
     'amnah\\yii2\\user\\' => array($vendorDir . '/amnah/yii2-user'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
-    'MichaelB\\ShipStation\\' => array($vendorDir . '/michaelb/ship-station/src'),
+    'MichaelB\\ShipStation\\' => array($vendorDir . '/fatelord/ship-station/src'),
     'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
     'GuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),
     'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),

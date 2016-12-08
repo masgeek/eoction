@@ -8,4 +8,7 @@ return [
     'ShipStationApiUrl' => '//ssapi.shipstation.com/', //API end point
     'ShipStationApiKey' => 'c8c2f2b454fa41c58738d32d7fcc2004',
     'ShipStationApiSecret' => 'c01859545fa84170b6e2413d44a286a3',
+    //Live keys
+    'ShipStationApiKeyLive' => '22c69f4c9957498b903c1428545f1c53',
+    'ShipStationApiSecretLive' => 'af8eade38f81409bbea191fe07da3f11',
 ];

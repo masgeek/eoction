@@ -32,7 +32,7 @@ class m161207_125747_create_tb_user_address_table extends Migration
             'UPDATED' => $this->timestamp() . ' ON UPDATE CURRENT_TIMESTAMP',
         ]);
 
-        $this->addForeignKey('FK_USER_ADDRESS_ID', 'tb_user_address', 'USER_ID', 'tb_users', 'USER_ID');
+        $this->addForeignKey('FK_USER_ADDRESS_ID', 'tb_user_address', 'USER_ID', 'tb_users', 'USER_ID','RESTRICT', 'CASCADE');
     }
 
     /**

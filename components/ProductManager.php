@@ -39,16 +39,32 @@ class ProductManager
         return $discount_percentage;
     }
 
-    public static function ComputeShippingCost($product_id)
+    /**
+     * @param null $product_id
+     * @param int $retail_price
+     * @return float|int
+     */
+    public static function ComputeShippingCost($product_id = null, $retail_price = 0)
     {
-        $shipping_cost = 0;
         $product = FryProducts::findOne(['productid' => $product_id]);
         if ($product != null) {
+
             $retail_price = $product->prodretailprice;
 
-            $shipping_cost = round(((5 * $retail_price) / 100), 2);
         }
+
+        $shipping_cost = round(((5 * $retail_price) / 100), 2);
         return $shipping_cost;
+    }
+
+    /**
+     * @param int $total_paid
+     * @return float
+     */
+    public static function ComputeTaxAmount($total_paid = 0)
+    {
+        $tax_amount = round(((5 * $total_paid) / 100), 2);
+        return $tax_amount = 0;
     }
 
     public static function GetNumberOfBids($product_id)
@@ -79,7 +95,7 @@ class ProductManager
                 ->andWhere(['>=', 'prodcurrentinv', $min_stock])//stock levels should be greater or equal to 1
                 ->andWhere(['NOT IN', 'prodcode', $exclusion_list])
                 ->orderBy(['rand()' => SORT_DESC]), //randomly pick items
-                //->orderBy('productid ASC'),
+            //->orderBy('productid ASC'),
             'pagination' => [
                 'pageSize' => $no_of_items
             ],

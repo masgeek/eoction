@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "235542edf7a1f239ff124f62dabb13ca",
-    "content-hash": "ec3c663ce7c0ed1b977dface531967ad",
+    "hash": "1370ece3c866ac64e6f4e9e04722fd51",
+    "content-hash": "f9e16ff2dc1547cb49c5ee4426421d94",
     "packages": [
         {
             "name": "amnah/yii2-user",
@@ -298,6 +298,52 @@
                 "html"
             ],
             "time": "2016-07-16 12:58:58"
+        },
+        {
+            "name": "fatelord/ship-station",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fatelord/ship-station.git",
+                "reference": "a7efcc1b4343d2963d610bce7e4a5bf4158fc5de"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fatelord/ship-station/zipball/a7efcc1b4343d2963d610bce7e4a5bf4158fc5de",
+                "reference": "a7efcc1b4343d2963d610bce7e4a5bf4158fc5de",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.0"
+            },
+            "type": "api wrapper",
+            "autoload": {
+                "psr-4": {
+                    "MichaelB\\ShipStation\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Bonds",
+                    "email": "barsamms@gmail.com"
+                }
+            ],
+            "description": "A php wrapper for ship station's api",
+            "keywords": [
+                "api",
+                "ship",
+                "ship-station",
+                "shipping",
+                "shipstation",
+                "wrapper"
+            ],
+            "support": {
+                "source": "https://github.com/fatelord/ship-station/tree/master"
+            },
+            "time": "2016-12-08 19:36:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1181,50 +1227,6 @@
                 "yii2"
             ],
             "time": "2016-04-11 15:46:50"
-        },
-        {
-            "name": "michaelb/ship-station",
-            "version": "v1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/michaelbonds/ship-station.git",
-                "reference": "084ae74a19f423d6292595c82a81e11953ee8066"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/michaelbonds/ship-station/zipball/084ae74a19f423d6292595c82a81e11953ee8066",
-                "reference": "084ae74a19f423d6292595c82a81e11953ee8066",
-                "shasum": ""
-            },
-            "require": {
-                "guzzlehttp/guzzle": "~6.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MichaelB\\ShipStation\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Michael Bonds",
-                    "email": "mbonds1219@gmail.com"
-                }
-            ],
-            "description": "A php wrapper for ship station's api",
-            "keywords": [
-                "api",
-                "ship",
-                "ship-station",
-                "shipping",
-                "shipstation",
-                "wrapper"
-            ],
-            "time": "2016-02-15 22:18:48"
         },
         {
             "name": "paypal/rest-api-sdk-php",
@@ -2129,7 +2131,8 @@
         "kartik-v/yii2-widget-typeahead": 20,
         "kartik-v/yii2-widget-fileinput": 20,
         "kartik-v/yii2-widget-activeform": 20,
-        "kongoon/yii2-paypal": 20
+        "kongoon/yii2-paypal": 20,
+        "fatelord/ship-station": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

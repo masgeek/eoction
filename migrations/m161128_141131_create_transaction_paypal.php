@@ -29,7 +29,7 @@ class m161128_141131_create_transaction_paypal extends Migration
             'UPDATE_TIME' => $this->dateTime() . ' ON UPDATE CURRENT_TIMESTAMP',
         ]);
         //add foreign keys
-        $this->addForeignKey('FK_USER_ID', 'paypal_transactions', 'USER_ID', 'tb_users', 'USER_ID');
+        $this->addForeignKey('FK_USER_ID', 'paypal_transactions', 'USER_ID', 'tb_users', 'USER_ID', 'RESTRICT', 'CASCADE');
     }
 
     public function safeDown()

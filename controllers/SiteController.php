@@ -61,23 +61,6 @@ class SiteController extends Controller
         ];
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    /* public function actions()
-     {
-         return [
-             'error' => [
-                 'class' => 'yii\web\ErrorAction',
-             ],
-             'captcha' => [
-                 'class' => 'yii\captcha\CaptchaAction',
-                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-             ],
-         ];
-     }*/
-
     public function actions()
     {
         return [
@@ -113,13 +96,21 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionCreateOrders($id = null)
+    public function actionGetOrders($order_id = '14847186')
     {
+        $shipStationService = new ShipStationHandler();
+
+        $order_resp = $shipStationService->GetSingleOrder($order_id); //for now we have overrriden it
         return $this->render('about');
     }
 
-    public function actionShipStation()
+    public function actionCreateOrders($paypal_hash = '57f75e957e58b30d8f476886b8c62dc4', $user_id = 5)
     {
+        $shipStationService = new ShipStationHandler();
+
+        $order_resp = $shipStationService->CreateNewOrder($paypal_hash, $user_id); //for now we have overriden it
+
+        var_dump($order_resp);
         return $this->render('about');
     }
 

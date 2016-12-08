@@ -197,7 +197,7 @@ class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
         ),
         'MichaelB\\ShipStation\\' => 
         array (
-            0 => __DIR__ . '/..' . '/michaelb/ship-station/src',
+            0 => __DIR__ . '/..' . '/fatelord/ship-station/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (

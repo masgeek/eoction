@@ -8,6 +8,8 @@
 
 namespace app\controllers;
 
+use app\components\ShipStationHandler;
+use app\module\products\models\ShippingService;
 use Yii;
 use yii\web\Controller;
 
@@ -96,8 +98,8 @@ class PaypalController extends Controller
             $baseUrl = \yii\helpers\Url::home(true);
 
             $redirectUrls = new RedirectUrls();
-            $redirectUrls->setReturnUrl("{$baseUrl}paypal/result?status=true")
-                ->setCancelUrl("{$baseUrl}paypal/result?status=false");
+            $redirectUrls->setReturnUrl("{$baseUrl}paypal/confirm?status=true")
+                ->setCancelUrl("{$baseUrl}paypal/confirm?status=false");
 
             $payment = new Payment();
             $payment->setIntent("sale")
@@ -149,21 +151,21 @@ class PaypalController extends Controller
         return $this->render('paypal-error');
     }
 
-
-    /**
-     * @param $status
-     * @param null $PayerID
-     * @return \yii\web\Response
-     */
-    public function actionResult($status, $PayerID = null)
+    public function actionConfirm($status, $PayerID = null)
     {
+        $model = new ShippingService();
+        $shipStation = new ShipStationHandler();
+        $paypal_hash = Yii::$app->session['paypal_hash'];
+        $context = Yii::$app->paypal->getApiContext();
+
+        $transactionPayment = PaypalTransactions::findOne(['HASH' => $paypal_hash]);
+        if ($transactionPayment == null) {
+            return $this->redirect(['error']);
+        }
+
         if ($status == 'true') {
-            $paypal_hash = Yii::$app->session['paypal_hash'];
-            Yii::$app->getSession()->setFlash('success', 'Item purchased successfully');
-            $context = Yii::$app->paypal->getApiContext();
-            $transactionPayment = PaypalTransactions::findOne(['HASH' => $paypal_hash]);
-            if ($transactionPayment != null) {
-                //var_dump($transactionPayment);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                //now save the transaction data
                 $payment = Payment::get($transactionPayment->PAYMENT_ID, $context);
                 //var_dump($payment);
 
@@ -172,21 +174,49 @@ class PaypalController extends Controller
                 //now charge the user account
                 $payment->execute($execution, $context);
                 //update the transaction
-                $transactionPayment->COMPLETE = 1;
-                if ($transactionPayment->save())//update the changes to the table
-                {
-                    //let us update the hash values
-                    ProductManager::UpdatePaidCartItems($paypal_hash);
-                    //clear the hash session value
-                    Yii::$app->session->remove('paypal_hash');
-                }
-
-                //update the car items as paid for so that they no longer appear in the cart
-                //SEND email to the user
-                return $this->redirect(['success']);
+                return $this->redirect(['confirm-order', '$paypal_hash' => $paypal_hash]);
             }
         } elseif ($status == 'false') {
             return $this->redirect(['cancel']);
+        }
+
+
+        $t = $shipStation->ListAllCarriers();
+
+        var_dump($t);
+        die;
+        return $this->render('confirm-order', [
+            'model' => $model,
+            'payment_id' => $transactionPayment->ID
+        ]);
+    }
+
+    /**
+     * @param $status
+     * @param null $PayerID
+     * @return \yii\web\Response
+     */
+    public function actionConfirmOrder($paypal_hash)
+    {
+        $shipStation = new ShipStationHandler();
+        Yii::$app->getSession()->setFlash('success', 'Item purchased successfully');
+        $context = Yii::$app->paypal->getApiContext();
+        $transactionPayment = PaypalTransactions::findOne(['HASH' => $paypal_hash]);
+        if ($transactionPayment != null) {
+            $transactionPayment->COMPLETE = 1;
+            if ($transactionPayment->save())//update the changes to the table
+            {
+                //let us update the hash values
+                ProductManager::UpdatePaidCartItems($paypal_hash);
+                //clear the hash session value
+                Yii::$app->session->remove('paypal_hash');
+            }
+
+            //lets create the order after a successfull payment and confirmation
+            //$order_status = $shipStation->CreateNewOrder($transactionPayment->HASH, $transactionPayment->USER_ID); //use the paypal hash
+            //update the car items as paid for so that they no longer appear in the cart
+            //SEND email to the user
+            return $this->redirect(['success', 'trans_id' => $transactionPayment->ID, 'order_status' => $order_status]);
         }
         return $this->redirect(['error']); //redirect to error page by default
     }
