@@ -65,15 +65,9 @@ class AddressController extends Controller
     public function actionAdd($id)
     {
         $model = new UserAddress();
-
-        if(isset($_POSTR['UserAddress'])){
-            var_dump($_POST);
-            die;
-        }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index', 'id' => $model->ADDRESS_ID]);
+            return $this->redirect(['index', 'id' => $model->USER_ID]);
         } else {
-            $model->USER_ID = $id;
             return $this->render('create', [
                 'model' => $model,
                 'id' => $id
@@ -92,10 +86,11 @@ class AddressController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index', 'id' => $model->ADDRESS_ID]);
+            return $this->redirect(['index', 'id' => $model->USER_ID]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'id'=>$model->USER_ID
             ]);
         }
     }
@@ -107,7 +102,7 @@ class AddressController extends Controller
      * @param null $user_id
      * @return mixed
      */
-    public function actionDelete($id, $user_id = null)
+    public function actionDelete($id, $user_id)
     {
         $this->findModel($id)->delete();
 

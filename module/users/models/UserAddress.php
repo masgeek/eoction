@@ -30,7 +30,7 @@ use Yii;
 class UserAddress extends \yii\db\ActiveRecord
 {
     const BILLING_ADDRESS = 'BILLING ADDRESS';
-    const SHIPPING_ADDRESS = 'MAILING ADDRESS';
+    const SHIPPING_ADDRESS = 'SHIPPING ADDRESS';
     const PRIMARY_ADDRESS = true;
     const SECONDARY_ADDRESS = false;
 
@@ -48,10 +48,10 @@ class UserAddress extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['USER_ID', 'NAME', 'COMPANY', 'STREET1', 'CITY', 'POSTALCODE', 'COUNTRY'], 'required'],
+            [['USER_ID', 'NAME', 'STREET1', 'CITY', 'POSTALCODE', 'COUNTRY', 'RESIDENTIAL', 'PRIMARY_ADDRESS', 'ADDRESS_TYPE'], 'required'],
             [['USER_ID'], 'integer'],
-            [[ 'PRIMARY_ADDRESS', 'RESIDENTIAL'], 'boolean'],
-            [['CREATED', 'UPDATED', 'PHONE'], 'safe'],
+            [['PRIMARY_ADDRESS', 'RESIDENTIAL'], 'boolean'],
+            [['CREATED', 'UPDATED', 'PHONE', 'COMPANY'], 'safe'],
             [['NAME'], 'string', 'max' => 100],
             [['COMPANY'], 'string', 'max' => 150],
             [['STREET1', 'STREET2', 'STREET3'], 'string', 'max' => 200],

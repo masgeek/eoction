@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
-/* @var $id string*/
+/* @var $id string */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Manage Address';
@@ -26,20 +26,17 @@ $listviewWidget = ListView::widget([
 ?>
 
 <div class="col-md-8 col-md-offset-2">
-    <?php if ($dataProvider->count > 0): ?>
-        <?= $listviewWidget ?>
-    <?php else: ?>
-        <div class="panel panel-primary">
-            <div class="panel-heading">Your Addresses</div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-lg-12">
-                        You have no addresses on file.
-                    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">Your Addresses</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <?= $dataProvider->count > 0 ? $listviewWidget : 'You have no addresses on file.' ?>
                 </div>
             </div>
         </div>
-    <?php endif; ?>
-    <?= Html::a('<i class="fa fa-plus-circle"></i> Add Mailing Address', ['add','id'=>$id], ['class' => 'btn btn-primary btn-block btn-lg noradius']) ?>
-    <hr/>
+    </div>
+    <?= Html::a('<i class="fa fa-plus-circle"></i> Add Mailing Address', ['add', 'id' => $id], ['class' => 'btn btn-primary btn-block btn-lg noradius']) ?>
 </div>
+<hr/>
+

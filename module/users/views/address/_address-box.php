@@ -7,27 +7,38 @@
  */
 
 /* @var $model app\module\users\models\UserAddress */
+use \yii\bootstrap\Html;
+use \app\module\users\models\UserAddress;
 
-
-$model->NAME;
-$model->COMPANY;
-$model->POSTALCODE;
-$model->STREET1;
-$model->CITY;
-$model->COUNTRY;
+//'class' => $model->isNewRecord ? 'btn btn-success btn-block noradius' : 'btn btn-primary noradius btn-block'
 ?>
 
 
 <div class="col-md-4">
-    <div class="panel panel-primary">
-        <div class="panel-heading"><span class="badge text-capitalise"><?= $model->ADDRESS_TYPE ?>:</span></div>
+    <div
+        class="<?= $model->ADDRESS_TYPE == UserAddress::BILLING_ADDRESS ? 'panel panel-warning' : 'panel panel-info' ?>">
+        <div class="panel-heading">
+            <span
+                class="<?= $model->ADDRESS_TYPE == UserAddress::BILLING_ADDRESS ? 'label label-success' : 'label label-default' ?>"><?= $model->ADDRESS_TYPE ?></span>
+        </div>
+
         <div class="panel-body">
+            <div class="row pull-right">
+                <div class="col-xs-6">
+                    <?= Html::a('<i class="fa fa-edit fa-1x"></i>', ['update', 'id' => $model->ADDRESS_ID], ['class' => 'btn btn-default']) ?>
+                </div>
+                <div class="col-xs-6">
+                    <?= Html::a('<i class="fa fa-remove fa-1x"></i>', \yii\helpers\Url::toRoute(['delete', 'id' => $model->ADDRESS_ID, 'user_id' => $model->USER_ID]), ['data-method' => 'post', 'class' => 'btn btn-default']) ?>
+                </div>
+            </div>
             <address>
-                <strong><?= $model->NAME . ', ' . $model->COMPANY ?>.</strong>
+                <strong><?= $model->NAME . ', ' . $model->COMPANY ?></strong>
                 <br/>
                 <?= $model->STREET1 ?>
                 <br/>
                 <?= $model->CITY ?>, <?= $model->STATE . ' ' . $model->POSTALCODE ?>
+                <br/>
+                <?= $model->COUNTRY ?>
                 <br/>
                 <i class="fa fa-phone" aria-hidden="true"></i> <?= $model->PHONE ?>
                 <br/>

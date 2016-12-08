@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
+/* @var $id string */
 /* @var $model app\module\users\models\UserAddress */
 /* @var $form yii\widgets\ActiveForm */
 ?>
@@ -11,8 +12,6 @@ use yii\widgets\ActiveForm;
 <div class="user-address-form">
 
     <?php $form = ActiveForm::begin(); ?>
-    <?= $form->field($model, 'USER_ID')->textInput()->label('') ?>
-
     <div class="row">
         <div class="col-md-6">
             <?= $form->field($model, 'NAME')->textInput(['maxlength' => true]) ?>
@@ -55,22 +54,26 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'RESIDENTIAL')->dropDownList([
                 0 => 'Non Residential',
                 1 => 'Residential'
-            ],['prompt'=>'---Address Category---'])->hint('Indicate if the address is residential or not')->label('') ?>
+            ], ['prompt' => '---Address Category---'])->hint('Indicate if the address is residential or not')->label('') ?>
         </div>
 
         <div class="col-md-4">
             <?= $form->field($model, 'ADDRESS_TYPE')->dropDownList([
-                \app\module\users\models\UserAddress::BILLING_ADDRESS =>'Billing Address',
-                \app\module\users\models\UserAddress::SHIPPING_ADDRESS =>'Shipping Address'
-            ],['prompt'=>'---Address Type---'])->hint('Indicate if the address is used for shipping or billing')->label('') ?>
+                \app\module\users\models\UserAddress::BILLING_ADDRESS => 'Billing Address',
+                \app\module\users\models\UserAddress::SHIPPING_ADDRESS => 'Shipping Address'
+            ], ['prompt' => '---Address Type---'])->hint('Indicate if the address is used for shipping or billing')->label('') ?>
         </div>
         <div class="col-md-4">
             <?= $form->field($model, 'PRIMARY_ADDRESS')->dropDownList([
                 \app\module\users\models\UserAddress::PRIMARY_ADDRESS => 'Primary Address',
                 \app\module\users\models\UserAddress::SECONDARY_ADDRESS => 'Secondary Address'
-            ],['prompt'=>'---Primary Address---'])->hint('Indicate if its a primary address')->label('') ?>
+            ], ['prompt' => '---Primary Address---'])->hint('Indicate if its a primary address')->label('') ?>
         </div>
     </div>
+
+    <!-- Hidden fields Section -->
+    <?= $form->field($model, 'USER_ID')->textInput(['value' => $id,'readonly'=>true])->label('') ?>
+    <!-- /End of hidden fields -->
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create New Address' : 'Update Address', ['class' => $model->isNewRecord ? 'btn btn-success btn-block noradius' : 'btn btn-primary noradius btn-block']) ?>
     </div>

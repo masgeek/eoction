@@ -16,7 +16,7 @@ class m161207_125747_create_tb_user_address_table extends Migration
             'ADDRESS_ID' => $this->primaryKey(),
             'USER_ID' => $this->integer()->notNull(),
             'NAME' => $this->string(100)->notNull(),
-            'COMPANY' => $this->string(150)->notNull(),
+            'COMPANY' => $this->string(150),
             'STREET1' => $this->string(200)->notNull(),
             'STREET2' => $this->string(200),
             'STREET3' => $this->string(200),
