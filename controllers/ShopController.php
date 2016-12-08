@@ -138,6 +138,11 @@ class ShopController extends Controller
         return $this->render('my-cart', ['cartDataProvider' => $cartDataProvider, 'user_id' => $id]);
     }
 
+    public function actionWishlist()
+    {
+        return $this->render('//site/coming-soon');
+    }
+
     public function actionPurgeDb($action)
     {
         ProductManager::CleanBiddingData();
