@@ -41,7 +41,7 @@ class ShippingOrders extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['orderId', 'name', 'company', 'city', 'postalCode', 'country', 'phone'], 'required'],
+            [['orderId', 'name', 'company', 'city', 'postalCode', 'country', 'phone', 'addressType'], 'required'],
             [['orderId'], 'integer'],
             [['company'], 'string'],
             [['name'], 'string', 'max' => 100],
@@ -49,7 +49,7 @@ class ShippingOrders extends \yii\db\ActiveRecord
             [['city', 'state', 'postalCode', 'phone'], 'string', 'max' => 50],
             [['country', 'addressVerified', 'addressType'], 'string', 'max' => 20],
             [['residential'], 'string', 'max' => 10],
-            [['orderId'], 'exist', 'skipOnError' => true, 'targetClass' => Orders::className(), 'targetAttribute' => ['orderId' => 'id']],
+            [['orderId'], 'exist', 'skipOnError' => true, 'targetClass' => Orders::className(), 'targetAttribute' => ['orderId' => 'orderId']],
         ];
     }
 
@@ -82,6 +82,6 @@ class ShippingOrders extends \yii\db\ActiveRecord
      */
     public function getOrder()
     {
-        return $this->hasOne(Orders::className(), ['id' => 'orderId']);
+        return $this->hasOne(Orders::className(), ['orderId' => 'orderId']);
     }
 }

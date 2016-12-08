@@ -26,8 +26,8 @@ class m161207_115906_create_tb_orders_table extends Migration
 [customerEmail] => ortega.x3@gmail.com*/
 
         $this->createTable('orders', [
-            'id' => $this->primaryKey(),
-            'orderId' => $this->integer()->notNull(),
+            //'id' => $this->primaryKey(),
+            'orderId' => $this->primaryKey(),
             'orderNumber' => $this->string(100)->notNull(),
             'orderKey' => $this->string(100)->notNull(),
             'orderDate' => $this->timestamp()->notNull(),

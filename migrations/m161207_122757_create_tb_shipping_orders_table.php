@@ -27,10 +27,10 @@ class m161207_122757_create_tb_shipping_orders_table extends Migration
             'phone' => $this->string(50)->notNull(),
             'residential' => $this->string(10),
             'addressVerified' => $this->string(20),
-            'addressType' => $this->string(20)->notNull()->defaultValue('billing'), #default will be a billing address
+            'addressType' => $this->string(20)->notNull(), #default will be a billing address
         ]);
 
-        $this->addForeignKey('fk_order', 'shipping_orders', 'orderId', 'orders', 'id');
+        $this->addForeignKey('fk_order', 'shipping_orders', 'orderId', 'orders', 'orderId');
     }
 
     /**

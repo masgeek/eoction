@@ -7,7 +7,6 @@ use Yii;
 /**
  * This is the model class for table "{{%orders}}".
  *
- * @property integer $id
  * @property integer $orderId
  * @property string $orderNumber
  * @property string $orderKey
@@ -39,9 +38,9 @@ class Orders extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['orderId', 'orderNumber', 'orderKey', 'orderStatus', 'customerId', 'customerUsername', 'customerEmail'], 'required'],
-            [['orderId', 'customerId'], 'integer'],
+            [['orderNumber', 'orderKey', 'orderStatus', 'customerId', 'customerUsername', 'customerEmail'], 'required'],
             [['orderDate', 'createDate', 'modifyDate', 'paymentDate', 'shipByDate'], 'safe'],
+            [['customerId'], 'integer'],
             [['orderNumber', 'orderKey', 'customerUsername', 'customerEmail'], 'string', 'max' => 100],
             [['orderStatus'], 'string', 'max' => 10],
         ];
@@ -53,7 +52,6 @@ class Orders extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
             'orderId' => 'Order ID',
             'orderNumber' => 'Order Number',
             'orderKey' => 'Order Key',
@@ -74,6 +72,6 @@ class Orders extends \yii\db\ActiveRecord
      */
     public function getShippingOrders()
     {
-        return $this->hasMany(ShippingOrders::className(), ['orderId' => 'id']);
+        return $this->hasMany(ShippingOrders::className(), ['orderId' => 'orderId']);
     }
 }
