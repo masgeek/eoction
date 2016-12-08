@@ -66,6 +66,10 @@ class AddressController extends Controller
     {
         $model = new UserAddress();
 
+        if(isset($_POSTR['UserAddress'])){
+            var_dump($_POST);
+            die;
+        }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index', 'id' => $model->ADDRESS_ID]);
         } else {

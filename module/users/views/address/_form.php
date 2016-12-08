@@ -11,39 +11,56 @@ use yii\widgets\ActiveForm;
 <div class="user-address-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    <?= $form->field($model, 'USER_ID')->hiddenInput()->label('') ?>
 
-    <?= $form->field($model, 'USER_ID')->textInput() ?>
-
-    <?= $form->field($model, 'NAME')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'COMPANY')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'STREET1')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'STREET2')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'STREET3')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'CITY')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'STATE')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'POSTALCODE')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'COUNTRY')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'PHONE')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'RESIDENTIAL')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'ADDRESS_TYPE')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'PRIMARY_ADDRESS')->textInput() ?>
-
-    <?= $form->field($model, 'CREATED')->textInput() ?>
-
-    <?= $form->field($model, 'UPDATED')->textInput() ?>
-
+    <div class="row">
+        <div class="col-md-6">
+            <?= $form->field($model, 'NAME')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'COMPANY')->textInput(['maxlength' => true]) ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <?= $form->field($model, 'STREET1')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'STREET2')->textInput(['maxlength' => true]) ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <?= $form->field($model, 'CITY')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'STATE')->textInput(['maxlength' => true]) ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <?= $form->field($model, 'POSTALCODE')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'COUNTRY')->textInput(['maxlength' => true]) ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <?= $form->field($model, 'PHONE')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'RESIDENTIAL')->textInput(['maxlength' => true]) ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <?= $form->field($model, 'ADDRESS_TYPE')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'PRIMARY_ADDRESS')->textInput() ?>
+        </div>
+    </div>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create New Address' : 'Update Address', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

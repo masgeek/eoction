@@ -29,6 +29,10 @@ use Yii;
  */
 class UserAddress extends \yii\db\ActiveRecord
 {
+    const BILLING_ADDRESS = 'BILLING ADDRESS';
+    const MAILING_ADDRESS = 'MAILING ADDRESS';
+    const PRIMARY_ADDRESS = true;
+
     /**
      * @inheritdoc
      */
@@ -43,15 +47,15 @@ class UserAddress extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['USER_ID', 'NAME', 'COMPANY', 'STREET1', 'CITY', 'POSTALCODE', 'COUNTRY', 'PHONE'], 'required'],
-            [['USER_ID', 'PRIMARY_ADDRESS'], 'integer'],
-            [['CREATED', 'UPDATED'], 'safe'],
+            [['USER_ID', 'NAME', 'COMPANY', 'STREET1', 'CITY', 'POSTALCODE', 'COUNTRY'], 'required'],
+            [['USER_ID'], 'integer'],
+            [['USER_ID', 'PRIMARY_ADDRESS','RESIDENTIAL'], 'boolean'],
+            [['CREATED', 'UPDATED', 'PHONE'], 'safe'],
             [['NAME'], 'string', 'max' => 100],
             [['COMPANY'], 'string', 'max' => 150],
             [['STREET1', 'STREET2', 'STREET3'], 'string', 'max' => 200],
             [['CITY', 'STATE', 'POSTALCODE', 'PHONE'], 'string', 'max' => 50],
             [['COUNTRY', 'ADDRESS_TYPE'], 'string', 'max' => 20],
-            [['RESIDENTIAL'], 'string', 'max' => 10],
             [['USER_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['USER_ID' => 'USER_ID']],
         ];
     }
@@ -62,23 +66,23 @@ class UserAddress extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'ADDRESS_ID' => 'Address  ID',
-            'USER_ID' => 'User  ID',
+            'ADDRESS_ID' => 'Address ID',
+            'USER_ID' => 'User ID',
             'NAME' => 'Name',
-            'COMPANY' => 'Company',
-            'STREET1' => 'Street1',
-            'STREET2' => 'Street2',
-            'STREET3' => 'Street3',
+            'COMPANY' => 'Company Name',
+            'STREET1' => 'Street Address 1',
+            'STREET2' => 'Street Address 2',
+            'STREET3' => 'Street Address 3',
             'CITY' => 'City',
             'STATE' => 'State',
-            'POSTALCODE' => 'Postalcode',
+            'POSTALCODE' => 'Postal Code',
             'COUNTRY' => 'Country',
             'PHONE' => 'Phone',
-            'RESIDENTIAL' => 'Residential',
-            'ADDRESS_TYPE' => 'Address  Type',
-            'PRIMARY_ADDRESS' => 'Primary  Address',
-            'CREATED' => 'Created',
-            'UPDATED' => 'Updated',
+            'RESIDENTIAL' => 'Is Residential address',
+            'ADDRESS_TYPE' => 'Address Type',
+            'PRIMARY_ADDRESS' => 'Primary Address',
+            'CREATED' => 'Created On',
+            'UPDATED' => 'Updated On',
         ];
     }
 

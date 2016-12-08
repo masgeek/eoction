@@ -24,8 +24,8 @@ class m161207_125747_create_tb_user_address_table extends Migration
             'STATE' => $this->string(50),
             'POSTALCODE' => $this->string(50)->notNull(),
             'COUNTRY' => $this->string(20)->notNull(),
-            'PHONE' => $this->string(50)->notNull(),
-            'RESIDENTIAL' => $this->string(10)->defaultValue('YES'),
+            'PHONE' => $this->string(50),
+            'RESIDENTIAL' => $this->integer(1)->notNull()->defaultValue(0),
             'ADDRESS_TYPE' => $this->string(20)->notNull()->defaultValue('BILLING ADDRESS'), #default will be a billing address
             'PRIMARY_ADDRESS' => $this->integer(1)->notNull()->defaultValue(0),
             'CREATED' => $this->timestamp(),
