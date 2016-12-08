@@ -181,9 +181,13 @@ class PaypalController extends Controller
         }
 
 
-        $t = $shipStation->ListAllCarriers();
+        //$t = $shipStation->ListAllCarriers();
+        //$t = $shipStation->ListCarrierServices();
+        //$t = $shipStation->ListCarrierPackage();
+        $t = $shipStation->ListMarketPlace();
+        //$t = $shipStation->ListStores();
 
-        var_dump($t);
+        echo($t);
         die;
         return $this->render('confirm-order', [
             'model' => $model,

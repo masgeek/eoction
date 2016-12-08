@@ -215,8 +215,9 @@ class ShipStationHandler
 
     }
 
-    public function ListAllCarriers(){
-        $endpointurl = \Yii::$app->params['ShipStationApiUrl'];
+    public function ListAllCarriers()
+    {
+
         $apikey = \Yii::$app->params['ShipStationApiKey'];
         $apisecret = \Yii::$app->params['ShipStationApiSecret'];
 
@@ -231,14 +232,80 @@ class ShipStationHandler
 
         return $carriers->getBody();
     }
-    /**
-     * @return \GuzzleHttp\Psr7\Stream|\Psr\Http\Message\StreamInterface
-     */
-    public function ListStores()
-    {
-        $storeService = new Stores();
-        $stores = $storeService->listStores();
 
-        return $stores->getBody(); //returns as a json body
+    /**
+     * @param string $carrier_code
+     * @return Stream|\Psr\Http\Message\StreamInterface
+     */
+    public function ListCarrierServices($carrier_code = 'stamps_com')
+    {
+        $apikey = \Yii::$app->params['ShipStationApiKey'];
+        $apisecret = \Yii::$app->params['ShipStationApiSecret'];
+
+        $options = [];
+        $shipstation = new ShipStationApi($apikey, $apisecret, $options);
+
+        $carrierService = $shipstation->getCarriersService();
+
+
+        $services = $carrierService->listServices($carrier_code);
+
+
+        return $services->getBody();
     }
+
+    /**
+     * @param string $carrier_code
+     * @return Stream|\Psr\Http\Message\StreamInterface
+     */
+    public function ListCarrierPackage($carrier_code = 'stamps_com')
+    {
+        $apikey = \Yii::$app->params['ShipStationApiKey'];
+        $apisecret = \Yii::$app->params['ShipStationApiSecret'];
+
+        $options = [];
+        $shipstation = new ShipStationApi($apikey, $apisecret, $options);
+
+        $carrierService = $shipstation->getCarriersService();
+
+
+        $packages = $carrierService->listPackages($carrier_code);
+
+
+        return $packages->getBody();
+    }
+
+    public function ListStores($markeplace_id = '6767')
+    {
+        $apikey = \Yii::$app->params['ShipStationApiKey'];
+        $apisecret = \Yii::$app->params['ShipStationApiSecret'];
+
+
+        $options = [];
+        $shipstation = new ShipStationApi($apikey, $apisecret, $options);
+
+        $storeService = $shipstation->getStoresService();
+
+
+        $stores = $storeService->listStores('false', $markeplace_id);
+
+
+        return $stores->getBody();
+    }
+
+    public function ListMarketPlace(){
+        $apikey = \Yii::$app->params['ShipStationApiKey'];
+        $apisecret = \Yii::$app->params['ShipStationApiSecret'];
+
+
+        $options = [];
+        $shipstation = new ShipStationApi($apikey, $apisecret, $options);
+
+        $storeService = $shipstation->getStoresService();
+
+        $marketplaces = $storeService->listMarketplaces();
+
+        return $marketplaces->getBody();
+    }
+
 }
