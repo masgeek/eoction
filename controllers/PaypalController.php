@@ -154,9 +154,8 @@ class PaypalController extends Controller
     public function actionConfirm($status, $PayerID = null)
     {
         $model = new ShippingService();
-        $shipStation = new ShipStationHandler();
+
         $paypal_hash = Yii::$app->session['paypal_hash'];
-        $context = Yii::$app->paypal->getApiContext();
 
         $transactionPayment = PaypalTransactions::findOne(['HASH' => $paypal_hash]);
         if ($transactionPayment == null) {
@@ -164,24 +163,22 @@ class PaypalController extends Controller
         }
 
         if ($status == 'true') {
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                //now save the transaction data
-                $payment = Payment::get($transactionPayment->PAYMENT_ID, $context);
-                //var_dump($payment);
+            /*if($model->load(Yii::$app->request->post())){
 
-                $execution = new PaymentExecution();
-                $execution->setPayerId($PayerID);
-                //now charge the user account
-                $payment->execute($execution, $context);
+                var_dump($_POST);
+
+                die;
+            }*/
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 //update the transaction
-                return $this->redirect(['confirm-order', '$paypal_hash' => $paypal_hash]);
+                //return $this->redirect(['confirm-order', 'paypal_hash' => $paypal_hash, 'PayerID' => $PayerID]);
             }
         } elseif ($status == 'false') {
             return $this->redirect(['cancel']);
         }
 
 
-        $t = $shipStation->ListAllCarriers();
+        //$t = $shipStation->ListAllCarriers();
         //$t = $shipStation->ListCarrierServices();
         //$t = $shipStation->ListCarrierPackage();
         //$t = $shipStation->ListMarketPlace();
@@ -194,12 +191,12 @@ class PaypalController extends Controller
         ]);
     }
 
+
     /**
-     * @param $status
-     * @param null $PayerID
+     * @param $paypal_hash
      * @return \yii\web\Response
      */
-    public function actionConfirmOrder($paypal_hash)
+    public function actionConfirmOrder($paypal_hash, $PayerID)
     {
         $shipStation = new ShipStationHandler();
         Yii::$app->getSession()->setFlash('success', 'Item purchased successfully');
@@ -209,6 +206,14 @@ class PaypalController extends Controller
             $transactionPayment->COMPLETE = 1;
             if ($transactionPayment->save())//update the changes to the table
             {
+                //now save the transaction data
+                $payment = Payment::get($transactionPayment->PAYMENT_ID, $context);
+                //var_dump($payment);
+
+                $execution = new PaymentExecution();
+                $execution->setPayerId($PayerID);
+                //now charge the user account
+                $payment->execute($execution, $context);
                 //let us update the hash values
                 ProductManager::UpdatePaidCartItems($paypal_hash);
                 //clear the hash session value
@@ -225,6 +230,9 @@ class PaypalController extends Controller
     }
 
     //json functions
+    /**
+     * @return string
+     */
     public function actionSelectService()
     {
         $shipStation = new ShipStationHandler();
@@ -238,6 +246,8 @@ class PaypalController extends Controller
         //die;
         $carrierServices = $shipStation->ListCarrierServices($carrier_code, $as_array = true);
 
+        //var_dump($carrierServices);
+        //die;
         // Shows how you can preselect a value
         $dat = (['output' => $carrierServices]);
 
@@ -245,6 +255,10 @@ class PaypalController extends Controller
     }
 
     //json functions
+
+    /**
+     * @return string
+     */
     public function actionSelectPackage()
     {
         $shipStation = new ShipStationHandler();
@@ -256,10 +270,13 @@ class PaypalController extends Controller
 
         $splitList = explode('|', $carrier_code_raw);
 
+        $service_code = isset($splitList[0]) ? $splitList[0] : null; //will not be used
+        $carrier_code = isset($splitList[1]) ? $splitList[1] : null;
+        $domestic = isset($splitList[2]) ? (boolean)$splitList[2] : false;
+        $international = isset($splitList[3]) ? (boolean)$splitList[3] : false;
 
-        $carrier_code = isset($splitList[0]) ? $splitList[0] : null;
-        $domestic = isset($splitList[1]) ? (boolean)$splitList[1] : false;
-        $international = isset($splitList[2]) ? (boolean)$splitList[2] : false;
+        //var_dump($splitList);
+        //die;
 
         //$domestic_raw ? $domestic = true : $domestic = false;
         //$international_raw ? $international = true : $international = false;

@@ -16,6 +16,7 @@ class m161208_173038_create_shipping_service_table extends Migration
             'SERVICE_ID' => $this->primaryKey(),
             'PAYPAL_TRANS_ID' => $this->integer()->notNull(),
             'REQUESTED_SERVICE' => $this->string(100)->notNull(),
+            'SERVICE_DESC' => $this->string(200)->notNull(),
             'CARRIER_CODE' => $this->string(150),
             'SERVICE_CODE' => $this->string(200)->notNull(),
             'PACKAGE_CODE' => $this->string(200),
