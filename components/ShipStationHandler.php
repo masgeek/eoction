@@ -215,13 +215,18 @@ class ShipStationHandler
 
     }
 
-    public function ListAllCarriers()
+    /**
+     * @param bool $as_array
+     * @return mixed|null
+     */
+    public function ListAllCarriers($as_array = false)
     {
 
         $apikey = \Yii::$app->params['ShipStationApiKey'];
         $apisecret = \Yii::$app->params['ShipStationApiSecret'];
 
         $options = [];
+        $response = [];
         $shipstation = new ShipStationApi($apikey, $apisecret, $options);
 
         $carrierService = $shipstation->getCarriersService();
@@ -230,15 +235,27 @@ class ShipStationHandler
         $carriers = $carrierService->getList();
 
 
-        return $carriers->getBody();
+        $response = $carriers->getBody();
+        if ($as_array) {
+            //convert the response to an array
+            $carrierList = [];
+            foreach (\GuzzleHttp\json_decode($response) as $carrier) {
+                $carrierList = [$carrier->code => $carrier->name];
+            }
+            return $carrierList;
+        }
+        return $response;
     }
 
+
     /**
-     * @param string $carrier_code
-     * @return Stream|\Psr\Http\Message\StreamInterface
+     * @param $carrier_code
+     * @param bool $as_array
+     * @return array|Stream|\Psr\Http\Message\StreamInterface
      */
-    public function ListCarrierServices($carrier_code = 'stamps_com')
+    public function ListCarrierServices($carrier_code, $as_array = false)
     {
+
         $apikey = \Yii::$app->params['ShipStationApiKey'];
         $apisecret = \Yii::$app->params['ShipStationApiSecret'];
 
@@ -246,36 +263,84 @@ class ShipStationHandler
         $shipstation = new ShipStationApi($apikey, $apisecret, $options);
 
         $carrierService = $shipstation->getCarriersService();
+        try {
 
-
-        $services = $carrierService->listServices($carrier_code);
-
-
-        return $services->getBody();
+            $services = $carrierService->listServices($carrier_code);
+            $response = $services->getBody();
+            if ($as_array) {
+                //convert the response to object array for better breakdown
+                foreach (\GuzzleHttp\json_decode($response) as $carrier) {
+                    $international = $carrier->international ? 'INTERNATIONAL' : $carrier->international;
+                    $domestic = $carrier->domestic ? 'DOMESTIC' : $carrier->domestic;
+                    $name = $carrier->name;
+                    $code = $carrier->carrierCode;
+                    $serviceName = "{$name} ({$domestic}{$international})";
+                    $serviceList[] = ['id' => "{$code}|{$domestic}|{$international}", 'name' => $serviceName];
+                }
+                return $serviceList;
+            }
+        } catch (\Exception $ex) {
+            //log error maybe
+            $response = null;
+        }
+        return $response;
     }
 
+
     /**
-     * @param string $carrier_code
-     * @return Stream|\Psr\Http\Message\StreamInterface
+     * @param $carrier_code
+     * @param $domestic
+     * @param $international
+     * @param bool $as_array
+     * @return array|Stream|null|\Psr\Http\Message\StreamInterface
      */
-    public function ListCarrierPackage($carrier_code = 'stamps_com')
+    public function ListCarrierPackage($carrier_code, $domestic, $international, $as_array = true)
     {
         $apikey = \Yii::$app->params['ShipStationApiKey'];
         $apisecret = \Yii::$app->params['ShipStationApiSecret'];
-
         $options = [];
         $shipstation = new ShipStationApi($apikey, $apisecret, $options);
-
         $carrierService = $shipstation->getCarriersService();
+        try {
+
+            $packages = $carrierService->listPackages($carrier_code);
+            $response = $packages->getBody();
+
+            // \GuzzleHttp\json_decode($response);
+            if ($as_array) {
+                //convert the response to an array for better breakdown
+
+                foreach (\GuzzleHttp\json_decode($response) as $package) {
+                    $international_pkg = $package->international ? 'INTERNATIONAL' : $package->international;
+                    $domestic_pkg = $package->domestic ? 'DOMESTIC' : $package->domestic;
+                    $name = $package->name;
+                    $code = $package->code;
+
+                    $serviceName = "{$name} ({$domestic_pkg}/{$international_pkg})";
 
 
-        $packages = $carrierService->listPackages($carrier_code);
-
-
-        return $packages->getBody();
+                    if ($domestic) {
+                        if ($package->domestic == $domestic && $package->international == false) {
+                            $serviceList[] = ['id' => $code, 'name' => $serviceName];
+                        }
+                    } elseif ($international) {
+                        if ($package->domestic == false && $package->international == true) {
+                            $serviceList[] = ['id' => $code, 'name' => $serviceName];
+                        } elseif ($package->domestic == true && $package->international == true) { //packages that got in both
+                            $serviceList[] = ['id' => $code, 'name' => $serviceName];
+                        }
+                    }
+                }
+                return $serviceList;
+            }
+        } catch (\Exception $ex) {
+            //log error maybe
+            $response = null;
+        }
+        return $response;
     }
 
-    public function ListStores($markeplace_id = '6767')
+    public function ListStores($markeplace_id = '23')
     {
         $apikey = \Yii::$app->params['ShipStationApiKey'];
         $apisecret = \Yii::$app->params['ShipStationApiSecret'];
@@ -293,7 +358,8 @@ class ShipStationHandler
         return $stores->getBody();
     }
 
-    public function ListMarketPlace(){
+    public function ListMarketPlace()
+    {
         $apikey = \Yii::$app->params['ShipStationApiKey'];
         $apisecret = \Yii::$app->params['ShipStationApiSecret'];
 

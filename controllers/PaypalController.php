@@ -181,14 +181,13 @@ class PaypalController extends Controller
         }
 
 
-        //$t = $shipStation->ListAllCarriers();
+        $t = $shipStation->ListAllCarriers();
         //$t = $shipStation->ListCarrierServices();
         //$t = $shipStation->ListCarrierPackage();
-        $t = $shipStation->ListMarketPlace();
+        //$t = $shipStation->ListMarketPlace();
         //$t = $shipStation->ListStores();
-
-        echo($t);
-        die;
+        //print_r(\GuzzleHttp\json_decode($t));
+        //die;
         return $this->render('confirm-order', [
             'model' => $model,
             'payment_id' => $transactionPayment->ID
@@ -220,8 +219,58 @@ class PaypalController extends Controller
             //$order_status = $shipStation->CreateNewOrder($transactionPayment->HASH, $transactionPayment->USER_ID); //use the paypal hash
             //update the car items as paid for so that they no longer appear in the cart
             //SEND email to the user
-            return $this->redirect(['success', 'trans_id' => $transactionPayment->ID, 'order_status' => $order_status]);
+            return $this->redirect(['success', 'trans_id' => $transactionPayment->ID]);
         }
         return $this->redirect(['error']); //redirect to error page by default
+    }
+
+    //json functions
+    public function actionSelectService()
+    {
+        $shipStation = new ShipStationHandler();
+
+        $post = Yii::$app->request->post('depdrop_all_params');
+        $carrier_code = $post['carrier-code'];
+
+        //break it down
+
+        //var_dump($post);
+        //die;
+        $carrierServices = $shipStation->ListCarrierServices($carrier_code, $as_array = true);
+
+        // Shows how you can preselect a value
+        $dat = (['output' => $carrierServices]);
+
+        return \GuzzleHttp\json_encode($dat);
+    }
+
+    //json functions
+    public function actionSelectPackage()
+    {
+        $shipStation = new ShipStationHandler();
+
+        $post = Yii::$app->request->post('depdrop_all_params');
+
+
+        $carrier_code_raw = $post['requested-service'];
+
+        $splitList = explode('|', $carrier_code_raw);
+
+
+        $carrier_code = isset($splitList[0]) ? $splitList[0] : null;
+        $domestic = isset($splitList[1]) ? (boolean)$splitList[1] : false;
+        $international = isset($splitList[2]) ? (boolean)$splitList[2] : false;
+
+        //$domestic_raw ? $domestic = true : $domestic = false;
+        //$international_raw ? $international = true : $international = false;
+
+        //echo("$domestic - $international - $carrier_code");
+
+        $carrierPackage = $shipStation->ListCarrierPackage($carrier_code, $domestic, $international, $as_array = true);
+
+        // Shows how you can preselect a value
+        $dat = (['output' => $carrierPackage]);
+
+        return \GuzzleHttp\json_encode($dat);
     }
 }

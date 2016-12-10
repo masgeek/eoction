@@ -41,11 +41,13 @@ class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
             'kartik\\popover\\' => 15,
             'kartik\\plugins\\popover\\' => 23,
             'kartik\\plugins\\fileinput\\' => 25,
+            'kartik\\plugins\\depdrop\\' => 23,
             'kartik\\grid\\' => 12,
             'kartik\\form\\' => 12,
             'kartik\\file\\' => 12,
             'kartik\\editable\\' => 16,
             'kartik\\dialog\\' => 14,
+            'kartik\\depdrop\\' => 15,
             'kartik\\color\\' => 13,
             'kartik\\base\\' => 12,
         ),
@@ -151,6 +153,10 @@ class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
         array (
             0 => __DIR__ . '/..' . '/kartik-v/bootstrap-fileinput',
         ),
+        'kartik\\plugins\\depdrop\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/dependent-dropdown',
+        ),
         'kartik\\grid\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-grid',
@@ -170,6 +176,10 @@ class ComposerStaticInitd525214dc5ea8cb572dd856125093eab
         'kartik\\dialog\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-dialog',
+        ),
+        'kartik\\depdrop\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-depdrop',
         ),
         'kartik\\color\\' => 
         array (

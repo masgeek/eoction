@@ -201,4 +201,13 @@ return array (
       '@kartik/grid' => $vendorDir . '/kartik-v/yii2-grid',
     ),
   ),
+  'kartik-v/yii2-widget-depdrop' => 
+  array (
+    'name' => 'kartik-v/yii2-widget-depdrop',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@kartik/depdrop' => $vendorDir . '/kartik-v/yii2-widget-depdrop',
+    ),
+  ),
 );
