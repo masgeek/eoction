@@ -28,11 +28,7 @@ phpunit.phar
 # Created by .ignore support plugin (hsz.mobi)
 #Ignore everything except the files below
 # composer vendor dir
+bin/
+/vendor/
 !autoload.php
 !.gitignore
-bin/
-paypal/
-phpspec/
-psr/
-vendor/
-vendor/bower-asset/
