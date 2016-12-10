@@ -278,7 +278,7 @@ Licensed under the MIT license (http://www.opensource.org/licenses/mit-license.p
 			}
 
 			// If the function hasn't returned already, we're confident that
-			// |intervalObj| is a plain object, created by {} or constructed with new Object
+			// |obj| is a plain object, created by {} or constructed with new Object
 			return true;
 		};
 
