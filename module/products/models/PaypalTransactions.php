@@ -19,7 +19,7 @@ use yii\db\Expression;
  * @property string $UPDATE_TIME
  *
  * @property Users $uSER
- * @property ShippingService[] $shippingServices
+ * @property ShippingService $shippingServices
  */
 class PaypalTransactions extends \yii\db\ActiveRecord
 {
@@ -90,6 +90,6 @@ class PaypalTransactions extends \yii\db\ActiveRecord
      */
     public function getShippingServices()
     {
-        return $this->hasMany(ShippingService::className(), ['PAYPAL_TRANS_ID' => 'ID']);
+        return $this->hasOne(ShippingService::className(), ['PAYPAL_TRANS_ID' => 'ID']);
     }
 }

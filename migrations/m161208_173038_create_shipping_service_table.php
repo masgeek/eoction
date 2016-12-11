@@ -21,6 +21,7 @@ class m161208_173038_create_shipping_service_table extends Migration
             'SERVICE_CODE' => $this->string(200)->notNull(),
             'PACKAGE_CODE' => $this->string(200),
             'ORDER_FINALIZED' => $this->boolean()->defaultValue(0),
+            'CUSTOMER_NOTES' => $this->string(300),
             'CREATED' => $this->timestamp(),
             'UPDATED' => $this->timestamp() . ' ON UPDATE CURRENT_TIMESTAMP',
         ]);;

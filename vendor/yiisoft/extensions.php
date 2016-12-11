@@ -210,4 +210,13 @@ return array (
       '@kartik/dialog' => $vendorDir . '/kartik-v/yii2-dialog',
     ),
   ),
+  'skobka/yii2-migration-generator' => 
+  array (
+    'name' => 'skobka/yii2-migration-generator',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@skobka/yii2/migrationGenerator' => $vendorDir . '/skobka/yii2-migration-generator/src',
+    ),
+  ),
 );

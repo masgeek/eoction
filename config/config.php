@@ -132,6 +132,14 @@ if (YII_ENV_DEV) {
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
     ];
+
+    //migration generator from tmodels
+    //skobka\yii2\migrationGenerator\Controllers\MigrationGeneratorController;
+    $config['controllerMap'][] = [
+        'migration' => [
+            'class' => \skobka\yii2\migrationGenerator\Controllers\MigrationGeneratorController::class
+        ],
+    ];
 }
 
 return $config;

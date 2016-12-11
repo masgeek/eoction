@@ -28,6 +28,10 @@ class ComposerStaticInit5c5e78f73548c33d452be5055305160f
             'yii\\authclient\\' => 15,
             'yii\\' => 4,
         ),
+        's' => 
+        array (
+            'skobka\\yii2\\migrationGenerator\\' => 31,
+        ),
         'r' => 
         array (
             'rmrevin\\yii\\fontawesome\\' => 24,
@@ -120,6 +124,10 @@ class ComposerStaticInit5c5e78f73548c33d452be5055305160f
         'yii\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
+        ),
+        'skobka\\yii2\\migrationGenerator\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/skobka/yii2-migration-generator/src',
         ),
         'rmrevin\\yii\\fontawesome\\' => 
         array (
@@ -244,6 +252,14 @@ class ComposerStaticInit5c5e78f73548c33d452be5055305160f
         ),
         'D' => 
         array (
+            'Doctrine\\Common\\Lexer\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/lexer/lib',
+            ),
+            'Doctrine\\Common\\Annotations\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/annotations/lib',
+            ),
             'Diff' => 
             array (
                 0 => __DIR__ . '/..' . '/phpspec/php-diff/lib',

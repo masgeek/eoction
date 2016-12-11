@@ -171,7 +171,7 @@ class PaypalController extends Controller
             }*/
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 //update the transaction
-                //return $this->redirect(['confirm-order', 'paypal_hash' => $paypal_hash, 'PayerID' => $PayerID]);
+                return $this->redirect(['confirm-order', 'paypal_hash' => $paypal_hash, 'PayerID' => $PayerID]);
             }
         } elseif ($status == 'false') {
             return $this->redirect(['cancel']);
@@ -207,21 +207,25 @@ class PaypalController extends Controller
             if ($transactionPayment->save())//update the changes to the table
             {
                 //now save the transaction data
-                $payment = Payment::get($transactionPayment->PAYMENT_ID, $context);
-                //var_dump($payment);
+                //$payment = Payment::get($transactionPayment->PAYMENT_ID, $context);
 
-                $execution = new PaymentExecution();
-                $execution->setPayerId($PayerID);
+
+                //get the payment infor from paypal
+                //$execution = new PaymentExecution();
+                //$execution->setPayerId($PayerID);
+
                 //now charge the user account
-                $payment->execute($execution, $context);
+                //$payment->execute($execution, $context);
+
                 //let us update the hash values
                 ProductManager::UpdatePaidCartItems($paypal_hash);
+
                 //clear the hash session value
                 Yii::$app->session->remove('paypal_hash');
             }
 
             //lets create the order after a successful payment and confirmation
-            //$order_status = $shipStation->CreateNewOrder($transactionPayment->HASH, $transactionPayment->USER_ID); //use the paypal hash
+            $order_status = $shipStation->CreateNewOrder($transactionPayment->HASH, $transactionPayment->USER_ID); //use the paypal hash
             //update the car items as paid for so that they no longer appear in the cart
             //SEND email to the user
             return $this->redirect(['success', 'trans_id' => $transactionPayment->ID]);

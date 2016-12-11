@@ -54,7 +54,8 @@
   "require-dev": {
     "yiisoft/yii2-debug": "*",
     "yiisoft/yii2-gii": "*",
-    "yiisoft/yii2-faker": "*"
+    "yiisoft/yii2-faker": "*",
+    "skobka/yii2-migration-generator": "*"
   },
   "config": {
     "process-timeout": 1800

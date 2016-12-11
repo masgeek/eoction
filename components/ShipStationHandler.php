@@ -11,7 +11,9 @@ namespace app\components;
 
 use app\module\products\models\ItemsCart;
 use app\module\products\models\FryProducts;
+use app\module\products\models\PaypalTransactions;
 use app\module\products\models\Products;
+use app\module\products\models\ShippingService;
 use app\module\users\models\UserAddress;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Stream;
@@ -60,6 +62,9 @@ class ShipStationHandler
     public function CreateNewOrder($paypal_hash, $user_id)
     {
         /* @var $model ItemsCart */
+        /* @var $paypalTransModel PaypalTransactions */
+        /* @var $shippingModel ShippingService */
+
 
         $endpointurl = \Yii::$app->params['ShipStationApiUrl'];
         $apikey = \Yii::$app->params['ShipStationApiKey'];
@@ -80,9 +85,16 @@ class ShipStationHandler
 
         $clientContact = UserAddress::findOne([
             'USER_ID' => $user_id,
-            'ADDRESS_TYPE' => UserAddress::BILLING_ADDRESS //start with billing address
+            'ADDRESS_TYPE' => UserAddress::SHIPPING_ADDRESS //start with billing address
         ]);
 
+        //if the above address is not available we will pick the next available one i.e billing address or primary address
+        if ($clientContact == null) {
+            $clientContact = UserAddress::findOne([
+                'USER_ID' => $user_id,
+                'ADDRESS_TYPE' => UserAddress::BILLING_ADDRESS //start with billing address
+            ]);
+        }
         if ($transactionInfo != null) {
             $order = new Order();
 
@@ -114,6 +126,13 @@ class ShipStationHandler
 
             //$order->items = $items;
 
+
+            //lets get the payment information
+            $paypalTransModel = PaypalTransactions::findOne(['HASH' => $paypal_hash]);
+            $shippingModel = $paypalTransModel->shippingServices; //get only the first item in the array
+
+            //var_dump($shippingModel->CARRIER_CODE);
+            //die;
             //$order->orderId = 1;
             $order->orderNumber = "EOCT001";
             $order->orderKey = $paypal_hash; // if specified, the method becomes idempotent and the existing Order with that key will be updated
@@ -129,11 +148,11 @@ class ShipStationHandler
             $order->internalNotes = "Express Shipping Please";
             $order->gift = null;
             $order->giftMessage = null;
-            $order->requestedShippingService = "Priority Mail";
+            $order->requestedShippingService = $shippingModel->REQUESTED_SERVICE;
             $order->paymentMethod = null;
-            $order->carrierCode = "fedex";
-            $order->serviceCode = "fedex_2day";
-            $order->packageCode = "package";
+            $order->carrierCode = $shippingModel->CARRIER_CODE;
+            $order->serviceCode = $shippingModel->SERVICE_CODE;
+            $order->packageCode = $shippingModel->PACKAGE_CODE;
             $order->confirmation = null;
             $order->shipDate = null;
 
@@ -182,6 +201,7 @@ class ShipStationHandler
 
              */
 
+            var_dump($order);
             die;
             //pull the product information from the said table
 
