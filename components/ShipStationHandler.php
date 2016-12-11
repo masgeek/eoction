@@ -238,13 +238,9 @@ class ShipStationHandler
             //print_r($orderJsonResponse->items);
             //echo '</pre>';
 
-            var_dump($decoded);
-            //$this->SaveOrders($decoded);
+            $this->SaveOrders($decoded);
             //var_dump($decoded);
         }
-
-
-        die;
         return $status;
 
     }
@@ -274,11 +270,7 @@ class ShipStationHandler
         $model->customerEmail = $resp->customerEmail;
 
         //next save the address manenos
-        if ($model->save()) {
-
-        } else {
-            var_dump($model->getErrors());
-        }
+        return ($model->save());
     }
 
     public function ShipOrder($order_id)
