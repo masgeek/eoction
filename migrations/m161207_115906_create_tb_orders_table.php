@@ -35,8 +35,8 @@ class m161207_115906_create_tb_orders_table extends Migration
             'modifyDate' => $this->timestamp()->notNull(),
             'paymentDate' => $this->timestamp()->notNull(),
             'shipByDate' => $this->timestamp(),
-            'orderStatus' => $this->string(10)->notNull(),
-            'customerId' => $this->integer()->notNull(),
+            'orderStatus' => $this->string(20)->notNull(),
+            'customerId' => $this->integer(),
             'customerUsername' => $this->string(100)->notNull(),
             'customerEmail' => $this->string(100)->notNull(),
         ]);

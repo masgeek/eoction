@@ -38,11 +38,11 @@ class Orders extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['orderNumber', 'orderKey', 'orderStatus', 'customerId', 'customerUsername', 'customerEmail'], 'required'],
-            [['orderDate', 'createDate', 'modifyDate', 'paymentDate', 'shipByDate'], 'safe'],
+            [['orderNumber', 'orderKey', 'orderStatus', 'customerUsername', 'customerEmail'], 'required'],
+            [['orderDate', 'createDate', 'modifyDate','customerId', 'paymentDate', 'shipByDate'], 'safe'],
             [['customerId'], 'integer'],
             [['orderNumber', 'orderKey', 'customerUsername', 'customerEmail'], 'string', 'max' => 100],
-            [['orderStatus'], 'string', 'max' => 10],
+            [['orderStatus'], 'string', 'max' => 20],
         ];
     }
 

@@ -11,6 +11,7 @@ namespace app\components;
 
 use app\module\products\models\ItemsCart;
 use app\module\products\models\FryProducts;
+use app\module\products\models\Orders;
 use app\module\products\models\PaypalTransactions;
 use app\module\products\models\Products;
 use app\module\products\models\ShippingService;
@@ -226,18 +227,58 @@ class ShipStationHandler
 
             //$order = $orderservice->getOrder('1234');
             $createOrder = $orderservice->createOrder($order);
+
             $orderJsonResponse = $createOrder->getBody();
 
             $decoded = \GuzzleHttp\json_decode($orderJsonResponse);
+
+            //sleep(5); //sleep for 5 seconds to await proper processing
+            //save to the database
             //echo '<pre>';
-            //print_r($decoded);
+            //print_r($orderJsonResponse->items);
             //echo '</pre>';
+
+            var_dump($decoded);
+            //$this->SaveOrders($decoded);
+            //var_dump($decoded);
         }
 
 
-        //die;
+        die;
         return $status;
 
+    }
+
+    public function SaveOrders($resp)
+    {
+
+        $orderID = $resp->orderId;
+        //letys search  if a matching record exists
+        $model = Orders::findOne($orderID);
+        if ($model == null) {
+            $model = new Orders();
+            $model->isNewRecord = true;
+        }
+
+        $model->orderId = $orderID;
+        $model->orderNumber = $resp->orderNumber;
+        $model->orderKey = $resp->orderKey;
+        $model->orderDate = $resp->orderDate;
+        $model->createDate = $resp->createDate;
+        $model->modifyDate = $resp->modifyDate;
+        $model->paymentDate = $resp->paymentDate;
+        $model->shipByDate = $resp->shipByDate;
+        $model->orderStatus = $resp->orderStatus;
+        $model->customerId = $resp->customerId;
+        $model->customerUsername = $resp->customerUsername;
+        $model->customerEmail = $resp->customerEmail;
+
+        //next save the address manenos
+        if ($model->save()) {
+
+        } else {
+            var_dump($model->getErrors());
+        }
     }
 
     public function ShipOrder($order_id)
