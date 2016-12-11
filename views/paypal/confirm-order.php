@@ -11,13 +11,12 @@ $this->title = 'Confirm Order';
 //$this->params['breadcrumbs'][] = ['label' => 'Shipping Services', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="shipping-service-confirm-order">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-        'payment_id' => $payment_id
-    ]) ?>
-
+<div class="shipping-service-confirm-order row">
+    <div class="col-md-8 col-md-offset-2">
+        <h1><?= Html::encode($this->title) ?></h1>
+        <?= $this->render('_form', [
+            'model' => $model,
+            'payment_id' => $payment_id
+        ]) ?>
+    </div>
 </div>

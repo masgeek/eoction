@@ -2,7 +2,8 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\ActiveForm;
+//use yii\widgets\ActiveForm;
+use \kartik\form\ActiveForm;
 use \kartik\depdrop\DepDrop;
 
 /* @var $this yii\web\View */
@@ -22,37 +23,41 @@ $message = 'Proceed with order creation? Your PayPal account will be billed';
 <div class="shipping-service-form">
 
     <?php $form = ActiveForm::begin([
-        'id' => $form_id
+        'id' => $form_id,
+        'type' => ActiveForm::TYPE_VERTICAL
     ]); ?>
-
-    <?= $form->field($model, 'PAYPAL_TRANS_ID')->textInput(['value' => $payment_id, 'readonly' => true]) ?>
-
-    <?= $form->field($model, 'CARRIER_CODE')->dropDownList($carrierList, ['id' => 'carrier-code', 'prompt' => '-- Select carrier --']) ?>
-
-    <?= $form->field($model, 'SERVICE_DESC')->widget(DepDrop::classname(), [
-        'type' => DepDrop::TYPE_SELECT2,
-        //'data' => [2 => 'Tablets'],
-        'options' => ['id' => 'service-desc', 'placeholder' => 'Select ...'],
-        'select2Options' => ['pluginOptions' => ['allowClear' => true]],
-        'pluginOptions' => [
-            'depends' => ['carrier-code'],
-            'url' => Url::to(['//paypal/select-service']),
-            //'params' => ['input-type-1', 'input-type-2']
-        ]
-    ]) ?>
-
-    <?= $form->field($model, 'SERVICE_CODE')->widget(DepDrop::classname(), [
-        'type' => DepDrop::TYPE_SELECT2,
-        //'data' => [2 => 'Tablets'],
-        'options' => ['id' => 'service-code', 'placeholder' => '--- Select service type ---'],
-        'select2Options' => ['pluginOptions' => ['allowClear' => true]],
-        'pluginOptions' => [
-            'depends' => ['service-desc'],
-            'url' => Url::to(['//paypal/select-package']),
-            //'params' => ['input-type-1', 'input-type-2']
-        ],
-        'pluginEvents' => [
-            'change' => "function(){
+    <div class="row">
+        <div class="col-md-4">
+            <?= $form->field($model, 'CARRIER_CODE')->dropDownList($carrierList, [
+                'id' => 'carrier-code', 'prompt' => '-- Select carrier --'
+            ])->hint('Choose your preferred carrier')->label('') ?>
+        </div>
+        <div class="col-md-4">
+            <?= $form->field($model, 'SERVICE_DESC')->widget(DepDrop::classname(), [
+                'type' => DepDrop::TYPE_SELECT2,
+                //'data' => [2 => 'Tablets'],
+                'options' => ['id' => 'service-desc', 'placeholder' => '--- Select shipping type ---'],
+                'select2Options' => ['pluginOptions' => ['allowClear' => true]],
+                'pluginOptions' => [
+                    'depends' => ['carrier-code'],
+                    'url' => Url::to(['//paypal/select-service']),
+                    //'params' => ['input-type-1', 'input-type-2']
+                ]
+            ])->hint('Choose your preferred shipping method')->label('') ?>
+        </div>
+        <div class="col-md-4">
+            <?= $form->field($model, 'SERVICE_CODE')->widget(DepDrop::classname(), [
+                'type' => DepDrop::TYPE_SELECT2,
+                //'data' => [2 => 'Tablets'],
+                'options' => ['id' => 'service-code', 'placeholder' => '--- Select service type ---'],
+                'select2Options' => ['pluginOptions' => ['allowClear' => true]],
+                'pluginOptions' => [
+                    'depends' => ['service-desc'],
+                    'url' => Url::to(['//paypal/select-package']),
+                    //'params' => ['input-type-1', 'input-type-2']
+                ],
+                'pluginEvents' => [
+                    'change' => "function(){
                 var mixedService = $('#service-desc').val();
                var packageCode = mixedService.split('|',1);
                var serviceName = mixedService.split('~');
@@ -60,12 +65,22 @@ $message = 'Proceed with order creation? Your PayPal account will be billed';
                 $('#package-code').val(packageCode);
                 $('#requested-service').val(serviceName[1]);
             }"
-        ]
-    ]) ?>
+                ]
+            ])->hint('Choose your preferred shipping service')->label('') ?>
+        </div>
+    </div>
 
-    <?= $form->field($model, 'PACKAGE_CODE')->textInput(['maxlength' => true, 'id' => 'package-code', 'readonly' => true]) ?>
-
-    <?= $form->field($model, 'REQUESTED_SERVICE')->textInput(['maxlength' => true, 'id' => 'requested-service', 'readonly' => true]) ?>
+    <div class="row">
+        <div class="col-md-4">
+            <?= $form->field($model, 'PAYPAL_TRANS_ID')->textInput(['value' => $payment_id, 'readonly' => true])->label('') ?>
+        </div>
+        <div class="col-md-4">
+            <?= $form->field($model, 'PACKAGE_CODE')->textInput(['maxlength' => true, 'id' => 'package-code', 'readonly' => true])->label('') ?>
+        </div>
+        <div class="col-md-4">
+            <?= $form->field($model, 'REQUESTED_SERVICE')->textInput(['maxlength' => true, 'id' => 'requested-service', 'readonly' => true])->label('') ?>
+        </div>
+    </div>
 
 
     <div class="form-group">
@@ -79,6 +94,7 @@ $message = 'Proceed with order creation? Your PayPal account will be billed';
     <?php ActiveForm::end(); ?>
 </div>
 
+<hr/>
 <?php
 $this->registerJs("
    ConfirmFormSubmission($form_id,$btn_id,'$message');
