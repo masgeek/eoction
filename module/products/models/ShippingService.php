@@ -57,11 +57,11 @@ class ShippingService extends \yii\db\ActiveRecord
         return [
             'SERVICE_ID' => 'Service ID',
             'PAYPAL_TRANS_ID' => 'PayPal Transaction ID',
-            'REQUESTED_SERVICE' => 'Requested Service',
-            'SERVICE_DESC' => 'Service Type',
-            'CARRIER_CODE' => 'Carrier Type',
-            'SERVICE_CODE' => 'Service Type',
-            'PACKAGE_CODE' => 'Package Type',
+            'REQUESTED_SERVICE' => 'Requested Shipping Service',
+            'SERVICE_DESC' => 'Service Description',
+            'CARRIER_CODE' => 'Carrier Code',
+            'SERVICE_CODE' => 'Service Code',
+            'PACKAGE_CODE' => 'Package Code',
             'CREATED' => 'Created',
             'UPDATED' => 'Updated',
         ];

@@ -266,7 +266,7 @@ class PaypalController extends Controller
         $post = Yii::$app->request->post('depdrop_all_params');
 
 
-        $carrier_code_raw = $post['requested-service'];
+        $carrier_code_raw = $post['service-desc'];
 
         $splitList = explode('|', $carrier_code_raw);
 
