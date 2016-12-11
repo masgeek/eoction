@@ -28,9 +28,13 @@ $message = 'Proceed with order creation? Your PayPal account will be billed';
     ]); ?>
     <div class="row">
         <div class="col-md-4">
-            <?= $form->field($model, 'CARRIER_CODE')->dropDownList($carrierList, [
-                'id' => 'carrier-code', 'prompt' => '-- Select carrier --'
-            ])->hint('Choose your preferred carrier')->label('') ?>
+            <?= $form->field($model, 'CARRIER_CODE')->widget(kartik\select2\Select2::classname(), [
+                'data' => $carrierList,
+                'options' => ['id' => 'carrier-code', 'placeholder' => '-- Select carrier --'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ])->hint('Choose your preferred carrier')->label(); ?>
         </div>
         <div class="col-md-4">
             <?= $form->field($model, 'SERVICE_DESC')->widget(DepDrop::classname(), [
@@ -43,7 +47,7 @@ $message = 'Proceed with order creation? Your PayPal account will be billed';
                     'url' => Url::to(['//paypal/select-service']),
                     //'params' => ['input-type-1', 'input-type-2']
                 ]
-            ])->hint('Choose your preferred shipping method')->label('') ?>
+            ])->hint('Choose your preferred shipping method')->label() ?>
         </div>
         <div class="col-md-4">
             <?= $form->field($model, 'SERVICE_CODE')->widget(DepDrop::classname(), [
@@ -66,7 +70,12 @@ $message = 'Proceed with order creation? Your PayPal account will be billed';
                 $('#requested-service').val(serviceName[1]);
             }"
                 ]
-            ])->hint('Choose your preferred shipping service')->label('') ?>
+            ])->hint('Choose your preferred shipping service')->label() ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <?= $form->field($model, 'CUSTOMER_NOTES')->textarea(['rows' => 6])->hint('Leave additional notes if you have any further instructions') ?>
         </div>
     </div>
 
@@ -75,10 +84,10 @@ $message = 'Proceed with order creation? Your PayPal account will be billed';
             <?= $form->field($model, 'PAYPAL_TRANS_ID')->textInput(['value' => $payment_id, 'readonly' => true])->label('') ?>
         </div>
         <div class="col-md-4">
-            <?= $form->field($model, 'PACKAGE_CODE')->textInput(['maxlength' => true, 'id' => 'package-code', 'readonly' => true])->label('') ?>
+            <?= $form->field($model, 'PACKAGE_CODE')->textInput(['maxlength' => true, 'id' => 'package-code', 'readonly' => true])->label() ?>
         </div>
         <div class="col-md-4">
-            <?= $form->field($model, 'REQUESTED_SERVICE')->textInput(['maxlength' => true, 'id' => 'requested-service', 'readonly' => true])->label('') ?>
+            <?= $form->field($model, 'REQUESTED_SERVICE')->textInput(['maxlength' => true, 'id' => 'requested-service', 'readonly' => true])->label() ?>
         </div>
     </div>
 

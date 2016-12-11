@@ -191,6 +191,27 @@ class PaypalController extends Controller
         ]);
     }
 
+    /**
+     * Updates an existing ShippingService model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionUpdate($id)
+    {
+        $model = ShippingService::findOne($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            //return $this->redirect(['view', 'id' => $model->SERVICE_ID]);
+
+            var_dump($_POST);
+            die;
+        }
+            return $this->render('edit-order', [
+                'model' => $model,
+                'payment_id' => $model->pAYPALTRANS->ID,
+            ]);
+    }
 
     /**
      * @param $paypal_hash

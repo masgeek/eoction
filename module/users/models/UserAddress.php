@@ -19,7 +19,7 @@ use Yii;
  * @property string $POSTALCODE
  * @property string $COUNTRY
  * @property string $PHONE
- * @property string $RESIDENTIAL
+ * @property boolean $RESIDENTIAL
  * @property string $ADDRESS_TYPE
  * @property integer $PRIMARY_ADDRESS
  * @property string $CREATED

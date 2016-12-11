@@ -64,6 +64,8 @@ class ShipStationHandler
         /* @var $model ItemsCart */
         /* @var $paypalTransModel PaypalTransactions */
         /* @var $shippingModel ShippingService */
+        /* @var $clientShippingAddress UserAddress */
+        /* @var $clientBillingAddress UserAddress */
 
 
         $endpointurl = \Yii::$app->params['ShipStationApiUrl'];
@@ -83,18 +85,22 @@ class ShipStationHandler
             'IS_SOLD' => 1
         ]);
 
-        $clientContact = UserAddress::findOne([
+        //if the shipping address is not available we will pick the next available one i.e billing address or primary address
+        $clientShippingAddress = UserAddress::findOne([
             'USER_ID' => $user_id,
             'ADDRESS_TYPE' => UserAddress::SHIPPING_ADDRESS //start with billing address
         ]);
 
-        //if the above address is not available we will pick the next available one i.e billing address or primary address
-        if ($clientContact == null) {
-            $clientContact = UserAddress::findOne([
-                'USER_ID' => $user_id,
-                'ADDRESS_TYPE' => UserAddress::BILLING_ADDRESS //start with billing address
-            ]);
+        $clientBillingAddress = UserAddress::findOne([
+            'USER_ID' => $user_id,
+            'ADDRESS_TYPE' => UserAddress::BILLING_ADDRESS //start with billing address
+        ]);
+
+        if ($clientShippingAddress == null) {
+            $clientShippingAddress = $clientBillingAddress;
+
         }
+
         if ($transactionInfo != null) {
             $order = new Order();
 
@@ -131,21 +137,32 @@ class ShipStationHandler
             $paypalTransModel = PaypalTransactions::findOne(['HASH' => $paypal_hash]);
             $shippingModel = $paypalTransModel->shippingServices; //get only the first item in the array
 
-            //var_dump($shippingModel->CARRIER_CODE);
+            $orderDate = date('Y-m-d') . 'T' . date('H:i:s') . '.0000000';
+            $paymentDate = date('Y-m-d') . 'T' . date('H:i:s') . '.0000000';
+
+
+            //$orderDate = date('Y-m-d H:i:s', strtotime($orderDate . "GMT"));
+            $paymentDate = \Yii::$app->formatter->asDatetime($paypalTransModel->UPDATE_TIME, "php: Y-m-d H:i:s");;
+            $orderDate = \Yii::$app->formatter->asDatetime($paypalTransModel->CREATE_TIME, "php: Y-m-d H:i:s");;
+            //echo '<br/>';
+            //$today = date('Y-m-d H:i:s', $temp['date']->getTimeStamp());
+            //$today = date('Y-m-d H:i:s', strtotime($orderDate . "+8"));
+
+            //echo $time_gmt;
             //die;
             //$order->orderId = 1;
-            $order->orderNumber = "EOCT001";
+            $order->orderNumber = strtoupper(uniqid("EOCT-{$paypalTransModel->ID}-"));
             $order->orderKey = $paypal_hash; // if specified, the method becomes idempotent and the existing Order with that key will be updated
-            $order->orderDate = date('Y-m-d') . 'T' . date('H:i:s') . '.0000000';
-            $order->paymentDate = date('Y-m-d') . 'T' . date('H:i:s') . '.0000000';
+            $order->orderDate = $orderDate;
+            $order->paymentDate = $paymentDate;
             $order->orderStatus = ShipStationHandler::AWAITING_SHIPMENT;
-            $order->customerUsername = $clientContact->uSER->FULL_NAMES;
-            $order->customerEmail = $clientContact->uSER->EMAIL_ADDRESS;
+            $order->customerUsername = $paypalTransModel->uSER->FULL_NAMES; //$clientContact->uSER->FULL_NAMES;
+            $order->customerEmail = $paypalTransModel->uSER->EMAIL_ADDRESS;
             $order->amountPaid = $total_paid;
             $order->taxAmount = $taxAmount;
             $order->shippingAmount = $shippingCost;
-            $order->customerNotes = null;
-            $order->internalNotes = "Express Shipping Please";
+            $order->customerNotes = $shippingModel->CUSTOMER_NOTES;
+            $order->internalNotes = null;//"Express Shipping Please";
             $order->gift = null;
             $order->giftMessage = null;
             $order->requestedShippingService = $shippingModel->REQUESTED_SERVICE;
@@ -157,36 +174,35 @@ class ShipStationHandler
             $order->shipDate = null;
 
 
-            var_dump($order);
             //Billing Class
             $billing = new Address();
-            $billing->name = "Sammy Barasa"; // This has to be a String... If you put NULL the API cries...
-            $billing->company = null;
-            $billing->street1 = null;
-            $billing->street2 = null;
-            $billing->street3 = null;
-            $billing->city = null;
-            $billing->state = null;
-            $billing->postalCode = null;
-            $billing->country = null;
-            $billing->phone = null;
-            $billing->residential = null;
+            $billing->name = $clientBillingAddress->NAME; // This has to be a String... If you put NULL the API cries...
+            $billing->company = $clientBillingAddress->COMPANY;
+            $billing->street1 = $clientBillingAddress->STREET1;
+            $billing->street2 = $clientBillingAddress->STREET2;
+            $billing->street3 = $clientBillingAddress->STREET3;
+            $billing->city = $clientBillingAddress->CITY;
+            $billing->state = $clientBillingAddress->STATE;
+            $billing->postalCode = $clientBillingAddress->POSTALCODE;
+            $billing->country = $clientBillingAddress->COUNTRY;
+            $billing->phone = $clientBillingAddress->PHONE;
+            $billing->residential = null;//$clientBillingAddress->RESIDENTIAL ? 'Residential' : null;
             $order->billTo = $billing;
 
 
             //Shipping address
             $shipping = new Address();
-            $shipping->name = "Sammy Barasa";
-            $shipping->company = "Go-Parts";
-            $shipping->street1 = "Santa Clarita #1234";
-            $shipping->street2 = null;
-            $shipping->street3 = null;
-            $shipping->city = "Los Angeles";
-            $shipping->state = "CA";
-            $shipping->postalCode = "90002";
-            $shipping->country = "US";
-            $shipping->phone = "555-555-5555";
-            $shipping->residential = null;
+            $shipping->name = $clientShippingAddress->NAME;
+            $shipping->company = $clientShippingAddress->COMPANY;
+            $shipping->street1 = $clientShippingAddress->STREET1;
+            $shipping->street2 = $clientShippingAddress->STREET2;
+            $shipping->street3 = $clientShippingAddress->STREET3;
+            $shipping->city = $clientShippingAddress->CITY;
+            $shipping->state = $clientShippingAddress->STATE;
+            $shipping->postalCode = $clientShippingAddress->POSTALCODE;
+            $shipping->country = $clientShippingAddress->COUNTRY;
+            $shipping->phone = $clientShippingAddress->PHONE;
+            $shipping->residential = null;//$clientShippingAddress->RESIDENTIAL ? 'Residentisl' : null;
             $order->shipTo = $shipping;
 
 
@@ -201,8 +217,8 @@ class ShipStationHandler
 
              */
 
-            var_dump($order);
-            die;
+            //var_dump($order);
+            //die;
             //pull the product information from the said table
 
 
@@ -216,6 +232,8 @@ class ShipStationHandler
             echo '</pre>';
         }
 
+
+        die;
         return $status;
 
     }
