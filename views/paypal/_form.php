@@ -34,12 +34,12 @@ $message = 'Proceed with order creation? Your PayPal account will be billed';
                 'pluginOptions' => [
                     'allowClear' => true
                 ],
-            ])->hint('Choose your preferred carrier')->label(); ?>
+            ])->hint('Choose your preferred carrier')->label(''); ?>
         </div>
         <div class="col-md-4">
             <?= $form->field($model, 'SERVICE_DESC')->widget(DepDrop::classname(), [
                 'type' => DepDrop::TYPE_SELECT2,
-                //'data' => [2 => 'Tablets'],
+                'data' => [$model->SERVICE_DESC => $model->REQUESTED_SERVICE],
                 'options' => ['id' => 'service-desc', 'placeholder' => '--- Select shipping type ---'],
                 'select2Options' => ['pluginOptions' => ['allowClear' => true]],
                 'pluginOptions' => [
@@ -47,13 +47,13 @@ $message = 'Proceed with order creation? Your PayPal account will be billed';
                     'url' => Url::to(['//paypal/select-service']),
                     //'params' => ['input-type-1', 'input-type-2']
                 ]
-            ])->hint('Choose your preferred shipping method')->label() ?>
+            ])->hint('Choose your preferred shipping method')->label('') ?>
         </div>
         <div class="col-md-4">
-            <?= $form->field($model, 'SERVICE_CODE')->widget(DepDrop::classname(), [
+            <?= $form->field($model, 'PACKAGE_CODE')->widget(DepDrop::classname(), [
                 'type' => DepDrop::TYPE_SELECT2,
-                //'data' => [2 => 'Tablets'],
-                'options' => ['id' => 'service-code', 'placeholder' => '--- Select service type ---'],
+                'data' => [$model->PACKAGE_CODE => $model->PACKAGE_CODE],
+                'options' => ['id' => 'package_code', 'placeholder' => '--- Select service type ---'],
                 'select2Options' => ['pluginOptions' => ['allowClear' => true]],
                 'pluginOptions' => [
                     'depends' => ['service-desc'],
@@ -63,14 +63,15 @@ $message = 'Proceed with order creation? Your PayPal account will be billed';
                 'pluginEvents' => [
                     'change' => "function(){
                 var mixedService = $('#service-desc').val();
-               var packageCode = mixedService.split('|',1);
+               var serviceCode = mixedService.split('|',1);
                var serviceName = mixedService.split('~');
-                console.log(packageCode+'  '+serviceName);
-                $('#package-code').val(packageCode);
-                $('#requested-service').val(serviceName[1]);
+                console.log(serviceCode+'  '+serviceName);
+                $('#service_code').val(serviceCode);
+                $('#requested_service').val(serviceName[1]);
+                //$('#test').val(serviceName);
             }"
                 ]
-            ])->hint('Choose your preferred shipping service')->label() ?>
+            ])->hint('Choose your preferred shipping service')->label('') ?>
         </div>
     </div>
     <div class="row">
@@ -79,15 +80,16 @@ $message = 'Proceed with order creation? Your PayPal account will be billed';
         </div>
     </div>
 
+    <!--?= Html::textInput('TEMP', null, ['id' => 'test','class'=>'form-control']) ?-->
     <div class="row">
         <div class="col-md-4">
-            <?= $form->field($model, 'PAYPAL_TRANS_ID')->textInput(['value' => $payment_id, 'readonly' => true])->label('') ?>
+            <?= $form->field($model, 'PAYPAL_TRANS_ID')->hiddenInput(['value' => $payment_id, 'readonly' => true])->label('') ?>
         </div>
         <div class="col-md-4">
-            <?= $form->field($model, 'PACKAGE_CODE')->textInput(['maxlength' => true, 'id' => 'package-code', 'readonly' => true])->label() ?>
+            <?= $form->field($model, 'SERVICE_CODE')->hiddenInput(['maxlength' => true, 'id' => 'service_code', 'readonly' => true])->label('') ?>
         </div>
         <div class="col-md-4">
-            <?= $form->field($model, 'REQUESTED_SERVICE')->textInput(['maxlength' => true, 'id' => 'requested-service', 'readonly' => true])->label() ?>
+            <?= $form->field($model, 'REQUESTED_SERVICE')->hiddenInput(['maxlength' => true, 'id' => 'requested_service', 'readonly' => true])->label('') ?>
         </div>
     </div>
 

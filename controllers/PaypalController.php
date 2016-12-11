@@ -200,12 +200,19 @@ class PaypalController extends Controller
     public function actionUpdate($id)
     {
         $model = ShippingService::findOne($id);
+        $shipStation = new ShipStationHandler();
+
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            //return $this->redirect(['view', 'id' => $model->SERVICE_ID]);
-
-            var_dump($_POST);
-            die;
+            //update the order
+            $hash = $model->pAYPALTRANS->HASH;
+            $user_id = $model->pAYPALTRANS->USER_ID;
+            $trans_id = $model->pAYPALTRANS->ID;
+            //lets create the order after a successful payment and confirmation
+            $order_status = $shipStation->CreateNewOrder($hash, $user_id); //use the paypal hash
+            //update the car items as paid for so that they no longer appear in the cart
+            //SEND email to the user
+            return $this->redirect(['success', 'trans_id' => $trans_id]);
         }
             return $this->render('edit-order', [
                 'model' => $model,
@@ -267,6 +274,9 @@ class PaypalController extends Controller
 
         $carrierServices = $shipStation->ListCarrierServices($carrier_code, $as_array = true);
 
+
+        //var_dump($carrierServices);
+        //die;
         $dat = (['output' => $carrierServices]);
 
         return \GuzzleHttp\json_encode($dat);
@@ -302,6 +312,8 @@ class PaypalController extends Controller
 
         $carrierPackage = $shipStation->ListCarrierPackage($carrier_code, $domestic, $international, $as_array = true);
 
+        //var_dump($carrierPackage);
+        //die;
         // Shows how you can preselect a value
         $dat = (['output' => $carrierPackage]);
 

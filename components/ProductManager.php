@@ -48,9 +48,7 @@ class ProductManager
     {
         $product = FryProducts::findOne(['productid' => $product_id]);
         if ($product != null) {
-
             $retail_price = $product->prodretailprice;
-
         }
 
         $shipping_cost = round(((5 * $retail_price) / 100), 2);
@@ -255,6 +253,25 @@ class ProductManager
     {
 
         return ItemsCart::updateAll(['IS_SOLD' => 1], ['PAYPAL_HASH' => $paypal_hash]);
+    }
+
+    /**
+     * Returns image url of the product
+     * @param $product_id
+     * @return string
+     */
+    public static function GetImageUrl($product_id)
+    {
+        $imageHost = \Yii::$app->params['ExternalImageServerLink'];
+        $imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
+
+        $imageModel = new FryProducts();
+        $imageObject = $imageModel->getSingleImage($product_id);
+
+
+        $product_image = $imageObject ? "{$imageHost}/{$imageFolder}/{$imageObject->imagefile}" : '@web/product_images/placeholder.png';
+
+        return $product_image;
     }
 
     /**

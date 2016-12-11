@@ -9,8 +9,8 @@ $email = Yii::$app->user->identity->emailaddress;
         <h2 style="color:#0fad00">Success</h2>
         <i class="fa fa-check-circle-o fa-5x" style="color: green;"></i>
         <h3>Dear, <?= $full_names ?></h3>
-        <p style="font-size:20px;color:#5C5C5C;">Thank you for completing your purchase. We have sent you an email to
-            "<?= $email ?>" confirming your payment</p>
+        <p style="font-size:20px;color:#5C5C5C;">Thank you for completing your purchase.Your order will be processed soon. We have sent you an email to
+            "<?= $email ?>" regarding your order status</p>
         <?= \yii\helpers\Html::a('Continue Shopping',
             ['//shop'],
             ['title' => 'Continue Shopping', 'class' => 'btn btn-success btn-lg']); ?>

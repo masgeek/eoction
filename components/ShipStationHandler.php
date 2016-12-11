@@ -118,7 +118,7 @@ class ShipStationHandler
                 $orderItem->quantity = 1;
                 $orderItem->unitPrice = $model->PRODUCT_PRICE; //This is the amount paid in paypal
                 $orderItem->warehouseLocation = $this->warehouse;
-                $orderItem->imageUrl = 'https://d38eepresuu519.cloudfront.net/072a25ea0c3226296cdcc7adb29169f9/square.jpg';
+                $orderItem->imageUrl = ProductManager::GetImageUrl($model->PRODUCT_ID);
                 $orderItem->productId = $model->PRODUCT_ID;
 
                 $items[] = $orderItem;
@@ -130,9 +130,11 @@ class ShipStationHandler
             $shippingCost = ProductManager::ComputeShippingCost(null, $total_paid);
             $taxAmount = ProductManager::ComputeTaxAmount($total_paid);
 
-            //$order->items = $items;
+            $order->items = $items;
 
 
+            //var_dump($items);
+            //die;
             //lets get the payment information
             $paypalTransModel = PaypalTransactions::findOne(['HASH' => $paypal_hash]);
             $shippingModel = $paypalTransModel->shippingServices; //get only the first item in the array
@@ -227,13 +229,13 @@ class ShipStationHandler
             $orderJsonResponse = $createOrder->getBody();
 
             $decoded = \GuzzleHttp\json_decode($orderJsonResponse);
-            echo '<pre>';
-            print_r($decoded);
-            echo '</pre>';
+            //echo '<pre>';
+            //print_r($decoded);
+            //echo '</pre>';
         }
 
 
-        die;
+        //die;
         return $status;
 
     }
