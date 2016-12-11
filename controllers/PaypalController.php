@@ -220,7 +220,7 @@ class PaypalController extends Controller
                 Yii::$app->session->remove('paypal_hash');
             }
 
-            //lets create the order after a successfull payment and confirmation
+            //lets create the order after a successful payment and confirmation
             //$order_status = $shipStation->CreateNewOrder($transactionPayment->HASH, $transactionPayment->USER_ID); //use the paypal hash
             //update the car items as paid for so that they no longer appear in the cart
             //SEND email to the user
@@ -240,15 +240,8 @@ class PaypalController extends Controller
         $post = Yii::$app->request->post('depdrop_all_params');
         $carrier_code = $post['carrier-code'];
 
-        //break it down
-
-        //var_dump($post);
-        //die;
         $carrierServices = $shipStation->ListCarrierServices($carrier_code, $as_array = true);
 
-        //var_dump($carrierServices);
-        //die;
-        // Shows how you can preselect a value
         $dat = (['output' => $carrierServices]);
 
         return \GuzzleHttp\json_encode($dat);
@@ -264,7 +257,6 @@ class PaypalController extends Controller
         $shipStation = new ShipStationHandler();
 
         $post = Yii::$app->request->post('depdrop_all_params');
-
 
         $carrier_code_raw = $post['service-desc'];
 

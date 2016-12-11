@@ -15,6 +15,7 @@ use yii\db\Expression;
  * @property string $CARRIER_CODE
  * @property string $SERVICE_CODE
  * @property string $PACKAGE_CODE
+ * @property string $ORDER_FINALIZED
  * @property string $CREATED
  * @property string $UPDATED
  *
@@ -22,8 +23,6 @@ use yii\db\Expression;
  */
 class ShippingService extends \yii\db\ActiveRecord
 {
-    //public $SERVICE_DESC;
-
     /**
      * @inheritdoc
      */
@@ -40,6 +39,7 @@ class ShippingService extends \yii\db\ActiveRecord
         return [
             [['PAYPAL_TRANS_ID', 'REQUESTED_SERVICE', 'SERVICE_CODE', 'SERVICE_DESC'], 'required'],
             [['PAYPAL_TRANS_ID'], 'integer'],
+            [['ORDER_FINALIZED'], 'boolean'],
             [['PAYPAL_TRANS_ID'], 'unique'],
             [['CREATED', 'UPDATED'], 'safe'],
             [['REQUESTED_SERVICE'], 'string', 'max' => 100],
@@ -62,6 +62,7 @@ class ShippingService extends \yii\db\ActiveRecord
             'CARRIER_CODE' => 'Carrier Code',
             'SERVICE_CODE' => 'Service Code',
             'PACKAGE_CODE' => 'Package Code',
+            'ORDER_FINALIZED' => 'Order Finalized',
             'CREATED' => 'Created',
             'UPDATED' => 'Updated',
         ];
@@ -77,6 +78,7 @@ class ShippingService extends \yii\db\ActiveRecord
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
                 $this->CREATED = $date;
+                $this->ORDER_FINALIZED = true;
             }
             $this->UPDATED = $date;
             return true;

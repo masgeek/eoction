@@ -4,7 +4,6 @@
 function RemoveFromCart($cart_item_id) {
     var remove_cart_item = $('#remove-item-' + $cart_item_id);
 
-
     // instanciate new modal
     var modal = new tingle.modal({
         footer: true,
@@ -55,4 +54,48 @@ function RemoveCartItem($cart_item_id) {
             });
         }
     });
+}
+
+
+function ConfirmFormSubmission(form_id, $btn_id, $message) {
+
+    // instantiate new modal
+    var modal = new tingle.modal({
+        footer: true,
+        stickyFooter: false,
+        cssClass: ['custom-class-1', 'custom-class-2'],
+        onOpen: function () {
+            //console.log('modal open');
+        },
+        onClose: function () {
+            //console.log('modal closed');
+        }
+    });
+
+    // set content
+    modal.setContent('<h1>' + $message + '</h1>');
+
+// add a button
+    modal.addFooterBtn('No', 'btn btn-primary', function () {
+        // here goes some logic
+        modal.close();
+        return false;
+    });
+
+// add another button
+    modal.addFooterBtn('Yes', 'btn btn-danger pull-right', function () {
+        // here goes some logic
+        modal.close();
+        $(form_id).submit();//trigger the form submissions
+    });
+
+// close modal
+    modal.close();
+
+    $($btn_id).click(function () {
+        //var c = confirm("Click OK to continue?");
+        //return c; //you can just return c because it will be true or false
+        modal.open()
+    });
+
 }

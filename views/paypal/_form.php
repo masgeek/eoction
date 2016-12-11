@@ -13,11 +13,17 @@ $shippingStation = new \app\components\ShipStationHandler();
 
 $carrierList = $shippingStation->ListAllCarriers($as_array = true);
 
+$this->registerJsFile('@web/js/shopping/cart-manager.js');
+$form_id = 'order_form';
+$btn_id = 'btn_order';
+$message = 'Proceed with order creation? Your PayPal account will be billed';
 ?>
 
 <div class="shipping-service-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+        'id' => $form_id
+    ]); ?>
 
     <?= $form->field($model, 'PAYPAL_TRANS_ID')->textInput(['value' => $payment_id, 'readonly' => true]) ?>
 
@@ -63,9 +69,18 @@ $carrierList = $shippingStation->ListAllCarriers($as_array = true);
 
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Confirm Order' : 'Update Order', ['class' => $model->isNewRecord ? 'btn btn-success btn-block btn-lg' : 'btn btn-primary btn-block']) ?>
+        <?= Html::button($model->isNewRecord ? 'Confirm Order' : 'Update Order', [
+            'id' => $btn_id,
+            'class' => $model->isNewRecord ? 'btn btn-success btn-block btn-lg' : 'btn btn-primary btn-block',
+            //'onclick' => 'return ConfirmAction("test")'
+        ]) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
-
 </div>
+
+<?php
+$this->registerJs("
+   ConfirmFormSubmission($form_id,$btn_id,'$message');
+", \yii\web\View::POS_READY)
+?>
