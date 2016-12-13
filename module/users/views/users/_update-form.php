@@ -45,7 +45,7 @@ $timezone = \app\components\AccountManager::GetTimeZones();
                 <?= $form->field($model, 'COUNTRY')->dropDownList($countryData, ['prompt' => 'Select country']) ?>
             </div>
             <div class="col-md-4">
-                <?= $form->field($model, 'TIMEZONE')->textInput(['maxlength' => true]) ?>
+                <!--?= $form->field($model, 'TIMEZONE')->textInput(['maxlength' => true]) ?-->
                 <?= $form->field($model, 'TIMEZONE')->dropDownList($timezone, ['prompt' => 'Select country']) ?>
             </div>
         </div>
