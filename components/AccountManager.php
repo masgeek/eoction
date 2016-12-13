@@ -10,14 +10,42 @@ namespace app\components;
 
 
 use app\module\users\models\Countries;
+use app\module\users\models\Timezones;
+use yii\helpers\ArrayHelper;
 
 class AccountManager
 {
 
     public static function GetCountryList()
     {
-        $list = Countries::findAll();
+        $list = Countries::find()->select(['COUNTRY_CODE', 'COUNTRY_NAME'])->asArray()->all();
 
-        return $list;
+        $country_list = ArrayHelper::map($list, 'COUNTRY_CODE', 'COUNTRY_NAME');
+        return $country_list;
+    }
+
+    public static function GetTimeZones()
+    {
+        /* @var $countryModel Countries */
+        /* @var $timezone Timezones */
+
+        $dat = Countries::find()
+            ->joinWith(['timezones'])
+            ->select(['*'])
+            ->groupBy('timezones.TIMEZONE')
+            //->orderBy(['cnt' => 'DESC'])
+            ->all();
+        $countryModel = Countries::find()->all();
+
+        foreach ($dat as $countryModel) {
+            ///var_dump($countryModel->timezones);
+            $timezones = $countryModel->timezones;
+            foreach ($timezones as $timezone) {
+                $timezone_list[$timezone->TIMEZONE] = "(GMT+{$timezone->GMT_OFFSET}) {$timezone->TIMEZONE}";
+            }
+
+        };
+
+        return $timezone_list;
     }
 }

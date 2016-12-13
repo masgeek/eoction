@@ -10,7 +10,11 @@ use yii\bootstrap\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 
 
+$countryData = \app\components\AccountManager::GetCountryList();
 
+$timezone = \app\components\AccountManager::GetTimeZones();
+
+var_dump($timezone);
 ?>
 
     <div class="users-form">
@@ -38,14 +42,15 @@ use yii\bootstrap\ActiveForm;
                 <?= $form->field($model, 'PHONE_NO')->hint('Begin with country code e.g 32898378989')->widget(\yii\widgets\MaskedInput::className(), ['mask' => '9{0,3}9{0,3}9{0,3}9{0,3}',]) ?>
             </div>
             <div class="col-md-4">
-                <?= $form->field($model, 'COUNTRY')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'COUNTRY')->dropDownList($countryData, ['prompt' => 'Select country']) ?>
             </div>
             <div class="col-md-4">
                 <?= $form->field($model, 'TIMEZONE')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'TIMEZONE')->dropDownList($timezone, ['prompt' => 'Select country']) ?>
             </div>
         </div>
 
-            <?= $form->field($model, 'CHANGE_PASS')->hint('Click to change password')->checkbox(['checked' => false]); ?>
+        <?= $form->field($model, 'CHANGE_PASS')->hint('Click to change password')->checkbox(['checked' => false]); ?>
 
 
         <div class="row toggle-field" style="display: none;">
