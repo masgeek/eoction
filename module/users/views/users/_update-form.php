@@ -14,7 +14,7 @@ $countryData = \app\components\AccountManager::GetCountryList();
 
 $timezone = \app\components\AccountManager::GetTimeZones();
 
-var_dump($timezone);
+//var_dump($timezone);
 ?>
 
     <div class="users-form">

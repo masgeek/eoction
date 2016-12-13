@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50711
 File Encoding         : 65001
 
-Date: 2016-12-11 18:34:33
+Date: 2016-12-13 22:30:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -293,12 +293,11 @@ CREATE TABLE `migration` (
 -- ----------------------------
 -- Records of migration
 -- ----------------------------
-INSERT INTO `migration` VALUES ('m000000_000000_base', '1481114746');
-INSERT INTO `migration` VALUES ('m161128_141131_create_transaction_paypal', '1481410906');
-INSERT INTO `migration` VALUES ('m161207_115906_create_tb_orders_table', '1481470057');
-INSERT INTO `migration` VALUES ('m161207_122757_create_tb_shipping_orders_table', '1481468953');
-INSERT INTO `migration` VALUES ('m161207_125747_create_tb_user_address_table', '1481410908');
-INSERT INTO `migration` VALUES ('m161208_173038_create_shipping_service_table', '1481461651');
+INSERT INTO `migration` VALUES ('m000000_000000_base', '1481657365');
+INSERT INTO `migration` VALUES ('m161128_141131_create_transaction_paypal', '1481657410');
+INSERT INTO `migration` VALUES ('m161207_115906_create_tb_orders_table', '1481657423');
+INSERT INTO `migration` VALUES ('m161207_125747_create_tb_user_address_table', '1481657427');
+INSERT INTO `migration` VALUES ('m161208_173038_create_shipping_service_table', '1481657428');
 
 -- ----------------------------
 -- Table structure for orders
@@ -318,13 +317,11 @@ CREATE TABLE `orders` (
   `customerUsername` varchar(100) NOT NULL,
   `customerEmail` varchar(100) NOT NULL,
   PRIMARY KEY (`orderId`)
-) ENGINE=InnoDB AUTO_INCREMENT=16052103 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
-INSERT INTO `orders` VALUES ('16051866', 'EOCT-10-584D70879D6DC', '1465a2e9300b98d2bc5ade4b331cb877', '2016-12-11 18:25:16', '2016-12-11 07:26:02', '2016-12-11 07:28:10', '2016-12-11 18:28:07', '2016-12-11 18:28:09', 'awaiting_shipment', '10229463', 'Sammy Barasa', 'barsamms@gmail.com');
-INSERT INTO `orders` VALUES ('16052102', 'EOCT-11-584D70F6D8C98', '8166a26567f14b08afc5c59547a6ce4a', '2016-12-11 18:28:39', '2016-12-11 07:29:23', '2016-12-11 07:29:59', '2016-12-11 18:29:58', '2016-12-11 18:30:00', 'awaiting_shipment', '10229463', 'Sammy Barasa', 'barsamms@gmail.com');
 
 -- ----------------------------
 -- Table structure for paypal_transactions
@@ -342,19 +339,11 @@ CREATE TABLE `paypal_transactions` (
   PRIMARY KEY (`ID`),
   KEY `FK_USER_ID` (`USER_ID`),
   CONSTRAINT `FK_USER_ID` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of paypal_transactions
 -- ----------------------------
-INSERT INTO `paypal_transactions` VALUES ('4', '5', 'PAY-55533077AR317844ALBGU7LY', '7fd7245a01d8e447b9f6c8e30cdf6dfc', '1', '0', '2016-12-11 16:08:03', '2016-12-11 17:15:21');
-INSERT INTO `paypal_transactions` VALUES ('5', '5', 'PAY-7XG83596DG8933800LBGWDRQ', '304e9b6b36d1c1497719e36f8f3b6702', '1', '0', '2016-12-11 17:25:14', '2016-12-11 17:25:56');
-INSERT INTO `paypal_transactions` VALUES ('6', '5', 'PAY-1F353190P91583723LBGWKNA', '04dc6c1121385ef8e477fda9d6c7c71a', '1', '0', '2016-12-11 17:39:52', '2016-12-11 18:09:00');
-INSERT INTO `paypal_transactions` VALUES ('7', '5', 'PAY-6R519986RW7207210LBGWYZY', '1da7c21dbe5f7829093fa0efb6a0193b', '1', '0', '2016-12-11 18:10:35', '2016-12-11 18:19:16');
-INSERT INTO `paypal_transactions` VALUES ('8', '5', 'PAY-6BD196507C1904500LBGW5VI', 'e39a34a44b04977758edd0ac0b3c2e69', '1', '0', '2016-12-11 18:20:57', '2016-12-11 18:22:27');
-INSERT INTO `paypal_transactions` VALUES ('9', '5', 'PAY-85K59185P6009923TLBGW6SY', 'ff47160b2468e570e072537218401e1f', '1', '0', '2016-12-11 18:22:55', '2016-12-11 18:23:55');
-INSERT INTO `paypal_transactions` VALUES ('10', '5', 'PAY-0US78375UA738233NLBGW7WA', '1465a2e9300b98d2bc5ade4b331cb877', '1', '0', '2016-12-11 18:25:16', '2016-12-11 18:28:07');
-INSERT INTO `paypal_transactions` VALUES ('11', '5', 'PAY-6GJ56495VB1328336LBGXBIY', '8166a26567f14b08afc5c59547a6ce4a', '1', '0', '2016-12-11 18:28:39', '2016-12-11 18:29:58');
 
 -- ----------------------------
 -- Table structure for shipping_service
@@ -375,19 +364,11 @@ CREATE TABLE `shipping_service` (
   PRIMARY KEY (`SERVICE_ID`),
   KEY `FK_PAYMENT_HASH` (`PAYPAL_TRANS_ID`),
   CONSTRAINT `FK_PAYMENT_HASH` FOREIGN KEY (`PAYPAL_TRANS_ID`) REFERENCES `paypal_transactions` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of shipping_service
 -- ----------------------------
-INSERT INTO `shipping_service` VALUES ('1', '4', 'USPS Priority Mail Express', 'usps_priority_mail_express|stamps_com|DOMESTIC|~USPS Priority Mail Express', 'stamps_com', 'usps_priority_mail_express', 'regional_rate_box_b', '1', 'updated notes here, order should be updated too on shipstation', '2016-12-11 17:22:28', '2016-12-11 17:22:28');
-INSERT INTO `shipping_service` VALUES ('2', '5', 'USPS Priority Mail Express Intl', 'usps_priority_mail_express_international|stamps_com||INTERNATIONAL~USPS Priority Mail Express Intl', 'stamps_com', 'usps_priority_mail_express_international', 'thick_envelope', '1', 'Package carefully', '2016-12-11 17:25:56', '2016-12-11 17:25:56');
-INSERT INTO `shipping_service` VALUES ('3', '6', 'USPS Parcel Select Ground', 'usps_parcel_select|stamps_com|DOMESTIC|~USPS Parcel Select Ground', 'stamps_com', 'usps_parcel_select', 'regional_rate_box_b', '1', 'testing saving to local database', '2016-12-11 17:40:27', '2016-12-11 17:40:27');
-INSERT INTO `shipping_service` VALUES ('4', '7', 'USPS Media Mail', 'usps_media_mail|stamps_com|DOMESTIC|~USPS Media Mail', 'stamps_com', 'usps_media_mail', 'regional_rate_box_b', '1', 'notes here', '2016-12-11 18:11:20', '2016-12-11 18:11:20');
-INSERT INTO `shipping_service` VALUES ('5', '8', 'USPS Priority Mail Intl', 'usps_priority_mail_international|stamps_com||INTERNATIONAL~USPS Priority Mail Intl', 'stamps_com', 'usps_priority_mail_international', 'package', '1', 'package stuff and manenos', '2016-12-11 18:21:44', '2016-12-11 18:21:44');
-INSERT INTO `shipping_service` VALUES ('6', '9', 'USPS First Class Mail Intl', 'usps_first_class_mail_international|stamps_com||INTERNATIONAL~USPS First Class Mail Intl', 'stamps_com', 'usps_first_class_mail_international', 'flat_rate_envelope', '1', 'notes here', '2016-12-11 18:23:27', '2016-12-11 18:23:27');
-INSERT INTO `shipping_service` VALUES ('7', '10', 'USPS Priority Mail Express Intl', 'usps_priority_mail_express_international|stamps_com||INTERNATIONAL~USPS Priority Mail Express Intl', 'stamps_com', 'usps_priority_mail_express_international', 'large_envelope_or_flat', '1', 'test customer id manenos\r\n', '2016-12-11 18:25:59', '2016-12-11 18:25:59');
-INSERT INTO `shipping_service` VALUES ('8', '11', 'USPS Priority Mail Intl', 'usps_priority_mail_international|stamps_com||INTERNATIONAL~USPS Priority Mail Intl', 'stamps_com', 'usps_priority_mail_international', 'flat_rate_envelope', '1', 'testing', '2016-12-11 18:29:22', '2016-12-11 18:29:22');
 
 -- ----------------------------
 -- Table structure for tb_bid_activity
@@ -625,13 +606,11 @@ CREATE TABLE `tb_user_address` (
   PRIMARY KEY (`ADDRESS_ID`),
   KEY `FK_USER_ADDRESS_ID` (`USER_ID`),
   CONSTRAINT `FK_USER_ADDRESS_ID` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_user_address
 -- ----------------------------
-INSERT INTO `tb_user_address` VALUES ('1', '5', 'Sammy B', 'Tsobu Enterprise', 'PO Box 9', '', null, 'Thika', 'Thika', '00100', 'KE', '254713196504', '1', 'BILLING ADDRESS', '1', '2016-12-11 16:25:39', '2016-12-11 16:25:39');
-INSERT INTO `tb_user_address` VALUES ('2', '5', 'Sammy Barasa  Munywele', 'weyland yutani coorp', 'PO Box 89000', '', null, 'Nairobi', '', '01000', 'KE', '254713196504', '0', 'SHIPPING ADDRESS', '0', '2016-12-11 16:25:39', '2016-12-11 16:25:39');
 
 -- ----------------------------
 -- Table structure for tb_user_history
