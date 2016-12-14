@@ -22,7 +22,7 @@ $config = [
             'class' => 'app\module\users\user',
         ],
         'shopper' => [
-            'class' => 'app\module\shopper\Module',
+            'class' => 'app\module\shopper',
         ],
     ],
     'components' => [
@@ -110,11 +110,11 @@ $config = [
             'dateFormat' => 'dd.MM.yyyy',
             'decimalSeparator' => '.',
             'thousandSeparator' => ',',
-            //'timeZone' => 'GMT', //default time zones and format
+            'timeZone' => 'GMT', //default time zones and format
             'currencyCode' => 'USD',
             'nullDisplay' => '0',
         ],
-//Paypal module
+        //PayPal module
         'paypal' => require(__DIR__ . '/paypal.php'),
         //yii2 authclient
         'authClientCollection' => require(__DIR__ . '/oauth.php'),
