@@ -27,8 +27,4 @@ phpunit.phar
 /phpunit.xml
 # Created by .ignore support plugin (hsz.mobi)
 #Ignore everything except the files below
-# composer vendor dir
-bin/
-/vendor/
-!autoload.php
-!.gitignore
+.gitignore
