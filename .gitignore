@@ -27,4 +27,3 @@ phpunit.phar
 /phpunit.xml
 # Created by .ignore support plugin (hsz.mobi)
 #Ignore everything except the files below
-.gitignore
