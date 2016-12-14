@@ -80,19 +80,19 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
     var progressBar = $('#progressBar' + $productid);
     var bidStatusText = $('#bid_status_' + $productid);
     var placebid = $('#placebid_' + $productid);
-    var starttime = $bid_start_time * 1000;//convert to ms
+    var starttime = 10;//$bid_start_time * 1000;//convert to ms
 
     var bidplacedParam = {
         easing: "linear",
         loop: false,
         duration: starttime, //milliseconds
         begin: function (elements) {
-            ItemUpdate($productid, $sku, 'NO');
+            //ItemUpdate($productid, $sku, 'NO');
         },
         progress: function (elements, percentComplete, timeRemaining, timeStart) {
             //$percentComplete.html(Math.round(percentComplete * 100) + "% complete.");
             //$timeRemaining.html(timeRemaining + "Going Once.");
-            //console.log('Timer here '+timeRemaining+' for product '+$productid+' and sku '+$sku);
+            console.log('Timer here '+timeRemaining+' for product '+$productid+' and sku '+$sku);
             //ItemUpdate($productid,$sku);
         },
         complete: function () {

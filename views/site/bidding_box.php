@@ -74,6 +74,10 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
             <div class="col-md-12 col-xs-6 text-center text-uppercase">
                 <span id="bids_placed_<?= $product_id ?>"><?= $bids ?></span> Bid(s)
             </div>
+
+            <span id="percentComplete<?= $product_id ?>"></span>
+            <span id="timeRemaining<?= $product_id ?>"></span>
+
             <div class="col-md-12 col-xs-6 progress-container">
                 <div class="bidProgress noplacedbids" id="progressBar<?= $product_id ?>"></div>
             </div>

@@ -92,10 +92,10 @@ class ProductManager
                 ->where(['IN', 'prodvisible', $auction_param,])
                 ->andWhere(['>=', 'prodcurrentinv', $min_stock])//stock levels should be greater or equal to 1
                 ->andWhere(['NOT IN', 'prodcode', $exclusion_list])
-                ->orderBy(['rand()' => SORT_DESC]), //randomly pick items
-            //->orderBy('productid ASC'),
+             //   ->orderBy(['rand()' => SORT_DESC]), //randomly pick items
+            ->orderBy('productid ASC'),
             'pagination' => [
-                'pageSize' => $no_of_items
+                'pageSize' => $no_of_items = 1
             ],
         ]);
 
