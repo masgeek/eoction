@@ -361,12 +361,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/yiisoft/yii2-framework.git",
-            "reference": "b73f294850c9b2ea7580e4b1c410c7b55c7455ff"
+            "reference": "e3ac0ab266ec92dc9831cb1e550ab97719d19460"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/b73f294850c9b2ea7580e4b1c410c7b55c7455ff",
-            "reference": "b73f294850c9b2ea7580e4b1c410c7b55c7455ff",
+            "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/e3ac0ab266ec92dc9831cb1e550ab97719d19460",
+            "reference": "e3ac0ab266ec92dc9831cb1e550ab97719d19460",
             "shasum": ""
         },
         "require": {
@@ -382,7 +382,7 @@
             "php": ">=5.4.0",
             "yiisoft/yii2-composer": "~2.0.4"
         },
-        "time": "2016-12-13 16:14:04",
+        "time": "2016-12-14 11:59:00",
         "bin": [
             "yii"
         ],
@@ -2304,54 +2304,6 @@
             "curl",
             "http",
             "httpclient",
-            "yii2"
-        ]
-    },
-    {
-        "name": "insolita/yii2-migration-generator",
-        "version": "2.2.5",
-        "version_normalized": "2.2.5.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/Insolita/yii2-migrik.git",
-            "reference": "e4fdd4002213b3409d3905d2ae8e07546b9a8390"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/Insolita/yii2-migrik/zipball/e4fdd4002213b3409d3905d2ae8e07546b9a8390",
-            "reference": "e4fdd4002213b3409d3905d2ae8e07546b9a8390",
-            "shasum": ""
-        },
-        "require": {
-            "yiisoft/yii2": "*"
-        },
-        "require-dev": {
-            "yiisoft/yii2-gii": "*"
-        },
-        "time": "2016-10-04 04:05:50",
-        "type": "yii2-extension",
-        "extra": {
-            "bootstrap": "insolita\\migrik\\Bootstrap"
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "insolita\\migrik\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "insolita",
-                "email": "donnainsolita@gmail.com"
-            }
-        ],
-        "description": "Set of gii tools for generating  files for migration by schema of table , phpdoc or table data",
-        "keywords": [
-            "extension",
             "yii2"
         ]
     }

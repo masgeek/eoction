@@ -51,10 +51,6 @@ class ComposerStaticInit5c5e78f73548c33d452be5055305160f
             'kartik\\color\\' => 13,
             'kartik\\base\\' => 12,
         ),
-        'i' => 
-        array (
-            'insolita\\migrik\\' => 16,
-        ),
         'c' => 
         array (
             'cebe\\markdown\\' => 14,
@@ -192,10 +188,6 @@ class ComposerStaticInit5c5e78f73548c33d452be5055305160f
         'kartik\\base\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base',
-        ),
-        'insolita\\migrik\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/insolita/yii2-migration-generator',
         ),
         'cebe\\markdown\\' => 
         array (

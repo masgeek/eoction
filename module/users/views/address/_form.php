@@ -7,6 +7,8 @@ use yii\widgets\ActiveForm;
 /* @var $id string */
 /* @var $model app\module\users\models\UserAddress */
 /* @var $form yii\widgets\ActiveForm */
+
+$countryData = \app\components\AccountManager::GetCountryList();
 ?>
 
 <div class="user-address-form">
@@ -41,7 +43,7 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'POSTALCODE')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-md-6">
-            <?= $form->field($model, 'COUNTRY')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'COUNTRY')->dropDownList($countryData, ['prompt' => 'Select country']) ?>
         </div>
     </div>
     <div class="row">
