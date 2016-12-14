@@ -70,7 +70,7 @@ class Users extends \yii\db\ActiveRecord
             [['DATE_CREATED', 'DATE_UPDATED'], 'safe'],
             [['FULL_NAMES', 'EMAIL_ADDRESS', 'PASSWORD_HASH', 'REPEAT_PASSWORD', 'ACCOUNT_ACCESS_TOKEN', 'ACCOUNT_AUTH_KEY'], 'string', 'max' => 255],
             [['PHONE_NO'], 'string', 'min' => 10, 'max' => 30],
-            [['TIMEZONE'], 'string', 'min' => '5', 'max' => 10],
+            [['TIMEZONE'], 'string', 'min' => '1', 'max' => 10],
             [['COUNTRY'], 'string', 'min' => '2', 'max' => 15],
             ['REPEAT_PASSWORD', 'compare', 'compareAttribute' => 'PASSWORD_HASH', 'skipOnEmpty' => false, 'message' => "Passwords don't match"] //password confirmation rule
         ];

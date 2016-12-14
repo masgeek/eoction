@@ -41,7 +41,7 @@ class AccountManager
             ///var_dump($countryModel->timezones);
             $timezones = $countryModel->timezones;
             foreach ($timezones as $timezone) {
-                $timezone_list[$timezone->TIMEZONE] = "(GMT+{$timezone->GMT_OFFSET}) {$timezone->TIMEZONE}";
+                $timezone_list[$timezone->TIMEZONE_ID] = "(GMT+{$timezone->GMT_OFFSET}) {$timezone->TIMEZONE}";
             }
 
         };
