@@ -77,7 +77,7 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/eoction.php'),
-        'affy' => require(__DIR__ . '/affy.php'),
+        'affy' => require(__DIR__ . '/eoction.php'),
 
         'urlManager' => [
             'enablePrettyUrl' => true,
@@ -103,7 +103,7 @@ $config = [
                 'reset-password' => 'site/reset-password',
             ],
         ],
-
+        //.
         //formatting class
         'formatter' => [
             'class' => 'yii\i18n\Formatter',
@@ -132,15 +132,32 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
+        'allowedIPs' => ['127.0.0.1', 'localhost', '::1'],
+        'generators' => [
+            'migrik'=>[
+                'class'=>\insolita\migrik\gii\StructureGenerator::class,
+                'templates'=>
+                    [
+                        'custom'=>'@backend/gii/templates/migrator_schema'
+                    ]
+            ],
+            'migrikdata'=>[
+                'class'=>\insolita\migrik\gii\DataGenerator::class,
+                'templates'=>
+                    [
+                        'custom'=>'@backend/gii/templates/migrator_data'
+                    ]
+            ],
+        ]
     ];
 
     //migration generator from tmodels
     //skobka\yii2\migrationGenerator\Controllers\MigrationGeneratorController;
-    $config['controllerMap'][] = [
+    /*$config['controllerMap'][] = [
         'migration' => [
             'class' => \skobka\yii2\migrationGenerator\Controllers\MigrationGeneratorController::class
         ],
-    ];
+    ];*/
 }
 
 return $config;

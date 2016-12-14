@@ -28,10 +28,6 @@ class ComposerStaticInit5c5e78f73548c33d452be5055305160f
             'yii\\authclient\\' => 15,
             'yii\\' => 4,
         ),
-        's' => 
-        array (
-            'skobka\\yii2\\migrationGenerator\\' => 31,
-        ),
         'r' => 
         array (
             'rmrevin\\yii\\fontawesome\\' => 24,
@@ -54,6 +50,10 @@ class ComposerStaticInit5c5e78f73548c33d452be5055305160f
             'kartik\\depdrop\\' => 15,
             'kartik\\color\\' => 13,
             'kartik\\base\\' => 12,
+        ),
+        'i' => 
+        array (
+            'insolita\\migrik\\' => 16,
         ),
         'c' => 
         array (
@@ -125,10 +125,6 @@ class ComposerStaticInit5c5e78f73548c33d452be5055305160f
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
         ),
-        'skobka\\yii2\\migrationGenerator\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/skobka/yii2-migration-generator/src',
-        ),
         'rmrevin\\yii\\fontawesome\\' => 
         array (
             0 => __DIR__ . '/..' . '/rmrevin/yii2-fontawesome',
@@ -197,6 +193,10 @@ class ComposerStaticInit5c5e78f73548c33d452be5055305160f
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base',
         ),
+        'insolita\\migrik\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/insolita/yii2-migration-generator',
+        ),
         'cebe\\markdown\\' => 
         array (
             0 => __DIR__ . '/..' . '/cebe/markdown',
@@ -252,14 +252,6 @@ class ComposerStaticInit5c5e78f73548c33d452be5055305160f
         ),
         'D' => 
         array (
-            'Doctrine\\Common\\Lexer\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/doctrine/lexer/lib',
-            ),
-            'Doctrine\\Common\\Annotations\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/doctrine/annotations/lib',
-            ),
             'Diff' => 
             array (
                 0 => __DIR__ . '/..' . '/phpspec/php-diff/lib',

@@ -210,13 +210,14 @@ return array (
       '@kartik/dialog' => $vendorDir . '/kartik-v/yii2-dialog',
     ),
   ),
-  'skobka/yii2-migration-generator' => 
+  'insolita/yii2-migration-generator' => 
   array (
-    'name' => 'skobka/yii2-migration-generator',
-    'version' => '9999999-dev',
+    'name' => 'insolita/yii2-migration-generator',
+    'version' => '2.2.5.0',
     'alias' => 
     array (
-      '@skobka/yii2/migrationGenerator' => $vendorDir . '/skobka/yii2-migration-generator/src',
+      '@insolita/migrik' => $vendorDir . '/insolita/yii2-migration-generator',
     ),
+    'bootstrap' => 'insolita\\migrik\\Bootstrap',
   ),
 );

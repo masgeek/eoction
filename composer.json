@@ -55,7 +55,7 @@
     "yiisoft/yii2-debug": "*",
     "yiisoft/yii2-gii": "*",
     "yiisoft/yii2-faker": "*",
-    "skobka/yii2-migration-generator": "*"
+    "insolita/yii2-migration-generator": "~2.2"
   },
   "config": {
     "process-timeout": 1800
