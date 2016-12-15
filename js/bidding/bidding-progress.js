@@ -28,12 +28,12 @@ function SetupProgressBar($productid, $bid_start_time) {
 
     var params = {
         easing: "linear",
-        //loop : 0,
+        loop : false,
         duration: starttime, //milliseconds
         begin: function (elements) {
             //call the timer function on begin
-//            console.log('Begin timer');
-            ItemUpdate($productid, $sku, 'NO');
+            console.log('Begin timer');
+            //ItemUpdate($productid, $sku, 'NO');
         },
         progress: function (elements, percentComplete, timeRemaining, timeStart) {
             //$percentComplete.html(Math.round(percentComplete * 100) + "% complete.");
@@ -48,20 +48,20 @@ function SetupProgressBar($productid, $bid_start_time) {
             //console.log("No bid placed, removing item");
             //remove the product
             //Math.floor((Math.random() * 5000) + 8000);
-            ItemUpdate($productid, $sku, 'YES');
-            FetchNextItem($productid); //fetch the next item
+            //ItemUpdate($productid, $sku, 'YES');
+            // FetchNextItem($productid); //fetch the next item
         },
     };
 
     // Use the progress callback.
     progressBar.velocity(
         {
-            width: "0%", //animate the width
+            width: "50%", //animate the width
         },
         params);
     //add stop click event when placebid is clicked
     placebid.click(function () {
-        TriggerProgressBar($productid, $sku, 10);
+        //TriggerProgressBar($productid, $sku, 10);
     });
 }
 

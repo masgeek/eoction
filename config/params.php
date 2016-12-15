@@ -9,12 +9,12 @@ return [
 
 
     //my test account
-    'ShipStationApiKey' => 'c8c2f2b454fa41c58738d32d7fcc2004',
-    'ShipStationApiSecret' => 'c01859545fa84170b6e2413d44a286a3',
+    //'ShipStationApiKey' => 'c8c2f2b454fa41c58738d32d7fcc2004',
+    //'ShipStationApiSecret' => 'c01859545fa84170b6e2413d44a286a3',
 
     //lody test account
-    'ShipStationApiKeyLody' => 'c8c2f2b454fa41c58738d32d7fcc2004',
-    'ShipStationApiSecretLody' => '8b073d7fab6e456aba3452990d1afc9d',//Lody account
+    'ShipStationApiKey' => 'c8c2f2b454fa41c58738d32d7fcc2004',
+    'ShipStationApiSecret' => '8b073d7fab6e456aba3452990d1afc9d',//Lody account
 
     //Live keys
     'ShipStationApiKeyLive' => '22c69f4c9957498b903c1428545f1c53',
