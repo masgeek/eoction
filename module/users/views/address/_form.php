@@ -43,7 +43,14 @@ $countryData = \app\components\AccountManager::GetCountryList();
             <?= $form->field($model, 'POSTALCODE')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-md-6">
-            <?= $form->field($model, 'COUNTRY')->dropDownList($countryData, ['prompt' => 'Select country']) ?>
+            <?= $form->field($model, 'COUNTRY')->widget(kartik\select2\Select2::classname(), [
+                'data' => $countryData,
+                //'language' => 'en',
+                'options' => ['placeholder' => 'Select country ...'],
+                'pluginOptions' => [
+                    'allowClear' => false
+                ],
+            ]);?>
         </div>
     </div>
     <div class="row">
