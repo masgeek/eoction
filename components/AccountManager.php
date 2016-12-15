@@ -48,4 +48,9 @@ class AccountManager
 
         return $timezone_list;
     }
+
+    public static function AddressProvided($user_id)
+    {
+        return false;
+    }
 }

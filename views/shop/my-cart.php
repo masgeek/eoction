@@ -37,6 +37,7 @@ $total = $formatter->asCurrency($total_raw);
 
 
 $paypalAction = \yii\helpers\Url::to(['//paypal/paypal-checkout', 'id' => $user_id]);
+$userAddress = \yii\helpers\Url::to(['//my-addresses', 'id' => $user_id]);
 $continueShopping = \yii\helpers\Url::to(['//shop']);
 $itemRemovalAction = \yii\helpers\Url::to(['//shop/remove-item']);
 
@@ -81,17 +82,21 @@ $this->registerJsFile('@web/js/shopping/cart-manager.js');
             <td class="text-right" colspan="2"><h3><strong><?= $total ?></strong></h3></td>
         </tr>
         <tr>
-            <td colspan="4"> <?= \yii\helpers\Html::a('Continue Shopping <span class="glyphicon glyphicon-shopping-cart"></span>',
-                    $continueShopping, ['class' => 'btn btn-default btn-lg', 'role' => 'button']) ?></td>
-            <td align="right" colspan="2">
-                <?= \yii\helpers\Html::a($total_raw > 0 ? 'Checkout <span class="glyphicon glyphicon-play"></span>' : 'Continue Shopping <span class="glyphicon glyphicon-shopping-cart"></span>',
-                    $total_raw > 0 ? $paypalAction : $continueShopping, ['class' => $total_raw > 0 ? 'btn btn-success btn-lg' : 'btn btn-default btn-lg', 'role' => 'button']) ?>
-                <!--
-                <button type="button" class="btn btn-success">
-                    Checkout <span class="glyphicon glyphicon-play"></span>
-                </button>
-                -->
-            </td>
+            <?php if (\app\components\AccountManager::AddressProvided($user_id)): ?>
+                <td colspan="4"> <?= \yii\helpers\Html::a('Continue Shopping <span class="glyphicon glyphicon-shopping-cart"></span>',
+                        $continueShopping, ['class' => 'btn btn-default btn-lg', 'role' => 'button']) ?></td>
+                <td align="right" colspan="2">
+                    <!-- lets check if th user has an address provided -->
+                    <?= \yii\helpers\Html::a($total_raw > 0 ? 'Checkout <span class="glyphicon glyphicon-play"></span>' : 'Continue Shopping <span class="glyphicon glyphicon-shopping-cart"></span>',
+                        $total_raw > 0 ? $paypalAction : $continueShopping, ['class' => $total_raw > 0 ? 'btn btn-success btn-lg' : 'btn btn-default btn-lg', 'role' => 'button']) ?>
+                </td>
+            <?php else: ?>
+                <!-- show user link to go add the  addrees -->
+                <td colspan="4"><h3>Please provide a shipping or billing address before checking out</h3></td>
+                <td colspan="2">
+                    <?= \yii\helpers\Html::a('Add Shipping/Billing Address', $userAddress, ['class' => 'btn btn-warning btn-lg noradius', 'role' => 'button']) ?>
+                </td>
+            <?php endif; ?>
         </tr>
         </tbody>
     </table>

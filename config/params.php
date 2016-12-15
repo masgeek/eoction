@@ -4,9 +4,10 @@ return [
     'imagesFolder' => '/product_images/',
     'ExternalImageServerLink' => '//d1q7ayeivr6k6d.cloudfront.net',
     'ExternalImageServerFolder' => 'ximgs',
+
+
     //shipstation API
     'ShipStationApiUrl' => '//ssapi.shipstation.com/', //API end point
-
 
     //my test account
     //'ShipStationApiKey' => 'c8c2f2b454fa41c58738d32d7fcc2004',
@@ -14,7 +15,7 @@ return [
 
     //lody test account
     'ShipStationApiKey' => '45e89d238134405b9d77d35806b1e404',
-    'ShipStationApiSecret' => '8b073d7fab6e456aba3452990d1afc9d',//Lody account
+    'ShipStationApiSecret' => '8b073d7fab6e456aba3452990d1afc9d',//Lody's account
 
     //Live keys
     'ShipStationApiKeyLive' => '22c69f4c9957498b903c1428545f1c53',
