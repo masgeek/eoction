@@ -11,6 +11,7 @@ namespace app\components;
 
 use app\module\users\models\Countries;
 use app\module\users\models\Timezones;
+use app\module\users\models\UserAddress;
 use yii\helpers\ArrayHelper;
 
 class AccountManager
@@ -51,6 +52,11 @@ class AccountManager
 
     public static function AddressProvided($user_id)
     {
+        $address = UserAddress::find(['USER_ID' => $user_id])->all();
+        if ($address != null) {
+            return true;
+        }
+
         return false;
     }
 }
