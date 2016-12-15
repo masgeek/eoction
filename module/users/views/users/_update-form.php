@@ -42,11 +42,25 @@ $timezone = \app\components\AccountManager::GetTimeZones();
                 <?= $form->field($model, 'PHONE_NO')->hint('Begin with country code e.g 32898378989')->widget(\yii\widgets\MaskedInput::className(), ['mask' => '9{0,3}9{0,3}9{0,3}9{0,3}',]) ?>
             </div>
             <div class="col-md-4">
-                <?= $form->field($model, 'COUNTRY')->dropDownList($countryData, ['prompt' => 'Select country']) ?>
+                <?= $form->field($model, 'COUNTRY')->widget(kartik\select2\Select2::classname(), [
+                    'data' => $countryData,
+                    //'language' => 'en',
+                    'options' => ['placeholder' => 'Select country ...'],
+                    'pluginOptions' => [
+                        'allowClear' => false
+                    ],
+                ]);?>
             </div>
             <div class="col-md-4">
                 <!--?= $form->field($model, 'TIMEZONE')->textInput(['maxlength' => true]) ?-->
-                <?= $form->field($model, 'TIMEZONE')->dropDownList($timezone, ['prompt' => 'Select country']) ?>
+                <?= $form->field($model, 'TIMEZONE')->widget(kartik\select2\Select2::classname(), [
+                    'data' => $timezone,
+                    //'language' => 'en',
+                    'options' => ['placeholder' => 'Select a timezone ...'],
+                    'pluginOptions' => [
+                        'allowClear' => false
+                    ],
+                ]);?>
             </div>
         </div>
 
