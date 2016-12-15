@@ -13,7 +13,7 @@ return [
     //'ShipStationApiSecret' => 'c01859545fa84170b6e2413d44a286a3',
 
     //lody test account
-    'ShipStationApiKey' => 'c8c2f2b454fa41c58738d32d7fcc2004',
+    'ShipStationApiKey' => '45e89d238134405b9d77d35806b1e404',
     'ShipStationApiSecret' => '8b073d7fab6e456aba3452990d1afc9d',//Lody account
 
     //Live keys
