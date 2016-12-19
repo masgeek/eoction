@@ -19,25 +19,25 @@ $formatter = \Yii::$app->formatter;
 $imageHost = \Yii::$app->params['ExternalImageServerLink'];
 $imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
 
-$imageObject = $model->getSingleImage();
-$product_image = $imageObject ? "{$imageHost}/{$imageFolder}/{$imageObject->imagefile}" : '@web/product_images/placeholder.png';
+$imageObject = $model->image1;
+$product_image = $imageObject ? $imageObject : '@web/product_images/placeholder.png';
 
 
 //calculate the percentage discount based on the retail price and the bidded amount
-$starting_bid_price = $model->prodretailprice;
-$sku = $model->prodcode;
+$starting_bid_price = $model->price;
+$sku = $model->sku;
 
 $bids = ProductManager::GetNumberOfBids($model->productid);
 
 $product_id = $model->productid;
-$product_name = $model->prodname;
+$product_name = $model->name;
 
 $discount = ProductManager::ComputePercentageDiscount($product_id);
 $shipping = ProductManager::ComputeShippingCost($product_id);
 $bidStartTime = 60;// * $productID; //initial start time for the bid
 
 $shipping_cost = $formatter->asCurrency($shipping);
-$retail_price = $formatter->asCurrency($model->prodretailprice);
+$retail_price = $formatter->asCurrency($model->buyitnow);
 
 $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
 

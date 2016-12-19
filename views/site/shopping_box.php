@@ -16,19 +16,18 @@ use app\components\ProductManager;
 
 $formatter = \Yii::$app->formatter;
 
-$imageObject = $model->getSingleImage();
 $imageHost = \Yii::$app->params['ExternalImageServerLink'];
 $imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
 
-$imageObject = $model->getSingleImage();
-$product_image = $imageObject ? "{$imageHost}/{$imageFolder}/{$imageObject->imagefile}" : '@web/product_images/placeholder.png';
+$imageObject = $model->image1;
+$product_image = $imageObject ? $imageObject: '@web/product_images/placeholder.png';
 
-$retail_price_raw = $model->prodretailprice;
+$retail_price_raw = $model->buyitnow;
 
 $userid = yii::$app->user->id ? yii::$app->user->id : 0;
-$sku = $model->prodcode;
+$sku = $model->sku;
 $product_id = $model->productid;
-$product_name = $model->prodname;
+$product_name = $model->name;
 
 $shipping = ProductManager::ComputeShippingCost($product_id);
 

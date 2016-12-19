@@ -263,7 +263,7 @@ function RefreshSomeEventListener($product_id, $sku) {
 }
 
 function ItemUpdate($product_id, $sku, $toclear) {
-    return false;
+    //return false;
     //var updateUrl = $('#update_url').val();
     var $bidPrice = $('#bid_price' + $product_id);
     var bidsPlaced = $('#bids_placed_' + $product_id);

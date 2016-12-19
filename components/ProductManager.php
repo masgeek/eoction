@@ -29,8 +29,8 @@ class ProductManager
         $discount_percentage = 0;
         $product = FryProducts::findOne(['productid' => $product_id]);
         if ($product != null) {
-            $retail_price = $product->prodretailprice;
-            $bid_price = $product->prodprice;
+            $retail_price = $product->buyitnow;
+            $bid_price = $product->price;
 
             if ($retail_price > 0) {
                 $discount_percentage = 100 - round((($bid_price * 100) / $retail_price), 2);
@@ -48,7 +48,7 @@ class ProductManager
     {
         $product = FryProducts::findOne(['productid' => $product_id]);
         if ($product != null) {
-            $retail_price = $product->prodretailprice;
+            $retail_price = $product->buyitnow;
         }
 
         $shipping_cost = round(((5 * $retail_price) / 100), 2);
@@ -89,9 +89,9 @@ class ProductManager
     {
         $item_provider = new ActiveDataProvider([
             'query' => FryProducts::find()
-                ->where(['IN', 'prodvisible', $auction_param,])
-                ->andWhere(['>=', 'prodcurrentinv', $min_stock])//stock levels should be greater or equal to 1
-                ->andWhere(['NOT IN', 'prodcode', $exclusion_list])
+                ->where(['IN', 'visible', $auction_param,])
+                ->andWhere(['>=', 'min_stock', $min_stock])//stock levels should be greater or equal to 1
+                ->andWhere(['NOT IN', 'sku', $exclusion_list])
              //   ->orderBy(['rand()' => SORT_DESC]), //randomly pick items
             ->orderBy('productid ASC'),
             'pagination' => [

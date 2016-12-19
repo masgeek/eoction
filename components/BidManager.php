@@ -141,9 +141,9 @@ class BidManager
     public static function GetInitialBidAmount($product_id)
     {
         $starting_bid = FryProducts::find()
-            ->select('prodprice')
+            ->select('price')
             ->where(['productid' => $product_id])
-            ->max('prodprice');
+            ->max('price');
 
         return $starting_bid;
     }
