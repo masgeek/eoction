@@ -38,7 +38,7 @@ function SetupProgressBar($productid, $bid_start_time) {
         progress: function (elements, percentComplete, timeRemaining, timeStart) {
             //$percentComplete.html(Math.round(percentComplete * 100) + "% complete.");
             //$timeRemaining.html(timeRemaining + "ms remaining.");
-            console.log('Timer here '+timeRemaining+' for product '+$productid+' and sku '+$sku);
+            //console.log('Timer here '+timeRemaining+' for product '+$productid+' and sku '+$sku);
             //ItemUpdate($productid,$sku);
         },
         complete: function () {
