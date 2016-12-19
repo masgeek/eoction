@@ -249,7 +249,7 @@ class BidManager
 
         $productModel = FryProducts::find()
             ->where([
-                'NOT IN', 'prodcode', $item_array,
+                'NOT IN', 'sku', $item_array,
             ])
             ->andWhere(['>=', 'stock_level', 1])//stock levels should be greater or equal to 1
             //->andWhere('!=','PRODUCT_ID',$product_id)
