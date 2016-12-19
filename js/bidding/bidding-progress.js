@@ -24,6 +24,7 @@ function SetupProgressBar($productid, $bid_start_time) {
     var bidButton = $('#bid_button_' + $productid);
     var $sku = $('#product_sku_' + $productid).val();
 
+    console.log(placebid);
     //read the values indicating what type of bid
 
     var params = {
@@ -32,8 +33,8 @@ function SetupProgressBar($productid, $bid_start_time) {
         duration: starttime, //milliseconds
         begin: function (elements) {
             //call the timer function on begin
-            console.log('Begin timer');
-            //ItemUpdate($productid, $sku, 'NO');
+            console.log('Begin timer here');
+            ItemUpdate($productid, $sku, 'NO');
         },
         progress: function (elements, percentComplete, timeRemaining, timeStart) {
             //$percentComplete.html(Math.round(percentComplete * 100) + "% complete.");
@@ -49,7 +50,7 @@ function SetupProgressBar($productid, $bid_start_time) {
             //remove the product
             //Math.floor((Math.random() * 5000) + 8000);
             //ItemUpdate($productid, $sku, 'YES');
-            // FetchNextItem($productid); //fetch the next item
+            FetchNextItem($productid); //fetch the next item
         },
     };
 
@@ -61,7 +62,8 @@ function SetupProgressBar($productid, $bid_start_time) {
         params);
     //add stop click event when placebid is clicked
     placebid.click(function () {
-        //TriggerProgressBar($productid, $sku, 10);
+        TriggerProgressBar($productid, $sku, 10);
+        console.log('button clicked');
     });
 }
 
