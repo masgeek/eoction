@@ -251,7 +251,7 @@ class BidManager
             ->where([
                 'NOT IN', 'prodcode', $item_array,
             ])
-            ->andWhere(['>=', 'prodcurrentinv', 1])//stock levels should be greater or equal to 1
+            ->andWhere(['>=', 'stock_level', 1])//stock levels should be greater or equal to 1
             //->andWhere('!=','PRODUCT_ID',$product_id)
             ->orderBy(['rand()' => SORT_DESC]) //randomly pick products
             ->limit(1)//limit to one record only
