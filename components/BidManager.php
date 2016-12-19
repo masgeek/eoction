@@ -40,7 +40,7 @@ class BidManager
                 $model = new BidActivity();
                 $model->isNewRecord = true;
                 $model->PRODUCT_ID = $item->productid;
-                $model->PRODUCT_SKU = $item->prodcode;
+                $model->PRODUCT_SKU = $item->sku;
                 $model->ACTIVITY_COUNT = 0;
                 $model->BID_DATE = $expression;
                 //save the data
@@ -52,7 +52,7 @@ class BidManager
             $model = new BidActivity();
             $model->isNewRecord = true;
             $model->PRODUCT_ID = $listDataProvider->productid;
-            $model->PRODUCT_SKU = $listDataProvider->prodcode;
+            $model->PRODUCT_SKU = $listDataProvider->sku;
             $model->ACTIVITY_COUNT = 0;
             $model->BID_DATE = $expression;
             //save the data
@@ -314,10 +314,10 @@ class BidManager
 
         //$alias_path =  \Yii::getAlias('@web');
 
-        $imageObject = $imageModel->getSingleImage($product_id);
+        $imageObject = $imageModel->image1;
 
 
-        $product_image = $imageObject ? "{$imageHost}/{$imageFolder}/{$imageObject->imagefile}" : '@web/product_images/placeholder.png';
+        $product_image = $imageObject ? $imageObject : '@web/product_images/placeholder.png';
 
 
         $imageHtml = Html::img($product_image, [
