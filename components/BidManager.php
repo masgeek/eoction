@@ -260,8 +260,8 @@ class BidManager
 
         //add the item to bid activity
         BidManager::AddItemsToBidActivity($productModel, $multimodel = false); //add the picked item to bid activity table
-        $product_list = BidManager::BuildList($productModel->productid, $productModel->prodcode,
-            $productModel->prodname, $productModel->prodretailprice, $productModel->prodprice);
+        $product_list = BidManager::BuildList($productModel->productid, $productModel->sku,
+            $productModel->name, $productModel->buyitnow, $productModel->price);
         return $product_list;
     }
 
