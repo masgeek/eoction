@@ -167,7 +167,7 @@ class ProductManager
             if ($model->BIDDED_ITEM == '1') {
                 $product_price = $model->PRODUCT_PRICE;
             } else {
-                $product_price = $productModel->prodretailprice; //get the retail price if its not a bid item
+                $product_price = $productModel->buyitnow; //get the retail price if its not a bid item
             }
             $total[] = (float)$product_price;
             $shipping[] = ProductManager::ComputeShippingCost($productModel->productid);
