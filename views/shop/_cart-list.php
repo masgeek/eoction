@@ -65,7 +65,7 @@ $retail_price = $formatter->asCurrency($product_price);
             <div class="media">
                 <div class="media-body">
                     <h4 class="media-heading"><a href="#"><?= $product_name ?></a></h4>
-                    <h5 class="media-heading"> by <a href="#"><?= $brand_name ?></a></h5>
+                    <!--<h5 class="media-heading"> by <a href="#"><?= $brand_name ?></a></h5>-->
                     <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
                 </div>
             </div>
