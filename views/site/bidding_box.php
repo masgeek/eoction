@@ -20,8 +20,8 @@ $imageHost = \Yii::$app->params['ExternalImageServerLink'];
 $imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
 
 $imageObject = $model->image1;
-//$product_image = $imageObject ? $imageObject : '@web/product_images/placeholder.png';
-$product_image = '@web/product_images/placeholder.png';
+$product_image = $imageObject ? $imageObject : '@web/product_images/placeholder.png';
+//$product_image = '@web/product_images/placeholder.png';
 
 
 //calculate the percentage discount based on the retail price and the bidded amount

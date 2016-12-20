@@ -27,22 +27,23 @@ $product_id = $model->PRODUCT_ID;
 
 $productModel = $model->getProductInfo($product_id);
 
-$product_name = $productModel->prodname;
-$product_description = $productModel->proddesc;
-$brand_name = $productModel->feat1;
+$product_name = $productModel->name;
+$product_description = $productModel->desc;
+$brand_name = $productModel->brand;
 
 
 $imageHost = \Yii::$app->params['ExternalImageServerLink'];
 $imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
-$imageObject = $productModel->getSingleImage($product_id);
+$imageObject = $productModel->image1;//getSingleImage($product_id);
 
-$product_image = $imageObject ? "{$imageHost}/{$imageFolder}/{$imageObject->imagefile}" : '@web/product_images/placeholder.png';
+//$product_image = $imageObject ? "{$imageHost}/{$imageFolder}/{$imageObject->imagefile}" : '@web/product_images/placeholder.png';
+$product_image = $imageObject ? $imageObject : '@web/product_images/placeholder.png';
 
 //calculate the percentage discount based on the retail price and the bidded amount
 if ($model->BIDDED_ITEM == '1') {
     $product_price = $model->PRODUCT_PRICE;
 } else {
-    $product_price = $productModel->prodretailprice; //get the retail price if its not a bid item
+    $product_price = $productModel->buyitnow; //get the retail price if its not a bid item
 }
 
 
