@@ -66,7 +66,7 @@ class UsersController extends Controller
     {
 
         $model = new Users();
-        $model->scenario = 'signup';
+        $model->scenario = Users::SCENARIO_SIGNUP;
         if (isset($_POST['Users'])) {
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 //if ($model->save()) {
@@ -76,9 +76,9 @@ class UsersController extends Controller
                 $errors = $model->getErrors();
                 $errorList = '<ul class="list-group">';
                 foreach ($errors as $key => $error) {
-                    $errorList .='<li class="list-group-item">';
-                    $errorList .=$errors[$key][0];
-                    $errorList .='</li>';
+                    $errorList .= '<li class="list-group-item">';
+                    $errorList .= $errors[$key][0];
+                    $errorList .= '</li>';
                 }
                 $errorList .= '</ul>';
                 Yii::$app->session->setFlash('error', "Kindly correct the following errors $errorList");
@@ -100,19 +100,23 @@ class UsersController extends Controller
     public function actionMyProfile($id)
     {
         $model = $this->findModel($id);
-        //$model->scenario = 'update';
+        $model->scenario = Users::SCENARIO_UPDATE;
         if (isset($_POST['Users'])) {
+
+
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 //return $this->redirect(['my-profile', 'id' => $model->USER_ID]);
                 return $this->redirect(['view', 'id' => $model->USER_ID]);
             }
+
         }
+
         return $this->render('update', [
             'model' => $model,
         ]);
     }
 
-    public function actionUpdate($id)
+    /*public function actionUpdate($id)
     {
         $model = $this->findModel($id);
 
@@ -123,7 +127,7 @@ class UsersController extends Controller
                 'model' => $model,
             ]);
         }
-    }
+    }*/
 
     /**
      * Deletes an existing Users model.

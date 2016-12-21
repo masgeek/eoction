@@ -2,9 +2,7 @@
 
 namespace app\models;
 
-use app\module\products\models\Products;
 use app\module\users\models\Users;
-use Yii;
 use yii\db\Expression;
 
 /**
@@ -17,8 +15,6 @@ use yii\db\Expression;
  * @property integer $ACTIVITY_COUNT
  * @property string $BID_DATE
  *
- * @property Products $pRODUCT
- * @property Products $pRODUCTSKU
  * @property Users $lASTBIDDINGUSER
  */
 class BidActivity extends \yii\db\ActiveRecord
@@ -42,8 +38,6 @@ class BidActivity extends \yii\db\ActiveRecord
             [['BID_DATE'], 'safe'],
             [['PRODUCT_SKU'], 'string', 'max' => 255],
             [['PRODUCT_SKU'], 'unique'],
-            [['PRODUCT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Products::className(), 'targetAttribute' => ['PRODUCT_ID' => 'PRODUCT_ID']],
-            [['PRODUCT_SKU'], 'exist', 'skipOnError' => true, 'targetClass' => Products::className(), 'targetAttribute' => ['PRODUCT_SKU' => 'SKU']],
             [['LAST_BIDDING_USER_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['LAST_BIDDING_USER_ID' => 'USER_ID']],
         ];
     }
@@ -73,21 +67,6 @@ class BidActivity extends \yii\db\ActiveRecord
         return false;
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPRODUCT()
-    {
-        return $this->hasOne(Products::className(), ['PRODUCT_ID' => 'PRODUCT_ID']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPRODUCTSKU()
-    {
-        return $this->hasOne(Products::className(), ['SKU' => 'PRODUCT_SKU']);
-    }
 
     /**
      * @return \yii\db\ActiveQuery

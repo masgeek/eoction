@@ -9,9 +9,11 @@
  * @var \yii\data\ActiveDataProvider $listDataProvider
  */
 
+
 namespace app\components;
 
-use app\module\products\models\Images;
+use app\module\products\models\FryProductImages;
+use app\module\products\models\FryProducts;
 use yii\db\Expression;
 use yii\helpers\Html;
 
@@ -21,7 +23,6 @@ use app\module\products\models\ProductBids;
 
 class BidManager
 {
-
     /**
      *Add items to the bid activity table
      * this will help us avoid refetching the same product
@@ -30,14 +31,16 @@ class BidManager
     public static function AddItemsToBidActivity($listDataProvider, $multimodel = true)
     {
 
+        /* @var $item FryProducts */
+        /* @var $listDataProvider FryProducts */
         $expression = new Expression('NOW()');
         if ($multimodel) {
             foreach ($listDataProvider->models as $item) {
                 //loop through the model array
                 $model = new BidActivity();
                 $model->isNewRecord = true;
-                $model->PRODUCT_ID = $item->PRODUCT_ID;
-                $model->PRODUCT_SKU = $item->SKU;
+                $model->PRODUCT_ID = $item->productid;
+                $model->PRODUCT_SKU = $item->sku;
                 $model->ACTIVITY_COUNT = 0;
                 $model->BID_DATE = $expression;
                 //save the data
@@ -48,8 +51,8 @@ class BidManager
             //when only one model value is passed
             $model = new BidActivity();
             $model->isNewRecord = true;
-            $model->PRODUCT_ID = $listDataProvider->PRODUCT_ID;
-            $model->PRODUCT_SKU = $listDataProvider->SKU;
+            $model->PRODUCT_ID = $listDataProvider->productid;
+            $model->PRODUCT_SKU = $listDataProvider->sku;
             $model->ACTIVITY_COUNT = 0;
             $model->BID_DATE = $expression;
             //save the data
@@ -83,12 +86,14 @@ class BidManager
         $bid_successful = false;
         $bid_amount_increment = BidManager::NextBidAmount($product_id);
 
+
         $expression = new Expression('NOW()');
         //first lets check if the product is already tracked
         $bidactivity = ProductBids::findOne([
             'PRODUCT_ID' => $product_id,
             'USER_ID' => $user_id,
         ]);
+
 
         if ($bidactivity != null) {
             //do the update
@@ -126,19 +131,27 @@ class BidManager
      */
     public static function NextBidAmount($product_id)
     {
-        //BidManager::GetNextItemToBid();
-        $max_amount = (int)BidManager::GetMaxBidAmount($product_id, $format = false);
-        //increment this amount by 5
-        $next_bid_amount = $max_amount + 5;
+        //first we check if there is already a bid if not this is ther first bid and we will get teh base bid price
+        $increment_value = \Yii::$app->params['BidIncrementValue'];
+        $productInfo = FryProducts::findOne($product_id);
+
+        $next_bid_amount = $productInfo->price;
+
+        $max_amount = (int)BidManager::GetMaxBidAmount($product_id, $format = false, $check_if_first_bid = true);
+
+        if ($max_amount > 0) {
+            //increment this amount by 5
+            $next_bid_amount = $max_amount + (int)$increment_value;
+        }
         return $next_bid_amount;
     }
 
     public static function GetInitialBidAmount($product_id)
     {
-        $starting_bid = Products::find()
-            ->select('PRICE')
-            ->where(['PRODUCT_ID' => $product_id])
-            ->max('PRICE');
+        $starting_bid = FryProducts::find()
+            ->select('price')
+            ->where(['productid' => $product_id])
+            ->max('price');
 
         return $starting_bid;
     }
@@ -190,16 +203,22 @@ class BidManager
 
     /**
      * Returns the maximum amount for an item
-     * @param $product_id
+     * @param $product_id integer
+     * @param $format boolean
+     * @param $check_if_first_bid boolean
      * @return float
      */
-    public static function GetMaxBidAmount($product_id, $format = true)
+    public static function GetMaxBidAmount($product_id, $format = true, $check_if_first_bid = false)
     {
         $formatter = \Yii::$app->formatter;
         $bid_amount = ProductBids::find()
             ->where(['PRODUCT_ID' => $product_id])
             ->andWhere(['BID_WON' => 0])
             ->max('BID_AMOUNT');
+
+        if ($check_if_first_bid) {
+            return $bid_amount;
+        }
 
         if ($bid_amount == null || (int)$bid_amount <= 0) {
             $bid_amount = BidManager::GetInitialBidAmount($product_id);
@@ -237,28 +256,26 @@ class BidManager
      */
     public static function GetNextItemToBid($product_id = 0)
     {
-        //sleep for a second to allow randomization
-        //usleep(1500);
+        /* @var $productModel FryProducts */
 
-        //$sleepInterval = mt_rand(0,5);
-        //sleep($sleepInterval); //sleep between calls to prevent return duplicate ids
-        $nested_items_array = BidActivity::find()->select('PRODUCT_SKU')->asArray()->all();
-        //flatten the nested arrays
         $item_array = BidManager::GetExclusionItems();
 
-        $productModel = Products::find()
+
+        $productModel = FryProducts::find()
             ->where([
-                'NOT IN', 'SKU', $item_array,
+                'NOT IN', 'sku', $item_array,
             ])
-            ->andWhere(['>=', 'CURRENT_STOCK_LEVEL', 1])//stock levels should be greater or equal to 1
+            ->andWhere(['>=', 'stock_level', 1])//stock levels should be greater or equal to 1
             //->andWhere('!=','PRODUCT_ID',$product_id)
-            //->orderBy(['rand()' => SORT_DESC])
+            ->orderBy(['rand()' => SORT_DESC])//randomly pick products
+            ->limit(1)//limit to one record only
             ->one();
+
 
         //add the item to bid activity
         BidManager::AddItemsToBidActivity($productModel, $multimodel = false); //add the picked item to bid activity table
-        $product_list = BidManager::BuildList($productModel->PRODUCT_ID, $productModel->SKU,
-            $productModel->PRODUCT_NAME, $productModel->RETAIL_PRICE, $productModel->PRICE);
+        $product_list = BidManager::BuildList($productModel->productid, $productModel->sku,
+            $productModel->name, $productModel->buyitnow, $productModel->price, $productModel->image1);
         return $product_list;
     }
 
@@ -292,10 +309,15 @@ class BidManager
      * @param $starting_bid_price_raw
      * @return array
      */
-    private static function BuildList($product_id, $sku, $product_name, $retail_price_raw, $starting_bid_price_raw)
+    private static function BuildList($product_id, $sku, $product_name, $retail_price_raw, $starting_bid_price_raw, $product_image)
     {
-        $imageModel = new Products();
+        /* @var $imageObject FryProductImages */
         $formatter = \Yii::$app->formatter;
+        $imageHost = \Yii::$app->params['ExternalImageServerLink'];
+        $imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
+
+        $imageModel = new FryProducts();
+
 
         $shipping_cost = $formatter->asCurrency(ProductManager::ComputeShippingCost($product_id));
         $retail_price = $formatter->asCurrency($retail_price_raw);
@@ -306,17 +328,13 @@ class BidManager
 
         //$alias_path =  \Yii::getAlias('@web');
 
-        $imageObject = $imageModel->getSingleImage($product_id);
-
-
-        $product_image = $imageObject ? "@web{$imageObject->IMAGE_URL}": '@web/product_images/placeholder.png';
-
 
         $imageHtml = Html::img($product_image, [
             'id' => 'product_image_' . $product_id,
             'class' => 'img img-responsive',
             'alt' => $product_name,
         ]);
+
 
         $html_list = "<div class=\"col-xs-18 col-sm-6 col-md-3\" id=\"item_box_$product_id\">
     <div class=\"hidden\">

@@ -32,8 +32,8 @@ function SetupProgressBar($productid, $bid_start_time) {
         duration: starttime, //milliseconds
         begin: function (elements) {
             //call the timer function on begin
-//            console.log('Begin timer');
-            ItemUpdate($productid, $sku, 'NO');
+            console.log('Begin timer');
+            //ItemUpdate($productid, $sku, 'NO');
         },
         progress: function (elements, percentComplete, timeRemaining, timeStart) {
             //$percentComplete.html(Math.round(percentComplete * 100) + "% complete.");
@@ -56,7 +56,7 @@ function SetupProgressBar($productid, $bid_start_time) {
     // Use the progress callback.
     progressBar.velocity(
         {
-            width: "0%", //animate the width
+            width: 0, //animate the width
         },
         params);
     //add stop click event when placebid is clicked
@@ -223,7 +223,7 @@ function placeBid($product_id, $sku) {
 function FetchNextItem($previous_product_id) {
     var $productUrl = $('#product_url').val();
     var $productBox = $('#item_box_' + $previous_product_id);
-    var intervals = Math.floor((Math.random() * 1500) + 2500);
+    var intervals = 1000;///Math.floor((Math.random() * 1500) + 200);
     $.ajax({
         url: $productUrl,
         data: {
@@ -241,7 +241,7 @@ function FetchNextItem($previous_product_id) {
                 //$('#product_list').prepend(data.html_data);
                 $('.fadein').fadeIn(intervals);
                 //scroll to the top
-                $("html, body").animate({scrollTop: 0}, "slow");
+                //$("html, body").animate({scrollTop: 0}, "slow");
                 //next add the click event listeners to the dynamic items
                 RefreshSomeEventListener(data.product_id, data.sku);
             });
@@ -265,7 +265,7 @@ function ItemUpdate($product_id, $sku, $toclear) {
     //var updateUrl = $('#update_url').val();
     var $bidPrice = $('#bid_price' + $product_id);
     var bidsPlaced = $('#bids_placed_' + $product_id);
-    var intervals = Math.floor((Math.random() * 1500) + 2500);
+    var intervals = Math.floor((Math.random() * 6000) + 1560);
     /*$.get(updateUrl, {product_id: $product_id, sku: $sku}, function (data) {
      var $bid_count = data.bid_count;
      var $new_bid_price = data.bid_price;
@@ -285,7 +285,7 @@ function ItemUpdate($product_id, $sku, $toclear) {
                 bidsPlaced.html($bid_count);
             });
         }, intervals); //check every n seconds
-        //console.log('Set interval ' + intervalObj[$product_id]);
+        //console.log('Set interval {' + intervalObj[$product_id]+'} {'+intervals+'}');
     } else {
         //flag the item as won in the DB
         //alert('clearing and winning bid');

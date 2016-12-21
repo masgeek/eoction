@@ -5,8 +5,8 @@
  * Date: 2016/10/10
  * Time: 14:40
  */
-/* @var $model app\module\products\models\Products */
-/* @var $image app\module\products\models\Images */
+/* @var $model app\module\products\models\FryProducts */
+/* @var $imageObject app\module\products\models\FryProductImages */
 
 
 use yii\helpers\Html;
@@ -16,28 +16,34 @@ use app\components\ProductManager;
 
 $formatter = \Yii::$app->formatter;
 
-$imageObject = $model->getSingleImage();
-$product_image = $imageObject ? '@web'.$imageObject->IMAGE_URL : '@web/product_images/placeholder.png';
+$imageHost = \Yii::$app->params['ExternalImageServerLink'];
+$imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
+
+$imageObject = $model->image1;
+$product_image = $imageObject ? $imageObject : '@web/product_images/placeholder.png';
+//$product_image = '@web/product_images/placeholder.png';
 
 
 //calculate the percentage discount based on the retail price and the bidded amount
-$starting_bid_price = $model->PRICE;
-$sku = $model->SKU;
+$starting_bid_price = $model->price;
+$sku = $model->sku;
 
-$bids = ProductManager::GetNumberOfBids($model->PRODUCT_ID);
+$bids = ProductManager::GetNumberOfBids($model->productid);
 
-$product_id = $model->PRODUCT_ID;
-$product_name = $model->PRODUCT_NAME;
+$product_id = $model->productid;
+$product_name = $model->name;
 
 $discount = ProductManager::ComputePercentageDiscount($product_id);
 $shipping = ProductManager::ComputeShippingCost($product_id);
 $bidStartTime = 60;// * $productID; //initial start time for the bid
 
 $shipping_cost = $formatter->asCurrency($shipping);
-$retail_price = $formatter->asCurrency($model->RETAIL_PRICE);
+$retail_price = $formatter->asCurrency($model->buyitnow);
 
 $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
 
+
+\app\components\BidManager::NextBidAmount($product_id);
 ?>
 
 
@@ -61,20 +67,22 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
                 'alt' => $product_name,
             ]); ?>
             <div class="col-md-12 col-xs-6 text-center">
-                <span class="bidding-price">Bid Price: <span id="bid_price<?=$product_id?>"><?= $starting_bid_price ?></span></span><br/>
+                <span class="bidding-price">Bid Price: <span
+                        id="bid_price<?= $product_id ?>"><?= $starting_bid_price ?></span></span><br/>
                 <span class="crossed retail-price"><?= $retail_price; ?></span>
             </div>
-            <div class="col-md-12 col-xs-6 text-center">
+            <!--<div class="col-md-12 col-xs-6 text-center">
                 <span>Shipping <?= $shipping_cost ?></span>
-            </div>
+            </div>-->
             <div class="col-md-12 col-xs-6 text-center text-uppercase">
                 <span id="bids_placed_<?= $product_id ?>"><?= $bids ?></span> Bid(s)
             </div>
+
             <div class="col-md-12 col-xs-6 progress-container">
-            <div class="bidProgress noplacedbids" id="progressBar<?= $product_id ?>"></div>
-                </div>
+                <div class="bidProgress noplacedbids" id="progressBar<?= $product_id ?>"></div>
+            </div>
             <div class="row">
-                <div class="col-md-10 col-md-offset-1 col-xs-12" id="bid_button_<?=$product_id?>">
+                <div class="col-md-10 col-md-offset-1 col-xs-12" id="bid_button_<?= $product_id ?>">
                     <?= Html::button('<span class="hammer-icon pull-left"></span>BID NOW', [
                         'class' => 'btn btn-bid btn-bid-active btn-block noradius',
                         'id' => "placebid_$product_id"
@@ -93,6 +101,6 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
 <?php
 $this->registerJs("
    SetupProgressBar($product_id,$bidStartTime);
-", View::POS_READY)
+", View::POS_END)
 ?>
 

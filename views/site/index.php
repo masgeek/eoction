@@ -8,15 +8,13 @@ use yii\widgets\ListView;
 use yii\helpers\Url;
 use yii\helpers\Html;
 
-use app\vendor\customhelper\BidManager;
-
 //var_dump($listDataProvider);
 
 //set page title
 $this->title = 'Live Auction';
 
 //register js file
-$this->registerJsFile('@web/js/bidding/bidding-progress.js');
+$this->registerJsFile('@web/js/bidding/bidding-progress-stable.js');
 //$this->registerJsFile('@web/js/bidding/facebook-login.js');
 
 $updateUrl = Url::toRoute(['shop/item-update']);
@@ -83,6 +81,8 @@ $listviewWidget = ListView::widget([
         width: 100%;
         height: 10px;
         margin-bottom: 5px;
+        background-color: #e8202a;
+        border:1px solid #1e002b;
     }
 
     .noplacedbids, .awaitingbid {

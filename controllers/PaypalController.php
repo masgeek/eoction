@@ -8,16 +8,14 @@
 
 namespace app\controllers;
 
+use app\components\ShipStationHandler;
+use app\module\products\models\ShippingService;
+use Yii;
+use yii\web\Controller;
+
+
 use app\components\ProductManager;
 use app\module\products\models\PaypalTransactions;
-use app\module\products\product;
-use PayPal\Api\PaymentExecution;
-use Yii;
-use yii\base\InvalidParamException;
-use yii\web\BadRequestHttpException;
-use yii\web\Controller;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 
 
 use PayPal\Api\Amount;
@@ -27,6 +25,7 @@ use PayPal\Api\Payment;
 use PayPal\Api\Transaction;
 use PayPal\Api\ItemList;
 use PayPal\Api\RedirectUrls;
+use PayPal\Api\PaymentExecution;
 
 class PaypalController extends Controller
 {
@@ -50,7 +49,7 @@ class PaypalController extends Controller
         $payer->setPaymentMethod("paypal"); //method is by paypal account
 
 
-        $paypal_items = ProductManager::GetPaypalItems($id);
+        $paypal_items = ProductManager::GetPaypalItems($id); //get the items to be paid for
 
         if (count($paypal_items) > 0) {
             $cartItemsArr = [];
@@ -60,7 +59,7 @@ class PaypalController extends Controller
                     ->setDescription($summary_item['DESC'])
                     //->setUrl($summary_item['ITEM_ID'])
                     ->setCurrency('USD')
-                    ->setQuantity(1)
+                    ->setQuantity(1)//always one item at a time
                     ->setPrice($summary_item['PRICE']);
 
                 $cartItemsArr[] = $cart_item;
@@ -99,8 +98,8 @@ class PaypalController extends Controller
             $baseUrl = \yii\helpers\Url::home(true);
 
             $redirectUrls = new RedirectUrls();
-            $redirectUrls->setReturnUrl("{$baseUrl}paypal/result?status=true")
-                ->setCancelUrl("{$baseUrl}paypal/result?status=false");
+            $redirectUrls->setReturnUrl("{$baseUrl}paypal/confirm?status=true")
+                ->setCancelUrl("{$baseUrl}paypal/confirm?status=false");
 
             $payment = new Payment();
             $payment->setIntent("sale")
@@ -133,7 +132,7 @@ class PaypalController extends Controller
             $approvalUrl = $payment->getApprovalLink();
 
             //now let us redirect to the approval URL to allow the client to pay
-            $this->redirect($approvalUrl);
+            return $this->redirect($approvalUrl);
         }
     }
 
@@ -152,45 +151,172 @@ class PaypalController extends Controller
         return $this->render('paypal-error');
     }
 
-
-    /**
-     * @param $status
-     * @param null $PayerID
-     * @return \yii\web\Response
-     */
-    public function actionResult($status, $PayerID = null)
+    public function actionConfirm($status, $PayerID = null)
     {
+        $model = new ShippingService();
+
+        $paypal_hash = Yii::$app->session['paypal_hash'];
+
+        $transactionPayment = PaypalTransactions::findOne(['HASH' => $paypal_hash]);
+        if ($transactionPayment == null) {
+            return $this->redirect(['error']);
+        }
+
         if ($status == 'true') {
-            $paypal_hash = Yii::$app->session['paypal_hash'];
-            Yii::$app->getSession()->setFlash('success', 'Item purchased successfully');
-            $context = Yii::$app->paypal->getApiContext();
-            $transactionPayment = PaypalTransactions::findOne(['HASH' => $paypal_hash]);
-            if ($transactionPayment != null) {
-                //var_dump($transactionPayment);
-                $payment = Payment::get($transactionPayment->PAYMENT_ID, $context);
-                //var_dump($payment);
+            /*if($model->load(Yii::$app->request->post())){
 
-                $execution = new PaymentExecution();
-                $execution->setPayerId($PayerID);
-                //now charge the user account
-                $payment->execute($execution, $context);
+                var_dump($_POST);
+
+                die;
+            }*/
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 //update the transaction
-                $transactionPayment->COMPLETE = 1;
-                if ($transactionPayment->save())//update the changes to the table
-                {
-                    //let us update the hash values
-                    ProductManager::UpdatePaidCartItems($paypal_hash);
-                    //clear the hash session value
-                    Yii::$app->session->remove('paypal_hash');
-                }
-
-                //update the car items as paid for so that they no longer appear in the cart
-                //SEND email to the user
-                return $this->redirect(['success']);
+                return $this->redirect(['confirm-order', 'paypal_hash' => $paypal_hash, 'PayerID' => $PayerID]);
             }
-        } else {
+        } elseif ($status == 'false') {
             return $this->redirect(['cancel']);
         }
+
+
+        //$t = $shipStation->ListAllCarriers();
+        //$t = $shipStation->ListCarrierServices();
+        //$t = $shipStation->ListCarrierPackage();
+        //$t = $shipStation->ListMarketPlace();
+        //$t = $shipStation->ListStores();
+        //print_r(\GuzzleHttp\json_decode($t));
+        //die;
+        return $this->render('confirm-order', [
+            'model' => $model,
+            'payment_id' => $transactionPayment->ID
+        ]);
+    }
+
+    /**
+     * Updates an existing ShippingService model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionUpdate($id)
+    {
+        $model = ShippingService::findOne($id);
+        $shipStation = new ShipStationHandler();
+
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            //update the order
+            $hash = $model->pAYPALTRANS->HASH;
+            $user_id = $model->pAYPALTRANS->USER_ID;
+            $trans_id = $model->pAYPALTRANS->ID;
+            //lets create the order after a successful payment and confirmation
+            $order_status = $shipStation->CreateNewOrder($hash, $user_id); //use the paypal hash
+            //update the car items as paid for so that they no longer appear in the cart
+            //SEND email to the user
+            return $this->redirect(['success', 'trans_id' => $trans_id]);
+        }
+            return $this->render('edit-order', [
+                'model' => $model,
+                'payment_id' => $model->pAYPALTRANS->ID,
+            ]);
+    }
+
+    /**
+     * @param $paypal_hash
+     * @return \yii\web\Response
+     */
+    public function actionConfirmOrder($paypal_hash, $PayerID)
+    {
+        $shipStation = new ShipStationHandler();
+        Yii::$app->getSession()->setFlash('success', 'Item purchased successfully');
+        $context = Yii::$app->paypal->getApiContext();
+        $transactionPayment = PaypalTransactions::findOne(['HASH' => $paypal_hash]);
+        if ($transactionPayment != null) {
+            $transactionPayment->COMPLETE = 1;
+            if ($transactionPayment->save())//update the changes to the table
+            {
+                //now save the transaction data
+                //$payment = Payment::get($transactionPayment->PAYMENT_ID, $context);
+
+
+                //get the payment infor from paypal
+                //$execution = new PaymentExecution();
+                //$execution->setPayerId($PayerID);
+
+                //now charge the user account
+                //$payment->execute($execution, $context);
+
+                //let us update the hash values
+                ProductManager::UpdatePaidCartItems($paypal_hash);
+
+                //clear the hash session value
+                Yii::$app->session->remove('paypal_hash');
+            }
+
+            //lets create the order after a successful payment and confirmation
+            $order_status = $shipStation->CreateNewOrder($transactionPayment->HASH, $transactionPayment->USER_ID); //use the paypal hash
+            //update the car items as paid for so that they no longer appear in the cart
+            //SEND email to the user
+            return $this->redirect(['success', 'trans_id' => $transactionPayment->ID]);
+        }
         return $this->redirect(['error']); //redirect to error page by default
+    }
+
+    //json functions
+    /**
+     * @return string
+     */
+    public function actionSelectService()
+    {
+        $shipStation = new ShipStationHandler();
+
+        $post = Yii::$app->request->post('depdrop_all_params');
+        $carrier_code = $post['carrier-code'];
+
+        $carrierServices = $shipStation->ListCarrierServices($carrier_code, $as_array = true);
+
+
+        //var_dump($carrierServices);
+        //die;
+        $dat = (['output' => $carrierServices]);
+
+        return \GuzzleHttp\json_encode($dat);
+    }
+
+    //json functions
+
+    /**
+     * @return string
+     */
+    public function actionSelectPackage()
+    {
+        $shipStation = new ShipStationHandler();
+
+        $post = Yii::$app->request->post('depdrop_all_params');
+
+        $carrier_code_raw = $post['service-desc'];
+
+        $splitList = explode('|', $carrier_code_raw);
+
+        $service_code = isset($splitList[0]) ? $splitList[0] : null; //will not be used
+        $carrier_code = isset($splitList[1]) ? $splitList[1] : null;
+        $domestic = isset($splitList[2]) ? (boolean)$splitList[2] : false;
+        $international = isset($splitList[3]) ? (boolean)$splitList[3] : false;
+
+        //var_dump($splitList);
+        //die;
+
+        //$domestic_raw ? $domestic = true : $domestic = false;
+        //$international_raw ? $international = true : $international = false;
+
+        //echo("$domestic - $international - $carrier_code");
+
+        $carrierPackage = $shipStation->ListCarrierPackage($carrier_code, $domestic, $international, $as_array = true);
+
+        //var_dump($carrierPackage);
+        //die;
+        // Shows how you can preselect a value
+        $dat = (['output' => $carrierPackage]);
+
+        return \GuzzleHttp\json_encode($dat);
     }
 }

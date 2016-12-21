@@ -54,7 +54,7 @@ class ShopController extends Controller
     //entry page
     public function actionIndex()
     {
-        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 20, $for_auction = [1, 0], $min_stock = 1, $exclusion_list = []);
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 20, $for_auction = [1, 0], $min_stock = 1, $exclusion_list = [],$random = false);
         $this->view->title = 'Online Shopping';
         return $this->render('//site/shop', ['listDataProvider' => $dataProvider]);
     }
@@ -136,6 +136,11 @@ class ShopController extends Controller
     {
         $cartDataProvider = ProductManager::GetUserCartItems($id, $sold_status = [0]);
         return $this->render('my-cart', ['cartDataProvider' => $cartDataProvider, 'user_id' => $id]);
+    }
+
+    public function actionWishlist()
+    {
+        return $this->render('//site/coming-soon');
     }
 
     public function actionPurgeDb($action)

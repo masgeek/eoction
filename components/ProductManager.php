@@ -10,6 +10,7 @@ namespace app\components;
 
 
 use app\models\BidActivity;
+use app\module\products\models\FryProducts;
 use app\module\products\models\ItemsCart;
 use app\module\products\models\ProductBids;
 use app\module\products\models\Products;
@@ -26,26 +27,43 @@ class ProductManager
     public static function ComputePercentageDiscount($product_id)
     {
         $discount_percentage = 0;
-        $product = Products::findOne(['PRODUCT_ID' => $product_id]);
+        $product = FryProducts::findOne(['productid' => $product_id]);
         if ($product != null) {
-            $retail_price = $product->RETAIL_PRICE;
-            $bid_price = $product->PRICE;
+            $retail_price = $product->buyitnow;
+            $bid_price = $product->price;
 
-            $discount_percentage = 100 - round((($bid_price * 100) / $retail_price), 2);
+            if ($retail_price > 0) {
+                $discount_percentage = 100 - round((($bid_price * 100) / $retail_price), 2);
+            }
         }
         return $discount_percentage;
     }
 
-    public static function ComputeShippingCost($product_id)
+    /**
+     * @param null $product_id
+     * @param int $retail_price
+     * @return float|int
+     */
+    public static function ComputeShippingCost($product_id = null, $retail_price = 0)
     {
-        $shipping_cost = 0;
-        $product = Products::findOne(['PRODUCT_ID' => $product_id]);
+        return 0;
+        $product = FryProducts::findOne(['productid' => $product_id]);
         if ($product != null) {
-            $retail_price = $product->RETAIL_PRICE;
-
-            $shipping_cost = round(((5 * $retail_price) / 100), 2);
+            $retail_price = $product->buyitnow;
         }
+
+        $shipping_cost = round(((5 * $retail_price) / 100), 2);
         return $shipping_cost;
+    }
+
+    /**
+     * @param int $total_paid
+     * @return float
+     */
+    public static function ComputeTaxAmount($total_paid = 0)
+    {
+        $tax_amount = round(((5 * $total_paid) / 100), 2);
+        return $tax_amount = 0;
     }
 
     public static function GetNumberOfBids($product_id)
@@ -55,19 +73,48 @@ class ProductManager
         if ($bids != null) {
             $bidsCount = $bids->ACTIVITY_COUNT; //return the count
         }
+
         return $bidsCount;
     }
 
 
     /**
-     * returns items to either be sold or auctioned off
+     *  returns items to either be sold or auctioned off
      * @param int $no_of_items
      * @param array $auction_param
      * @param int $min_stock
      * @param array $exclusion_list
+     * @param bool $random
      * @return ActiveDataProvider
      */
-    public static function GetItemsForSale($no_of_items = 10, $auction_param = [1, 0], $min_stock = 1, $exclusion_list = [])
+    public static function GetItemsForSale($no_of_items = 20, $auction_param = [1, 0], $min_stock = 1, $exclusion_list = [], $random = true)
+    {
+        $query = FryProducts::find()
+            ->where(['IN', 'visible', $auction_param,])
+            ->andWhere(['>=', 'min_stock', $min_stock])//stock levels should be greater or equal to 1
+            ->andWhere(['NOT IN', 'sku', $exclusion_list])
+            //->orderBy(['rand()' => SORT_DESC]);
+            ->orderBy('productid ASC');
+
+        if ($random) {
+            $query = FryProducts::find()
+                ->where(['IN', 'visible', $auction_param,])
+                ->andWhere(['>=', 'min_stock', $min_stock])//stock levels should be greater or equal to 1
+                ->andWhere(['NOT IN', 'sku', $exclusion_list])
+                ->orderBy(['rand()' => SORT_DESC]);
+        }
+
+        $item_provider = new ActiveDataProvider([
+            'query' => $query, //randomly pick items
+            'pagination' => [
+                'pageSize' => $no_of_items
+            ],
+        ]);
+
+        return $item_provider;
+    }
+
+    public static function GetItemsForSaleOld($no_of_items = 10, $auction_param = [1, 0], $min_stock = 1, $exclusion_list = [])
     {
         $item_provider = new ActiveDataProvider([
             'query' => Products::find()
@@ -115,6 +162,8 @@ class ProductManager
      */
     public static function GetUserCartItemsTotal($user_id, $sold_status = [0, 1])
     {
+        /* @var $productModel FryProducts */
+
         $total = [];
         $shipping = [];
         $query = ItemsCart::find()
@@ -126,13 +175,14 @@ class ProductManager
             'pagination' => false,
         ]);
         foreach ($cart_item_data->models as $model) {
+            $productModel = $model->getProductInfo($model->PRODUCT_ID);
             if ($model->BIDDED_ITEM == '1') {
                 $product_price = $model->PRODUCT_PRICE;
             } else {
-                $product_price = $model->pRODUCT->RETAIL_PRICE; //get the retail price if its not a bid item
+                $product_price = $productModel->buyitnow; //get the retail price if its not a bid item
             }
             $total[] = (float)$product_price;
-            $shipping[] = ProductManager::ComputeShippingCost($model->pRODUCT->PRODUCT_ID);
+            $shipping[] = ProductManager::ComputeShippingCost($productModel->productid);
         }
 
         $sub_total = array_sum($total);
@@ -153,6 +203,7 @@ class ProductManager
     public static function GetPaypalItems($user_id)
     {
         /* @var $model ItemsCart */
+        /* @var $productModel FryProducts */
         $total = [];
         $shipping = [];
         $paypalItems = [];
@@ -160,18 +211,19 @@ class ProductManager
         if ($cartItems->count > 0) {
 
             foreach ($cartItems->models as $model) {
+                $productModel = $model->getProductInfo($model->PRODUCT_ID);
                 if ($model->BIDDED_ITEM == '1') {
                     $product_price = $model->PRODUCT_PRICE;
                 } else {
-                    $product_price = $model->pRODUCT->RETAIL_PRICE; //get the retail price if its not a bid item
+                    $product_price = $productModel->buyitnow; //get the retail price if its not a bid item
                 }
                 $total[] = (float)$product_price;
-                $shipping[] = ProductManager::ComputeShippingCost($model->pRODUCT->PRODUCT_ID);
+                $shipping[] = ProductManager::ComputeShippingCost($model->PRODUCT_ID);
 
                 $paypalItems['ITEMS'][] = [
-                    'NAME' => $model->pRODUCT->PRODUCT_NAME,
+                    'NAME' => $productModel->name,
                     'ITEM_ID' => $model->CART_ID,
-                    'DESC' => isset($model->pRODUCT->PRODUCT_DESCRIPTION) ? $model->pRODUCT->PRODUCT_DESCRIPTION : 'N/A',
+                    'DESC' => isset($productModel->desc) ? $productModel->desc : 'N/A',
                     'PRICE' => $product_price,
                 ];
             }
@@ -213,6 +265,25 @@ class ProductManager
     {
 
         return ItemsCart::updateAll(['IS_SOLD' => 1], ['PAYPAL_HASH' => $paypal_hash]);
+    }
+
+    /**
+     * Returns image url of the product
+     * @param $product_id
+     * @return string
+     */
+    public static function GetImageUrl($product_id)
+    {
+        $imageHost = \Yii::$app->params['ExternalImageServerLink'];
+        $imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
+
+        $imageModel = new FryProducts();
+        $imageObject = $imageModel->getSingleImage($product_id);
+
+
+        $product_image = $imageObject ? "{$imageHost}/{$imageFolder}/{$imageObject->imagefile}" : '@web/product_images/placeholder.png';
+
+        return $product_image;
     }
 
     /**

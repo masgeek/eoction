@@ -2,21 +2,18 @@
 
 namespace app\controllers;
 
-use app\module\products\models\ProductBids;
+
+use app\components\ShipStationHandler;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
-use yii\data\ActiveDataProvider;
-use yii\db\Expression;
-
-use app\components\AuthHandler;
 
 use app\models\LoginForm;
 use app\models\ContactForm;
 
 use app\models\BidActivity;
-use app\module\products\models\Products;
+
 use app\components\BidManager;
 use app\components\ProductManager;
 
@@ -64,23 +61,6 @@ class SiteController extends Controller
         ];
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    /* public function actions()
-     {
-         return [
-             'error' => [
-                 'class' => 'yii\web\ErrorAction',
-             ],
-             'captcha' => [
-                 'class' => 'yii\captcha\CaptchaAction',
-                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-             ],
-         ];
-     }*/
-
     public function actions()
     {
         return [
@@ -98,8 +78,8 @@ class SiteController extends Controller
     /**
      * This function will be triggered when user is successfuly authenticated using some oAuth client.
      *
-     * @param yii\authclient\ClientInterface $client
-     * @return boolean|yii\web\Response
+     * @param ClientInterface $client
+     * @return Response
      */
     public function oAuthSuccess($client)
     {
@@ -116,34 +96,56 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionIndexOld()
+    public function actionGetOrders($order_id = '14847186')
     {
-        return $this->render('index');
+        $shipStationService = new ShipStationHandler();
+
+        $order_resp = $shipStationService->GetSingleOrder($order_id); //for now we have overrriden it
+        return $this->render('about');
+    }
+
+    public function actionCreateOrders($paypal_hash = '57f75e957e58b30d8f476886b8c62dc4', $user_id = 5)
+    {
+        $shipStationService = new ShipStationHandler();
+
+        $order_resp = $shipStationService->CreateNewOrder($paypal_hash, $user_id); //for now we have overriden it
+
+        var_dump($order_resp);
+        return $this->render('about');
     }
 
     /**
      * @return string
      */
+    public function actionTest()
+    {
+        $exclusion_list = BidManager::GetExclusionItems();
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 1, $auction_param = [1], $min_stock = 1, $exclusion_list,$random=false);
+
+        $this->view->title = 'Live Auction';
+        return $this->render('index_test', ['listDataProvider' => $dataProvider]);
+    }
+
     public function actionIndex()
     {
         $exclusion_list = BidManager::GetExclusionItems();
-        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 20, $auction_param = [1], $min_stock = 1, $exclusion_list);
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 20, $auction_param = [1], $min_stock = 1, $exclusion_list,$random=false);
 
         $this->view->title = 'Live Auction';
         return $this->render('index', ['listDataProvider' => $dataProvider]);
     }
-
     public function actionNextItem($product_id = 0)
     {
         $nextItem = BidManager::GetNextItemToBid($product_id);
         return json_encode($nextItem);
     }
 
+
     /**
      * @param $id
      * @param $user_id
      * @param $sku
-     * action should be called like these place-bid
+     * @return string
      */
     public function actionPlaceBid($id, $user_id, $sku)
     {
@@ -164,10 +166,13 @@ class SiteController extends Controller
             $model->LAST_BIDDING_USER_ID = $user_id;
             $model->ACTIVITY_COUNT = $activity_count;
             //save the data
+
             if ($model->save()) {
                 //no need to alert user return indicator so that we can switch to auction countdown
                 //track the bid
                 BidManager::TrackUsersBids($user_id, $id, $sku);
+
+
                 $resp = [
                     'msg' => 'Bid placed successfully',
                     'success' => true,
@@ -222,7 +227,7 @@ class SiteController extends Controller
      * @param $id
      * @param $user_id
      * @param $sku
-     * action should be called like these update-bid
+     * @return string
      */
     public function actionUpdateBid($id, $user_id, $sku)
     {

@@ -15,7 +15,6 @@ use app\module\users\models\Users;
  * @property string $BID_TIME
  * @property integer $BID_WON
  *
- * @property Products $PRODUCT
  * @property Users $USER
  */
 class ProductBids extends \yii\db\ActiveRecord
@@ -38,7 +37,6 @@ class ProductBids extends \yii\db\ActiveRecord
             [['PRODUCT_ID', 'USER_ID', 'BID_WON'], 'integer'],
             [['BID_AMOUNT'], 'number'],
             [['BID_TIME'], 'safe'],
-            [['PRODUCT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Products::className(), 'targetAttribute' => ['PRODUCT_ID' => 'PRODUCT_ID']],
             [['USER_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['USER_ID' => 'USER_ID']],
         ];
     }
@@ -56,14 +54,6 @@ class ProductBids extends \yii\db\ActiveRecord
             'BID_TIME' => 'Bid Time',
             'BID_WON' => 'Bid Won',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPRODUCT()
-    {
-        return $this->hasOne(Products::className(), ['PRODUCT_ID' => 'PRODUCT_ID']);
     }
 
     /**

@@ -2,8 +2,8 @@
 
 namespace app\module\products\models;
 
-use app\module\users\models\Users;
 use Yii;
+use app\module\users\models\Users;
 use yii\db\Expression;
 
 /**
@@ -21,7 +21,6 @@ use yii\db\Expression;
  * @property string $DATE_BOUGHT
  *
  * @property Users $uSER
- * @property Products $pRODUCT
  */
 class ItemsCart extends \yii\db\ActiveRecord
 {
@@ -31,6 +30,14 @@ class ItemsCart extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return '{{%tb_items_cart}}';
+    }
+
+    /**
+     * @return \yii\db\Connection the database connection used by this AR class.
+     */
+    public static function getDb()
+    {
+        return Yii::$app->get('db');
     }
 
     /**
@@ -45,7 +52,6 @@ class ItemsCart extends \yii\db\ActiveRecord
             [['DATE_ADDED', 'EXPIRY_DATE', 'DATE_BOUGHT'], 'safe'],
             [['PAYPAL_HASH'], 'string', 'max' => 100],
             [['USER_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['USER_ID' => 'USER_ID']],
-            [['PRODUCT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Products::className(), 'targetAttribute' => ['PRODUCT_ID' => 'PRODUCT_ID']],
         ];
     }
 
@@ -82,6 +88,7 @@ class ItemsCart extends \yii\db\ActiveRecord
         }
         return false;
     }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -90,11 +97,8 @@ class ItemsCart extends \yii\db\ActiveRecord
         return $this->hasOne(Users::className(), ['USER_ID' => 'USER_ID']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPRODUCT()
+    public function getProductInfo($product_id)
     {
-        return $this->hasOne(Products::className(), ['PRODUCT_ID' => 'PRODUCT_ID']);
+        return FryProducts::findOne($product_id);
     }
 }

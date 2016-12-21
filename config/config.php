@@ -76,7 +76,8 @@ $config = [
                 ],
             ],
         ],
-        'db' => require(__DIR__ . '/db.php'),
+        'db' => require(__DIR__ . '/eoction.php'),
+        //'affy' => require(__DIR__ . '/affy.php'),
 
         'urlManager' => [
             'enablePrettyUrl' => true,
@@ -91,8 +92,12 @@ $config = [
                 '/' => 'site',
                 'login' => 'site/login',
                 'logout' => 'site/logout',
+                'create-orders' => 'site/create-orders',
+                'get-orders' => 'site/get-orders',
                 'signup' => 'user/users/signup',
+                'my-addresses' => 'user/address/index',
                 'products' => 'product/product/index',
+                'orders' => 'product/orders/index',
                 'add-image' => 'product/images/add-image',
                 'request-password-reset' => 'site/request-password-reset',
                 'reset-password' => 'site/reset-password',
@@ -105,6 +110,7 @@ $config = [
             'dateFormat' => 'dd.MM.yyyy',
             'decimalSeparator' => '.',
             'thousandSeparator' => ',',
+            //'timeZone' => 'GMT', //default time zones and format
             'currencyCode' => 'USD',
             'nullDisplay' => '0',
         ],

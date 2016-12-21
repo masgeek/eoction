@@ -24,13 +24,16 @@ use yii\db\Expression;
  * @property string $DATE_CREATED
  * @property string $DATE_UPDATED
  *
- * @property TbHashTable[] $tbHashTables
- * @property TbItemsCart[] $tbItemsCarts
- * @property TbItemsWishlist[] $tbItemsWishlists
- * @property TbProductBids[] $tbProductBids
+ * @property HashTable[] $tbHashTables
+ * @property ItemsCart[] $tbItemsCarts
+ * @property ItemsWishlist[] $tbItemsWishlists
+ * @property ProductBids[] $tbProductBids
  */
 class Users extends \yii\db\ActiveRecord
 {
+    const SCENARIO_SIGNUP = 'signup';
+    const SCENARIO_UPDATE = 'test';
+
     public $REPEAT_PASSWORD;
     public $CHANGE_PASS;
 
@@ -45,8 +48,8 @@ class Users extends \yii\db\ActiveRecord
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        //$scenarios['update'] = [];//Scenario Values Only Accepted
-        $scenarios['signup'] = ['PASSWORD_HASH', 'REPEAT_PASSWORD', 'FULL_NAMES', 'EMAIL_ADDRESS'];//Scenario Values Only Accepted
+        $scenarios[self::SCENARIO_SIGNUP] = ['FULL_NAMES', 'EMAIL_ADDRESS', 'PASSWORD_HASH', 'REPEAT_PASSWORD'];//Scenario Values Only Accepted
+        $scenarios[self::SCENARIO_UPDATE] = ['FULL_NAMES', 'EMAIL_ADDRESS', 'PASSWORD_HASH', 'REPEAT_PASSWORD', 'PHONE_NO', 'TIMEZONE', 'COUNTRY', 'CHANGE_PASS'];//Scenario Values Only Accepted
         return $scenarios;
     }
 
@@ -56,17 +59,19 @@ class Users extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['FULL_NAMES', 'EMAIL_ADDRESS'], 'required'],
-            [['PASSWORD_HASH', 'REPEAT_PASSWORD'], 'required', 'on' => 'signup'],
+
+            [['FULL_NAMES', 'EMAIL_ADDRESS', 'PASSWORD_HASH', 'REPEAT_PASSWORD'], 'required', 'on' => [self::SCENARIO_SIGNUP, self::SCENARIO_UPDATE]],
+
+            [['FULL_NAMES', 'PHONE_NO', 'TIMEZONE', 'COUNTRY', 'CHANGE_PASS'], 'required', 'on' => self::SCENARIO_UPDATE],
             [['EMAIL_ADDRESS'], 'unique'],
             [['EMAIL_ADDRESS'], 'email'],
             [['SOCIAL_ID', 'STATUS'], 'integer'],
             [['CHANGE_PASS'], 'boolean'],
             [['DATE_CREATED', 'DATE_UPDATED'], 'safe'],
             [['FULL_NAMES', 'EMAIL_ADDRESS', 'PASSWORD_HASH', 'REPEAT_PASSWORD', 'ACCOUNT_ACCESS_TOKEN', 'ACCOUNT_AUTH_KEY'], 'string', 'max' => 255],
-            [['PHONE_NO'], 'string', 'max' => 30],
-            [['TIMEZONE'], 'string', 'max' => 10],
-            [['COUNTRY'], 'string', 'max' => 15],
+            [['PHONE_NO'], 'string', 'min' => 10, 'max' => 30],
+            [['TIMEZONE'], 'string', 'min' => '1', 'max' => 10],
+            [['COUNTRY'], 'string', 'min' => '2', 'max' => 15],
             ['REPEAT_PASSWORD', 'compare', 'compareAttribute' => 'PASSWORD_HASH', 'skipOnEmpty' => false, 'message' => "Passwords don't match"] //password confirmation rule
         ];
     }
@@ -80,6 +85,7 @@ class Users extends \yii\db\ActiveRecord
             'USER_ID' => 'User ID',
             'FULL_NAMES' => 'Full Names',
             'EMAIL_ADDRESS' => 'Email Address',
+            'CHANGE_PASS' => 'Change Password',
             'PASSWORD_HASH' => 'Password',
             'REPEAT_PASSWORD' => 'Confirm Password',
             'ACCOUNT_ACCESS_TOKEN' => 'Account Access Token',
@@ -103,7 +109,7 @@ class Users extends \yii\db\ActiveRecord
                 $this->DATE_CREATED = $date;
                 $this->PASSWORD_HASH = sha1($this->PASSWORD_HASH); //hash the user password
             }
-            if ($this->CHANGE_PASS) {
+            if ($this->CHANGE_PASS == 'true' || $this->CHANGE_PASS == 1) { //when checkbox is checked to indicate password changed
                 //it is in update mode check if password change was requested
                 $this->PASSWORD_HASH = sha1($this->PASSWORD_HASH); //hash the user password
             }
@@ -118,7 +124,7 @@ class Users extends \yii\db\ActiveRecord
      */
     public function getTbHashTables()
     {
-        return $this->hasMany(TbHashTable::className(), ['USER_ID' => 'USER_ID']);
+        return $this->hasMany(HashTable::className(), ['USER_ID' => 'USER_ID']);
     }
 
     /**

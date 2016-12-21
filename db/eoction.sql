@@ -10,10 +10,275 @@ Target Server Type    : MYSQL
 Target Server Version : 50711
 File Encoding         : 65001
 
-Date: 2016-11-28 22:32:25
+Date: 2016-12-13 22:30:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for countries
+-- ----------------------------
+DROP TABLE IF EXISTS `countries`;
+CREATE TABLE `countries` (
+  `COUNTRY_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `COUNTRY_CODE` varchar(5) DEFAULT NULL,
+  `COUNTRY_NAME` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`COUNTRY_ID`),
+  KEY `Code` (`COUNTRY_CODE`)
+) ENGINE=InnoDB AUTO_INCREMENT=250 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of countries
+-- ----------------------------
+INSERT INTO `countries` VALUES ('1', 'AD', 'Andorra');
+INSERT INTO `countries` VALUES ('2', 'AE', 'United Arab Emirates');
+INSERT INTO `countries` VALUES ('3', 'AF', 'Afghanistan');
+INSERT INTO `countries` VALUES ('4', 'AG', 'Antigua and Barbuda');
+INSERT INTO `countries` VALUES ('5', 'AI', 'Anguilla');
+INSERT INTO `countries` VALUES ('6', 'AL', 'Albania');
+INSERT INTO `countries` VALUES ('7', 'AM', 'Armenia');
+INSERT INTO `countries` VALUES ('8', 'AO', 'Angola');
+INSERT INTO `countries` VALUES ('9', 'AQ', 'Antarctica');
+INSERT INTO `countries` VALUES ('10', 'AR', 'Argentina');
+INSERT INTO `countries` VALUES ('11', 'AS', 'American Samoa');
+INSERT INTO `countries` VALUES ('12', 'AT', 'Austria');
+INSERT INTO `countries` VALUES ('13', 'AU', 'Australia');
+INSERT INTO `countries` VALUES ('14', 'AW', 'Aruba');
+INSERT INTO `countries` VALUES ('15', 'AX', 'Åland Islands');
+INSERT INTO `countries` VALUES ('16', 'AZ', 'Azerbaijan');
+INSERT INTO `countries` VALUES ('17', 'BA', 'Bosnia and Herzegovina');
+INSERT INTO `countries` VALUES ('18', 'BB', 'Barbados');
+INSERT INTO `countries` VALUES ('19', 'BD', 'Bangladesh');
+INSERT INTO `countries` VALUES ('20', 'BE', 'Belgium');
+INSERT INTO `countries` VALUES ('21', 'BF', 'Burkina Faso');
+INSERT INTO `countries` VALUES ('22', 'BG', 'Bulgaria');
+INSERT INTO `countries` VALUES ('23', 'BH', 'Bahrain');
+INSERT INTO `countries` VALUES ('24', 'BI', 'Burundi');
+INSERT INTO `countries` VALUES ('25', 'BJ', 'Benin');
+INSERT INTO `countries` VALUES ('26', 'BL', 'Saint Barthélemy');
+INSERT INTO `countries` VALUES ('27', 'BM', 'Bermuda');
+INSERT INTO `countries` VALUES ('28', 'BN', 'Brunei Darussalam');
+INSERT INTO `countries` VALUES ('29', 'BO', 'Bolivia');
+INSERT INTO `countries` VALUES ('30', 'BQ', 'Caribbean Netherlands ');
+INSERT INTO `countries` VALUES ('31', 'BR', 'Brazil');
+INSERT INTO `countries` VALUES ('32', 'BS', 'Bahamas');
+INSERT INTO `countries` VALUES ('33', 'BT', 'Bhutan');
+INSERT INTO `countries` VALUES ('34', 'BV', 'Bouvet Island');
+INSERT INTO `countries` VALUES ('35', 'BW', 'Botswana');
+INSERT INTO `countries` VALUES ('36', 'BY', 'Belarus');
+INSERT INTO `countries` VALUES ('37', 'BZ', 'Belize');
+INSERT INTO `countries` VALUES ('38', 'CA', 'Canada');
+INSERT INTO `countries` VALUES ('39', 'CC', 'Cocos (Keeling) Islands');
+INSERT INTO `countries` VALUES ('40', 'CD', 'Congo, Democratic Republic of');
+INSERT INTO `countries` VALUES ('41', 'CF', 'Central African Republic');
+INSERT INTO `countries` VALUES ('42', 'CG', 'Congo');
+INSERT INTO `countries` VALUES ('43', 'CH', 'Switzerland');
+INSERT INTO `countries` VALUES ('44', 'CI', 'Côte d\'Ivoire');
+INSERT INTO `countries` VALUES ('45', 'CK', 'Cook Islands');
+INSERT INTO `countries` VALUES ('46', 'CL', 'Chile');
+INSERT INTO `countries` VALUES ('47', 'CM', 'Cameroon');
+INSERT INTO `countries` VALUES ('48', 'CN', 'China');
+INSERT INTO `countries` VALUES ('49', 'CO', 'Colombia');
+INSERT INTO `countries` VALUES ('50', 'CR', 'Costa Rica');
+INSERT INTO `countries` VALUES ('51', 'CU', 'Cuba');
+INSERT INTO `countries` VALUES ('52', 'CV', 'Cape Verde');
+INSERT INTO `countries` VALUES ('53', 'CW', 'Curaçao');
+INSERT INTO `countries` VALUES ('54', 'CX', 'Christmas Island');
+INSERT INTO `countries` VALUES ('55', 'CY', 'Cyprus');
+INSERT INTO `countries` VALUES ('56', 'CZ', 'Czech Republic');
+INSERT INTO `countries` VALUES ('57', 'DE', 'Germany');
+INSERT INTO `countries` VALUES ('58', 'DJ', 'Djibouti');
+INSERT INTO `countries` VALUES ('59', 'DK', 'Denmark');
+INSERT INTO `countries` VALUES ('60', 'DM', 'Dominica');
+INSERT INTO `countries` VALUES ('61', 'DO', 'Dominican Republic');
+INSERT INTO `countries` VALUES ('62', 'DZ', 'Algeria');
+INSERT INTO `countries` VALUES ('63', 'EC', 'Ecuador');
+INSERT INTO `countries` VALUES ('64', 'EE', 'Estonia');
+INSERT INTO `countries` VALUES ('65', 'EG', 'Egypt');
+INSERT INTO `countries` VALUES ('66', 'EH', 'Western Sahara');
+INSERT INTO `countries` VALUES ('67', 'ER', 'Eritrea');
+INSERT INTO `countries` VALUES ('68', 'ES', 'Spain');
+INSERT INTO `countries` VALUES ('69', 'ET', 'Ethiopia');
+INSERT INTO `countries` VALUES ('70', 'FI', 'Finland');
+INSERT INTO `countries` VALUES ('71', 'FJ', 'Fiji');
+INSERT INTO `countries` VALUES ('72', 'FK', 'Falkland Islands');
+INSERT INTO `countries` VALUES ('73', 'FM', 'Micronesia, Federated States of');
+INSERT INTO `countries` VALUES ('74', 'FO', 'Faroe Islands');
+INSERT INTO `countries` VALUES ('75', 'FR', 'France');
+INSERT INTO `countries` VALUES ('76', 'GA', 'Gabon');
+INSERT INTO `countries` VALUES ('77', 'GB', 'United Kingdom');
+INSERT INTO `countries` VALUES ('78', 'GD', 'Grenada');
+INSERT INTO `countries` VALUES ('79', 'GE', 'Georgia');
+INSERT INTO `countries` VALUES ('80', 'GF', 'French Guiana');
+INSERT INTO `countries` VALUES ('81', 'GG', 'Guernsey');
+INSERT INTO `countries` VALUES ('82', 'GH', 'Ghana');
+INSERT INTO `countries` VALUES ('83', 'GI', 'Gibraltar');
+INSERT INTO `countries` VALUES ('84', 'GL', 'Greenland');
+INSERT INTO `countries` VALUES ('85', 'GM', 'Gambia');
+INSERT INTO `countries` VALUES ('86', 'GN', 'Guinea');
+INSERT INTO `countries` VALUES ('87', 'GP', 'Guadeloupe');
+INSERT INTO `countries` VALUES ('88', 'GQ', 'Equatorial Guinea');
+INSERT INTO `countries` VALUES ('89', 'GR', 'Greece');
+INSERT INTO `countries` VALUES ('90', 'GS', 'South Georgia and the South Sandwich Islands');
+INSERT INTO `countries` VALUES ('91', 'GT', 'Guatemala');
+INSERT INTO `countries` VALUES ('92', 'GU', 'Guam');
+INSERT INTO `countries` VALUES ('93', 'GW', 'Guinea-Bissau');
+INSERT INTO `countries` VALUES ('94', 'GY', 'Guyana');
+INSERT INTO `countries` VALUES ('95', 'HK', 'Hong Kong');
+INSERT INTO `countries` VALUES ('96', 'HM', 'Heard and McDonald Islands');
+INSERT INTO `countries` VALUES ('97', 'HN', 'Honduras');
+INSERT INTO `countries` VALUES ('98', 'HR', 'Croatia');
+INSERT INTO `countries` VALUES ('99', 'HT', 'Haiti');
+INSERT INTO `countries` VALUES ('100', 'HU', 'Hungary');
+INSERT INTO `countries` VALUES ('101', 'ID', 'Indonesia');
+INSERT INTO `countries` VALUES ('102', 'IE', 'Ireland');
+INSERT INTO `countries` VALUES ('103', 'IL', 'Israel');
+INSERT INTO `countries` VALUES ('104', 'IM', 'Isle of Man');
+INSERT INTO `countries` VALUES ('105', 'IN', 'India');
+INSERT INTO `countries` VALUES ('106', 'IO', 'British Indian Ocean Territory');
+INSERT INTO `countries` VALUES ('107', 'IQ', 'Iraq');
+INSERT INTO `countries` VALUES ('108', 'IR', 'Iran');
+INSERT INTO `countries` VALUES ('109', 'IS', 'Iceland');
+INSERT INTO `countries` VALUES ('110', 'IT', 'Italy');
+INSERT INTO `countries` VALUES ('111', 'JE', 'Jersey');
+INSERT INTO `countries` VALUES ('112', 'JM', 'Jamaica');
+INSERT INTO `countries` VALUES ('113', 'JO', 'Jordan');
+INSERT INTO `countries` VALUES ('114', 'JP', 'Japan');
+INSERT INTO `countries` VALUES ('115', 'KE', 'Kenya');
+INSERT INTO `countries` VALUES ('116', 'KG', 'Kyrgyzstan');
+INSERT INTO `countries` VALUES ('117', 'KH', 'Cambodia');
+INSERT INTO `countries` VALUES ('118', 'KI', 'Kiribati');
+INSERT INTO `countries` VALUES ('119', 'KM', 'Comoros');
+INSERT INTO `countries` VALUES ('120', 'KN', 'Saint Kitts and Nevis');
+INSERT INTO `countries` VALUES ('121', 'KP', 'North Korea');
+INSERT INTO `countries` VALUES ('122', 'KR', 'South Korea');
+INSERT INTO `countries` VALUES ('123', 'KW', 'Kuwait');
+INSERT INTO `countries` VALUES ('124', 'KY', 'Cayman Islands');
+INSERT INTO `countries` VALUES ('125', 'KZ', 'Kazakhstan');
+INSERT INTO `countries` VALUES ('126', 'LA', 'Lao People\'s Democratic Republic');
+INSERT INTO `countries` VALUES ('127', 'LB', 'Lebanon');
+INSERT INTO `countries` VALUES ('128', 'LC', 'Saint Lucia');
+INSERT INTO `countries` VALUES ('129', 'LI', 'Liechtenstein');
+INSERT INTO `countries` VALUES ('130', 'LK', 'Sri Lanka');
+INSERT INTO `countries` VALUES ('131', 'LR', 'Liberia');
+INSERT INTO `countries` VALUES ('132', 'LS', 'Lesotho');
+INSERT INTO `countries` VALUES ('133', 'LT', 'Lithuania');
+INSERT INTO `countries` VALUES ('134', 'LU', 'Luxembourg');
+INSERT INTO `countries` VALUES ('135', 'LV', 'Latvia');
+INSERT INTO `countries` VALUES ('136', 'LY', 'Libya');
+INSERT INTO `countries` VALUES ('137', 'MA', 'Morocco');
+INSERT INTO `countries` VALUES ('138', 'MC', 'Monaco');
+INSERT INTO `countries` VALUES ('139', 'MD', 'Moldova');
+INSERT INTO `countries` VALUES ('140', 'ME', 'Montenegro');
+INSERT INTO `countries` VALUES ('141', 'MF', 'Saint-Martin (France)');
+INSERT INTO `countries` VALUES ('142', 'MG', 'Madagascar');
+INSERT INTO `countries` VALUES ('143', 'MH', 'Marshall Islands');
+INSERT INTO `countries` VALUES ('144', 'MK', 'Macedonia');
+INSERT INTO `countries` VALUES ('145', 'ML', 'Mali');
+INSERT INTO `countries` VALUES ('146', 'MM', 'Myanmar');
+INSERT INTO `countries` VALUES ('147', 'MN', 'Mongolia');
+INSERT INTO `countries` VALUES ('148', 'MO', 'Macau');
+INSERT INTO `countries` VALUES ('149', 'MP', 'Northern Mariana Islands');
+INSERT INTO `countries` VALUES ('150', 'MQ', 'Martinique');
+INSERT INTO `countries` VALUES ('151', 'MR', 'Mauritania');
+INSERT INTO `countries` VALUES ('152', 'MS', 'Montserrat');
+INSERT INTO `countries` VALUES ('153', 'MT', 'Malta');
+INSERT INTO `countries` VALUES ('154', 'MU', 'Mauritius');
+INSERT INTO `countries` VALUES ('155', 'MV', 'Maldives');
+INSERT INTO `countries` VALUES ('156', 'MW', 'Malawi');
+INSERT INTO `countries` VALUES ('157', 'MX', 'Mexico');
+INSERT INTO `countries` VALUES ('158', 'MY', 'Malaysia');
+INSERT INTO `countries` VALUES ('159', 'MZ', 'Mozambique');
+INSERT INTO `countries` VALUES ('160', 'NA', 'Namibia');
+INSERT INTO `countries` VALUES ('161', 'NC', 'New Caledonia');
+INSERT INTO `countries` VALUES ('162', 'NE', 'Niger');
+INSERT INTO `countries` VALUES ('163', 'NF', 'Norfolk Island');
+INSERT INTO `countries` VALUES ('164', 'NG', 'Nigeria');
+INSERT INTO `countries` VALUES ('165', 'NI', 'Nicaragua');
+INSERT INTO `countries` VALUES ('166', 'NL', 'The Netherlands');
+INSERT INTO `countries` VALUES ('167', 'NO', 'Norway');
+INSERT INTO `countries` VALUES ('168', 'NP', 'Nepal');
+INSERT INTO `countries` VALUES ('169', 'NR', 'Nauru');
+INSERT INTO `countries` VALUES ('170', 'NU', 'Niue');
+INSERT INTO `countries` VALUES ('171', 'NZ', 'New Zealand');
+INSERT INTO `countries` VALUES ('172', 'OM', 'Oman');
+INSERT INTO `countries` VALUES ('173', 'PA', 'Panama');
+INSERT INTO `countries` VALUES ('174', 'PE', 'Peru');
+INSERT INTO `countries` VALUES ('175', 'PF', 'French Polynesia');
+INSERT INTO `countries` VALUES ('176', 'PG', 'Papua New Guinea');
+INSERT INTO `countries` VALUES ('177', 'PH', 'Philippines');
+INSERT INTO `countries` VALUES ('178', 'PK', 'Pakistan');
+INSERT INTO `countries` VALUES ('179', 'PL', 'Poland');
+INSERT INTO `countries` VALUES ('180', 'PM', 'St. Pierre and Miquelon');
+INSERT INTO `countries` VALUES ('181', 'PN', 'Pitcairn');
+INSERT INTO `countries` VALUES ('182', 'PR', 'Puerto Rico');
+INSERT INTO `countries` VALUES ('183', 'PS', 'Palestine, State of');
+INSERT INTO `countries` VALUES ('184', 'PT', 'Portugal');
+INSERT INTO `countries` VALUES ('185', 'PW', 'Palau');
+INSERT INTO `countries` VALUES ('186', 'PY', 'Paraguay');
+INSERT INTO `countries` VALUES ('187', 'QA', 'Qatar');
+INSERT INTO `countries` VALUES ('188', 'RE', 'Réunion');
+INSERT INTO `countries` VALUES ('189', 'RO', 'Romania');
+INSERT INTO `countries` VALUES ('190', 'RS', 'Serbia');
+INSERT INTO `countries` VALUES ('191', 'RU', 'Russian Federation');
+INSERT INTO `countries` VALUES ('192', 'RW', 'Rwanda');
+INSERT INTO `countries` VALUES ('193', 'SA', 'Saudi Arabia');
+INSERT INTO `countries` VALUES ('194', 'SB', 'Solomon Islands');
+INSERT INTO `countries` VALUES ('195', 'SC', 'Seychelles');
+INSERT INTO `countries` VALUES ('196', 'SD', 'Sudan');
+INSERT INTO `countries` VALUES ('197', 'SE', 'Sweden');
+INSERT INTO `countries` VALUES ('198', 'SG', 'Singapore');
+INSERT INTO `countries` VALUES ('199', 'SH', 'Saint Helena');
+INSERT INTO `countries` VALUES ('200', 'SI', 'Slovenia');
+INSERT INTO `countries` VALUES ('201', 'SJ', 'Svalbard and Jan Mayen Islands');
+INSERT INTO `countries` VALUES ('202', 'SK', 'Slovakia');
+INSERT INTO `countries` VALUES ('203', 'SL', 'Sierra Leone');
+INSERT INTO `countries` VALUES ('204', 'SM', 'San Marino');
+INSERT INTO `countries` VALUES ('205', 'SN', 'Senegal');
+INSERT INTO `countries` VALUES ('206', 'SO', 'Somalia');
+INSERT INTO `countries` VALUES ('207', 'SR', 'Suriname');
+INSERT INTO `countries` VALUES ('208', 'SS', 'South Sudan');
+INSERT INTO `countries` VALUES ('209', 'ST', 'Sao Tome and Principe');
+INSERT INTO `countries` VALUES ('210', 'SV', 'El Salvador');
+INSERT INTO `countries` VALUES ('211', 'SX', 'Sint Maarten (Dutch part)');
+INSERT INTO `countries` VALUES ('212', 'SY', 'Syria');
+INSERT INTO `countries` VALUES ('213', 'SZ', 'Swaziland');
+INSERT INTO `countries` VALUES ('214', 'TC', 'Turks and Caicos Islands');
+INSERT INTO `countries` VALUES ('215', 'TD', 'Chad');
+INSERT INTO `countries` VALUES ('216', 'TF', 'French Southern Territories');
+INSERT INTO `countries` VALUES ('217', 'TG', 'Togo');
+INSERT INTO `countries` VALUES ('218', 'TH', 'Thailand');
+INSERT INTO `countries` VALUES ('219', 'TJ', 'Tajikistan');
+INSERT INTO `countries` VALUES ('220', 'TK', 'Tokelau');
+INSERT INTO `countries` VALUES ('221', 'TL', 'Timor-Leste');
+INSERT INTO `countries` VALUES ('222', 'TM', 'Turkmenistan');
+INSERT INTO `countries` VALUES ('223', 'TN', 'Tunisia');
+INSERT INTO `countries` VALUES ('224', 'TO', 'Tonga');
+INSERT INTO `countries` VALUES ('225', 'TR', 'Turkey');
+INSERT INTO `countries` VALUES ('226', 'TT', 'Trinidad and Tobago');
+INSERT INTO `countries` VALUES ('227', 'TV', 'Tuvalu');
+INSERT INTO `countries` VALUES ('228', 'TW', 'Taiwan');
+INSERT INTO `countries` VALUES ('229', 'TZ', 'Tanzania');
+INSERT INTO `countries` VALUES ('230', 'UA', 'Ukraine');
+INSERT INTO `countries` VALUES ('231', 'UG', 'Uganda');
+INSERT INTO `countries` VALUES ('232', 'UM', 'United States Minor Outlying Islands');
+INSERT INTO `countries` VALUES ('233', 'US', 'United States');
+INSERT INTO `countries` VALUES ('234', 'UY', 'Uruguay');
+INSERT INTO `countries` VALUES ('235', 'UZ', 'Uzbekistan');
+INSERT INTO `countries` VALUES ('236', 'VA', 'Vatican');
+INSERT INTO `countries` VALUES ('237', 'VC', 'Saint Vincent and the Grenadines');
+INSERT INTO `countries` VALUES ('238', 'VE', 'Venezuela');
+INSERT INTO `countries` VALUES ('239', 'VG', 'Virgin Islands (British)');
+INSERT INTO `countries` VALUES ('240', 'VI', 'Virgin Islands (U.S.)');
+INSERT INTO `countries` VALUES ('241', 'VN', 'Vietnam');
+INSERT INTO `countries` VALUES ('242', 'VU', 'Vanuatu');
+INSERT INTO `countries` VALUES ('243', 'WF', 'Wallis and Futuna Islands');
+INSERT INTO `countries` VALUES ('244', 'WS', 'Samoa');
+INSERT INTO `countries` VALUES ('245', 'YE', 'Yemen');
+INSERT INTO `countries` VALUES ('246', 'YT', 'Mayotte');
+INSERT INTO `countries` VALUES ('247', 'ZA', 'South Africa');
+INSERT INTO `countries` VALUES ('248', 'ZM', 'Zambia');
+INSERT INTO `countries` VALUES ('249', 'ZW', 'Zimbabwe');
 
 -- ----------------------------
 -- Table structure for migration
@@ -28,8 +293,82 @@ CREATE TABLE `migration` (
 -- ----------------------------
 -- Records of migration
 -- ----------------------------
-INSERT INTO `migration` VALUES ('m000000_000000_base', '1480344687');
-INSERT INTO `migration` VALUES ('m161128_141131_create_transaction_paypal', '1480344689');
+INSERT INTO `migration` VALUES ('m000000_000000_base', '1481657365');
+INSERT INTO `migration` VALUES ('m161128_141131_create_transaction_paypal', '1481657410');
+INSERT INTO `migration` VALUES ('m161207_115906_create_tb_orders_table', '1481657423');
+INSERT INTO `migration` VALUES ('m161207_125747_create_tb_user_address_table', '1481657427');
+INSERT INTO `migration` VALUES ('m161208_173038_create_shipping_service_table', '1481657428');
+
+-- ----------------------------
+-- Table structure for orders
+-- ----------------------------
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE `orders` (
+  `orderId` int(11) NOT NULL AUTO_INCREMENT,
+  `orderNumber` varchar(100) NOT NULL,
+  `orderKey` varchar(100) NOT NULL,
+  `orderDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `createDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modifyDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `paymentDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `shipByDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `orderStatus` varchar(20) NOT NULL,
+  `customerId` int(11) DEFAULT NULL,
+  `customerUsername` varchar(100) NOT NULL,
+  `customerEmail` varchar(100) NOT NULL,
+  PRIMARY KEY (`orderId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of orders
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for paypal_transactions
+-- ----------------------------
+DROP TABLE IF EXISTS `paypal_transactions`;
+CREATE TABLE `paypal_transactions` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `USER_ID` int(11) NOT NULL,
+  `PAYMENT_ID` varchar(100) NOT NULL,
+  `HASH` varchar(100) NOT NULL,
+  `COMPLETE` tinyint(1) NOT NULL DEFAULT '0',
+  `ORDER_CREATED` tinyint(1) NOT NULL DEFAULT '0',
+  `CREATE_TIME` datetime DEFAULT NULL,
+  `UPDATE_TIME` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ID`),
+  KEY `FK_USER_ID` (`USER_ID`),
+  CONSTRAINT `FK_USER_ID` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of paypal_transactions
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for shipping_service
+-- ----------------------------
+DROP TABLE IF EXISTS `shipping_service`;
+CREATE TABLE `shipping_service` (
+  `SERVICE_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `PAYPAL_TRANS_ID` int(11) NOT NULL,
+  `REQUESTED_SERVICE` varchar(100) NOT NULL,
+  `SERVICE_DESC` varchar(200) NOT NULL,
+  `CARRIER_CODE` varchar(150) DEFAULT NULL,
+  `SERVICE_CODE` varchar(200) NOT NULL,
+  `PACKAGE_CODE` varchar(200) DEFAULT NULL,
+  `ORDER_FINALIZED` tinyint(1) DEFAULT '0',
+  `CUSTOMER_NOTES` varchar(300) DEFAULT NULL,
+  `CREATED` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `UPDATED` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`SERVICE_ID`),
+  KEY `FK_PAYMENT_HASH` (`PAYPAL_TRANS_ID`),
+  CONSTRAINT `FK_PAYMENT_HASH` FOREIGN KEY (`PAYPAL_TRANS_ID`) REFERENCES `paypal_transactions` (`ID`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of shipping_service
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for tb_bid_activity
@@ -46,8 +385,6 @@ CREATE TABLE `tb_bid_activity` (
   UNIQUE KEY `PRODUCT_SKU` (`PRODUCT_SKU`),
   KEY `PRODUCT_ID` (`PRODUCT_ID`),
   KEY `LAST_BIDDING_USER` (`LAST_BIDDING_USER_ID`),
-  CONSTRAINT `tb_bid_activity_ibfk_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE,
-  CONSTRAINT `tb_bid_activity_ibfk_2` FOREIGN KEY (`PRODUCT_SKU`) REFERENCES `tb_products` (`SKU`) ON UPDATE CASCADE,
   CONSTRAINT `tb_bid_activity_ibfk_3` FOREIGN KEY (`LAST_BIDDING_USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -120,14 +457,25 @@ CREATE TABLE `tb_items_cart` (
   PRIMARY KEY (`CART_ID`),
   KEY `USER_ID` (`USER_ID`),
   KEY `PRODUCT_ID` (`PRODUCT_ID`),
-  CONSTRAINT `tb_items_cart_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE,
-  CONSTRAINT `tb_items_cart_ibfk_2` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
+  CONSTRAINT `tb_items_cart_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_items_cart
 -- ----------------------------
-INSERT INTO `tb_items_cart` VALUES ('53', '5', '85', '98.00', '0', '0', null, '2016-11-28 19:29:27', '2016-11-28 19:29:27', '2016-11-28 19:29:27');
+INSERT INTO `tb_items_cart` VALUES ('2', '5', '105988', '10.00', '1', '1', '7fd7245a01d8e447b9f6c8e30cdf6dfc', '2016-12-08 18:48:12', '2016-12-08 18:48:12', '2016-12-11 16:08:03');
+INSERT INTO `tb_items_cart` VALUES ('3', '5', '32249', '10.00', '1', '1', '7fd7245a01d8e447b9f6c8e30cdf6dfc', '2016-12-08 18:48:24', '2016-12-08 18:48:24', '2016-12-11 16:08:03');
+INSERT INTO `tb_items_cart` VALUES ('4', '5', '105330', '115.00', '0', '1', '3e47db48c8ef42677621805f9e20fca1', '2016-12-08 21:40:38', '2016-12-08 21:40:38', '2016-12-11 01:56:07');
+INSERT INTO `tb_items_cart` VALUES ('5', '5', '203', '149.00', '0', '1', '3e47db48c8ef42677621805f9e20fca1', '2016-12-08 21:40:48', '2016-12-08 21:40:48', '2016-12-11 01:56:07');
+INSERT INTO `tb_items_cart` VALUES ('6', '5', '73562', '45.99', '0', '1', '304e9b6b36d1c1497719e36f8f3b6702', '2016-12-11 17:25:01', '2016-12-11 17:25:01', '2016-12-11 17:25:14');
+INSERT INTO `tb_items_cart` VALUES ('7', '5', '401', '150.00', '0', '1', '304e9b6b36d1c1497719e36f8f3b6702', '2016-12-11 17:25:10', '2016-12-11 17:25:10', '2016-12-11 17:25:14');
+INSERT INTO `tb_items_cart` VALUES ('8', '5', '48087', '15.00', '0', '1', '04dc6c1121385ef8e477fda9d6c7c71a', '2016-12-11 17:39:31', '2016-12-11 17:39:31', '2016-12-11 17:39:52');
+INSERT INTO `tb_items_cart` VALUES ('9', '5', '29825', '15.00', '0', '1', '04dc6c1121385ef8e477fda9d6c7c71a', '2016-12-11 17:39:42', '2016-12-11 17:39:42', '2016-12-11 17:39:52');
+INSERT INTO `tb_items_cart` VALUES ('10', '5', '95530', '15.00', '0', '1', '1da7c21dbe5f7829093fa0efb6a0193b', '2016-12-11 18:10:25', '2016-12-11 18:10:25', '2016-12-11 18:10:35');
+INSERT INTO `tb_items_cart` VALUES ('11', '5', '125028', '15.00', '0', '1', 'e39a34a44b04977758edd0ac0b3c2e69', '2016-12-11 18:20:53', '2016-12-11 18:20:53', '2016-12-11 18:20:57');
+INSERT INTO `tb_items_cart` VALUES ('12', '5', '83566', '15.00', '0', '1', 'ff47160b2468e570e072537218401e1f', '2016-12-11 18:22:52', '2016-12-11 18:22:52', '2016-12-11 18:22:55');
+INSERT INTO `tb_items_cart` VALUES ('14', '5', '63271', '15.00', '0', '1', '1465a2e9300b98d2bc5ade4b331cb877', '2016-12-11 18:25:10', '2016-12-11 18:25:10', '2016-12-11 18:25:16');
+INSERT INTO `tb_items_cart` VALUES ('15', '5', '105175', '15.00', '0', '1', '8166a26567f14b08afc5c59547a6ce4a', '2016-12-11 18:28:35', '2016-12-11 18:28:35', '2016-12-11 18:28:39');
 
 -- ----------------------------
 -- Table structure for tb_items_wishlist
@@ -141,249 +489,12 @@ CREATE TABLE `tb_items_wishlist` (
   PRIMARY KEY (`WISHLIST_ID`),
   KEY `USER_ID` (`USER_ID`),
   KEY `PRODUCT_ID` (`PRODUCT_ID`),
-  CONSTRAINT `tb_items_wishlist_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE,
-  CONSTRAINT `tb_items_wishlist_ibfk_2` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE
+  CONSTRAINT `tb_items_wishlist_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_items_wishlist
 -- ----------------------------
-
--- ----------------------------
--- Table structure for tb_paypal_transactions
--- ----------------------------
-DROP TABLE IF EXISTS `tb_paypal_transactions`;
-CREATE TABLE `tb_paypal_transactions` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `USER_ID` int(11) NOT NULL,
-  `PAYMENT_ID` varchar(100) NOT NULL,
-  `HASH` varchar(100) NOT NULL,
-  `COMPLETE` tinyint(1) NOT NULL DEFAULT '0',
-  `CREATE_TIME` datetime DEFAULT NULL,
-  `UPDATE_TIME` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`ID`),
-  KEY `FK_USER_ID` (`USER_ID`),
-  CONSTRAINT `FK_USER_ID` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
-
--- ----------------------------
--- Records of tb_paypal_transactions
--- ----------------------------
-INSERT INTO `tb_paypal_transactions` VALUES ('2', '5', 'PAY-2JW30544U23175322LA6EKDI', '2a1583983c52190679b6ce4e82acd32e', '1', '2016-11-28 17:54:08', '2016-11-28 18:12:19');
-INSERT INTO `tb_paypal_transactions` VALUES ('3', '5', 'PAY-5LC243525R3621326LA6FAII', '4c03d1934545fca432a75e7129b1b5eb', '0', '2016-11-28 18:41:24', '2016-11-28 18:41:24');
-INSERT INTO `tb_paypal_transactions` VALUES ('4', '5', 'PAY-3K179654052688203LA6FM4I', '2365e55c1d2d47e40c00c641bb5f2271', '0', '2016-11-28 19:08:19', '2016-11-28 19:08:19');
-INSERT INTO `tb_paypal_transactions` VALUES ('5', '5', 'PAY-1KH48876D74179251LA6FM7Y', 'c89ffe70c354a5f3e1d8ea35b95b3ae6', '0', '2016-11-28 19:08:33', '2016-11-28 19:08:33');
-INSERT INTO `tb_paypal_transactions` VALUES ('6', '5', 'PAY-2SY197034H8247939LA6FNFQ', '3726bac502a0f1db3af66f5c543235d7', '0', '2016-11-28 19:08:57', '2016-11-28 19:08:57');
-INSERT INTO `tb_paypal_transactions` VALUES ('7', '5', 'PAY-3GP988747A3101531LA6FOCY', 'cfb2e2a8dbcc26645a41bf849234a14a', '0', '2016-11-28 19:10:54', '2016-11-28 19:10:54');
-INSERT INTO `tb_paypal_transactions` VALUES ('8', '5', 'PAY-58L62572GW3655525LA6FOMY', 'a4253c9332fb2241feee0d7d93ea8eaf', '0', '2016-11-28 19:11:34', '2016-11-28 19:11:34');
-
--- ----------------------------
--- Table structure for tb_products
--- ----------------------------
-DROP TABLE IF EXISTS `tb_products`;
-CREATE TABLE `tb_products` (
-  `PRODUCT_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Product Id',
-  `UID` varchar(100) DEFAULT NULL COMMENT 'Universal ID',
-  `SKU` varchar(255) NOT NULL COMMENT 'Stock Keeping Unit',
-  `PRODUCT_NAME` varchar(255) NOT NULL COMMENT 'Product Name',
-  `PRODUCT_DESCRIPTION` text,
-  `CATEGORIES` varchar(255) DEFAULT NULL COMMENT 'Categories',
-  `BRAND_NAME` varchar(255) NOT NULL,
-  `PRICE` decimal(10,2) NOT NULL,
-  `RETAIL_PRICE` float(10,2) NOT NULL,
-  `ALLOW_PURCHASES` int(1) NOT NULL DEFAULT '1' COMMENT 'Purchase Allowed',
-  `VISIBLE` int(1) NOT NULL DEFAULT '1' COMMENT 'Visible',
-  `AVAILABLE` int(1) DEFAULT '1',
-  `ALLOW_AUCTION` int(11) NOT NULL DEFAULT '1' COMMENT 'Allow Auction',
-  `TRACK_INVENTORY` varchar(255) DEFAULT NULL,
-  `CURRENT_STOCK_LEVEL` int(10) NOT NULL,
-  `MIN_STOCK_LEVEL` int(5) NOT NULL DEFAULT '1' COMMENT 'Minimum Stock Level',
-  `STOCK_LOCATION` varchar(255) DEFAULT NULL,
-  `STOCK_TYPE` varchar(255) DEFAULT NULL,
-  `DATE_ADDED` datetime DEFAULT NULL COMMENT 'Date Added',
-  `DATE_UPDATED` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Updated',
-  PRIMARY KEY (`PRODUCT_ID`),
-  UNIQUE KEY `tb_products_PRODUCT_ID_uindex` (`PRODUCT_ID`),
-  KEY `SKU` (`SKU`)
-) ENGINE=InnoDB AUTO_INCREMENT=175 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
-
--- ----------------------------
--- Records of tb_products
--- ----------------------------
-INSERT INTO `tb_products` VALUES ('1', 'M795N6ZONQW', 'NHQ-J272582011000', 'Hidalgo Blue Diamonique Stainless Steel Watch Bezel', 'Hidalgo Blue Diamonique Stainless Steel Watch Bezel', 'Watches/Fixed/Wristwatches', 'hidalgo', '96.00', '98.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:34');
-INSERT INTO `tb_products` VALUES ('2', 'M0LEKOEVD4W', 'NQH-J272582150000', 'Hidalgo Pink Diamonique Stainless Steel Watch Bezel', 'Hidalgo Pink Diamonique Stainless Steel Watch Bezel', 'Watches/Fixed/Wristwatches', 'hidalgo', '800.00', '899.45', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:34');
-INSERT INTO `tb_products` VALUES ('3', 'M1W4N47ON5P', 'NQH-J273636202543', 'Ecclissi Sterling Silver Round Dial Acetate Strap White Large Watch', 'Ecclissi Sterling Silver Round Dial Acetate Strap White Large Watch', 'Watches/Fixed/Wristwatches', 'hidalgo', '150.00', '450.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:34');
-INSERT INTO `tb_products` VALUES ('4', 'M71YN5GYNVQ', 'NQH-J261702000000', 'Dweck Diamonds Sterling S/2 Bracelets W/Figure 8 Charm', 'Dweck Diamonds Sterling S/2 Bracelets W/Figure 8 Charm', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '122.00', '366.00', '1', '1', '1', '1', 'by product', '20', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-25 20:37:06');
-INSERT INTO `tb_products` VALUES ('5', 'MLVQD8PRD4E', 'NQH-J267523273074', 'Novica Sterling Silver Polished Gemstone Nugget Average Bracelet', 'Novica Sterling Silver Polished Gemstone Nugget Average Bracelet', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '29.95', '30.00', '1', '1', '1', '1', 'by product', '26', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:34');
-INSERT INTO `tb_products` VALUES ('6', 'M128N0JPK57', 'NQH-J268946V75000', 'Ippocampo Sterling 8\" Smoky Quartz Gemstone Link Toggle Bracelet', 'Ippocampo Sterling 8\" Smoky Quartz Gemstone Link Toggle Bracelet', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '139.00', '417.00', '1', '1', '1', '1', 'by product', '15', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:34');
-INSERT INTO `tb_products` VALUES ('7', 'MYOMK185NP0', 'NQH-J271679273543', 'Erica Courtney Amethyst Gemstone & Diamonique Hinged Kim Large Cuff Sterling', 'Erica Courtney Amethyst Gemstone & Diamonique Hinged Kim Large Cuff Sterling', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '174.00', '522.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:34');
-INSERT INTO `tb_products` VALUES ('8', 'M879D297K12', 'NQH-J268381202000', 'Vicenzagold Large Textured Twist Design Round Bangle 14K Yellow Gold', 'Vicenzagold Large Textured Twist Design Round Bangle 14K Yellow Gold', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '216.00', '648.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:34');
-INSERT INTO `tb_products` VALUES ('9', 'MG3PDX60NLX', 'NQH-J142308000000', 'Francesca Visconti\'S Amore Cuff Bracelet Goldtone', 'Francesca Visconti\'S Amore Cuff Bracelet Goldtone', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '59.50', '179.00', '1', '1', '1', '1', 'by product', '81', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:34');
-INSERT INTO `tb_products` VALUES ('10', 'M0YGNJWVDJ7', 'NQH-J146242061668', 'Spin By Mitchell Gross Jeweled Cobweb Cuff Bracelet Silvertone Green Agate', 'Spin By Mitchell Gross Jeweled Cobweb Cuff Bracelet Silvertone Green Agate', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '26.00', '78.00', '1', '1', '1', '1', 'by product', '11', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:34');
-INSERT INTO `tb_products` VALUES ('11', 'MZ34K961K2Q', 'NQH-J146242Z32668', 'Spin By Mitchell Gross Jeweled Cobweb Cuff Bracelet Silvertone Brown Tigers Eye', 'Spin By Mitchell Gross Jeweled Cobweb Cuff Bracelet Silvertone Brown Tigers Eye', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '26.00', '78.00', '1', '1', '1', '1', 'by product', '11', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:34');
-INSERT INTO `tb_products` VALUES ('12', 'M2JRKY3JNEY', 'NQH-J149533012000', 'Fashionable Foil Colorful Hinged Bangle Bracelet Black Silvertone', 'Fashionable Foil Colorful Hinged Bangle Bracelet Black Silvertone', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '19.75', '100.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:34');
-INSERT INTO `tb_products` VALUES ('13', 'MRWGNMZ0DE0', 'NQH-J149810G84000', 'Logo By Lori Goldstein Faceted Stone Stretch Bracelet Gunmetal Golden Brown', 'Logo By Lori Goldstein Faceted Stone Stretch Bracelet Gunmetal Golden Brown', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '38.00', '114.00', '1', '1', '1', '1', 'by product', '11', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('14', 'MG3PK313NQM', 'NQH-J149874848000', 'Susan Graver Polished & Textured Design Stretch Bracelet Two-Tone', 'Susan Graver Polished & Textured Design Stretch Bracelet Two-Tone', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '29.75', '89.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('15', 'M4OJNWZ2NQ1', 'NQH-J152527154000', 'Isaac Mizrahi Live! Multi-Charm Bracelet Purple Goldtone', 'Isaac Mizrahi Live! Multi-Charm Bracelet Purple Goldtone', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '43.50', '131.00', '1', '1', '1', '1', 'by product', '11', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('16', 'MR9ZK737D63', 'NQH-J152745848000', 'Joan Rivers Jeweled Stretch Bracelet Gunmetal Jeweltone', 'Joan Rivers Jeweled Stretch Bracelet Gunmetal Jeweltone', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '44.00', '132.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('17', 'M56EDGJED3J', 'NQH-J155009848000', 'Joan Rivers Multiple Hearts Charm Stretch Bracelet Burnished Goldtone', 'Joan Rivers Multiple Hearts Charm Stretch Bracelet Burnished Goldtone', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '34.50', '104.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('18', 'MPVXNZRRDOM', 'NQH-J155099680593', 'Isaac Mizrahi Live! Polished Leaf & Oval Stone Link Bracelet 7\" Silvertone/Clear', 'Isaac Mizrahi Live! Polished Leaf & Oval Stone Link Bracelet 7\" Silvertone/Clear', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '59.50', '179.00', '1', '1', '1', '1', 'by product', '23', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('19', 'MRM5DEVPNX4', 'NQH-J155863680074', 'Melania Hammered & Crystal Hinged Bangle Bracelet Silvertone Average', 'Melania Hammered & Crystal Hinged Bangle Bracelet Silvertone Average', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '79.00', '237.00', '1', '1', '1', '1', 'by product', '11', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('20', 'ME42DPR0N7W', 'NQH-J157199000074', 'Kenneth Jay Lane\'S Black & White Snake Bangle Bracelet Average', 'Kenneth Jay Lane\'S Black & White Snake Bangle Bracelet Average', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '135.00', '405.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('21', 'M3GLDRZMNW4', 'NQH-J158331000000', 'Tri-Color Bold Elongated Link Stretch Bracelet', 'Tri-Color Bold Elongated Link Stretch Bracelet', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '24.50', '74.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('22', 'M8GMDQG8NO1', 'NQH-J261619000074', 'Andy Warhol By Rlm Studio Celestial Brass Bangle Average', 'Andy Warhol By Rlm Studio Celestial Brass Bangle Average', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '99.00', '297.00', '1', '1', '1', '1', 'by product', '4', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('23', 'MVY6DVGODXO', 'NQH-J261947848074', 'Joan Rivers Beaded Brilliance Stretch Bracelet Black/Clear Average', 'Joan Rivers Beaded Brilliance Stretch Bracelet Black/Clear Average', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '49.50', '149.00', '1', '1', '1', '1', 'by product', '21', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('24', 'M795N6JOKQW', 'NQH-J266309150000', 'Joan Rivers Vintage Floral Stretch Bracelet Pink', 'Joan Rivers Vintage Floral Stretch Bracelet Pink', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '59.50', '179.00', '1', '1', '1', '1', 'by product', '8', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('25', 'M0LEKOPVN4W', 'NQH-J267422012000', 'Reversible Goldtone Black Enamel Stretch Bracelet', 'Reversible Goldtone Black Enamel Stretch Bracelet', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '49.50', '149.00', '1', '1', '1', '1', 'by product', '29', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('26', 'M1W4N40OK5P', 'NQH-J267422202000', 'Reversible Antiqued Rosetone White Enamel Stretch Bracelet', 'Reversible Antiqued Rosetone White Enamel Stretch Bracelet', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '49.50', '149.00', '1', '1', '1', '1', 'by product', '11', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('27', 'M194DLGQK85', 'NQH-J268730000625', 'Susan Graver Two-Tone Rope Design Hinged Bangle', 'Susan Graver Two-Tone Rope Design Hinged Bangle', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '24.75', '74.00', '1', '1', '1', '1', 'by product', '26', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('28', 'M71YN5JYNVQ', 'NQH-J270038000000', 'Lee Sands Laminated Crackle Shell Stretch Bracelet', 'Lee Sands Laminated Crackle Shell Stretch Bracelet', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '23.00', '69.00', '1', '1', '1', '1', 'by product', '25', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('29', 'MLVQD89RK4E', 'NQH-J270196848000', 'Joan Rivers Status Link Hammered Stretch Bracelet', 'Joan Rivers Status Link Hammered Stretch Bracelet', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '59.50', '179.00', '1', '1', '1', '1', 'by product', '21', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('30', 'M128N04PD57', 'NQH-J270200061000', 'Joan Rivers Hammered Bezel & Green Stone Stretch Bracelet', 'Joan Rivers Hammered Bezel & Green Stone Stretch Bracelet', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '39.50', '119.00', '1', '1', '1', '1', 'by product', '16', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('31', 'MYOMK145KP0', 'NQH-J271446680000', 'Joan Rivers Silvertone Set Of 3 Classic Textured Bead Bracelets', 'Joan Rivers Silvertone Set Of 3 Classic Textured Bead Bracelets', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '36.50', '110.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('32', 'M879D247N12', 'NQH-J271847180074', 'Susan Graver Silvertone Set Of 3 Acrylic Average Bangles With Crystal Accent', 'Susan Graver Silvertone Set Of 3 Acrylic Average Bangles With Crystal Accent', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '32.50', '98.00', '1', '1', '1', '1', 'by product', '3', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('33', 'MG3PDXE0NLX', 'NQH-J272318061000', 'Rare Joan Rivers Gunmetal Green Fantasy Fashion Stretch Bracelet', 'Rare Joan Rivers Gunmetal Green Fantasy Fashion Stretch Bracelet', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '45.00', '135.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('34', 'M0YGNJOVKJ7', 'NQH-J272543000000', 'Bronzo Italia Large Bold Polished Wrap Design Cuff Bracelet', 'Bronzo Italia Large Bold Polished Wrap Design Cuff Bracelet', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '146.00', '438.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('35', 'MZ34K991K2Q', 'NQH-J272583000074', 'Multi- Row Gunmetal & Crystal Concave Disc Average Bracelet', 'Multi- Row Gunmetal & Crystal Concave Disc Average Bracelet', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '29.75', '89.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('36', 'M2JRKYPJKEY', 'NQH-J272583000543', 'Multi- Row Gunmetal & Crystal Concave Disc Large Bracelet', 'Multi- Row Gunmetal & Crystal Concave Disc Large Bracelet', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '29.75', '89.00', '1', '1', '1', '1', 'by product', '2', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('37', 'MRWGNMJ0NE0', 'NQH-J273993012000', 'Kenneth Jay Lane Pave Link Stretch Black Bead Bracelet', 'Kenneth Jay Lane Pave Link Stretch Black Bead Bracelet', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '39.00', '117.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('38', 'MG3PK373NQM', 'NQH-J274599000000', 'Tri-Color Bold Elongated Link Stretch Bracelet', 'Tri-Color Bold Elongated Link Stretch Bracelet', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '24.50', '74.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('39', 'M4OJNWX2DQ1', 'NQH-J274611848000', 'Huetopia Honeycomb Gemstone Bead Bracelet Crystal Quartz', 'Huetopia Honeycomb Gemstone Bead Bracelet Crystal Quartz', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '45.50', '137.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('40', 'MR9ZK7Z7D63', 'NQH-J275927013000', 'Kjl Woven Chain Simulated Pearl Bracelet Brown', 'Kjl Woven Chain Simulated Pearl Bracelet Brown', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '39.50', '119.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('41', 'M56EDGQEK3J', '22016-J277989000000', 'Bronzo Italia Large Triple Row Curb Link Round Bangle', 'Bronzo Italia Large Triple Row Curb Link Round Bangle', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '172.00', '516.00', '1', '1', '1', '1', 'by product', '82', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('42', 'MPVXNZJRKOM', 'NQH-J278075848000', 'Lee Sands Shell Print Stretch Bracelet White/Brown', 'Lee Sands Shell Print Stretch Bracelet White/Brown', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '28.50', '86.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('43', 'MRM5DEPPNX4', 'NQH-J281709000074', 'Bronzo Italia 1.50 Ct Tw Black Spinel Foldover Clasp Hinged Bangle Average', 'Bronzo Italia 1.50 Ct Tw Black Spinel Foldover Clasp Hinged Bangle Average', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '129.00', '387.00', '1', '1', '1', '1', 'by product', '2', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('44', 'ME42DP10N7W', 'NQH-J287256182074', 'Steel By Design Crystal Horizontal Cross Cable Bracelet Stainless Average', 'Steel By Design Crystal Horizontal Cross Cable Bracelet Stainless Average', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '29.75', '89.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('45', 'M3GLDR9MNW4', 'NQH-J287256987074', 'Steel By Design Crystal Horizontal Cross Cable Bracelet Chocolate Average', 'Steel By Design Crystal Horizontal Cross Cable Bracelet Chocolate Average', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '29.75', '89.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('46', 'M8GMDQ98DO1', 'NQH-J289729000543', 'Steel By Design Set Of Three Polished And Crystal Cable Bracelets Large', 'Steel By Design Set Of Three Polished And Crystal Cable Bracelets Large', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '43.75', '131.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('47', 'MVY6DVXONXO', 'NQH-J289729000625', 'Steel By Design Set Of Three Polished And Crystal Cable Bracelets Small', 'Steel By Design Set Of Three Polished And Crystal Cable Bracelets Small', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '43.75', '131.45', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('48', 'M795N6GOKQW', 'NQH-J293410S69625', 'Stainless Steel Braided Hinged Bangle With Pavecrystal Bead Goldtone Small', 'Stainless Steel Braided Hinged Bangle With Pavecrystal Bead Goldtone Small', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '37.50', '113.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('49', 'M0LEKO2VN4W', 'NQH-J157215000074', 'Large Stainless Steel Simulated Diamond Link Average Magnetic Clasp Bracelet', 'Large Stainless Steel Simulated Diamond Link Average Magnetic Clasp Bracelet', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '29.75', '89.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('50', 'M1W4N42OD5P', 'NQH-J282421180351', '0.70 ct Tw Black Spinel Pavestatus Sterling Band Ring Silver Size 5', '0.70 ct Tw Black Spinel Pavestatus Sterling Band Ring Silver Size 5', 'Top Selling/Jewelry/Ring', 'hidalgo', '79.50', '239.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:35');
-INSERT INTO `tb_products` VALUES ('51', 'M194DLYQK85', 'NQH-J282421180352', '0.70 ct Tw Black Spinel Pavestatus Sterling Band Ring Silver Size 6', '0.70 ct Tw Black Spinel Pavestatus Sterling Band Ring Silver Size 6', 'Top Selling/Jewelry/Ring', 'hidalgo', '79.50', '239.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('52', 'M71YN57YKVQ', 'I-CMR15830AM', '1.00 ct Oval Brazilian Amethyst And Diamond Accent Ring 14K Yellow Gold', '1.00 ct Oval Brazilian Amethyst And Diamond Accent Ring 14K Yellow Gold', 'Top Selling/Jewelry/Ring', 'hidalgo', '254.00', '762.00', '1', '1', '1', '1', 'by product', '101', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('53', 'MLVQD8ERK4E', 'NQH-J279193000352', '3.10 ct Tw Black Spinel Pavewave Sterling Ring Size 6', '3.10 ct Tw Black Spinel Pavewave Sterling Ring Size 6', 'Top Selling/Jewelry/Ring', 'hidalgo', '112.00', '336.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('54', 'M128N09PN57', 'NQH-J282026000362', '3.25 ct Tw Black Spinel Paveround Wrapped Sterling Ring Size 11', '3.25 ct Tw Black Spinel Paveround Wrapped Sterling Ring Size 11', 'Top Selling/Jewelry/Ring', 'hidalgo', '199.50', '599.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('55', 'MYOMK1L5KP0', 'NQH-J282026000352', '3.25 ct Tw Black Spinel Paveround Wrapped Sterling Ring Size 6', '3.25 ct Tw Black Spinel Paveround Wrapped Sterling Ring Size 6', 'Top Selling/Jewelry/Ring', 'hidalgo', '199.50', '599.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('56', 'M879D2L7N12', 'NQH-J282026000358', '3.25 ct Tw Black Spinel Paveround Wrapped Sterling Ring Size 9', '3.25 ct Tw Black Spinel Paveround Wrapped Sterling Ring Size 9', 'Top Selling/Jewelry/Ring', 'hidalgo', '199.50', '599.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('57', 'MG3PDXX0DLX', 'NQH-J283124000351', 'American West Sterling/Brass White Magnesite Framed Scroll Ring Size 5', 'American West Sterling/Brass White Magnesite Framed Scroll Ring Size 5', 'Top Selling/Jewelry/Ring', 'hidalgo', '69.00', '207.00', '1', '1', '1', '1', 'by product', '4', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('58', 'M0YGNJ2VNJ7', 'NQH-J152042000351', 'Connemara Marble Marquise Sterling Silver Cocktail Ring W/ White Topaz Size 5', 'Connemara Marble Marquise Sterling Silver Cocktail Ring W/ White Topaz Size 5', 'Top Selling/Jewelry/Ring', 'hidalgo', '93.50', '281.00', '1', '1', '1', '1', 'by product', '21', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('59', 'MZ34K9P1D2Q', 'NQH-J158934849351', 'Dweck Diamonds Sterling Gemstone Florette Stack Ring Size 5 Rhodolite', 'Dweck Diamonds Sterling Gemstone Florette Stack Ring Size 5 Rhodolite', 'Top Selling/Jewelry/Ring', 'hidalgo', '93.50', '281.00', '1', '1', '1', '1', 'by product', '6', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('60', 'M2JRKYXJDEY', 'NQH-J158934273352', 'Dweck Diamonds Sterling Gemstone Florette Stack Ring Size 6 Amethyst', 'Dweck Diamonds Sterling Gemstone Florette Stack Ring Size 6 Amethyst', 'Top Selling/Jewelry/Ring', 'hidalgo', '93.50', '281.00', '1', '1', '1', '1', 'by product', '12', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('61', 'MRWGNM10KE0', 'NQH-J158934849352', 'Dweck Diamonds Sterling Gemstone Florette Stack Ring Size 6 Rhodolite', 'Dweck Diamonds Sterling Gemstone Florette Stack Ring Size 6 Rhodolite', 'Top Selling/Jewelry/Ring', 'hidalgo', '93.50', '281.00', '1', '1', '1', '1', 'by product', '21', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('62', 'MG3PK3Z3KQM', 'NQH-J277268000351', 'John Atencio Sterling White Topaz Ring Size 5', 'John Atencio Sterling White Topaz Ring Size 5', 'Top Selling/Jewelry/Ring', 'hidalgo', '118.00', '354.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('63', 'M4OJNWM2KQ1', 'NQH-J265828000351', 'Rlm Studio Sterling & Brass Purple Agate Bezel Set Heart Ring Size 5', 'Rlm Studio Sterling & Brass Purple Agate Bezel Set Heart Ring Size 5', 'Top Selling/Jewelry/Ring', 'hidalgo', '147.00', '441.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('64', 'MR9ZK7Q7D63', 'NQH-J263161000352', 'Sandra Singh Artisan Crafted Sterling Rainbow Moonstone Ring Size 6', 'Sandra Singh Artisan Crafted Sterling Rainbow Moonstone Ring Size 6', 'Top Selling/Jewelry/Ring', 'hidalgo', '84.00', '252.00', '1', '1', '1', '1', 'by product', '9', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('65', 'M56EDG9EK3J', 'NQH-J278888171351', 'Vicenzasilver Sterling 1.00 ct Tw Black Spinel Hammered Ring Rose Size 5', 'Vicenzasilver Sterling 1.00 ct Tw Black Spinel Hammered Ring Rose Size 5', 'Top Selling/Jewelry/Ring', 'hidalgo', '132.50', '398.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('66', 'MPVXNZ8RKOM', 'NQH-J278888240351', 'Vicenzasilver Sterling 1.00 ct Tw Black Spinel Hammered Ring Yellow Size 5', 'Vicenzasilver Sterling 1.00 ct Tw Black Spinel Hammered Ring Yellow Size 5', 'Top Selling/Jewelry/Ring', 'hidalgo', '132.50', '398.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('67', 'MRM5DE4PKX4', 'NQH-J269025011000', 'Bold Oval Blue Drusy Quartz Sterling Omega Back Stud Earrings', 'Bold Oval Blue Drusy Quartz Sterling Omega Back Stud Earrings', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '119.00', '357.00', '1', '1', '1', '1', 'by product', '20', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('68', 'ME42DP00K7W', 'NQH-J269025150000', 'Bold Oval Pink Drusy Quartz Sterling Omega Back Stud Earrings', 'Bold Oval Pink Drusy Quartz Sterling Omega Back Stud Earrings', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '119.00', '357.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('69', 'M3GLDR2MKW4', 'NQH-J274573240000', 'Sterling Diamond Cut Triple Hoop Earrings Yellow', 'Sterling Diamond Cut Triple Hoop Earrings Yellow', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '50.00', '150.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('70', 'M8GMDQ18KO1', 'NQH-J144021052000', 'Joan Rivers Python Pattern Crystal Border Button Earrings Goldtone Fuchsia', 'Joan Rivers Python Pattern Crystal Border Button Earrings Goldtone Fuchsia', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '32.00', '96.00', '1', '1', '1', '1', 'by product', '5', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('71', 'MVY6DVWOKXO', 'NQH-J148169112453', 'Luxe Rachel Zoe Pave Crystals & Cabochon Drop Earrings Clip On Silvertone Blue', 'Luxe Rachel Zoe Pave Crystals & Cabochon Drop Earrings Clip On Silvertone Blue', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '64.50', '194.00', '1', '1', '1', '1', 'by product', '2', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('72', 'M795N6RODQW', 'NQH-J148169112581', 'Luxe Rachel Zoe Pave Crystals & Cabochon Drop Earrings Pierced Silvertone Blue', 'Luxe Rachel Zoe Pave Crystals & Cabochon Drop Earrings Pierced Silvertone Blue', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '64.50', '194.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('73', 'M0LEKOLVK4W', 'NQH-J149134011000', 'Kenneth Jay Lane\'S Fashion Guru Hoop Earrings Goldtone Blue', 'Kenneth Jay Lane\'S Fashion Guru Hoop Earrings Goldtone Blue', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '35.00', '105.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('74', 'M1W4N4EOK5P', 'NQH-J149134AB1000', 'Kenneth Jay Lane\'S Fashion Guru Hoop Earrings Goldtone Simulated Tortoise', 'Kenneth Jay Lane\'S Fashion Guru Hoop Earrings Goldtone Simulated Tortoise', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '35.00', '105.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('75', 'M194DLJQK85', 'NQH-J152965000000', 'Luxe Rachel Zoe Tiered Teardrop Chandelier Earrings Silvertone', 'Luxe Rachel Zoe Tiered Teardrop Chandelier Earrings Silvertone', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '74.70', '224.00', '1', '1', '1', '1', 'by product', '11', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('76', 'M71YN5PYNVQ', 'NQH-J155041000', 'Lee Sands Acacia Flower Inlay Lever Back Earrings Goldtone', 'Lee Sands Acacia Flower Inlay Lever Back Earrings Goldtone', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '19.50', '100.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('77', 'MLVQD8VRD4E', 'NQH-J155100680000', 'Isaac Mizrahi Live! Polished Leaf And Stone Drop Earrings Silvertone', 'Isaac Mizrahi Live! Polished Leaf And Stone Drop Earrings Silvertone', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '23.00', '69.00', '1', '1', '1', '1', 'by product', '11', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('78', 'M128N0OPD57', 'NQH-J155100S69000', 'Isaac Mizrahi Live! Polished Leaf And Stone Drop Earrings Goldtone', 'Isaac Mizrahi Live! Polished Leaf And Stone Drop Earrings Goldtone', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '23.00', '69.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('79', 'MYOMK1O5KP0', 'NQH-J155101680000', 'Isaac Mizrahi Live! Sparkling Pave & Simulated Pearl Earrings Silvertone', 'Isaac Mizrahi Live! Sparkling Pave & Simulated Pearl Earrings Silvertone', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '46.50', '140.00', '1', '1', '1', '1', 'by product', '11', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('80', 'M879D2G7D12', 'NQH-J155101S69000', 'Isaac Mizrahi Live! Sparkling Pave & Simulated Pearl Earrings Goldtone', 'Isaac Mizrahi Live! Sparkling Pave & Simulated Pearl Earrings Goldtone', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '46.50', '140.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('81', 'MG3PDX80KLX', 'NQH-J155315012000', 'Kenneth Jay Lane\'S Enamel Statement Hoop Earrings Goldtone Black', 'Kenneth Jay Lane\'S Enamel Statement Hoop Earrings Goldtone Black', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '29.50', '89.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('82', 'M0YGNJ1VKJ7', 'NQH-J155315202000', 'Kenneth Jay Lane\'S Enamel Statement Hoop Earrings Goldtone White', 'Kenneth Jay Lane\'S Enamel Statement Hoop Earrings Goldtone White', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '29.50', '89.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('83', 'MZ34K951D2Q', 'NQH-J156724M86000', 'Shoshanna Freeform Shape Hoop Earrings With Crystal Accents Gunmetal', 'Shoshanna Freeform Shape Hoop Earrings With Crystal Accents Gunmetal', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '24.76', '74.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('84', 'M2JRKY8JKEY', 'NQH-J157957S69000', 'Isaac Mizrahi Live! Stone Hoop Earrings Goldtone Purple', 'Isaac Mizrahi Live! Stone Hoop Earrings Goldtone Purple', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '31.50', '95.00', '1', '1', '1', '1', 'by product', '0', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('85', 'MRWGNMM0NE0', 'NQH-J260835M86581', 'Joan Rivers Shimmering Pave Ball Earrings Gunmetal Pierced', 'Joan Rivers Shimmering Pave Ball Earrings Gunmetal Pierced', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '32.50', '98.00', '1', '1', '1', '1', 'by product', '16', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('86', 'MG3PK3G3DQM', 'NQH-J260948012581', 'Joan Rivers Crystal Medallion Drop Earrings Black Pierced', 'Joan Rivers Crystal Medallion Drop Earrings Black Pierced', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '39.50', '119.00', '1', '1', '1', '1', 'by product', '18', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('87', 'M4OJNW92NQ1', '22016-J261322062000', 'Honora Potato Cultured Pearl & Diamond Beads 18K Gold Over Frontal Hoop Earrings', 'Honora Potato Cultured Pearl & Diamond Beads 18K Gold Over Frontal Hoop Earrings', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '35.50', '299.00', '1', '1', '1', '1', 'by product', '31', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('88', 'MR9ZK7R7K63', 'NQH-J263131680000', 'Wildlife By Heidi Klum Animal Instinct Hoop Earrings Silvertone', 'Wildlife By Heidi Klum Animal Instinct Hoop Earrings Silvertone', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '44.50', '134.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:36');
-INSERT INTO `tb_products` VALUES ('89', 'M56EDG7EN3J', 'NQH-J263318154581', 'Joan Rivers Simple Chic Pave Ball Drop Earrings Pierced Purple Silvertone', 'Joan Rivers Simple Chic Pave Ball Drop Earrings Pierced Purple Silvertone', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '39.50', '119.00', '1', '1', '1', '1', 'by product', '26', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('90', 'MPVXNZ0RNOM', 'NQH-J264354680000', 'Open Work Floral Design Drop Earrings By Vt Luxe Silvertone', 'Open Work Floral Design Drop Earrings By Vt Luxe Silvertone', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '55.00', '165.00', '1', '1', '1', '1', 'by product', '26', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('91', 'MRM5DEEPDX4', '22016-J267073848000', 'Wendy Williams Textured Hoop Earrings Rosetone', 'Wendy Williams Textured Hoop Earrings Rosetone', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '29.50', '89.00', '1', '1', '1', '1', 'by product', '4', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('92', 'ME42DPM0D7W', 'NQH-J267073S69000', 'Rope Style Textured Goldtone Hoop Earrings', 'Rope Style Textured Goldtone Hoop Earrings', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '29.50', '89.00', '1', '1', '1', '1', 'by product', '51', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('93', 'M56EDG77N3J', 'NQH-J268371027581', 'Rare Joan Rivers Goldtone Round Black Crystal On Stage Glamour Hoop Earrings', 'Rare Joan Rivers Goldtone Round Black Crystal On Stage Glamour Hoop Earrings', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '88.00', '264.00', '1', '1', '1', '1', 'by product', '26', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('94', 'MPVXNZ0ONOM', 'NQH-J269557013581', 'Joan Rivers Brown Faceted Marquise Lever Back Drop Earrings', 'Joan Rivers Brown Faceted Marquise Lever Back Drop Earrings', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '19.75', '100.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('95', 'MRM5DEE5DX4', 'NQH-J269557027581', 'Joan Rivers Clear Faceted Marquise Lever Back Drop Earrings', 'Joan Rivers Clear Faceted Marquise Lever Back Drop Earrings', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '19.75', '100.00', '1', '1', '1', '1', 'by product', '69', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('96', 'ME42DPMJD7W', '22016-J271636000581', 'Kenneth Jay Lane Goldtone Regal Cabochon Pierced Drop Earrings', 'Kenneth Jay Lane Goldtone Regal Cabochon Pierced Drop Earrings', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '49.50', '149.00', '1', '1', '1', '1', 'by product', '40', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('97', 'M3GLDRM4KW4', '22016-J273263000453', 'Lee Sands Labradorite & Cultured Pearl Clip On Dangle Earrings', 'Lee Sands Labradorite & Cultured Pearl Clip On Dangle Earrings', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '23.00', '69.00', '1', '1', '1', '1', 'by product', '28', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('98', 'M8GMDQM5NO1', 'NQH-J274405S69000', 'Joan Rivers Instant Style Filigree Drop Earrings', 'Joan Rivers Instant Style Filigree Drop Earrings', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '36.50', '110.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('99', 'MVY6DV0ZKXO', '22016-J279224130000', 'Isaac Mizrahi Live! Colorful Open Curb Link Hoop Earrings Navy', 'Isaac Mizrahi Live! Colorful Open Curb Link Hoop Earrings Navy', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '16.00', '100.00', '1', '1', '1', '1', 'by product', '16', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('100', 'M795N6PMKQW', 'NQH-J279224CA9000', 'Isaac Mizrahi Live! Colorful Open Curb Link Hoop Earrings Candy Pink', 'Isaac Mizrahi Live! Colorful Open Curb Link Hoop Earrings Candy Pink', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '16.00', '100.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('101', 'M0LEKO73K4W', '22016-J280761000000', 'Nolan Miller\'S Exotic Chandelier Earrings', 'Nolan Miller\'S Exotic Chandelier Earrings', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '58.50', '176.00', '1', '1', '1', '1', 'by product', '40', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('102', 'M1W4N4Z6K5P', 'NQH-J280763AB1000', 'Kjl Fashion Guru Hoop Earrings Tortoise', 'Kjl Fashion Guru Hoop Earrings Tortoise', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '35.00', '105.00', '1', '1', '1', '1', 'by product', '3', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('103', 'M194DLMEK85', '22016-J32074848000', 'Joan Rivers Square Silhouette Resin Hoop Earrings Clear W/Gold', 'Joan Rivers Square Silhouette Resin Hoop Earrings Clear W/Gold', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '27.75', '83.00', '1', '1', '1', '1', 'by product', '96', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('104', 'M71YN5E5DVQ', 'NQH-J148918I28000', 'Joan Rivers Animal Print Silk Flower Pin Silvertone', 'Joan Rivers Animal Print Silk Flower Pin Silvertone', 'Fixed/Jewelry/Fashion Jewelry/Pins & Brooches', 'hidalgo', '29.75', '89.00', '1', '1', '1', '1', 'by product', '2', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('105', 'MLVQD8QZK4E', 'NQH-J152913011000', 'Joan Rivers All That Glitters Flower Pin Blue Silvertone', 'Joan Rivers All That Glitters Flower Pin Blue Silvertone', 'Fixed/Jewelry/Fashion Jewelry/Pins & Brooches', 'hidalgo', '39.50', '119.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('106', 'M128N01ZD57', 'NQH-J155010030000', 'Joan Rivers Trend Setting Flower Pin Denim Silvertone', 'Joan Rivers Trend Setting Flower Pin Denim Silvertone', 'Fixed/Jewelry/Fashion Jewelry/Pins & Brooches', 'hidalgo', '29.75', '89.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('107', 'MYOMK1M7NP0', 'NQH-J157984011000', 'Joan Rivers Floral Mum Flower Pin Blue', 'Joan Rivers Floral Mum Flower Pin Blue', 'Fixed/Jewelry/Fashion Jewelry/Pins & Brooches', 'hidalgo', '39.00', '117.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('108', 'M879D2XON12', 'NQH-J157984013000', 'Joan Rivers Floral Mum Flower Pin Brown', 'Joan Rivers Floral Mum Flower Pin Brown', 'Fixed/Jewelry/Fashion Jewelry/Pins & Brooches', 'hidalgo', '39.00', '117.00', '1', '1', '1', '1', 'by product', '1', '1', 'USA', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('109', 'M1W4N4R6N5P', 'I-CSWB830', 'Ladies White Gold Finish 1 Row Genuine Diamond Tennis Bracelet 1.0Ct', 'Ladies White Gold Finish 1 Row Genuine Diamond Tennis Bracelet 1.0Ct', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '248.99', '747.00', '1', '1', '1', '1', 'by product', '98', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('110', 'M194DLWEN85', 'F-39-716-13-YG14K', 'Estate 5.00Ct Round Diamond 14K Yellow Gold Tennis Bracelet G-H & Si-I Certified', 'Estate 5.00Ct Round Diamond 14K Yellow Gold Tennis Bracelet G-H & Si-I Certified', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '4009.00', '12027.00', '1', '1', '1', '1', 'by product', '0', '1', '', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('111', 'M71YN5Q5DVQ', 'F-37-565-25-YG14K', 'Estate 1.25 Ct Round Natural Diamond 14K Yellow Gold Tennis Bracelet Certified', 'Estate 1.25 Ct Round Natural Diamond 14K Yellow Gold Tennis Bracelet Certified', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '1220.00', '3660.00', '1', '1', '1', '1', 'by product', '0', '1', '', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('112', 'MLVQD8OZN4E', '22016-J262934-GT-E', 'QVC Joan Rivers Chic Classic Gold Tone Brown 18\" Necklace & Pierced Earrings Set', 'QVC Joan Rivers Chic Classic Gold Tone Brown 18\" Necklace & Pierced Earrings Set', 'Fixed/Jewelry/Fashion Jewelry/Sets', 'hidalgo', '64.99', '150.00', '1', '1', '1', '1', 'by product', '2', '1', '', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('113', 'M128N0GZK57', 'QH-J146059-silvertone-32-green-set', 'QVC Garold Miller Silver Tone Green Graduated Faceted Bead 32\" Necklace Earrings', 'QVC Garold Miller Silver Tone Green Graduated Faceted Bead 32\" Necklace Earrings', 'Fixed/Jewelry/Fashion Jewelry/Sets', 'hidalgo', '29.99', '90.00', '1', '1', '1', '1', 'by product', '0', '1', '', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('114', 'MYOMK1Z7DP0', '22016-J25877-silvertone-14.5-clear', 'QVC Silver Tone 3 Str& Mini Pave Heart Necklace & Earring Wardrobe', 'QVC Silver Tone 3 Str& Mini Pave Heart Necklace & Earring Wardrobe', 'Fixed/Jewelry/Fashion Jewelry/Sets', 'hidalgo', '29.99', '90.00', '1', '1', '1', '1', 'by product', '1', '1', '', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('115', 'M879D2EOK12', 'I-CMWB2099-YSL', '6.10 CTW Blue Sapphire & Genuine Diamond Bracelet 10K Yellow Gold Finish', '6.10 CTW Blue Sapphire & Genuine Diamond Bracelet 10K Yellow Gold Finish', 'Top Selling/Jewelry/Bracelet', 'hidalgo', '384.99', '750.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('116', 'MG3PDXJ5KLX', 'M-12549-WG10K', 'D Vvs1 1 Ct Solitaire & 0.33Ct Micropave Halo Stud Earrings Bridal Jewelry New', 'D Vvs1 1 Ct Solitaire & 0.33Ct Micropave Halo Stud Earrings Bridal Jewelry New', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '149.99', '1800.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('117', 'M0YGNJXQKJ7', 'M-160892265630-WG14K', '1/4 Ct Round Cut 14K White Gold Diamond Stud Earrings', '1/4 Ct Round Cut 14K White Gold Diamond Stud Earrings', 'Fixed/Jewelry/Fashion Jewelry/Earrings', 'hidalgo', '244.00', '732.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('118', 'MZ34K90RK2Q', 'I-V-6-STUD-WSL', 'Men\'S/Women\'S Black & White Natural Diamond White Gold Finish Stud Earrings', 'Men\'S/Women\'S Black & White Natural Diamond White Gold Finish Stud Earrings', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '24.99', '75.00', '1', '1', '1', '1', 'by variation', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('119', 'M2JRKY7YDEY', 'C-JSGE311-YSL', '18K Yellow Gold Over Sterling Silver 0.05Ct Natural Diomond Squre Earrings', '18K Yellow Gold Over Sterling Silver 0.05Ct Natural Diomond Squre Earrings', 'Auction/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '29.99', '90.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('120', 'MRWGNMYGNE0', 'I-CSRGE1865BL-RSL', '0.05Ct Sterling 18K Rose Gold Over Sterling Black Diamond Stud Earrings $199', '0.05Ct Sterling 18K Rose Gold Over Sterling Black Diamond Stud Earrings $199', 'Auction/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '39.99', '120.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('121', 'M4OJNWJXKQ1', 'I-JSRGE1041-RSL-AFSJ', 'Sterling Silver 14K Rose Gold Plated White Diamond Stud Earrings', 'Sterling Silver 14K Rose Gold Plated White Diamond Stud Earrings', 'Auction/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '29.99', '90.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('122', 'MR9ZK74QK63', 'C-MSE27-WSL', '10K White Gold Over 3Ct Round Cut D/Vvs1 Stud Earrings', '10K White Gold Over 3Ct Round Cut D/Vvs1 Stud Earrings', 'Auction/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '39.99', '120.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('123', 'M56EDGM7D3J', 'C-MSGE200-WSL', '18Kt Gold Plated Sterling Silver 0.02Ct Natural Diomond Stud Earrings Nr', '18Kt Gold Plated Sterling Silver 0.02Ct Natural Diomond Stud Earrings Nr', 'Auction/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '29.99', '90.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('124', 'MRM5DEX5KX4', 'C-AR0172-7-YSL', 'Yellow Gold Over Sterling Silver Natural Diamond Round Stud Earrings 483U', 'Yellow Gold Over Sterling Silver Natural Diamond Round Stud Earrings 483U', 'Auction/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '29.99', '90.00', '1', '1', '1', '1', 'by product', '1', '1', '', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('125', 'ME42DPJJD7W', 'I-CSRGE1866BL-BLACK-RSL', '0.05Ct Sterling Silver 14K Rose Gold Plated Black Diamond Drop Earrings 236Q', '0.05Ct Sterling Silver 14K Rose Gold Plated Black Diamond Drop Earrings 236Q', 'Auction/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '39.99', '150.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('126', 'M3GLDRW4NW4', 'M-201336082649-YG14K', '0.8 Ct Rd Solitaire Stud Earrings Martini Style Solid 14K Yellow Gold Screw Back', '0.8 Ct Rd Solitaire Stud Earrings Martini Style Solid 14K Yellow Gold Screw Back', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '77.72', '233.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:37');
-INSERT INTO `tb_products` VALUES ('127', 'M8GMDQJ5NO1', 'I-CZ-CSE3263-H966516-WG10K', 'New Vvs1 Blue Pretty Earrings 1/4 Carat Tw Round-Cut 10K White Gold Gorgeous', 'New Vvs1 Blue Pretty Earrings 1/4 Carat Tw Round-Cut 10K White Gold Gorgeous', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '174.99', '525.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('128', 'MVY6DVJZDXO', 'I-CME1865BL-RG9K', 'Womens Girls 1/20Ct 9K Rose Gold Real Black Diamond Heart Stud Earrings', 'Womens Girls 1/20Ct 9K Rose Gold Real Black Diamond Heart Stud Earrings', 'Top Selling/Jewelry/Earrings', 'hidalgo', '109.99', '270.00', '1', '1', '1', '1', 'by product', '98', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('129', 'M795N6OMDQW', 'I-CZ-CME3091-WG10K', 'D/Vvs1 10K Solid White Gold 1.95Ct Flower Stud Earrings ', 'D/Vvs1 10K Solid White Gold 1.95Ct Flower Stud Earrings ', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '189.99', '570.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('130', 'M0LEKOJ3N4W', 'QH-J09283', 'D/Vvs1 Round Cut In & Out Side Hoop Earrings 1.10Cttw 14K White Gold Finish', 'D/Vvs1 Round Cut In & Out Side Hoop Earrings 1.10Cttw 14K White Gold Finish', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '85.81', '257.00', '1', '1', '1', '1', 'by product', '0', '1', '', '1', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('131', 'M1W4N4V6D5P', 'C-JSRGE1039BL-RSL', '14K Rose Gold Finish Silver Black Diamond Stud Earrings', '14K Rose Gold Finish Silver Black Diamond Stud Earrings', 'Auction/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '29.99', '90.00', '1', '1', '1', '1', 'by product', '98', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('132', 'M71YN565DVQ', 'I-JSE413-WSL', '.925 Sterling Silver 0.14Ct White Diamond Stud Earrings Lowest On Ebay', '.925 Sterling Silver 0.14Ct White Diamond Stud Earrings Lowest On Ebay', 'Auction/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '39.99', '120.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('133', 'MLVQD8LZN4E', 'I-CMEI3421-CZ-WG10K', 'Solid 10K White Gold 3.12 ct Princess Cut D/Vvs1 Lever Back Dangle Earrings', 'Solid 10K White Gold 3.12 ct Princess Cut D/Vvs1 Lever Back Dangle Earrings', 'Top Selling/Jewelry/Earrings', 'hidalgo', '199.99', '300.00', '1', '1', '1', '1', 'by product', '97', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('134', 'MYOMK1P7NP0', 'I-CSRGE1865BL-RSL-AFSJ', 'Female Girls 1/20Ct 14K Rose Gold Finish Real Black Diamond Heart Stud Earrings', 'Female Girls 1/20Ct 14K Rose Gold Finish Real Black Diamond Heart Stud Earrings', 'Top Selling/Jewelry/Earrings', 'hidalgo', '24.99', '75.00', '1', '1', '1', '1', 'by product', '97', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('135', 'M879D2RON12', 'C-CME3293-WG14K', '1.60Ct Hoop Earrings I1/G In & Out Side Diamond White Gold Appraisal 360Â° Video', '1.60Ct Hoop Earrings I1/G In & Out Side Diamond White Gold Appraisal 360Â° Video', 'Top Selling/Jewelry/Earrings', 'hidalgo', '631.99', '1927.00', '1', '1', '1', '1', 'by product', '94', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('136', 'MG3PDX95NLX', 'I-CSE1982BL-WSL', '0.68 Ct Black Diamond Round Stud Earrings In Sterling Silver', '0.68 Ct Black Diamond Round Stud Earrings In Sterling Silver', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '161.49', '484.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('137', 'M0YGNJZQDJ7', 'I-JME312-YG10K', 'Mens Ladies 10K Yellow Gold Designer Square Diamond Earrings Studs 0.15 Ct', 'Mens Ladies 10K Yellow Gold Designer Square Diamond Earrings Studs 0.15 Ct', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '139.99', '420.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('138', 'MZ34K9ORN2Q', 'M-201211010007-WG14K', 'White D/VVS1 Halo Solitaire Stud Bridal Earrings Jackets 14K White Gold', 'White D/VVS1 Halo Solitaire Stud Bridal Earrings Jackets 14K White Gold', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '336.29', '958.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('139', 'MRWGNMRGKE0', 'M-171726019512-WG14K', '4 Ct Round Cut Solitaire Stud Earrings In 14K Real White Gold Screw Back', '4 Ct Round Cut Solitaire Stud Earrings In 14K Real White Gold Screw Back', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '93.76', '281.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('140', 'MG3PK3E1KQM', 'I-CSE1986BW-WSL', '0.65 Ct Black & White Diamond Square Stud Earrings In Sterling', '0.65 Ct Black & White Diamond Square Stud Earrings In Sterling', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '199.99', '712.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('141', 'M4OJNW1XDQ1', 'M-251860783457-WG14K', '2.00 Ct Brilliant Round Cut Basket Screwback Earrings Real 14K White Gold', '2.00 Ct Brilliant Round Cut Basket Screwback Earrings Real 14K White Gold', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '132.71', '398.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('142', 'MR9ZK7VQN63', 'I-CSE1964BW-WSL', '1/8 Ct Black & White Diamond Round Stud Earrings In Sterling', '1/8 Ct Black & White Diamond Round Stud Earrings In Sterling', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '94.99', '285.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('143', 'M56EDGY7D3J', 'I-CSE2232BL-WSL', 'White Gold Over Black Diamond Accent Drop/Dangle Earrings', 'White Gold Over Black Diamond Accent Drop/Dangle Earrings', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '28.49', '85.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('144', 'MPVXNZ1ODOM', 'I-CME1979BW-WG10K', '0.30Ct Black & White Diamond Stud Earrings 10K Solid White Gold', '0.30Ct Black & White Diamond Stud Earrings 10K Solid White Gold', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '189.99', '570.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('145', 'MRM5DEY5NX4', 'I-JSE323-CZ-WSL', 'Mens Ladies Diamond White Gold Finish Stud Earrings Designer Square', 'Mens Ladies Diamond White Gold Finish Stud Earrings Designer Square', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '47.49', '142.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('146', 'ME42DP6JK7W', 'I-CSEI3595-WSL-ADJ', 'Solitaire Stud Earrings 2Ct Princess Cut Diamond-Unique Solid Silver', 'Solitaire Stud Earrings 2Ct Princess Cut Diamond-Unique Solid Silver', 'Top Selling/Jewelry/Earrings', 'hidalgo', '36.99', '111.00', '1', '1', '1', '1', 'by product', '95', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('147', 'M56EDGYYD3J', 'M-181395207-WGYG-10K', 'Yellow Diamond Earrings 1/4 Ct Round Cut 10K Two Tone Gold', 'Yellow Diamond Earrings 1/4 Ct Round Cut 10K Two Tone Gold', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '248.89', '747.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('148', 'MPVXNZ16DOM', 'M-400653235075-YG10K', 'Mens Ladies 10K Yellow Gold Canary Diamond Kite Pave Shape Stud Earrings 9Mm', 'Mens Ladies 10K Yellow Gold Canary Diamond Kite Pave Shape Stud Earrings 9Mm', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '246.04', '738.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('149', 'MRM5DEY2NX4', 'M-271122570286-WG14K', '0.24 Carat Blue Diamond Stud Earrings 14K White Gold Diamond Earrings', '0.24 Carat Blue Diamond Stud Earrings 14K White Gold Diamond Earrings', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '165.79', '497.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('150', 'ME42DP6OK7W', 'I-CME3281BU-WG14K', '1 Carat Blue Round Diamond Lever Back Dangling Pair Earrings 14K White Gold', '1 Carat Blue Round Diamond Lever Back Dangling Pair Earrings 14K White Gold', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '378.76', '1136.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('151', 'M3GLDR43DW4', 'M-271675421296-YG14K', '1 Carat Blue Round Diamond Lever Back Dangling Pair Earrings 14K Yellow Gold', '1 Carat Blue Round Diamond Lever Back Dangling Pair Earrings 14K Yellow Gold', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '377.14', '1131.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('152', 'M8GMDQOEKO1', 'M-270955296680-WG14K', '0.40 Carat Total Weight Blue Color Diamond Stud Earrings 14K White Gold Wg Ct', '0.40 Carat Total Weight Blue Color Diamond Stud Earrings 14K White Gold Wg Ct', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '153.61', '461.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('153', 'MVY6DV28DXO', 'M-350897512094-WSL', 'Sterling Silver 1/2Ct Diamond Hoop Earrings', 'Sterling Silver 1/2Ct Diamond Hoop Earrings', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '73.81', '221.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('154', 'M795N6Q8NQW', 'I-MME22-CZ-WG14K', 'New 14Kt White Gold Round Man Made Diamond Stud Earrings 4.00 Ct D/Vvs1', 'New 14Kt White Gold Round Man Made Diamond Stud Earrings 4.00 Ct D/Vvs1', 'Top Selling/Jewelry/Earrings', 'hidalgo', '171.99', '490.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('155', 'M0LEKOVRN4W', 'M-CSE3340BW-WSL', '0.50 Carat Round Cut Black & White Diamond Stud Earrings 14K White Gold Over', '0.50 Carat Round Cut Black & White Diamond Stud Earrings 14K White Gold Over', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '34.50', '104.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('156', 'M1W4N4PQD5P', 'I-CME3341-WG14K', '1/3 Ct Round Cut 14K White Gold Diamond Stud Earrings', '1/3 Ct Round Cut 14K White Gold Diamond Stud Earrings', 'Top Selling/Jewelry/Earrings', 'hidalgo', '124.79', '357.00', '1', '1', '1', '1', 'by product', '99', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('157', 'M194DLP5K85', 'I-MME17-WG14K', '1/5 Carat Round Cut Diamond Stud Earrings 14K White Gold Over (I-J,I2-I3)', '1/5 Carat Round Cut Diamond Stud Earrings 14K White Gold Over (I-J,I2-I3)', 'Top Selling/Jewelry/Earrings', 'hidalgo', '399.99', '119.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('158', 'M71YN5R1KVQ', 'I-CME3346-WG10K', '1/4 Carat Round Cut Diamond Dangle Earrings Solid 10K White Gold', '1/4 Carat Round Cut Diamond Dangle Earrings Solid 10K White Gold', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '128.99', '387.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('159', 'MLVQD882D4E', 'I-CME3374-CZ-WG14K', '1.00Carat Round Brilliant Cut Pushback Basket Stud Earrings Solid 14K White Gold', '1.00Carat Round Brilliant Cut Pushback Basket Stud Earrings Solid 14K White Gold', 'Top Selling/Jewelry/Earrings', 'hidalgo', '39.99', '120.00', '1', '1', '1', '1', 'by product', '96', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('160', 'M128N072D57', 'I-CME2096-BLMO-1.00-WG14K', '1.00 Carat Round Cut Moissanite Stud Earrings Solid 14K White Gold', '1.00 Carat Round Cut Moissanite Stud Earrings Solid 14K White Gold', 'Fixed/Jewelry/Fine Jewelry/Earrings/Gemstone', 'hidalgo', '149.99', '450.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('161', 'MYOMK1QJDP0', 'M-CSE3345-BW-WSL', '0.25 Carat Round Cut Black & White Diamond Stud Earrings 14K White Gold Over', '0.25 Carat Round Cut Black & White Diamond Stud Earrings 14K White Gold Over', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '29.50', '89.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('162', 'M879D2VMD12', 'I-MME24BU-WG14K', '0.50 Ct Round Cut VVS1 Blue Solitaire Stud Earrings 14K White Gold', '0.50 Ct Round Cut VVS1 Blue Solitaire Stud Earrings 14K White Gold', 'Top Selling/Jewelry/Earrings', 'hidalgo', '119.99', '360.00', '1', '1', '1', '1', 'by product', '98', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('163', 'MG3PDXQ6NLX', 'I-CSGE2870BS-YG14K', '1.00Ct Heart Shape Blue Sapphire Studs Earrings 14K Yellow Gold', '1.00Ct Heart Shape Blue Sapphire Studs Earrings 14K Yellow Gold', 'Top Selling/Jewelry/Earrings', 'hidalgo', '97.99', '294.00', '1', '1', '1', '1', 'by product', '99', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:38');
-INSERT INTO `tb_products` VALUES ('164', 'M0YGNJROKJ7', 'M-221535834520-WSL', '2.00 Carat Black & White Diamond Stud Earrings In Sterling Silver', '2.00 Carat Black & White Diamond Stud Earrings In Sterling Silver', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '142.21', '427.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:39');
-INSERT INTO `tb_products` VALUES ('165', 'M2JRKYV8KEY', 'I-MME22-CZ-YG14K', 'Diamond Stud Earrings 4 Carat Round Man Made D/Vvs1 14K Yellow Gold', 'Diamond Stud Earrings 4 Carat Round Man Made D/Vvs1 14K Yellow Gold', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '451.81', '1355.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:39');
-INSERT INTO `tb_products` VALUES ('166', 'MRWGNM6MDE0', 'I-CSE1971BW-WG10K', '0.25Ct Black & White Diamond Square Stud Earrings 10K White Gold', '0.25Ct Black & White Diamond Square Stud Earrings 10K White Gold', 'Top Selling/Jewelry/Earrings', 'hidalgo', '173.84', '522.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:39');
-INSERT INTO `tb_products` VALUES ('167', 'MG3PK365KQM', 'I-CME2870BS-CZ-WG14K', '1.00Ct Heart Shape Created Blue Sapphire Studs Earrings 14K White Gold', '1.00Ct Heart Shape Created Blue Sapphire Studs Earrings 14K White Gold', 'Top Selling/Jewelry/Earrings', 'hidalgo', '93.09', '279.00', '1', '1', '1', '1', 'by product', '97', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:39');
-INSERT INTO `tb_products` VALUES ('168', 'M4OJNWR4DQ1', 'I-JSE245-CZ-WSL', 'Men Ladies Diamond Stud Earring Square Sterling Silver Screw On Back', 'Men Ladies Diamond Stud Earring Square Sterling Silver Screw On Back', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '37.71', '113.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:39');
-INSERT INTO `tb_products` VALUES ('169', 'MR9ZK754N63', 'I-MME299-WG14k', 'Diamond Stud Earrings 4 Ct Round Man Made D/Vvs1 14K White Gold', 'Diamond Stud Earrings 4 Ct Round Man Made D/Vvs1 14K White Gold', 'Top Selling/Jewelry/Earrings', 'hidalgo', '256.49', '769.00', '1', '1', '1', '1', 'by product', '98', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:39');
-INSERT INTO `tb_products` VALUES ('170', 'M56EDGZYK3J', 'M-181592990932-WSL', '2 Ct Princess Cut Earrings Studs Brilliant Screwback Basket 10K White Gold Over', '2 Ct Princess Cut Earrings Studs Brilliant Screwback Basket 10K White Gold Over', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '56.04', '168.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:39');
-INSERT INTO `tb_products` VALUES ('171', 'MPVXNZ66NOM', 'I-CSRGE1853-CZ-WSL', 'Pear Stud Earrings Blue Diamond Accent In Sterling Silver', 'Pear Stud Earrings Blue Diamond Accent In Sterling Silver', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '28.49', '85.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:39');
-INSERT INTO `tb_products` VALUES ('172', 'MRM5DEM2NX4', 'I-JSE299-CZ-WSL', 'Pure Sterling Silver (925) Square Mens Earrings With Screw Backs 8Mm', 'Pure Sterling Silver (925) Square Mens Earrings With Screw Backs 8Mm', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '47.49', '142.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:39');
-INSERT INTO `tb_products` VALUES ('173', 'ME42DPLON7W', 'I-CSE2234BL-WSL', 'Black Diamond Accent Drop/Dangle Earrings 10K White Gold Over', 'Black Diamond Accent Drop/Dangle Earrings 10K White Gold Over', 'Fixed/Jewelry/Fine Jewelry/Earrings/Diamond', 'hidalgo', '28.49', '85.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:39');
-INSERT INTO `tb_products` VALUES ('174', 'M3GLDR83KW4', 'M-201211010007-WSL', '925 Silver 2.1Ct Blue Topaz & 1/8Ct Diamond Stud Earrings', '925 Silver 2.1Ct Blue Topaz & 1/8Ct Diamond Stud Earrings', 'Fixed/Jewelry/Fine Jewelry/Earrings/Gemstone', 'hidalgo', '80.46', '241.00', '1', '1', '1', '1', 'by product', '1', '1', '', '0', '2016-10-10 15:14:41', '2016-11-24 23:19:39');
 
 -- ----------------------------
 -- Table structure for tb_product_attributes
@@ -395,8 +506,7 @@ CREATE TABLE `tb_product_attributes` (
   `ATTRIBUTE_NAME` varchar(50) NOT NULL,
   `ATTRIBUTE` varchar(100) NOT NULL,
   PRIMARY KEY (`ATTRIBUTE_ID`),
-  KEY `PRODUCT_ID` (`PRODUCT_ID`),
-  CONSTRAINT `tb_product_attributes_ibfk_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON DELETE CASCADE ON UPDATE NO ACTION
+  KEY `PRODUCT_ID` (`PRODUCT_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
@@ -417,40 +527,12 @@ CREATE TABLE `tb_product_bids` (
   PRIMARY KEY (`BID_ID`),
   KEY `PRODUCT_ID` (`PRODUCT_ID`),
   KEY `USER_ID` (`USER_ID`),
-  CONSTRAINT `tb_product_bids_ibfk_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE,
   CONSTRAINT `tb_product_bids_ibfk_2` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_product_bids
 -- ----------------------------
-INSERT INTO `tb_product_bids` VALUES ('25', '1', '5', '101.00', '2016-11-25 23:34:46', '1');
-INSERT INTO `tb_product_bids` VALUES ('26', '2', '5', '810.00', '2016-11-25 23:36:06', '1');
-
--- ----------------------------
--- Table structure for tb_product_images
--- ----------------------------
-DROP TABLE IF EXISTS `tb_product_images`;
-CREATE TABLE `tb_product_images` (
-  `IMAGE_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `PRODUCT_ID` int(11) DEFAULT NULL,
-  `IMAGE_URL` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`IMAGE_ID`),
-  KEY `PRODUCT_ID` (`PRODUCT_ID`),
-  CONSTRAINT `tb_product_images_ibfk_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
-
--- ----------------------------
--- Records of tb_product_images
--- ----------------------------
-INSERT INTO `tb_product_images` VALUES ('13', '1', '/product_images/zhsH8s3fgb7nYPsk1Y1qIUpTrQ-2zBRq.jpg');
-INSERT INTO `tb_product_images` VALUES ('14', '1', '/product_images/Qf3I8246UbXUy4VqyBdwXOHJG0X_sE1I.jpg');
-INSERT INTO `tb_product_images` VALUES ('15', '1', '/product_images/tBQ8xtJxPvWUm-G24ANf106MKUOHEv26.jpg');
-INSERT INTO `tb_product_images` VALUES ('16', '1', '/product_images/cyRbETAj187dBdAdU8SYTbIMMU4pEWRA.jpg');
-INSERT INTO `tb_product_images` VALUES ('17', '1', '/product_images/FTuose3DdOm42ZHZfAtWxzU3Cvj4cM_s.jpg');
-INSERT INTO `tb_product_images` VALUES ('18', '1', '/product_images/yf3XfRmUwsSqJp6_VFgDObK0ZOJp_o4X.jpg');
-INSERT INTO `tb_product_images` VALUES ('19', '1', '/product_images/btx3m0HLgqvCxDxVYFqphvMZ04_Ffxfy.jpg');
-INSERT INTO `tb_product_images` VALUES ('20', '1', '/product_images/Cmmz5tMm4rCNoeveqfaLIowr17DyqDEf.PNG');
 
 -- ----------------------------
 -- Table structure for tb_product_video
@@ -462,8 +544,7 @@ CREATE TABLE `tb_product_video` (
   `VIDEO_URL` varchar(255) DEFAULT NULL,
   `AUTOPLAY` int(1) DEFAULT '1',
   PRIMARY KEY (`VIDEO_ID`),
-  KEY `PRODUCT_ID` (`PRODUCT_ID`),
-  CONSTRAINT `tb_product_video_ibfk_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON UPDATE CASCADE
+  KEY `PRODUCT_ID` (`PRODUCT_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
@@ -490,13 +571,46 @@ CREATE TABLE `tb_users` (
   `DATE_CREATED` datetime DEFAULT NULL,
   `DATE_UPDATED` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`USER_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of tb_users
 -- ----------------------------
-INSERT INTO `tb_users` VALUES ('5', 'Sammy Barasa', 'barsamms@gmail.com', 'A', '63aaa47cb0b76f0b157c40cdba9bf78653a7af37', null, 'g5BcDmUAkeXf0uQd31E8lHD0SXtZGScK', null, 'GMT +3', null, null, '1', '2016-11-22 14:29:53', '2016-11-25 19:41:26');
+INSERT INTO `tb_users` VALUES ('5', 'Sammy Barasa', 'barsamms@gmail.com', 'A', '63aaa47cb0b76f0b157c40cdba9bf78653a7af37', null, 'g5BcDmUAkeXf0uQd31E8lHD0SXtZGScK', null, 'GMT +6', null, null, '1', '2016-11-22 14:29:53', '2016-12-11 16:10:56');
 INSERT INTO `tb_users` VALUES ('6', 'Sammy Barasa', 'barsamms@gmail.coms', 'N', '63aaa47cb0b76f0b157c40cdba9bf78653a7af37', null, 'JeDUzV6IyfXktOHTBgq2OPgdNDFcattz', null, 'GMT +3', null, null, '1', '2016-11-22 14:30:36', '2016-11-25 19:41:28');
+INSERT INTO `tb_users` VALUES ('7', 'Norven', 'me.norvenjohnpaul@gmail.com', 'A', '7288edd0fc3ffcbe93a0cf06e3568e28521687bc', null, 'ECTkS1Q-xH_m3-T4xOcrSexF8DodwxjI', null, 'GMT +3', null, null, '1', '2016-11-26 05:51:48', '2016-11-26 05:52:29');
+INSERT INTO `tb_users` VALUES ('8', 'Lody Tacastacas', 'lody.tacastacas@pristone.net', 'N', 'aaab8a1f22229bf2bf267b1ea358ee51a3655f36', null, 't47XSGdxLId6kFdFH07JZy6PruSFkgdY', null, 'GMT +3', null, null, '1', '2016-11-28 08:09:14', '2016-11-28 08:09:14');
+
+-- ----------------------------
+-- Table structure for tb_user_address
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_user_address`;
+CREATE TABLE `tb_user_address` (
+  `ADDRESS_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `USER_ID` int(11) NOT NULL,
+  `NAME` varchar(100) NOT NULL,
+  `COMPANY` varchar(150) DEFAULT NULL,
+  `STREET1` varchar(200) NOT NULL,
+  `STREET2` varchar(200) DEFAULT NULL,
+  `STREET3` varchar(200) DEFAULT NULL,
+  `CITY` varchar(50) NOT NULL,
+  `STATE` varchar(50) DEFAULT NULL,
+  `POSTALCODE` varchar(50) NOT NULL,
+  `COUNTRY` varchar(20) NOT NULL,
+  `PHONE` varchar(50) DEFAULT NULL,
+  `RESIDENTIAL` int(1) NOT NULL DEFAULT '0',
+  `ADDRESS_TYPE` varchar(20) NOT NULL DEFAULT 'BILLING ADDRESS',
+  `PRIMARY_ADDRESS` int(1) NOT NULL DEFAULT '0',
+  `CREATED` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `UPDATED` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ADDRESS_ID`),
+  KEY `FK_USER_ADDRESS_ID` (`USER_ID`),
+  CONSTRAINT `FK_USER_ADDRESS_ID` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tb_user_address
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for tb_user_history
@@ -512,11 +626,451 @@ CREATE TABLE `tb_user_history` (
   PRIMARY KEY (`HISTORY_ID`),
   KEY `tb_user_history_ibfk_1` (`USER_ID`),
   KEY `tb_user_history_ibfk_2` (`PRODUCT_ID`),
-  CONSTRAINT `tb_user_history_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `tb_user_history_ibfk_2` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `tb_products` (`PRODUCT_ID`) ON DELETE NO ACTION ON UPDATE CASCADE
+  CONSTRAINT `tb_user_history_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `tb_users` (`USER_ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tb_user_history
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for timezones
+-- ----------------------------
+DROP TABLE IF EXISTS `timezones`;
+CREATE TABLE `timezones` (
+  `TIMEZONE_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `COUNTRY_CODE` varchar(255) DEFAULT NULL,
+  `TIMEZONE` varchar(30) DEFAULT NULL,
+  `GMT_OFFSET` int(5) DEFAULT NULL,
+  `DST_OFFSET` int(5) DEFAULT NULL,
+  `RAW_OFFSET` int(5) DEFAULT NULL,
+  PRIMARY KEY (`TIMEZONE_ID`),
+  KEY `GMT_OFFSET` (`GMT_OFFSET`,`DST_OFFSET`,`RAW_OFFSET`),
+  KEY `COUNTRY_CODE` (`COUNTRY_CODE`)
+) ENGINE=InnoDB AUTO_INCREMENT=422 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of timezones
+-- ----------------------------
+INSERT INTO `timezones` VALUES ('1', 'CI', 'Africa/Abidjan', '0', '0', '0');
+INSERT INTO `timezones` VALUES ('2', 'GH', 'Africa/Accra', '0', '0', '0');
+INSERT INTO `timezones` VALUES ('3', 'ET', 'Africa/Addis_Ababa', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('4', 'DZ', 'Africa/Algiers', '1', '1', '1');
+INSERT INTO `timezones` VALUES ('5', 'ER', 'Africa/Asmara', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('6', 'ML', 'Africa/Bamako', '0', '0', '0');
+INSERT INTO `timezones` VALUES ('7', 'CF', 'Africa/Bangui', '1', '1', '1');
+INSERT INTO `timezones` VALUES ('8', 'GM', 'Africa/Banjul', '0', '0', '0');
+INSERT INTO `timezones` VALUES ('9', 'GW', 'Africa/Bissau', '0', '0', '0');
+INSERT INTO `timezones` VALUES ('10', 'MW', 'Africa/Blantyre', '2', '2', '2');
+INSERT INTO `timezones` VALUES ('11', 'CG', 'Africa/Brazzaville', '1', '1', '1');
+INSERT INTO `timezones` VALUES ('12', 'BI', 'Africa/Bujumbura', '2', '2', '2');
+INSERT INTO `timezones` VALUES ('13', 'EG', 'Africa/Cairo', '2', '2', '2');
+INSERT INTO `timezones` VALUES ('14', 'MA', 'Africa/Casablanca', '0', '0', '0');
+INSERT INTO `timezones` VALUES ('15', 'ES', 'Africa/Ceuta', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('16', 'GN', 'Africa/Conakry', '0', '0', '0');
+INSERT INTO `timezones` VALUES ('17', 'SN', 'Africa/Dakar', '0', '0', '0');
+INSERT INTO `timezones` VALUES ('18', 'TZ', 'Africa/Dar_es_Salaam', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('19', 'DJ', 'Africa/Djibouti', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('20', 'CM', 'Africa/Douala', '1', '1', '1');
+INSERT INTO `timezones` VALUES ('21', 'EH', 'Africa/El_Aaiun', '0', '0', '0');
+INSERT INTO `timezones` VALUES ('22', 'SL', 'Africa/Freetown', '0', '0', '0');
+INSERT INTO `timezones` VALUES ('23', 'BW', 'Africa/Gaborone', '2', '2', '2');
+INSERT INTO `timezones` VALUES ('24', 'ZW', 'Africa/Harare', '2', '2', '2');
+INSERT INTO `timezones` VALUES ('25', 'ZA', 'Africa/Johannesburg', '2', '2', '2');
+INSERT INTO `timezones` VALUES ('26', 'SS', 'Africa/Juba', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('27', 'UG', 'Africa/Kampala', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('28', 'SD', 'Africa/Khartoum', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('29', 'RW', 'Africa/Kigali', '2', '2', '2');
+INSERT INTO `timezones` VALUES ('30', 'CD', 'Africa/Kinshasa', '1', '1', '1');
+INSERT INTO `timezones` VALUES ('31', 'NG', 'Africa/Lagos', '1', '1', '1');
+INSERT INTO `timezones` VALUES ('32', 'GA', 'Africa/Libreville', '1', '1', '1');
+INSERT INTO `timezones` VALUES ('33', 'TG', 'Africa/Lome', '0', '0', '0');
+INSERT INTO `timezones` VALUES ('34', 'AO', 'Africa/Luanda', '1', '1', '1');
+INSERT INTO `timezones` VALUES ('35', 'CD', 'Africa/Lubumbashi', '2', '2', '2');
+INSERT INTO `timezones` VALUES ('36', 'ZM', 'Africa/Lusaka', '2', '2', '2');
+INSERT INTO `timezones` VALUES ('37', 'GQ', 'Africa/Malabo', '1', '1', '1');
+INSERT INTO `timezones` VALUES ('38', 'MZ', 'Africa/Maputo', '2', '2', '2');
+INSERT INTO `timezones` VALUES ('39', 'LS', 'Africa/Maseru', '2', '2', '2');
+INSERT INTO `timezones` VALUES ('40', 'SZ', 'Africa/Mbabane', '2', '2', '2');
+INSERT INTO `timezones` VALUES ('41', 'SO', 'Africa/Mogadishu', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('42', 'LR', 'Africa/Monrovia', '0', '0', '0');
+INSERT INTO `timezones` VALUES ('43', 'KE', 'Africa/Nairobi', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('44', 'TD', 'Africa/Ndjamena', '1', '1', '1');
+INSERT INTO `timezones` VALUES ('45', 'NE', 'Africa/Niamey', '1', '1', '1');
+INSERT INTO `timezones` VALUES ('46', 'MR', 'Africa/Nouakchott', '0', '0', '0');
+INSERT INTO `timezones` VALUES ('47', 'BF', 'Africa/Ouagadougou', '0', '0', '0');
+INSERT INTO `timezones` VALUES ('48', 'BJ', 'Africa/Porto-Novo', '1', '1', '1');
+INSERT INTO `timezones` VALUES ('49', 'ST', 'Africa/Sao_Tome', '0', '0', '0');
+INSERT INTO `timezones` VALUES ('50', 'LY', 'Africa/Tripoli', '2', '2', '2');
+INSERT INTO `timezones` VALUES ('51', 'TN', 'Africa/Tunis', '1', '1', '1');
+INSERT INTO `timezones` VALUES ('52', 'NA', 'Africa/Windhoek', '2', '1', '1');
+INSERT INTO `timezones` VALUES ('53', 'US', 'America/Adak', '-10', '-9', '-10');
+INSERT INTO `timezones` VALUES ('54', 'US', 'America/Anchorage', '-9', '-8', '-9');
+INSERT INTO `timezones` VALUES ('55', 'AI', 'America/Anguilla', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('56', 'AG', 'America/Antigua', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('57', 'BR', 'America/Araguaina', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('58', 'AR', 'America/Argentina/Buenos_Aires', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('59', 'AR', 'America/Argentina/Catamarca', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('60', 'AR', 'America/Argentina/Cordoba', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('61', 'AR', 'America/Argentina/Jujuy', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('62', 'AR', 'America/Argentina/La_Rioja', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('63', 'AR', 'America/Argentina/Mendoza', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('64', 'AR', 'America/Argentina/Rio_Gallegos', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('65', 'AR', 'America/Argentina/Salta', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('66', 'AR', 'America/Argentina/San_Juan', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('67', 'AR', 'America/Argentina/San_Luis', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('68', 'AR', 'America/Argentina/Tucuman', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('69', 'AR', 'America/Argentina/Ushuaia', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('70', 'AW', 'America/Aruba', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('71', 'PY', 'America/Asuncion', '-3', '-4', '-4');
+INSERT INTO `timezones` VALUES ('72', 'CA', 'America/Atikokan', '-5', '-5', '-5');
+INSERT INTO `timezones` VALUES ('73', 'BR', 'America/Bahia', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('74', 'MX', 'America/Bahia_Banderas', '-6', '-5', '-6');
+INSERT INTO `timezones` VALUES ('75', 'BB', 'America/Barbados', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('76', 'BR', 'America/Belem', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('77', 'BZ', 'America/Belize', '-6', '-6', '-6');
+INSERT INTO `timezones` VALUES ('78', 'CA', 'America/Blanc-Sablon', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('79', 'BR', 'America/Boa_Vista', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('80', 'CO', 'America/Bogota', '-5', '-5', '-5');
+INSERT INTO `timezones` VALUES ('81', 'US', 'America/Boise', '-7', '-6', '-7');
+INSERT INTO `timezones` VALUES ('82', 'CA', 'America/Cambridge_Bay', '-7', '-6', '-7');
+INSERT INTO `timezones` VALUES ('83', 'BR', 'America/Campo_Grande', '-3', '-4', '-4');
+INSERT INTO `timezones` VALUES ('84', 'MX', 'America/Cancun', '-5', '-5', '-5');
+INSERT INTO `timezones` VALUES ('85', 'VE', 'America/Caracas', '-5', '-4', '-4');
+INSERT INTO `timezones` VALUES ('86', 'GF', 'America/Cayenne', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('87', 'KY', 'America/Cayman', '-5', '-5', '-5');
+INSERT INTO `timezones` VALUES ('88', 'US', 'America/Chicago', '-6', '-5', '-6');
+INSERT INTO `timezones` VALUES ('89', 'MX', 'America/Chihuahua', '-7', '-6', '-7');
+INSERT INTO `timezones` VALUES ('90', 'CR', 'America/Costa_Rica', '-6', '-6', '-6');
+INSERT INTO `timezones` VALUES ('91', 'CA', 'America/Creston', '-7', '-7', '-7');
+INSERT INTO `timezones` VALUES ('92', 'BR', 'America/Cuiaba', '-3', '-4', '-4');
+INSERT INTO `timezones` VALUES ('93', 'CW', 'America/Curacao', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('94', 'GL', 'America/Danmarkshavn', '0', '0', '0');
+INSERT INTO `timezones` VALUES ('95', 'CA', 'America/Dawson', '-8', '-7', '-8');
+INSERT INTO `timezones` VALUES ('96', 'CA', 'America/Dawson_Creek', '-7', '-7', '-7');
+INSERT INTO `timezones` VALUES ('97', 'US', 'America/Denver', '-7', '-6', '-7');
+INSERT INTO `timezones` VALUES ('98', 'US', 'America/Detroit', '-5', '-4', '-5');
+INSERT INTO `timezones` VALUES ('99', 'DM', 'America/Dominica', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('100', 'CA', 'America/Edmonton', '-7', '-6', '-7');
+INSERT INTO `timezones` VALUES ('101', 'BR', 'America/Eirunepe', '-5', '-5', '-5');
+INSERT INTO `timezones` VALUES ('102', 'SV', 'America/El_Salvador', '-6', '-6', '-6');
+INSERT INTO `timezones` VALUES ('103', 'CA', 'America/Fort_Nelson', '-7', '-7', '-7');
+INSERT INTO `timezones` VALUES ('104', 'BR', 'America/Fortaleza', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('105', 'CA', 'America/Glace_Bay', '-4', '-3', '-4');
+INSERT INTO `timezones` VALUES ('106', 'GL', 'America/Godthab', '-3', '-2', '-3');
+INSERT INTO `timezones` VALUES ('107', 'CA', 'America/Goose_Bay', '-4', '-3', '-4');
+INSERT INTO `timezones` VALUES ('108', 'TC', 'America/Grand_Turk', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('109', 'GD', 'America/Grenada', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('110', 'GP', 'America/Guadeloupe', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('111', 'GT', 'America/Guatemala', '-6', '-6', '-6');
+INSERT INTO `timezones` VALUES ('112', 'EC', 'America/Guayaquil', '-5', '-5', '-5');
+INSERT INTO `timezones` VALUES ('113', 'GY', 'America/Guyana', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('114', 'CA', 'America/Halifax', '-4', '-3', '-4');
+INSERT INTO `timezones` VALUES ('115', 'CU', 'America/Havana', '-5', '-4', '-5');
+INSERT INTO `timezones` VALUES ('116', 'MX', 'America/Hermosillo', '-7', '-7', '-7');
+INSERT INTO `timezones` VALUES ('117', 'US', 'America/Indiana/Indianapolis', '-5', '-4', '-5');
+INSERT INTO `timezones` VALUES ('118', 'US', 'America/Indiana/Knox', '-6', '-5', '-6');
+INSERT INTO `timezones` VALUES ('119', 'US', 'America/Indiana/Marengo', '-5', '-4', '-5');
+INSERT INTO `timezones` VALUES ('120', 'US', 'America/Indiana/Petersburg', '-5', '-4', '-5');
+INSERT INTO `timezones` VALUES ('121', 'US', 'America/Indiana/Tell_City', '-6', '-5', '-6');
+INSERT INTO `timezones` VALUES ('122', 'US', 'America/Indiana/Vevay', '-5', '-4', '-5');
+INSERT INTO `timezones` VALUES ('123', 'US', 'America/Indiana/Vincennes', '-5', '-4', '-5');
+INSERT INTO `timezones` VALUES ('124', 'US', 'America/Indiana/Winamac', '-5', '-4', '-5');
+INSERT INTO `timezones` VALUES ('125', 'CA', 'America/Inuvik', '-7', '-6', '-7');
+INSERT INTO `timezones` VALUES ('126', 'CA', 'America/Iqaluit', '-5', '-4', '-5');
+INSERT INTO `timezones` VALUES ('127', 'JM', 'America/Jamaica', '-5', '-5', '-5');
+INSERT INTO `timezones` VALUES ('128', 'US', 'America/Juneau', '-9', '-8', '-9');
+INSERT INTO `timezones` VALUES ('129', 'US', 'America/Kentucky/Louisville', '-5', '-4', '-5');
+INSERT INTO `timezones` VALUES ('130', 'US', 'America/Kentucky/Monticello', '-5', '-4', '-5');
+INSERT INTO `timezones` VALUES ('131', 'BQ', 'America/Kralendijk', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('132', 'BO', 'America/La_Paz', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('133', 'PE', 'America/Lima', '-5', '-5', '-5');
+INSERT INTO `timezones` VALUES ('134', 'US', 'America/Los_Angeles', '-8', '-7', '-8');
+INSERT INTO `timezones` VALUES ('135', 'SX', 'America/Lower_Princes', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('136', 'BR', 'America/Maceio', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('137', 'NI', 'America/Managua', '-6', '-6', '-6');
+INSERT INTO `timezones` VALUES ('138', 'BR', 'America/Manaus', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('139', 'MF', 'America/Marigot', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('140', 'MQ', 'America/Martinique', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('141', 'MX', 'America/Matamoros', '-6', '-5', '-6');
+INSERT INTO `timezones` VALUES ('142', 'MX', 'America/Mazatlan', '-7', '-6', '-7');
+INSERT INTO `timezones` VALUES ('143', 'US', 'America/Menominee', '-6', '-5', '-6');
+INSERT INTO `timezones` VALUES ('144', 'MX', 'America/Merida', '-6', '-5', '-6');
+INSERT INTO `timezones` VALUES ('145', 'US', 'America/Metlakatla', '-9', '-8', '-9');
+INSERT INTO `timezones` VALUES ('146', 'MX', 'America/Mexico_City', '-6', '-5', '-6');
+INSERT INTO `timezones` VALUES ('147', 'PM', 'America/Miquelon', '-3', '-2', '-3');
+INSERT INTO `timezones` VALUES ('148', 'CA', 'America/Moncton', '-4', '-3', '-4');
+INSERT INTO `timezones` VALUES ('149', 'MX', 'America/Monterrey', '-6', '-5', '-6');
+INSERT INTO `timezones` VALUES ('150', 'UY', 'America/Montevideo', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('151', 'MS', 'America/Montserrat', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('152', 'BS', 'America/Nassau', '-5', '-4', '-5');
+INSERT INTO `timezones` VALUES ('153', 'US', 'America/New_York', '-5', '-4', '-5');
+INSERT INTO `timezones` VALUES ('154', 'CA', 'America/Nipigon', '-5', '-4', '-5');
+INSERT INTO `timezones` VALUES ('155', 'US', 'America/Nome', '-9', '-8', '-9');
+INSERT INTO `timezones` VALUES ('156', 'BR', 'America/Noronha', '-2', '-2', '-2');
+INSERT INTO `timezones` VALUES ('157', 'US', 'America/North_Dakota/Beulah', '-6', '-5', '-6');
+INSERT INTO `timezones` VALUES ('158', 'US', 'America/North_Dakota/Center', '-6', '-5', '-6');
+INSERT INTO `timezones` VALUES ('159', 'US', 'America/North_Dakota/New_Salem', '-6', '-5', '-6');
+INSERT INTO `timezones` VALUES ('160', 'MX', 'America/Ojinaga', '-7', '-6', '-7');
+INSERT INTO `timezones` VALUES ('161', 'PA', 'America/Panama', '-5', '-5', '-5');
+INSERT INTO `timezones` VALUES ('162', 'CA', 'America/Pangnirtung', '-5', '-4', '-5');
+INSERT INTO `timezones` VALUES ('163', 'SR', 'America/Paramaribo', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('164', 'US', 'America/Phoenix', '-7', '-7', '-7');
+INSERT INTO `timezones` VALUES ('165', 'HT', 'America/Port-au-Prince', '-5', '-5', '-5');
+INSERT INTO `timezones` VALUES ('166', 'TT', 'America/Port_of_Spain', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('167', 'BR', 'America/Porto_Velho', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('168', 'PR', 'America/Puerto_Rico', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('169', 'CA', 'America/Rainy_River', '-6', '-5', '-6');
+INSERT INTO `timezones` VALUES ('170', 'CA', 'America/Rankin_Inlet', '-6', '-5', '-6');
+INSERT INTO `timezones` VALUES ('171', 'BR', 'America/Recife', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('172', 'CA', 'America/Regina', '-6', '-6', '-6');
+INSERT INTO `timezones` VALUES ('173', 'CA', 'America/Resolute', '-6', '-5', '-6');
+INSERT INTO `timezones` VALUES ('174', 'BR', 'America/Rio_Branco', '-5', '-5', '-5');
+INSERT INTO `timezones` VALUES ('175', 'BR', 'America/Santarem', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('176', 'CL', 'America/Santiago', '-3', '-4', '-4');
+INSERT INTO `timezones` VALUES ('177', 'DO', 'America/Santo_Domingo', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('178', 'BR', 'America/Sao_Paulo', '-2', '-3', '-3');
+INSERT INTO `timezones` VALUES ('179', 'GL', 'America/Scoresbysund', '-1', '0', '-1');
+INSERT INTO `timezones` VALUES ('180', 'US', 'America/Sitka', '-9', '-8', '-9');
+INSERT INTO `timezones` VALUES ('181', 'BL', 'America/St_Barthelemy', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('182', 'CA', 'America/St_Johns', '-4', '-3', '-4');
+INSERT INTO `timezones` VALUES ('183', 'KN', 'America/St_Kitts', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('184', 'LC', 'America/St_Lucia', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('185', 'VI', 'America/St_Thomas', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('186', 'VC', 'America/St_Vincent', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('187', 'CA', 'America/Swift_Current', '-6', '-6', '-6');
+INSERT INTO `timezones` VALUES ('188', 'HN', 'America/Tegucigalpa', '-6', '-6', '-6');
+INSERT INTO `timezones` VALUES ('189', 'GL', 'America/Thule', '-4', '-3', '-4');
+INSERT INTO `timezones` VALUES ('190', 'CA', 'America/Thunder_Bay', '-5', '-4', '-5');
+INSERT INTO `timezones` VALUES ('191', 'MX', 'America/Tijuana', '-8', '-7', '-8');
+INSERT INTO `timezones` VALUES ('192', 'CA', 'America/Toronto', '-5', '-4', '-5');
+INSERT INTO `timezones` VALUES ('193', 'VG', 'America/Tortola', '-4', '-4', '-4');
+INSERT INTO `timezones` VALUES ('194', 'CA', 'America/Vancouver', '-8', '-7', '-8');
+INSERT INTO `timezones` VALUES ('195', 'CA', 'America/Whitehorse', '-8', '-7', '-8');
+INSERT INTO `timezones` VALUES ('196', 'CA', 'America/Winnipeg', '-6', '-5', '-6');
+INSERT INTO `timezones` VALUES ('197', 'US', 'America/Yakutat', '-9', '-8', '-9');
+INSERT INTO `timezones` VALUES ('198', 'CA', 'America/Yellowknife', '-7', '-6', '-7');
+INSERT INTO `timezones` VALUES ('199', 'AQ', 'Antarctica/Casey', '8', '8', '8');
+INSERT INTO `timezones` VALUES ('200', 'AQ', 'Antarctica/Davis', '7', '7', '7');
+INSERT INTO `timezones` VALUES ('201', 'AQ', 'Antarctica/DumontDUrville', '10', '10', '10');
+INSERT INTO `timezones` VALUES ('202', 'AU', 'Antarctica/Macquarie', '11', '11', '11');
+INSERT INTO `timezones` VALUES ('203', 'AQ', 'Antarctica/Mawson', '5', '5', '5');
+INSERT INTO `timezones` VALUES ('204', 'AQ', 'Antarctica/McMurdo', '13', '12', '12');
+INSERT INTO `timezones` VALUES ('205', 'AQ', 'Antarctica/Palmer', '-3', '-4', '-4');
+INSERT INTO `timezones` VALUES ('206', 'AQ', 'Antarctica/Rothera', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('207', 'AQ', 'Antarctica/Syowa', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('208', 'AQ', 'Antarctica/Troll', '0', '2', '0');
+INSERT INTO `timezones` VALUES ('209', 'AQ', 'Antarctica/Vostok', '6', '6', '6');
+INSERT INTO `timezones` VALUES ('210', 'SJ', 'Arctic/Longyearbyen', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('211', 'YE', 'Asia/Aden', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('212', 'KZ', 'Asia/Almaty', '6', '6', '6');
+INSERT INTO `timezones` VALUES ('213', 'JO', 'Asia/Amman', '2', '3', '2');
+INSERT INTO `timezones` VALUES ('214', 'RU', 'Asia/Anadyr', '12', '12', '12');
+INSERT INTO `timezones` VALUES ('215', 'KZ', 'Asia/Aqtau', '5', '5', '5');
+INSERT INTO `timezones` VALUES ('216', 'KZ', 'Asia/Aqtobe', '5', '5', '5');
+INSERT INTO `timezones` VALUES ('217', 'TM', 'Asia/Ashgabat', '5', '5', '5');
+INSERT INTO `timezones` VALUES ('218', 'IQ', 'Asia/Baghdad', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('219', 'BH', 'Asia/Bahrain', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('220', 'AZ', 'Asia/Baku', '4', '4', '4');
+INSERT INTO `timezones` VALUES ('221', 'TH', 'Asia/Bangkok', '7', '7', '7');
+INSERT INTO `timezones` VALUES ('222', 'RU', 'Asia/Barnaul', '6', '7', '7');
+INSERT INTO `timezones` VALUES ('223', 'LB', 'Asia/Beirut', '2', '3', '2');
+INSERT INTO `timezones` VALUES ('224', 'KG', 'Asia/Bishkek', '6', '6', '6');
+INSERT INTO `timezones` VALUES ('225', 'BN', 'Asia/Brunei', '8', '8', '8');
+INSERT INTO `timezones` VALUES ('226', 'RU', 'Asia/Chita', '8', '9', '9');
+INSERT INTO `timezones` VALUES ('227', 'MN', 'Asia/Choibalsan', '8', '9', '8');
+INSERT INTO `timezones` VALUES ('228', 'LK', 'Asia/Colombo', '6', '6', '6');
+INSERT INTO `timezones` VALUES ('229', 'SY', 'Asia/Damascus', '2', '3', '2');
+INSERT INTO `timezones` VALUES ('230', 'BD', 'Asia/Dhaka', '6', '6', '6');
+INSERT INTO `timezones` VALUES ('231', 'TL', 'Asia/Dili', '9', '9', '9');
+INSERT INTO `timezones` VALUES ('232', 'AE', 'Asia/Dubai', '4', '4', '4');
+INSERT INTO `timezones` VALUES ('233', 'TJ', 'Asia/Dushanbe', '5', '5', '5');
+INSERT INTO `timezones` VALUES ('234', 'PS', 'Asia/Gaza', '2', '3', '2');
+INSERT INTO `timezones` VALUES ('235', 'PS', 'Asia/Hebron', '2', '3', '2');
+INSERT INTO `timezones` VALUES ('236', 'VN', 'Asia/Ho_Chi_Minh', '7', '7', '7');
+INSERT INTO `timezones` VALUES ('237', 'HK', 'Asia/Hong_Kong', '8', '8', '8');
+INSERT INTO `timezones` VALUES ('238', 'MN', 'Asia/Hovd', '7', '8', '7');
+INSERT INTO `timezones` VALUES ('239', 'RU', 'Asia/Irkutsk', '8', '8', '8');
+INSERT INTO `timezones` VALUES ('240', 'ID', 'Asia/Jakarta', '7', '7', '7');
+INSERT INTO `timezones` VALUES ('241', 'ID', 'Asia/Jayapura', '9', '9', '9');
+INSERT INTO `timezones` VALUES ('242', 'IL', 'Asia/Jerusalem', '2', '3', '2');
+INSERT INTO `timezones` VALUES ('243', 'AF', 'Asia/Kabul', '5', '5', '5');
+INSERT INTO `timezones` VALUES ('244', 'RU', 'Asia/Kamchatka', '12', '12', '12');
+INSERT INTO `timezones` VALUES ('245', 'PK', 'Asia/Karachi', '5', '5', '5');
+INSERT INTO `timezones` VALUES ('246', 'NP', 'Asia/Kathmandu', '6', '6', '6');
+INSERT INTO `timezones` VALUES ('247', 'RU', 'Asia/Khandyga', '9', '9', '9');
+INSERT INTO `timezones` VALUES ('248', 'IN', 'Asia/Kolkata', '6', '6', '6');
+INSERT INTO `timezones` VALUES ('249', 'RU', 'Asia/Krasnoyarsk', '7', '7', '7');
+INSERT INTO `timezones` VALUES ('250', 'MY', 'Asia/Kuala_Lumpur', '8', '8', '8');
+INSERT INTO `timezones` VALUES ('251', 'MY', 'Asia/Kuching', '8', '8', '8');
+INSERT INTO `timezones` VALUES ('252', 'KW', 'Asia/Kuwait', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('253', 'MO', 'Asia/Macau', '8', '8', '8');
+INSERT INTO `timezones` VALUES ('254', 'RU', 'Asia/Magadan', '10', '11', '11');
+INSERT INTO `timezones` VALUES ('255', 'ID', 'Asia/Makassar', '8', '8', '8');
+INSERT INTO `timezones` VALUES ('256', 'PH', 'Asia/Manila', '8', '8', '8');
+INSERT INTO `timezones` VALUES ('257', 'OM', 'Asia/Muscat', '4', '4', '4');
+INSERT INTO `timezones` VALUES ('258', 'CY', 'Asia/Nicosia', '2', '3', '2');
+INSERT INTO `timezones` VALUES ('259', 'RU', 'Asia/Novokuznetsk', '7', '7', '7');
+INSERT INTO `timezones` VALUES ('260', 'RU', 'Asia/Novosibirsk', '6', '6', '7');
+INSERT INTO `timezones` VALUES ('261', 'RU', 'Asia/Omsk', '6', '6', '6');
+INSERT INTO `timezones` VALUES ('262', 'KZ', 'Asia/Oral', '5', '5', '5');
+INSERT INTO `timezones` VALUES ('263', 'KH', 'Asia/Phnom_Penh', '7', '7', '7');
+INSERT INTO `timezones` VALUES ('264', 'ID', 'Asia/Pontianak', '7', '7', '7');
+INSERT INTO `timezones` VALUES ('265', 'KP', 'Asia/Pyongyang', '9', '9', '9');
+INSERT INTO `timezones` VALUES ('266', 'QA', 'Asia/Qatar', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('267', 'KZ', 'Asia/Qyzylorda', '6', '6', '6');
+INSERT INTO `timezones` VALUES ('268', 'MM', 'Asia/Rangoon', '7', '7', '7');
+INSERT INTO `timezones` VALUES ('269', 'SA', 'Asia/Riyadh', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('270', 'RU', 'Asia/Sakhalin', '10', '11', '11');
+INSERT INTO `timezones` VALUES ('271', 'UZ', 'Asia/Samarkand', '5', '5', '5');
+INSERT INTO `timezones` VALUES ('272', 'KR', 'Asia/Seoul', '9', '9', '9');
+INSERT INTO `timezones` VALUES ('273', 'CN', 'Asia/Shanghai', '8', '8', '8');
+INSERT INTO `timezones` VALUES ('274', 'SG', 'Asia/Singapore', '8', '8', '8');
+INSERT INTO `timezones` VALUES ('275', 'RU', 'Asia/Srednekolymsk', '11', '11', '11');
+INSERT INTO `timezones` VALUES ('276', 'TW', 'Asia/Taipei', '8', '8', '8');
+INSERT INTO `timezones` VALUES ('277', 'UZ', 'Asia/Tashkent', '5', '5', '5');
+INSERT INTO `timezones` VALUES ('278', 'GE', 'Asia/Tbilisi', '4', '4', '4');
+INSERT INTO `timezones` VALUES ('279', 'IR', 'Asia/Tehran', '4', '5', '4');
+INSERT INTO `timezones` VALUES ('280', 'BT', 'Asia/Thimphu', '6', '6', '6');
+INSERT INTO `timezones` VALUES ('281', 'JP', 'Asia/Tokyo', '9', '9', '9');
+INSERT INTO `timezones` VALUES ('282', 'RU', 'Asia/Tomsk', '6', '7', '7');
+INSERT INTO `timezones` VALUES ('283', 'MN', 'Asia/Ulaanbaatar', '8', '9', '8');
+INSERT INTO `timezones` VALUES ('284', 'CN', 'Asia/Urumqi', '6', '6', '6');
+INSERT INTO `timezones` VALUES ('285', 'RU', 'Asia/Ust-Nera', '10', '10', '10');
+INSERT INTO `timezones` VALUES ('286', 'LA', 'Asia/Vientiane', '7', '7', '7');
+INSERT INTO `timezones` VALUES ('287', 'RU', 'Asia/Vladivostok', '10', '10', '10');
+INSERT INTO `timezones` VALUES ('288', 'RU', 'Asia/Yakutsk', '9', '9', '9');
+INSERT INTO `timezones` VALUES ('289', 'RU', 'Asia/Yekaterinburg', '5', '5', '5');
+INSERT INTO `timezones` VALUES ('290', 'AM', 'Asia/Yerevan', '4', '4', '4');
+INSERT INTO `timezones` VALUES ('291', 'PT', 'Atlantic/Azores', '-1', '0', '-1');
+INSERT INTO `timezones` VALUES ('292', 'BM', 'Atlantic/Bermuda', '-4', '-3', '-4');
+INSERT INTO `timezones` VALUES ('293', 'ES', 'Atlantic/Canary', '0', '1', '0');
+INSERT INTO `timezones` VALUES ('294', 'CV', 'Atlantic/Cape_Verde', '-1', '-1', '-1');
+INSERT INTO `timezones` VALUES ('295', 'FO', 'Atlantic/Faroe', '0', '1', '0');
+INSERT INTO `timezones` VALUES ('296', 'PT', 'Atlantic/Madeira', '0', '1', '0');
+INSERT INTO `timezones` VALUES ('297', 'IS', 'Atlantic/Reykjavik', '0', '0', '0');
+INSERT INTO `timezones` VALUES ('298', 'GS', 'Atlantic/South_Georgia', '-2', '-2', '-2');
+INSERT INTO `timezones` VALUES ('299', 'SH', 'Atlantic/St_Helena', '0', '0', '0');
+INSERT INTO `timezones` VALUES ('300', 'FK', 'Atlantic/Stanley', '-3', '-3', '-3');
+INSERT INTO `timezones` VALUES ('301', 'AU', 'Australia/Adelaide', '11', '10', '10');
+INSERT INTO `timezones` VALUES ('302', 'AU', 'Australia/Brisbane', '10', '10', '10');
+INSERT INTO `timezones` VALUES ('303', 'AU', 'Australia/Broken_Hill', '11', '10', '10');
+INSERT INTO `timezones` VALUES ('304', 'AU', 'Australia/Currie', '11', '10', '10');
+INSERT INTO `timezones` VALUES ('305', 'AU', 'Australia/Darwin', '10', '10', '10');
+INSERT INTO `timezones` VALUES ('306', 'AU', 'Australia/Eucla', '9', '9', '9');
+INSERT INTO `timezones` VALUES ('307', 'AU', 'Australia/Hobart', '11', '10', '10');
+INSERT INTO `timezones` VALUES ('308', 'AU', 'Australia/Lindeman', '10', '10', '10');
+INSERT INTO `timezones` VALUES ('309', 'AU', 'Australia/Lord_Howe', '11', '11', '11');
+INSERT INTO `timezones` VALUES ('310', 'AU', 'Australia/Melbourne', '11', '10', '10');
+INSERT INTO `timezones` VALUES ('311', 'AU', 'Australia/Perth', '8', '8', '8');
+INSERT INTO `timezones` VALUES ('312', 'AU', 'Australia/Sydney', '11', '10', '10');
+INSERT INTO `timezones` VALUES ('313', 'NL', 'Europe/Amsterdam', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('314', 'AD', 'Europe/Andorra', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('315', 'RU', 'Europe/Astrakhan', '3', '4', '4');
+INSERT INTO `timezones` VALUES ('316', 'GR', 'Europe/Athens', '2', '3', '2');
+INSERT INTO `timezones` VALUES ('317', 'RS', 'Europe/Belgrade', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('318', 'DE', 'Europe/Berlin', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('319', 'SK', 'Europe/Bratislava', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('320', 'BE', 'Europe/Brussels', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('321', 'RO', 'Europe/Bucharest', '2', '3', '2');
+INSERT INTO `timezones` VALUES ('322', 'HU', 'Europe/Budapest', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('323', 'DE', 'Europe/Busingen', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('324', 'MD', 'Europe/Chisinau', '2', '3', '2');
+INSERT INTO `timezones` VALUES ('325', 'DK', 'Europe/Copenhagen', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('326', 'IE', 'Europe/Dublin', '0', '1', '0');
+INSERT INTO `timezones` VALUES ('327', 'GI', 'Europe/Gibraltar', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('328', 'GG', 'Europe/Guernsey', '0', '1', '0');
+INSERT INTO `timezones` VALUES ('329', 'FI', 'Europe/Helsinki', '2', '3', '2');
+INSERT INTO `timezones` VALUES ('330', 'IM', 'Europe/Isle_of_Man', '0', '1', '0');
+INSERT INTO `timezones` VALUES ('331', 'TR', 'Europe/Istanbul', '2', '3', '3');
+INSERT INTO `timezones` VALUES ('332', 'JE', 'Europe/Jersey', '0', '1', '0');
+INSERT INTO `timezones` VALUES ('333', 'RU', 'Europe/Kaliningrad', '2', '2', '2');
+INSERT INTO `timezones` VALUES ('334', 'UA', 'Europe/Kiev', '2', '3', '2');
+INSERT INTO `timezones` VALUES ('335', 'RU', 'Europe/Kirov', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('336', 'PT', 'Europe/Lisbon', '0', '1', '0');
+INSERT INTO `timezones` VALUES ('337', 'SI', 'Europe/Ljubljana', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('338', 'GB', 'Europe/London', '0', '1', '0');
+INSERT INTO `timezones` VALUES ('339', 'LU', 'Europe/Luxembourg', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('340', 'ES', 'Europe/Madrid', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('341', 'MT', 'Europe/Malta', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('342', 'AX', 'Europe/Mariehamn', '2', '3', '2');
+INSERT INTO `timezones` VALUES ('343', 'BY', 'Europe/Minsk', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('344', 'MC', 'Europe/Monaco', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('345', 'RU', 'Europe/Moscow', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('346', 'NO', 'Europe/Oslo', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('347', 'FR', 'Europe/Paris', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('348', 'ME', 'Europe/Podgorica', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('349', 'CZ', 'Europe/Prague', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('350', 'LV', 'Europe/Riga', '2', '3', '2');
+INSERT INTO `timezones` VALUES ('351', 'IT', 'Europe/Rome', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('352', 'RU', 'Europe/Samara', '4', '4', '4');
+INSERT INTO `timezones` VALUES ('353', 'SM', 'Europe/San_Marino', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('354', 'BA', 'Europe/Sarajevo', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('355', 'RU', 'Europe/Simferopol', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('356', 'MK', 'Europe/Skopje', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('357', 'BG', 'Europe/Sofia', '2', '3', '2');
+INSERT INTO `timezones` VALUES ('358', 'SE', 'Europe/Stockholm', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('359', 'EE', 'Europe/Tallinn', '2', '3', '2');
+INSERT INTO `timezones` VALUES ('360', 'AL', 'Europe/Tirane', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('361', 'RU', 'Europe/Ulyanovsk', '3', '4', '4');
+INSERT INTO `timezones` VALUES ('362', 'UA', 'Europe/Uzhgorod', '2', '3', '2');
+INSERT INTO `timezones` VALUES ('363', 'LI', 'Europe/Vaduz', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('364', 'VA', 'Europe/Vatican', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('365', 'AT', 'Europe/Vienna', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('366', 'LT', 'Europe/Vilnius', '2', '3', '2');
+INSERT INTO `timezones` VALUES ('367', 'RU', 'Europe/Volgograd', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('368', 'PL', 'Europe/Warsaw', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('369', 'HR', 'Europe/Zagreb', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('370', 'UA', 'Europe/Zaporozhye', '2', '3', '2');
+INSERT INTO `timezones` VALUES ('371', 'CH', 'Europe/Zurich', '1', '2', '1');
+INSERT INTO `timezones` VALUES ('372', 'MG', 'Indian/Antananarivo', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('373', 'IO', 'Indian/Chagos', '6', '6', '6');
+INSERT INTO `timezones` VALUES ('374', 'CX', 'Indian/Christmas', '7', '7', '7');
+INSERT INTO `timezones` VALUES ('375', 'CC', 'Indian/Cocos', '7', '7', '7');
+INSERT INTO `timezones` VALUES ('376', 'KM', 'Indian/Comoro', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('377', 'TF', 'Indian/Kerguelen', '5', '5', '5');
+INSERT INTO `timezones` VALUES ('378', 'SC', 'Indian/Mahe', '4', '4', '4');
+INSERT INTO `timezones` VALUES ('379', 'MV', 'Indian/Maldives', '5', '5', '5');
+INSERT INTO `timezones` VALUES ('380', 'MU', 'Indian/Mauritius', '4', '4', '4');
+INSERT INTO `timezones` VALUES ('381', 'YT', 'Indian/Mayotte', '3', '3', '3');
+INSERT INTO `timezones` VALUES ('382', 'RE', 'Indian/Reunion', '4', '4', '4');
+INSERT INTO `timezones` VALUES ('383', 'WS', 'Pacific/Apia', '14', '13', '13');
+INSERT INTO `timezones` VALUES ('384', 'NZ', 'Pacific/Auckland', '13', '12', '12');
+INSERT INTO `timezones` VALUES ('385', 'PG', 'Pacific/Bougainville', '11', '11', '11');
+INSERT INTO `timezones` VALUES ('386', 'NZ', 'Pacific/Chatham', '14', '13', '13');
+INSERT INTO `timezones` VALUES ('387', 'FM', 'Pacific/Chuuk', '10', '10', '10');
+INSERT INTO `timezones` VALUES ('388', 'CL', 'Pacific/Easter', '-5', '-6', '-6');
+INSERT INTO `timezones` VALUES ('389', 'VU', 'Pacific/Efate', '11', '11', '11');
+INSERT INTO `timezones` VALUES ('390', 'KI', 'Pacific/Enderbury', '13', '13', '13');
+INSERT INTO `timezones` VALUES ('391', 'TK', 'Pacific/Fakaofo', '13', '13', '13');
+INSERT INTO `timezones` VALUES ('392', 'FJ', 'Pacific/Fiji', '13', '12', '12');
+INSERT INTO `timezones` VALUES ('393', 'TV', 'Pacific/Funafuti', '12', '12', '12');
+INSERT INTO `timezones` VALUES ('394', 'EC', 'Pacific/Galapagos', '-6', '-6', '-6');
+INSERT INTO `timezones` VALUES ('395', 'PF', 'Pacific/Gambier', '-9', '-9', '-9');
+INSERT INTO `timezones` VALUES ('396', 'SB', 'Pacific/Guadalcanal', '11', '11', '11');
+INSERT INTO `timezones` VALUES ('397', 'GU', 'Pacific/Guam', '10', '10', '10');
+INSERT INTO `timezones` VALUES ('398', 'US', 'Pacific/Honolulu', '-10', '-10', '-10');
+INSERT INTO `timezones` VALUES ('399', 'UM', 'Pacific/Johnston', '-10', '-10', '-10');
+INSERT INTO `timezones` VALUES ('400', 'KI', 'Pacific/Kiritimati', '14', '14', '14');
+INSERT INTO `timezones` VALUES ('401', 'FM', 'Pacific/Kosrae', '11', '11', '11');
+INSERT INTO `timezones` VALUES ('402', 'MH', 'Pacific/Kwajalein', '12', '12', '12');
+INSERT INTO `timezones` VALUES ('403', 'MH', 'Pacific/Majuro', '12', '12', '12');
+INSERT INTO `timezones` VALUES ('404', 'PF', 'Pacific/Marquesas', '-10', '-10', '-10');
+INSERT INTO `timezones` VALUES ('405', 'UM', 'Pacific/Midway', '-11', '-11', '-11');
+INSERT INTO `timezones` VALUES ('406', 'NR', 'Pacific/Nauru', '12', '12', '12');
+INSERT INTO `timezones` VALUES ('407', 'NU', 'Pacific/Niue', '-11', '-11', '-11');
+INSERT INTO `timezones` VALUES ('408', 'NF', 'Pacific/Norfolk', '11', '11', '11');
+INSERT INTO `timezones` VALUES ('409', 'NC', 'Pacific/Noumea', '11', '11', '11');
+INSERT INTO `timezones` VALUES ('410', 'AS', 'Pacific/Pago_Pago', '-11', '-11', '-11');
+INSERT INTO `timezones` VALUES ('411', 'PW', 'Pacific/Palau', '9', '9', '9');
+INSERT INTO `timezones` VALUES ('412', 'PN', 'Pacific/Pitcairn', '-8', '-8', '-8');
+INSERT INTO `timezones` VALUES ('413', 'FM', 'Pacific/Pohnpei', '11', '11', '11');
+INSERT INTO `timezones` VALUES ('414', 'PG', 'Pacific/Port_Moresby', '10', '10', '10');
+INSERT INTO `timezones` VALUES ('415', 'CK', 'Pacific/Rarotonga', '-10', '-10', '-10');
+INSERT INTO `timezones` VALUES ('416', 'MP', 'Pacific/Saipan', '10', '10', '10');
+INSERT INTO `timezones` VALUES ('417', 'PF', 'Pacific/Tahiti', '-10', '-10', '-10');
+INSERT INTO `timezones` VALUES ('418', 'KI', 'Pacific/Tarawa', '12', '12', '12');
+INSERT INTO `timezones` VALUES ('419', 'TO', 'Pacific/Tongatapu', '13', '13', '13');
+INSERT INTO `timezones` VALUES ('420', 'UM', 'Pacific/Wake', '12', '12', '12');
+INSERT INTO `timezones` VALUES ('421', 'WF', 'Pacific/Wallis', '12', '12', '12');
 SET FOREIGN_KEY_CHECKS=1;

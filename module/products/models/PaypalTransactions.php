@@ -7,17 +7,19 @@ use Yii;
 use yii\db\Expression;
 
 /**
- * This is the model class for table "{{%tb_paypal_transactions}}".
+ * This is the model class for table "paypal_transactions".
  *
  * @property integer $ID
  * @property integer $USER_ID
  * @property string $PAYMENT_ID
  * @property string $HASH
  * @property integer $COMPLETE
+ * @property integer $ORDER_CREATED
  * @property string $CREATE_TIME
  * @property string $UPDATE_TIME
  *
- * @property TbUsers $uSER
+ * @property Users $uSER
+ * @property ShippingService $shippingServices
  */
 class PaypalTransactions extends \yii\db\ActiveRecord
 {
@@ -26,7 +28,7 @@ class PaypalTransactions extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%tb_paypal_transactions}}';
+        return 'paypal_transactions';
     }
 
     /**
@@ -36,7 +38,7 @@ class PaypalTransactions extends \yii\db\ActiveRecord
     {
         return [
             [['USER_ID', 'PAYMENT_ID', 'HASH'], 'required'],
-            [['USER_ID', 'COMPLETE'], 'integer'],
+            [['USER_ID', 'COMPLETE', 'ORDER_CREATED'], 'integer'],
             [['CREATE_TIME', 'UPDATE_TIME'], 'safe'],
             [['PAYMENT_ID', 'HASH'], 'string', 'max' => 100],
             [['USER_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['USER_ID' => 'USER_ID']],
@@ -54,6 +56,7 @@ class PaypalTransactions extends \yii\db\ActiveRecord
             'PAYMENT_ID' => 'Payment  ID',
             'HASH' => 'Hash',
             'COMPLETE' => 'Complete',
+            'ORDER_CREATED' => 'Order  Created',
             'CREATE_TIME' => 'Create  Time',
             'UPDATE_TIME' => 'Update  Time',
         ];
@@ -80,5 +83,13 @@ class PaypalTransactions extends \yii\db\ActiveRecord
     public function getUSER()
     {
         return $this->hasOne(Users::className(), ['USER_ID' => 'USER_ID']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getShippingServices()
+    {
+        return $this->hasOne(ShippingService::className(), ['PAYPAL_TRANS_ID' => 'ID']);
     }
 }

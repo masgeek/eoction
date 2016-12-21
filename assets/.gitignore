@@ -1,6 +1,4 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Yii template
 *
-#Ignore everything except the files below
 !.gitignore
-!AppAsset.php
-!BowerAsset.php
-!FontAssets.php

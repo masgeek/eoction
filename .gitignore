@@ -27,12 +27,51 @@ phpunit.phar
 /phpunit.xml
 # Created by .ignore support plugin (hsz.mobi)
 #Ignore everything except the files below
-# composer vendor dir
 !autoload.php
-!.gitignore
-bin/
-paypal/
-phpspec/
-psr/
-vendor/
-vendor/bower-asset/
+/vendor/**
+Would skip repository vendor/cebe/markdown
+Would skip repository vendor/fatelord/ship-station
+Would skip repository vendor/fzaninotto/faker
+Would skip repository vendor/guzzlehttp/guzzle
+Would skip repository vendor/guzzlehttp/psr7
+vendor/guzzlehttp/promises
+Would skip repository vendor/kartik-v/bootstrap-fileinput
+Would skip repository vendor/kartik-v/bootstrap-popover-x
+Would skip repository vendor/kartik-v/yii2-dialog
+Would skip repository vendor/kartik-v/yii2-editable
+Would skip repository vendor/kartik-v/yii2-grid
+Would skip repository vendor/kartik-v/yii2-krajee-base
+Would skip repository vendor/kartik-v/yii2-widget-activeform
+Would skip repository vendor/kartik-v/yii2-widget-colorinput
+Would skip repository vendor/kartik-v/yii2-widget-depdrop
+Would skip repository vendor/kartik-v/yii2-widget-fileinput
+Would skip repository vendor/kartik-v/yii2-widget-select2
+Would skip repository vendor/kartik-v/yii2-widget-touchspin
+Would skip repository vendor/kartik-v/yii2-widget-typeahead
+vendor/kartik-v/dependent-dropdown
+vendor/kartik-v/yii2-popover-x
+Would skip repository vendor/kongoon/yii2-paypal
+Would skip repository vendor/paypal/rest-api-sdk-php
+Would skip repository vendor/phpspec/php-diff
+Would skip repository vendor/psr/http-message
+Would skip repository vendor/psr/log
+Would skip repository vendor/swiftmailer/swiftmailer
+Would skip repository vendor/yiisoft/yii2
+Would skip repository vendor/yiisoft/yii2-bootstrap
+Would skip repository vendor/yiisoft/yii2-composer
+Would skip repository vendor/yiisoft/yii2-debug
+Would skip repository vendor/yiisoft/yii2-faker
+Would skip repository vendor/yiisoft/yii2-gii
+Would skip repository vendor/yiisoft/yii2-httpclient
+Would skip repository vendor/yiisoft/yii2-jui
+Would skip repository vendor/yiisoft/yii2-swiftmailer
+vendor/yiisoft/extensions.php
+vendor/yiisoft/yii2-authclient
+vendor/amnah
+vendor/autoload.php
+vendor/bin
+vendor/bower-asset
+vendor/composer
+vendor/ezyang
+vendor/rmrevin
+/assets/

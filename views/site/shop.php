@@ -37,7 +37,7 @@ $listviewWidget = ListView::widget([
         'id' => 'product_list',
     ],
     'layout' => "{items}",
-    //'layout' => "{pager}\n{items}\n{summary}",
+    'layout' => "{pager}\n{items}\n{pager}",
     //'itemView' => '_product_view_old',
     'itemView' => 'shopping_box',
 ]);
@@ -45,5 +45,5 @@ $listviewWidget = ListView::widget([
 ?>
 
 <div class="col-md-10 col-md-offset-1">
-<?= $listviewWidget ?>
-    </div>
+    <?= $listviewWidget ?>
+</div>
