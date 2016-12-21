@@ -69,9 +69,9 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
                         id="bid_price<?= $product_id ?>"><?= $starting_bid_price ?></span></span><br/>
                 <span class="crossed retail-price"><?= $retail_price; ?></span>
             </div>
-            <div class="col-md-12 col-xs-6 text-center">
+            <!--<div class="col-md-12 col-xs-6 text-center">
                 <span>Shipping <?= $shipping_cost ?></span>
-            </div>
+            </div>-->
             <div class="col-md-12 col-xs-6 text-center text-uppercase">
                 <span id="bids_placed_<?= $product_id ?>"><?= $bids ?></span> Bid(s)
             </div>

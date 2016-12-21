@@ -47,9 +47,9 @@ $retail_price = $formatter->asCurrency($retail_price_raw);
             <div class="col-md-12 col-xs-6 text-center">
                 <span class="retail-price"><?= $retail_price; ?></span>
             </div>
-            <div class="col-md-12 col-xs-6 text-center">
+            <!--<div class="col-md-12 col-xs-6 text-center">
                 <span>Shipping <?= $shipping_cost ?></span>
-            </div>
+            </div>-->
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 col-xs-12" id="buy_button_<?= $product_id ?>">
                     <!--= Html::button("BUY NOW FOR $retail_price", [
