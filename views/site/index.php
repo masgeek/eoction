@@ -28,7 +28,18 @@ $userId = yii::$app->user->id ? yii::$app->user->id : 0;
 //BidManager::AddItemsToBidActivity($listDataProvider);
 //BidManager::RemoveItemsFromBidActivity('NHQ-J272582011000');
 //show the products list default is 4x2
-$listviewWidget = 'Sammy';
+$listviewWidget = ListView::widget([
+    'dataProvider' => $listDataProvider,
+    'options' => [
+        'tag' => 'div',
+        'class' => 'list-wrapper',
+        'id' => 'product_list',
+    ],
+    'layout' => "{items}",
+    //'layout' => "{pager}\n{items}\n{summary}",
+    //'itemView' => '_product_view_old',
+    'itemView' => 'bidding_box',
+]);
 //static text fields
 ?>
 
