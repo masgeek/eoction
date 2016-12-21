@@ -114,12 +114,12 @@ class ShipStationHandler
                 //next build the items array
                 $orderItem = new OrderItem();
                 //$orderItem->lineItemKey = $productsModel->productid;
-                $orderItem->sku = $productsModel->prodcode; //@TODO confirm which is the sKU
-                $orderItem->name = $productsModel->prodname;
+                $orderItem->sku = $productsModel->sku; //@TODO confirm which is the sKU
+                $orderItem->name = $productsModel->name;
                 $orderItem->quantity = 1;
                 $orderItem->unitPrice = $model->PRODUCT_PRICE; //This is the amount paid in paypal
                 $orderItem->warehouseLocation = $this->warehouse;
-                $orderItem->imageUrl = ProductManager::GetImageUrl($model->PRODUCT_ID);
+                $orderItem->imageUrl =$productsModel->image1; //ProductManager::GetImageUrl($model->PRODUCT_ID);
                 $orderItem->productId = $model->PRODUCT_ID;
 
                 $items[] = $orderItem;
