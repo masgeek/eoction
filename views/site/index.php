@@ -81,6 +81,8 @@ $listviewWidget = ListView::widget([
         width: 100%;
         height: 10px;
         margin-bottom: 5px;
+        background-color: #e8202a;
+        border:1px solid #1e002b;
     }
 
     .noplacedbids, .awaitingbid {

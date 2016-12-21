@@ -48,11 +48,11 @@ function SetupProgressBar($productid, $bid_start_time) {
             //disable the button
             var button = '<button class="btn btn-bid btn-bid-ended btn-block noradius text-uppercase" disabled>Next Item</button>';
             bidButton.html(button);
-            console.log("No bid placed, removing item");
+            //console.log("No bid placed, removing item");
             //remove the product
             //Math.floor((Math.random() * 5000) + 8000);
             ItemUpdate($productid, $sku, 'YES'); //stop the timer countdown
-            //FetchNextItem($productid); //fetch the next item
+            FetchNextItem($productid); //fetch the next item
         },
     };
 
@@ -64,13 +64,12 @@ function SetupProgressBar($productid, $bid_start_time) {
         params);
     //add stop click event when placebid is clicked
     placebid.click(function () {
-        progressBar.velocity('stop', false);
+        //progressBar.velocity('stop', false);
         TriggerProgressBar($productid, $sku, 10);
     });
 }
 
 function changeClasses($classtoSet, $element) {
-    return false;
     var progressBar = $('#' + $element);
 //first clear all classes
     progressBar.removeClass(); //clear all classes
@@ -87,10 +86,11 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
     var placebid = $('#placebid_' + $productid);
     var starttime = $bid_start_time * 1000;//convert to ms
 
+    //reset the width
+    progressBar.velocity('stop', true); //stop any animations
+    progressBar.width('100%'); //reset the width back to 100
     var bidplacedParam = {
         easing: "linear",
-        loop: false,
-        queue: true,
         duration: starttime, //milliseconds
         begin: function (elements) {
             ItemUpdate($productid, $sku, 'NO');
@@ -98,7 +98,7 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
         progress: function (elements, percentComplete, timeRemaining, timeStart) {
             //$percentComplete.html(Math.round(percentComplete * 100) + "% complete.");
             //$timeRemaining.html(timeRemaining + "Going Once.");
-            console.log('Timer here ' + timeRemaining + ' for product ' + $productid);
+            //console.log('Timer here ' + timeRemaining + ' for product ' + $productid);
             //ItemUpdate($productid,$sku);
         },
         complete: function () {
@@ -129,7 +129,7 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
                     break;
                 case '3': //going twice
                     //remove item and disable bid item
-                    placebid.prop("disabled", true);
+                    //placebid.prop("disabled", true);
                     bidType.val(4);
                     text = ""; //clear the text
                     //show the bid won progress
@@ -148,14 +148,21 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
         }
     };
 
-    progressBar.velocity('stop');
-
-    progressBar.velocity({width: "10%"}, {duration: 1000}).velocity({width: "10%"}, bidplacedParam);
-    //.velocity({width: '100%'}, bidplacedParam);
-
-
-    //progressBar.width('20%');
-    //progressBar.velocity({width: 0}, bidplacedParam) //Awaiting bid
+    progressBar.velocity({width: 0}, bidplacedParam) //Accepting Bids
+        .velocity({width: '100%'}, {
+            duration: 50, complete: function () {
+                progressBar.removeClass("noplacedbids awaitingbid goingtwice").addClass('goingonce');
+                /*always await bid*/
+            }
+        }) //reset bar
+        .velocity({width: 0}, bidplacedParam) //going once
+        .velocity({width: '100%'}, {
+            duration: 50, complete: function () {
+                progressBar.removeClass("noplacedbids awaitingbid goingonce").addClass('goingtwice');
+                /*always await bid*/
+            }
+        }) //reset bar
+        .velocity({width: 0}, bidplacedParam) //going twice
 }
 function TriggerProgressBarOld($productid, $sku, $bid_start_time) {
     var bidType = $('#bid_type_' + $productid);
@@ -273,9 +280,9 @@ function placeBid($product_id, $sku) {
     var $user_id = $('#user_id').val();
     var bidsPlaced = $('#bids_placed_' + $product_id);
     var bid_price = $('#bid_price' + $product_id);
-    console.log($bidUrl);
-    console.log($user_id);
-    console.log($sku);
+    //console.log($bidUrl);
+    //console.log($user_id);
+    //console.log($sku);
     //return 0;
 
     $.ajax({
