@@ -45,6 +45,9 @@ $retail_price = $formatter->asCurrency($retail_price_raw);
                 'alt' => $product_name,
             ]); ?>
             <div class="col-md-12 col-xs-6 text-center">
+                <span><?= $product_name ?></span>
+            </div>
+            <div class="col-md-12 col-xs-6 text-center">
                 <span class="retail-price"><?= $retail_price; ?></span>
             </div>
             <!--<div class="col-md-12 col-xs-6 text-center">
