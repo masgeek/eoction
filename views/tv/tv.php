@@ -15,7 +15,7 @@ use cics\widgets\VideoEmbed;
 $url = '//www.youtube.com/embed/MY7dEN3nrnY';
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="col-sm-4 col-sm-offset-4 video-container">
+<div class="col-sm-4 col-sm-offset-4 col-md-8 video-container">
     <h3 class="video-mobile-headline"><?= $this->title ?></h3>
     <div class="vid">
         <!--<img class="responsive placard" src="" alt=""/>-->
