@@ -42,6 +42,8 @@ $retail_price = $formatter->asCurrency($model->buyitnow);
 
 $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
 
+
+\app\components\BidManager::NextBidAmount($product_id);
 ?>
 
 

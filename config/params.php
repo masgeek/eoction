@@ -20,4 +20,7 @@ return [
     //Live keys
     'ShipStationApiKeyLive' => '22c69f4c9957498b903c1428545f1c53',
     'ShipStationApiSecretLive' => 'af8eade38f81409bbea191fe07da3f11',
+
+
+    'BidIncrementValue' => 5, //amount to increase bids by
 ];

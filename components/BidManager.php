@@ -131,10 +131,18 @@ class BidManager
      */
     public static function NextBidAmount($product_id)
     {
-        //BidManager::GetNextItemToBid();
-        $max_amount = (int)BidManager::GetMaxBidAmount($product_id, $format = false);
-        //increment this amount by 5
-        $next_bid_amount = $max_amount + 5;
+        //first we check if there is already a bid if not this is ther first bid and we will get teh base bid price
+        $increment_value = \Yii::$app->params['BidIncrementValue'];
+        $productInfo = FryProducts::findOne($product_id);
+
+        $next_bid_amount = $productInfo->price;
+
+        $max_amount = (int)BidManager::GetMaxBidAmount($product_id, $format = false, $check_if_first_bid = true);
+
+        if ($max_amount > 0) {
+            //increment this amount by 5
+            $next_bid_amount = $max_amount + (int)$increment_value;
+        }
         return $next_bid_amount;
     }
 
@@ -195,16 +203,22 @@ class BidManager
 
     /**
      * Returns the maximum amount for an item
-     * @param $product_id
+     * @param $product_id integer
+     * @param $format boolean
+     * @param $check_if_first_bid boolean
      * @return float
      */
-    public static function GetMaxBidAmount($product_id, $format = true)
+    public static function GetMaxBidAmount($product_id, $format = true, $check_if_first_bid = false)
     {
         $formatter = \Yii::$app->formatter;
         $bid_amount = ProductBids::find()
             ->where(['PRODUCT_ID' => $product_id])
             ->andWhere(['BID_WON' => 0])
             ->max('BID_AMOUNT');
+
+        if ($check_if_first_bid) {
+            return $bid_amount;
+        }
 
         if ($bid_amount == null || (int)$bid_amount <= 0) {
             $bid_amount = BidManager::GetInitialBidAmount($product_id);
