@@ -19,7 +19,7 @@ $url = '//www.youtube.com/embed/MY7dEN3nrnY?rel=0';
     <h3 class="video-mobile-headline"><?= $this->title ?></h3>
     <div class="vid">
         <!--<img class="responsive placard" src="" alt=""/>-->
-        <iframe width="640" height="360" src="<?= $url ?>" allowfullscreen=""></iframe>
+        <iframe width="640" height="360" src="<?= $url ?>" allowfullscreen="" frameborder="0"></iframe>
     </div><!--End vid-->
 </div>
 
