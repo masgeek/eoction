@@ -16,7 +16,12 @@ $url = '//www.youtube.com/embed/MY7dEN3nrnY';
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-m-8 col-md-offset-4">
+        <h3><?= $this->title ?></h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-m-8 col-md-offset-4">
         <?= VideoEmbed::widget([
             'url' => $url,
             'container_id' => 'yourCustomId',
