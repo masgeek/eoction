@@ -1,6 +1,8 @@
 /**
  * Created by TRITON on 10/19/2016.
  */
+"use strict";
+
 var intervalObj = {};
 
 function SetupProgressBar($productid, $bid_start_time) {
@@ -32,7 +34,7 @@ function SetupProgressBar($productid, $bid_start_time) {
         duration: starttime, //milliseconds
         begin: function (elements) {
             //call the timer function on begin
-//            console.log('Begin timer');
+            console.log('Begin timer');
             ItemUpdate($productid, $sku, 'NO');
         },
         progress: function (elements, percentComplete, timeRemaining, timeStart) {
@@ -45,18 +47,18 @@ function SetupProgressBar($productid, $bid_start_time) {
             //disable the button
             var button = '<button class="btn btn-bid btn-bid-ended btn-block noradius text-uppercase" disabled>Next Item</button>';
             bidButton.html(button);
-            //console.log("No bid placed, removing item");
+            console.log("No bid placed, removing item");
             //remove the product
             //Math.floor((Math.random() * 5000) + 8000);
-            ItemUpdate($productid, $sku, 'YES');
-            FetchNextItem($productid); //fetch the next item
+            ItemUpdate($productid, $sku, 'YES'); //stop the timer countdown
+            //FetchNextItem($productid); //fetch the next item
         },
     };
 
     // Use the progress callback.
     progressBar.velocity(
         {
-            width: "0%", //animate the width
+            width: 0, //animate the width
         },
         params);
     //add stop click event when placebid is clicked

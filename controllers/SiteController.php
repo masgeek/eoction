@@ -117,6 +117,15 @@ class SiteController extends Controller
     /**
      * @return string
      */
+    public function actionTest()
+    {
+        $exclusion_list = BidManager::GetExclusionItems();
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 5, $auction_param = [1], $min_stock = 1, $exclusion_list,$random=false);
+
+        $this->view->title = 'Live Auction';
+        return $this->render('index_test', ['listDataProvider' => $dataProvider]);
+    }
+
     public function actionIndex()
     {
         $exclusion_list = BidManager::GetExclusionItems();
@@ -125,7 +134,6 @@ class SiteController extends Controller
         $this->view->title = 'Live Auction';
         return $this->render('index', ['listDataProvider' => $dataProvider]);
     }
-
     public function actionNextItem($product_id = 0)
     {
         $nextItem = BidManager::GetNextItemToBid($product_id);

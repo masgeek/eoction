@@ -14,7 +14,7 @@ use yii\helpers\Html;
 $this->title = 'Live Auction';
 
 //register js file
-$this->registerJsFile('@web/js/bidding/bidding-progress.js');
+$this->registerJsFile('@web/js/bidding/bidding-progress-stable.js');
 //$this->registerJsFile('@web/js/bidding/facebook-login.js');
 
 $updateUrl = Url::toRoute(['shop/item-update']);

@@ -32,8 +32,8 @@ function SetupProgressBar($productid, $bid_start_time) {
         duration: starttime, //milliseconds
         begin: function (elements) {
             //call the timer function on begin
-//            console.log('Begin timer');
-            ItemUpdate($productid, $sku, 'NO');
+            console.log('Begin timer');
+            //ItemUpdate($productid, $sku, 'NO');
         },
         progress: function (elements, percentComplete, timeRemaining, timeStart) {
             //$percentComplete.html(Math.round(percentComplete * 100) + "% complete.");
@@ -56,7 +56,7 @@ function SetupProgressBar($productid, $bid_start_time) {
     // Use the progress callback.
     progressBar.velocity(
         {
-            width: "0%", //animate the width
+            width: 0, //animate the width
         },
         params);
     //add stop click event when placebid is clicked
