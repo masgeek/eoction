@@ -24,6 +24,7 @@ $url = '//www.youtube.com/embed/MY7dEN3nrnY?rel=0';
 </div>
 
 <hr/>
+<!--
 <style>
     .video-container {
         background: #ccc;
@@ -69,3 +70,4 @@ $url = '//www.youtube.com/embed/MY7dEN3nrnY?rel=0';
         }
     }
 </style>
+-->
