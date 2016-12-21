@@ -253,7 +253,7 @@ class BidManager
             ])
             ->andWhere(['>=', 'stock_level', 1])//stock levels should be greater or equal to 1
             //->andWhere('!=','PRODUCT_ID',$product_id)
-            ->orderBy(['rand()' => SORT_DESC]) //randomly pick products
+            ->orderBy(['rand()' => SORT_DESC])//randomly pick products
             ->limit(1)//limit to one record only
             ->one();
 
@@ -261,7 +261,7 @@ class BidManager
         //add the item to bid activity
         BidManager::AddItemsToBidActivity($productModel, $multimodel = false); //add the picked item to bid activity table
         $product_list = BidManager::BuildList($productModel->productid, $productModel->sku,
-            $productModel->name, $productModel->buyitnow, $productModel->price);
+            $productModel->name, $productModel->buyitnow, $productModel->price, $productModel->image1);
         return $product_list;
     }
 
@@ -295,7 +295,7 @@ class BidManager
      * @param $starting_bid_price_raw
      * @return array
      */
-    private static function BuildList($product_id, $sku, $product_name, $retail_price_raw, $starting_bid_price_raw)
+    private static function BuildList($product_id, $sku, $product_name, $retail_price_raw, $starting_bid_price_raw, $product_image)
     {
         /* @var $imageObject FryProductImages */
         $formatter = \Yii::$app->formatter;
@@ -314,17 +314,13 @@ class BidManager
 
         //$alias_path =  \Yii::getAlias('@web');
 
-        $imageObject = $imageModel->image1;
-
-
-        $product_image = $imageObject ? $imageObject : '@web/product_images/placeholder.png';
-
 
         $imageHtml = Html::img($product_image, [
             'id' => 'product_image_' . $product_id,
             'class' => 'img img-responsive',
             'alt' => $product_name,
         ]);
+
 
         $html_list = "<div class=\"col-xs-18 col-sm-6 col-md-3\" id=\"item_box_$product_id\">
     <div class=\"hidden\">
