@@ -79,22 +79,33 @@ class ProductManager
 
 
     /**
-     * returns items to either be sold or auctioned off
+     *  returns items to either be sold or auctioned off
      * @param int $no_of_items
      * @param array $auction_param
      * @param int $min_stock
      * @param array $exclusion_list
+     * @param bool $random
      * @return ActiveDataProvider
      */
-    public static function GetItemsForSale($no_of_items = 10, $auction_param = [1, 0], $min_stock = 1, $exclusion_list = [])
+    public static function GetItemsForSale($no_of_items = 20, $auction_param = [1, 0], $min_stock = 1, $exclusion_list = [], $random = true)
     {
-        $item_provider = new ActiveDataProvider([
-            'query' => FryProducts::find()
+        $query = FryProducts::find()
+            ->where(['IN', 'visible', $auction_param,])
+            ->andWhere(['>=', 'min_stock', $min_stock])//stock levels should be greater or equal to 1
+            ->andWhere(['NOT IN', 'sku', $exclusion_list])
+            //->orderBy(['rand()' => SORT_DESC]);
+            ->orderBy('productid ASC');
+
+        if ($random) {
+            $query = FryProducts::find()
                 ->where(['IN', 'visible', $auction_param,])
                 ->andWhere(['>=', 'min_stock', $min_stock])//stock levels should be greater or equal to 1
                 ->andWhere(['NOT IN', 'sku', $exclusion_list])
-                //   ->orderBy(['rand()' => SORT_DESC]), //randomly pick items
-                ->orderBy('productid ASC'),
+                ->orderBy(['rand()' => SORT_DESC]);
+        }
+
+        $item_provider = new ActiveDataProvider([
+            'query' => $query, //randomly pick items
             'pagination' => [
                 'pageSize' => $no_of_items
             ],
