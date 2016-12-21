@@ -12,7 +12,7 @@
 use yii\helpers\Html;
 use cics\widgets\VideoEmbed;
 
-$url = '//www.youtube.com/embed/MY7dEN3nrnY?rel=0';
+$url = '//www.youtube.com/embed/MY7dEN3nrnY';
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="col-sm-4 col-sm-offset-4 video-container">
@@ -24,7 +24,7 @@ $url = '//www.youtube.com/embed/MY7dEN3nrnY?rel=0';
 </div>
 
 <hr/>
-<!--
+
 <style>
     .video-container {
         background: #ccc;
@@ -70,4 +70,3 @@ $url = '//www.youtube.com/embed/MY7dEN3nrnY?rel=0';
         }
     }
 </style>
--->
