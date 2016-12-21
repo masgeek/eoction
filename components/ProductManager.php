@@ -46,6 +46,7 @@ class ProductManager
      */
     public static function ComputeShippingCost($product_id = null, $retail_price = 0)
     {
+        return 0;
         $product = FryProducts::findOne(['productid' => $product_id]);
         if ($product != null) {
             $retail_price = $product->buyitnow;
@@ -92,8 +93,8 @@ class ProductManager
                 ->where(['IN', 'visible', $auction_param,])
                 ->andWhere(['>=', 'min_stock', $min_stock])//stock levels should be greater or equal to 1
                 ->andWhere(['NOT IN', 'sku', $exclusion_list])
-             //   ->orderBy(['rand()' => SORT_DESC]), //randomly pick items
-            ->orderBy('productid ASC'),
+                //   ->orderBy(['rand()' => SORT_DESC]), //randomly pick items
+                ->orderBy('productid ASC'),
             'pagination' => [
                 'pageSize' => $no_of_items
             ],
