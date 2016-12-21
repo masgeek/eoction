@@ -25,6 +25,10 @@
     {
       "type": "vcs",
       "url": "https://github.com/fatelord/ship-station.git"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/fatelord/yii2-video-embed-widget.git"
     }
   ],
   "minimum-stability": "dev",
@@ -48,7 +52,8 @@
     "kartik-v/yii2-widget-activeform": "@dev",
     "kartik-v/yii2-widget-depdrop": "@dev",
     "kongoon/yii2-paypal": "dev-master",
-    "fatelord/ship-station": "dev-master"
+    "fatelord/ship-station": "dev-master",
+    "fatelord/yii2-video-embed-widget": "dev-master"
 
   },
   "require-dev": {
