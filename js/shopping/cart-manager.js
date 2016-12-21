@@ -31,6 +31,7 @@ function RemoveFromCart($cart_item_id) {
         // here goes some logic
         modal.close();
         RemoveCartItem($cart_item_id);
+
     });
 
 // close modal
@@ -51,9 +52,11 @@ function RemoveCartItem($cart_item_id) {
         if (data.REMOVED === true) {
             $productBox.fadeOut(900, function () { //remove the item in the list
                 $(this).remove();
+                location.reload();
             });
         }
     });
+
 }
 
 
