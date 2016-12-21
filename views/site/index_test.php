@@ -14,7 +14,7 @@ use yii\helpers\Html;
 $this->title = 'Live Auction';
 
 //register js file
-$this->registerJsFile('@web/js/bidding/bidding-progress.js');
+$this->registerJsFile('@web/js/bidding/bidding-progress_test.js');
 //$this->registerJsFile('@web/js/bidding/facebook-login.js');
 
 $updateUrl = Url::toRoute(['shop/item-update']);
@@ -28,7 +28,17 @@ $userId = yii::$app->user->id ? yii::$app->user->id : 0;
 //BidManager::AddItemsToBidActivity($listDataProvider);
 //BidManager::RemoveItemsFromBidActivity('NHQ-J272582011000');
 //show the products list default is 4x2
-$listviewWidget = 'Sammy';
+$listviewWidget = ListView::widget([
+    'dataProvider' => $listDataProvider,
+    'options' => [
+        'tag' => 'div',
+        'class' => 'list-wrapper',
+        'id' => 'product_list',
+    ],
+    'layout' => "{items}",
+    //'layout' => "{pager}\n{items}\n{summary}",
+    'itemView' => 'bidding_box_test',
+]);
 //static text fields
 ?>
 

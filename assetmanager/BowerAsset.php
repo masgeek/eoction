@@ -17,6 +17,10 @@ class BowerAsset extends AssetBundle
 {
     public $sourcePath = '@bower';
 
+    public $jsOptions = array(
+        'position' => \yii\web\View::POS_HEAD
+    );
+
     public $css = [
         'animate.css/animate.min.css',
         'tingle/dist/tingle.min.css'
@@ -25,9 +29,9 @@ class BowerAsset extends AssetBundle
     public $js = [
         //'timer.jquery/dist/timer.jquery.js'
         //'countdown360/dist/jquery.countdown360.js'
-        'velocity/velocity.min.js',
-        'velocity/velocity.ui.min.js',
-        '//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js',
+        'velocity/velocity.js',
+        'velocity/velocity.ui.js',
+        //'//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js',
         'tingle/dist/tingle.min.js'
     ];
 
