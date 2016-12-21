@@ -92,6 +92,7 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
     var bidplacedParam = {
         easing: "linear",
         duration: starttime, //milliseconds
+        delay: 3000,
         begin: function (elements) {
             ItemUpdate($productid, $sku, 'NO');
         },
@@ -148,17 +149,19 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
         }
     };
 
+    bidType.val(1); //set to awaiting bids
+    bidStatusText.html('Accepting Bids');
     placeBid($productid, $sku); //send the bid details for the logged in user
     progressBar.velocity({width: 0}, bidplacedParam) //Accepting Bids
         .velocity({width: '100%'}, {
-            duration: 50, complete: function () {
+            duration: 1, complete: function () {
                 progressBar.removeClass("noplacedbids awaitingbid goingtwice").addClass('goingonce');
                 /*always await bid*/
             }
         }) //reset bar
         .velocity({width: 0}, bidplacedParam) //going once
         .velocity({width: '100%'}, {
-            duration: 50, complete: function () {
+            duration: 1, complete: function () {
                 progressBar.removeClass("noplacedbids awaitingbid goingonce").addClass('goingtwice');
                 /*always await bid*/
             }
