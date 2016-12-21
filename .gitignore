@@ -74,3 +74,4 @@ vendor/bower-asset
 vendor/composer
 vendor/ezyang
 vendor/rmrevin
+/assets/
