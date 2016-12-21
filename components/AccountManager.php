@@ -59,4 +59,20 @@ class AccountManager
 
         return false;
     }
+
+    /**
+     * gets a users address
+     * @param $user_id
+     * @param string $address_type
+     * @return static
+     */
+    public static function GetUserAddress($user_id, $address_type)
+    {
+        $addressInfo = UserAddress::findOne([
+            'USER_ID' => $user_id,
+            'ADDRESS_TYPE' => $address_type //start with billing address
+        ]);
+
+        return $addressInfo;
+    }
 }

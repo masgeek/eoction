@@ -65,6 +65,7 @@ class ShipStationHandler
         /* @var $model ItemsCart */
         /* @var $paypalTransModel PaypalTransactions */
         /* @var $shippingModel ShippingService */
+        /* @var $address UserAddress */
         /* @var $clientShippingAddress UserAddress */
         /* @var $clientBillingAddress UserAddress */
 
@@ -87,20 +88,17 @@ class ShipStationHandler
         ]);
 
         //if the shipping address is not available we will pick the next available one i.e billing address or primary address
-        $clientShippingAddress = UserAddress::findOne([
-            'USER_ID' => $user_id,
-            'ADDRESS_TYPE' => UserAddress::SHIPPING_ADDRESS //start with billing address
-        ]);
+        $address = AccountManager::GetUserAddress($user_id, UserAddress::SHIPPING_ADDRESS);
 
-        $clientBillingAddress = UserAddress::findOne([
-            'USER_ID' => $user_id,
-            'ADDRESS_TYPE' => UserAddress::BILLING_ADDRESS //start with billing address
-        ]);
-
-        if ($clientShippingAddress == null) {
-            $clientShippingAddress = $clientBillingAddress;
-
+        if ($address == null) {
+            //use billing instead
+            $address = AccountManager::GetUserAddress($user_id, UserAddress::BILLING_ADDRESS);
         }
+
+
+        $clientShippingAddress = $address;
+        $clientBillingAddress = $address;
+
 
         if ($transactionInfo != null) {
             $order = new Order();
@@ -114,12 +112,12 @@ class ShipStationHandler
                 //next build the items array
                 $orderItem = new OrderItem();
                 //$orderItem->lineItemKey = $productsModel->productid;
-                $orderItem->sku = $productsModel->sku; //@TODO confirm which is the sKU
+                $orderItem->sku = $productsModel->sku; //@TODO confirm which is the SKU
                 $orderItem->name = $productsModel->name;
-                $orderItem->quantity = 1;
+                $orderItem->quantity = 1; //will always be one
                 $orderItem->unitPrice = $model->PRODUCT_PRICE; //This is the amount paid in paypal
                 $orderItem->warehouseLocation = $this->warehouse;
-                $orderItem->imageUrl =$productsModel->image1; //ProductManager::GetImageUrl($model->PRODUCT_ID);
+                $orderItem->imageUrl = $productsModel->image1; //ProductManager::GetImageUrl($model->PRODUCT_ID);
                 $orderItem->productId = $model->PRODUCT_ID;
 
                 $items[] = $orderItem;
@@ -205,7 +203,7 @@ class ShipStationHandler
             $shipping->postalCode = $clientShippingAddress->POSTALCODE;
             $shipping->country = $clientShippingAddress->COUNTRY;
             $shipping->phone = $clientShippingAddress->PHONE;
-            $shipping->residential = null;//$clientShippingAddress->RESIDENTIAL ? 'Residentisl' : null;
+            $shipping->residential = null;//$clientShippingAddress->RESIDENTIAL ? 'Residential' : null;
             $order->shipTo = $shipping;
 
 
