@@ -148,6 +148,7 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
         }
     };
 
+    placeBid($productid, $sku); //send the bid details for the logged in user
     progressBar.velocity({width: 0}, bidplacedParam) //Accepting Bids
         .velocity({width: '100%'}, {
             duration: 50, complete: function () {
