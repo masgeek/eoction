@@ -14,7 +14,6 @@ class TvController extends Controller
 {
     public function actionLiveTv()
     {
-        //https://youtu.be/MY7dEN3nrnY
         $this->view->title = 'Live TV Shopping';
         return $this->render('tv');
     }
