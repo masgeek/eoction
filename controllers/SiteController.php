@@ -289,6 +289,16 @@ class SiteController extends Controller
      *
      * @return string
      */
+    public function actionTerms()
+    {
+        return $this->render('_terms');
+    }
+
+    public function actionSellerTerms()
+    {
+        return $this->render('_seller_terms');
+    }
+
     public function actionAbout()
     {
         return $this->render('about');
