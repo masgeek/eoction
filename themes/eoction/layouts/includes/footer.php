@@ -28,13 +28,13 @@ use yii\helpers\Html;
                 Us</h3>
             <div class="contact-info contact-info-block">
                 <ul class="list-group">
-                    <li class="list-group-item"><i class="fa fa-map-marker"></i> <strong>Address:</strong> <span>1111 B ering Dr. Apt. 1303. Houston, TX 77057</span>
+                    <li class="list-group-item"><i class="fa fa-map-marker"></i> <strong>Address:</strong> <span>7500 Bellaire Blvd #524 Houston, TX 77036</span>
                     </li>
                     <li class="list-group-item"><i class="fa fa-phone"></i> <strong>Phone:</strong>
-                        <span>(123) 456-7890</span>
+                        <span>713 988 8210</span>
                     </li>
                     <li class="list-group-item"><i class="fa fa-envelope"></i> <strong>Email:</strong> <span><a
-                                href="mailto:mail@example.com">mail@example.com</a></span></li>
+                                href="mailto:info@eoction.com">info@eoction.com</a></span></li>
                 </ul>
             </div>
         </div>
