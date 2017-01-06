@@ -132,7 +132,7 @@ class BidManager
     public static function NextBidAmount($product_id)
     {
         //first we check if there is already a bid if not this is ther first bid and we will get teh base bid price
-        $increment_value = \Yii::$app->params['BidIncrementValue'];
+        //$increment_value = 1; //default is one//\Yii::$app->params['BidIncrementValue'];
         $productInfo = FryProducts::findOne($product_id);
 
         $next_bid_amount = $productInfo->price;
@@ -140,10 +140,30 @@ class BidManager
         $max_amount = (int)BidManager::GetMaxBidAmount($product_id, $format = false, $check_if_first_bid = true);
 
         if ($max_amount > 0) {
-            //increment this amount by 5
+            //increment this amount by the criteria set
+            /*
+             * $1-10 = increment is $1
+             * $11-30 = increment is $2
+             * $31-100 = increment is $5
+             * $100-1000 = increment is $10
+             * $1000 and above = increment is $100
+             */
+            if ($max_amount >= 1 && $max_amount <= 10) {
+                $increment_value = 1;
+            } elseif ($max_amount >= 11 && $max_amount <= 30) {
+                $increment_value = 2;
+            } elseif ($max_amount >= 31 && $max_amount <= 100) {
+                $increment_value = 5;
+            } elseif ($max_amount >= 101 && $max_amount <= 1000) {
+                $increment_value = 10;
+            } elseif ($max_amount > 1000) {
+                $increment_value = 100;
+            }
+
             $next_bid_amount = $max_amount + (int)$increment_value;
         }
         return $next_bid_amount;
+
     }
 
     public static function GetInitialBidAmount($product_id)
