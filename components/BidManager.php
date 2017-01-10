@@ -125,9 +125,16 @@ class BidManager
         return $bid_successful; //saving status
     }
 
+
     /**
-     * increment bid based on the incremental amounts
-     * @return int
+     * increment bid based on the incremental amount
+     * $1-10 = increment is $1
+     * $11-30 = increment is $2
+     * $31-100 = increment is $5
+     * $100-1000 = increment is $10
+     * $1000 and above = increment is $100
+     * @param $product_id
+     * @return int|string
      */
     public static function NextBidAmount($product_id)
     {
@@ -140,14 +147,6 @@ class BidManager
         $max_amount = (int)BidManager::GetMaxBidAmount($product_id, $format = false, $check_if_first_bid = true);
 
         if ($max_amount > 0) {
-            //increment this amount by the criteria set
-            /*
-             * $1-10 = increment is $1
-             * $11-30 = increment is $2
-             * $31-100 = increment is $5
-             * $100-1000 = increment is $10
-             * $1000 and above = increment is $100
-             */
             if ($max_amount >= 1 && $max_amount <= 10) {
                 $increment_value = 1;
             } elseif ($max_amount >= 11 && $max_amount <= 30) {
