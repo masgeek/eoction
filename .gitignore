@@ -74,4 +74,5 @@ vendor/bower-asset
 vendor/composer
 vendor/ezyang
 vendor/rmrevin
+!vendor/remove_redundant.sh
 /assets/
