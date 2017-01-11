@@ -4,7 +4,7 @@ $params = require(__DIR__ . '/params.php');
 
 $config = [
     'id' => 'basic',
-    'name' => 'eOction',
+    'name' => 'EOCTION',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -26,6 +26,7 @@ $config = [
         ],
 	    'merchantportal' => [
 		    'class' => 'app\module\merchant\admin',
+            'defaultRoute' => 'merchant', //default controller
 	    ],
     ],
     'components' => [
@@ -104,6 +105,8 @@ $config = [
                 'add-image' => 'product/images/add-image',
                 'request-password-reset' => 'site/request-password-reset',
                 'reset-password' => 'site/reset-password',
+                //merchant portal access
+                'merchant' => 'merchantportal/merchant/index',
             ],
         ],
 
