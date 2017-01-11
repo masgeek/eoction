@@ -11,7 +11,7 @@ use yii\widgets\Breadcrumbs;
 
 
 \app\assetmanager\MerchantAppAsset::register($this);
-\app\assetmanager\MerchantBowerAsset::register($this);
+//\app\assetmanager\MerchantBowerAsset::register($this);
 \app\assetmanager\FontAssets::register($this);
 ?>
 <?php $this->beginPage() ?>

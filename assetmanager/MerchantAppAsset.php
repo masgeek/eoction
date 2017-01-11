@@ -19,23 +19,15 @@ class MerchantAppAsset extends AssetBundle
     public $baseUrl = '@web';
 
     public $css = [
-        //'css/site.css',
-        //'css/products.css',
-        //'css/social-icons/social-icons.css',
-        //'js/jquery.asprogress/css/asProgress.css',
-        /*'css/theme-shop.css',
-        'css/theme-elements.css',
-        'css/ultimate.css',
-        'css/style-2.css',
-        'css/skin-1.css',
-        'css/js_composer.min.css',*/
-        //'js/timercircles/inc/TimeCircles.css',
+        'merchantassets/global/css/components.min.css',
+        'merchantassets/global/css/plugins.min.css',
+        'merchantassets/layouts/layout/css/layout.min.css',
+        'merchantassets/layouts/layout/css/themes/darkblue.min.css',
+        'merchantassets/layouts/layout/css/custom.min.css',
     ];
 
     public $js = [
-        //'js/jquery.progressTimer.js',
-        //'js/jquery.asprogress/jquery-asProgress.js',
-        //'js/timercircles/inc/TimeCircles.js',
+
     ];
     public $depends = [
         'yii\web\YiiAsset',
@@ -45,26 +37,6 @@ class MerchantAppAsset extends AssetBundle
         '\rmrevin\yii\fontawesome\AssetBundle'
     ];
 }
-
-/*
-     <!-- BEGIN GLOBAL MANDATORY STYLES -->
-    <link href="../assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
-    <!-- END GLOBAL MANDATORY STYLES -->
-    <!-- BEGIN PAGE LEVEL PLUGINS -->
-    <link href="../assets/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css"/>
-
-    <!-- END PAGE LEVEL PLUGINS -->
-    <!-- BEGIN THEME GLOBAL STYLES -->
-    <link href="../assets/global/css/components.min.css" rel="stylesheet" id="style_components" type="text/css"/>
-    <link href="../assets/global/css/plugins.min.css" rel="stylesheet" type="text/css"/>
-    <!-- END THEME GLOBAL STYLES -->
-    <!-- BEGIN THEME LAYOUT STYLES -->
-    <link href="../assets/layouts/layout/css/layout.min.css" rel="stylesheet" type="text/css"/>
-    <link href="../assets/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css"
-          id="style_color"/>
-    <link href="../assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css"/>
-    <!-- END THEME LAYOUT STYLES -->
- */
 
 
 /*
