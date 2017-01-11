@@ -24,6 +24,9 @@ $config = [
         'shopper' => [
             'class' => 'app\module\shopper\Module',
         ],
+	    'merchantportal' => [
+		    'class' => 'app\module\merchant\admin',
+	    ],
     ],
     'components' => [
         'request' => [
