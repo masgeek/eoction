@@ -20,12 +20,9 @@ class admin extends \yii\base\Module
         parent::init();
 
         // custom initialization code goes here
-	    //set custom theme for teh merchant module
-	    \Yii::$app->view->theme = new \yii\base\Theme([
-		    'pathMap' => [
-		    	'@app/views' => '@app/themes/admin/views'
-		    ],
-		    'baseUrl' => '@web/themes/admin',
-	    ]);
+	    //set custom theme for the merchant module
+	    parent::init();
+	    $this->layoutPath = \Yii::getAlias('@app/themes/merchant/layouts/');
+	    $this->layout = 'main';
     }
 }
