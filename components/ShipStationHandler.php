@@ -88,12 +88,12 @@ class ShipStationHandler
         ]);
 
         //if the shipping address is not available we will pick the next available one i.e billing address or primary address
-        $address = AccountManager::GetUserAddress($user_id, UserAddress::SHIPPING_ADDRESS);
+        $address = AccountManager::GetUserAddress($user_id);
 
-        if ($address == null) {
+        /*if ($address == null) {
             //use billing instead
             $address = AccountManager::GetUserAddress($user_id, UserAddress::BILLING_ADDRESS);
-        }
+        }*/
 
 
         $clientShippingAddress = $address;
