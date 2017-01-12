@@ -28,7 +28,7 @@ $home = \yii\helpers\Url::toRoute(['//site']);
         </ul>
         <ul class="nav navbar-nav navbar-right" style="margin-right: 10px;">
             <?php if (Yii::$app->user->isGuest): ?>
-                <li><?= Html::a('Sign In', ['//site/login'], ['title' => 'Sign in to place bids', 'class' => 'text-capitalise']); ?></li>
+                <li><?= Html::a('Log In', ['//site/login'], ['title' => 'Sign in to place bids', 'class' => 'text-capitalise']); ?></li>
                 <li><?= Html::a('Sign Up Now It\'s Free', ['//user/users/signup'], ['title' => 'Sign in to place bids', 'class' => 'text-capitalise']); ?></li>
             <?php else: ?>
                 <li class="dropdown">
