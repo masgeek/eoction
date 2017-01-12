@@ -14,12 +14,12 @@ return [
     //'ShipStationApiSecret' => 'c01859545fa84170b6e2413d44a286a3',
 
     //lody test account
-    'ShipStationApiKey' => '45e89d238134405b9d77d35806b1e404',
-    'ShipStationApiSecret' => '8b073d7fab6e456aba3452990d1afc9d',//Lody's account
+    //'ShipStationApiKey' => '45e89d238134405b9d77d35806b1e404',
+    //'ShipStationApiSecret' => '8b073d7fab6e456aba3452990d1afc9d',//Lody's account
 
     //Live keys
-    'ShipStationApiKeyLive' => '22c69f4c9957498b903c1428545f1c53',
-    'ShipStationApiSecretLive' => 'af8eade38f81409bbea191fe07da3f11',
+    'ShipStationApiKey' => '22c69f4c9957498b903c1428545f1c53',
+    'ShipStationApiSecret' => 'af8eade38f81409bbea191fe07da3f11',
 
 
     'BidIncrementValue' => 5, //amount to increase bids by

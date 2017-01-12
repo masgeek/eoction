@@ -20,6 +20,7 @@ $url = '//www.youtube.com/embed/MY7dEN3nrnY';
         <h3><?= $this->title ?></h3>
     </div>
 </div>
+<!--
 <div class="row">
     <div class="col-m-8 col-md-offset-4">
         <?= VideoEmbed::widget([
@@ -29,13 +30,12 @@ $url = '//www.youtube.com/embed/MY7dEN3nrnY';
         ]); ?>
     </div>
 </div>
-<!--
+-->
+
 <div class="row">
-    <div class="col-sm-8 col-sm-offset-2">
-        <h2><?= $this->title ?></h2>
+    <div class="col-md-8 col-md-offset-2">
         <div class="embed-responsive embed-responsive-16by9">
-            <iframe class="embed-responsive-item" src="<?= $url ?>"></iframe>
+            <iframe class="embed-responsive-item center-block" src="<?= $url ?>"></iframe>
         </div>
     </div>
 </div>
--->

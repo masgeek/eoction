@@ -20,7 +20,10 @@ $imageHost = \Yii::$app->params['ExternalImageServerLink'];
 $imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
 
 $imageObject = $model->image1;
-$product_image = $imageObject ? $imageObject: '@web/product_images/placeholder.png';
+
+$product_image = $imageObject;
+$product_image_2 = '@web/product_images/placeholder.png';
+
 
 $retail_price_raw = $model->buyitnow;
 
@@ -43,10 +46,12 @@ $retail_price = $formatter->asCurrency($retail_price_raw);
                 'id' => 'product_image_' . $product_id,
                 'class' => 'img img-responsive',
                 'alt' => $product_name,
+                //'style' => 'max-height:220px'
             ]); ?>
             <div class="col-md-12 col-xs-6 text-center">
-                <span><?= $product_name ?></span>
+                <span class="small"><?= $product_name ?></span>
             </div>
+            <hr/>
             <div class="col-md-12 col-xs-6 text-center">
                 <span class="retail-price"><?= $retail_price; ?></span>
             </div>
