@@ -104,7 +104,7 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
-    public function actionCreateOrders($paypal_hash = '57f75e957e58b30d8f476886b8c62dc4', $user_id = 5)
+    public function actionCreateOrders($paypal_hash, $user_id)
     {
         $shipStationService = new ShipStationHandler();
 
