@@ -9,7 +9,7 @@ use yii\helpers\Html;
         <div class="col-sm-12 col-md-3">
             <h3 class="widget-title">EOCTION</h3>
             <div class="textwidget">
-                <a href="http://www.eoction.com/#">About Us</a><br>
+                <?=Html::a('About Us', ['//site/about'], ['title' => 'About our company']); ?><br>
                 <?=Html::a('Terms &amp; Conditions', ['//site/terms'], ['title' => 'Terms &amp; Conditions']); ?><br>
                 <?=Html::a('Seller Terms', ['//site/seller-terms'], ['title' => 'Seller terms &amp Conditions']); ?><br>
                 <a href="http://www.eoction.com/#">Privacy Policy</a><br>
