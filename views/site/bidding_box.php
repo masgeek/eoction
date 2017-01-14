@@ -46,50 +46,8 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
 \app\components\BidManager::NextBidAmount($product_id);
 ?>
 
-<!--
-<div class="col-xs-18 col-sm-6 col-md-3" id="item_box_<?= $product_id; ?>">
-    <div class="offer offer-default">
-        <div class="shape">
-            <span class="shape-text" id="discount_<?= $product_id ?>"><?= $discount ?>%</span>
-            <span class="shape-text quickview"><i class="fa fa-eye "></i> Quick View</span>
-        </div>
-        <div class="offer-content">
-            <?= Html::img($product_image, [
-    'id' => 'product_image_' . $product_id,
-    'class' => 'img img-responsive',
-    'alt' => $product_name,
-]); ?>
-            <div class="col-md-12 col-xs-6 text-center">
-                <span class="bidding-price">Bid Price: <span
-                        id="bid_price<?= $product_id ?>"><?= $starting_bid_price ?></span></span><br/>
-                <span class="crossed retail-price"><?= $retail_price; ?></span>
-            </div>
-            <div class="col-md-12 col-xs-6 text-center text-uppercase">
-                <span id="bids_placed_<?= $product_id ?>"><?= $bids ?></span> Bid(s)
-            </div>
-
-            <div class="col-md-12 col-xs-6 progress-container">
-                <div class="bidProgress noplacedbids" id="progressBar<?= $product_id ?>"></div>
-            </div>
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1 col-xs-12" id="bid_button_<?= $product_id ?>">
-                    <?= Html::button('<span class="hammer-icon pull-left"></span>BID NOW', [
-    'class' => 'btn btn-bid btn-bid-active btn-block noradius',
-    'id' => "placebid_$product_id"
-]) ?>
-                </div>
-
-            </div>
-            <div class="col-md-12 col-xs-6 text-center">
-                <div id="bid_status_<?= $product_id; ?>" class="text-uppercase bid-message">Accepting Bids</div>
-            </div>
-        </div>
-    </div>
-</div>
--->
-
 <div class="col-xs-18 col-sm-6 col-md-3 column productbox" id="item_box_<?= $product_id; ?>">
-    <div class="hiddens">
+    <div class="hidden">
         <input type="text" id="bid_count_<?= $product_id; ?>" value="0" readonly="readonly"/>
         <input type="text" id="bid_price_<?= $product_id; ?>" value="0" readonly="readonly"/>
         <input type="text" id="bid_type_<?= $product_id; ?>" value="1" readonly="readonly"/>
