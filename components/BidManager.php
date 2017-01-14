@@ -273,7 +273,7 @@ class BidManager
 
     public static function GetWinningUser($product_id, $sku, $bid_won = false)
     {
-        $winning_name = null;
+        $winning_name = '';
         $logged_in_id = \Yii::$app->user->id;
         $winning_user_id = BidManager::GetBidWinner($product_id, $sku);
 
