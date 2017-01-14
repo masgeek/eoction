@@ -278,7 +278,7 @@ class BidManager
         $winning_user_id = BidManager::GetBidWinner($product_id, $sku);
 
         if ($logged_in_id == $winning_user_id) {
-            $winning_name = $bid_won ? 'you have' : 'you are';
+            $winning_name = $bid_won ? 'you have won!' : 'you are winning';
         } else {
             if ($winning_user_id > 0) {
                 $userData = Users::findOne($winning_user_id);
