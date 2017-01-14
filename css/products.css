@@ -127,12 +127,12 @@
 
 /* new product box sizing and styling */
 .productbox {
-    max-width: 350px;
+    /*width: 30%;*/
     background-color: #dddddd;
     padding: 10px;
     margin-bottom: 10px;
-    margin-left:1px;
-    margin-right:1px;
+    /*margin-left:1px;
+    margin-right:1px;*/
     -webkit-box-shadow: 0 8px 6px -6px #999;
     -moz-box-shadow: 0 8px 6px -6px #999;
     box-shadow: 0 8px 6px -6px #999;
