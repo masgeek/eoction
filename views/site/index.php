@@ -70,7 +70,7 @@ $listviewWidget = ListView::widget([
 -->
 <style>
     .list-wrapper {
-        background-color: pink;
+        background-color: transparent;
     }
 
     .progress-container {

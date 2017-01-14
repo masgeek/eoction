@@ -113,3 +113,15 @@
     padding: 1em;
     border: solid;
 }
+
+
+
+.proportion-image {
+    height: 300px;
+    /*width: 400px;*/
+    overflow: hidden;
+}
+.proportion-image img {
+    height: auto;
+    width: 100%;
+}

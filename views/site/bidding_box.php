@@ -20,8 +20,8 @@ $imageHost = \Yii::$app->params['ExternalImageServerLink'];
 $imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
 
 $imageObject = $model->image1;
-$product_image = $imageObject ? $imageObject : '@web/product_images/placeholder.png';
-//$product_image = '@web/product_images/placeholder.png';
+//$product_image = $imageObject ? $imageObject : '@web/product_images/placeholder.png';
+$product_image = 'http://lorempixel.com/460/250/';
 
 
 //calculate the percentage discount based on the retail price and the bidded amount
@@ -96,13 +96,14 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
         <input type="text" id="bid_placed_<?= $product_id; ?>" value="0" readonly="readonly"/>
         <input type="text" id="product_sku_<?= $product_id; ?>" value="<?= $sku ?>" readonly="readonly"/>
     </div>
-    <div id="image_box<?= $product_id ?>">
+    <div class="proportion-image" id="image_box<?= $product_id ?>">
         <?= Html::img($product_image, [
             'id' => 'product_image_' . $product_id,
             'class' => 'img-responsive',
             'alt' => $product_name,
         ]); ?>
     </div>
+
     <div class="bidding-price text-center">
         Bid Price: <span id="bid_price<?= $product_id ?>"><?= $starting_bid_price ?></span>
     </div>
