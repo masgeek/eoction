@@ -74,6 +74,7 @@ class ShopController extends Controller
             'bid_price' => BidManager::GetMaxBidAmount($product_id),
             'bid_count' => ProductManager::GetNumberOfBids($product_id),
             'discount' => ProductManager::ComputePercentageDiscount($product_id),
+            'winning_user' => BidManager::GetWiningUser($product_id)
         ];
         return json_encode($updateData);
     }

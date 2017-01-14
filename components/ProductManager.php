@@ -108,7 +108,7 @@ class ProductManager
         $item_provider = new ActiveDataProvider([
             'query' => $query, //randomly pick items
             'pagination' => [
-                'pageSize' => $no_of_items
+                'pageSize' => $no_of_items = 1
             ],
         ]);
 

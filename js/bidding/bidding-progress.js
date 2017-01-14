@@ -265,6 +265,7 @@ function ItemUpdate($product_id, $sku, $toclear) {
     //var updateUrl = $('#update_url').val();
     var $bidPrice = $('#bid_price' + $product_id);
     var bidsPlaced = $('#bids_placed_' + $product_id);
+    var winningUser = $('#winning_user_' + $product_id);
     var intervals = Math.floor((Math.random() * 6000) + 1560);
     /*$.get(updateUrl, {product_id: $product_id, sku: $sku}, function (data) {
      var $bid_count = data.bid_count;
@@ -281,8 +282,11 @@ function ItemUpdate($product_id, $sku, $toclear) {
             $.getJSON(updateUrl, {product_id: $product_id, sku: $sku}, function (data) {
                 var $bid_count = data.bid_count;
                 var $new_bid_price = data.bid_price;
+                var $winning_user = data.winning_user;
                 $bidPrice.html($new_bid_price);
                 bidsPlaced.html($bid_count);
+                winningUser.html($winning_user);
+                console.log($winning_user);
             });
         }, intervals); //check every n seconds
         //console.log('Set interval {' + intervalObj[$product_id]+'} {'+intervals+'}');
