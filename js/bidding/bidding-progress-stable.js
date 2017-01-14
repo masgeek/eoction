@@ -217,7 +217,7 @@ function FetchNextItem($previous_product_id) {
     var $productBox = $('#item_box_' + $previous_product_id);
     var intervals = 1000;///Math.floor((Math.random() * 1500) + 200);
 
-    setTimeout(function () {//wait 5 seconds before fetching next item
+    setTimeout(function () {//wait n seconds before fetching next item
         $.ajax({
             url: $productUrl,
             data: {
@@ -242,7 +242,7 @@ function FetchNextItem($previous_product_id) {
             },
             type: 'POST'
         });
-    }, 5000);
+    }, 2000);
 }
 
 function RefreshSomeEventListener($product_id, $sku) {
