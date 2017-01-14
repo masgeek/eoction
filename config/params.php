@@ -10,8 +10,8 @@ return [
     'ShipStationApiUrl' => '//ssapi.shipstation.com/', //API end point
 
     //my test account
-    //'ShipStationApiKey' => 'c8c2f2b454fa41c58738d32d7fcc2004',
-    //'ShipStationApiSecret' => 'c01859545fa84170b6e2413d44a286a3',
+    //'ShipStationApiKey' => '2d642779f3014e9fbaf6cb554b51d636',//'c8c2f2b454fa41c58738d32d7fcc2004',
+    //'ShipStationApiSecret' => 'a49a2a31304a4bf891e7248269f8b506',//'c01859545fa84170b6e2413d44a286a3',
 
     //lody test account
     //'ShipStationApiKey' => '45e89d238134405b9d77d35806b1e404',

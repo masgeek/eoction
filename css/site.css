@@ -164,13 +164,16 @@ a.desc:after {
 }
 
 .btn.btn-bid-active{
-    border: 0.1em solid #0a0a0a;
-    background-color: #FFFFFF;
-    color:#a07936;
+   /* border-top: 0.1em solid #0a0a0a;
+    border-right: 0.1em solid #0a0a0a;
+    border-left: 0.1em solid #0a0a0a;*/
+    background-color:#5D4037;
+    color:#FFF;/*#a07936*/;
 }
 
 .btn.btn-bid-ended{
-    border: 0.1em solid #ab1819;
+    /*border: 0.1em solid #ab1819;*/
+    border: none;
     background-color: #77562d;
     color: #FFFFFF;
 }

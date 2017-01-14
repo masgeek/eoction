@@ -90,11 +90,12 @@
 
 /* font stuff */
 .bidding-price {
-    font-size: 2rem;
+    font-weight:600;
+    font-size: 1.4em;
 }
 
 .retail-price {
-    font-size: 2rem;
+    font-size: 1.2em;
 }
 
 .crossed {

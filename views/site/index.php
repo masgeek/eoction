@@ -79,36 +79,35 @@ $listviewWidget = ListView::widget([
 
     .bidProgress {
         width: 100%;
-        height: 10px;
+        height: 5px;
         margin-bottom: 5px;
-        background-color: #e8202a;
-        border:1px solid #1e002b;
+        /*border-bottom:1px solid #1e002b;*/
+        border:none;
     }
 
-    .noplacedbids, .awaitingbid {
-        /*background-color: purple;*/
-        background-image: linear-gradient(to right, #f00439, #f28d0d, pink);
-    }
-
-    .awaitingbid-old {
-        /*background-color: #42e83e;*/
-        background-image: linear-gradient(to right, #3b389b, #5d5aff, yellow);
+    .noplacedbids, .awaitingbid,.bidProgress {
+        background-color: #29B6F6;
+        /*background-image: linear-gradient(to right, #f00439, #f28d0d, pink);*/
     }
 
     .goingonce {
-        background-image: linear-gradient(to right, #f09208, #b46e08, red);
+        background-color: #4caf50;
+        /*background-image: linear-gradient(to right, #f09208, #b46e08, red);*/
     }
 
     .goingtwice {
-        background-image: linear-gradient(to right, #f00439, #f28d0d, red);
+        background-color: #ff9800;
+        /*background-image: linear-gradient(to right, #f00439, #f28d0d, red);*/
     }
 
     .bidwon {
-        background-image: linear-gradient(to right, #f00439, #f28d0d.red);
+        background-color: #cddc39;
+        /*background-image: linear-gradient(to right, #f00439, #f28d0d.red);*/
     }
 
     .nextbid {
-        background-image: linear-gradient(to right, #f00439, #f28d0d);
+        background-color: #795548;
+        /*background-image: linear-gradient(to right, #f00439, #f28d0d);*/
     }
 
     .fadein {

@@ -35,13 +35,15 @@ $product_name = $model->name;
 
 $discount = ProductManager::ComputePercentageDiscount($product_id);
 $shipping = ProductManager::ComputeShippingCost($product_id);
-$bidStartTime = 5;// * $productID; //initial start time for the bid
+$bidStartTime = 60;// * $productID; //initial start time for the bid
 
 $shipping_cost = $formatter->asCurrency($shipping);
 $retail_price = $formatter->asCurrency($model->buyitnow);
 
 $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
 
+
+\app\components\BidManager::NextBidAmount($product_id);
 ?>
 
 
@@ -77,7 +79,7 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
             </div>
 
             <div class="col-md-12 col-xs-6 progress-container">
-                <div class="bidProgress" id="progressBar<?= $product_id ?>"></div>
+                <div class="bidProgress noplacedbids" id="progressBar<?= $product_id ?>"></div>
             </div>
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 col-xs-12" id="bid_button_<?= $product_id ?>">
@@ -94,10 +96,11 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
         </div>
     </div>
 </div>
+
 <!-- start the script -->
 <?php
 $this->registerJs("
-   SetupProgressBar($product_id,$bidStartTime);
+   //SetupProgressBar($product_id,$bidStartTime);
 ", View::POS_END)
 ?>
 
