@@ -271,18 +271,18 @@ class BidManager
 
     }
 
-    public static function GetWinningUser($product_id, $sku)
+    public static function GetWinningUser($product_id, $sku, $bid_won = false)
     {
         $winning_name = null;
         $logged_in_id = \Yii::$app->user->id;
         $winning_user_id = BidManager::GetBidWinner($product_id, $sku);
 
         if ($logged_in_id == $winning_user_id) {
-            $winning_name = 'you are';
+            $winning_name = $bid_won ? 'you have' : 'you are';
         } else {
             if ($winning_user_id > 0) {
                 $userData = Users::findOne($winning_user_id);
-                $winning_name = $userData->FULL_NAMES . ' is';
+                $winning_name = $bid_won ? $userData->FULL_NAMES . ' has won!' : $userData->FULL_NAMES . ' is winning';
             }
         }
 
