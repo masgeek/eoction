@@ -277,7 +277,7 @@ class BidManager
         $logged_in_id = \Yii::$app->user->id;
         $winning_user_id = BidManager::GetBidWinner($product_id, $sku);
 
-        if ($logged_in_id == $winning_user_id) {
+        if ($logged_in_id == $winning_user_id && $winning_user_id > 0) {
             $winning_name = $bid_won ? 'you have won!' : 'you are winning';
         } else {
             if ($winning_user_id > 0) {
