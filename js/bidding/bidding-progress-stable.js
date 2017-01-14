@@ -384,8 +384,8 @@ function ItemUpdate($product_id, $sku, $toclear) {
 
                 $bidPrice.html($new_bid_price);
                 bidsPlaced.html($bid_count);
-                winningUser.html($winning_user+' is winning');
-                console.log($winning_user);
+                winningUser.html($winning_user + ' winning');
+                //console.log($winning_user);
 
             });
         }, intervals); //check every n seconds
@@ -396,7 +396,10 @@ function ItemUpdate($product_id, $sku, $toclear) {
         var userId = $('#user_id').val();
         var bidwonUrl = $('#bidwon_url').val();
         $.getJSON(bidwonUrl, {user_id: userId, product_id: $product_id, sku: $sku}, function (data) {
-            //mark the item as won..no data is acted upon in the response
+            //mark the item as won..and show the winning user
+            var $winning_user = data.winning_user;
+            winningUser.html($winning_user + ' won!');
+            //console.log($winning_user);
         });
     }
 }

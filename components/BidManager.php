@@ -14,6 +14,7 @@ namespace app\components;
 
 use app\module\products\models\FryProductImages;
 use app\module\products\models\FryProducts;
+use app\module\users\models\Users;
 use yii\db\Expression;
 use yii\helpers\Html;
 
@@ -177,6 +178,7 @@ class BidManager
 
 
     /**
+     * return teh user id of the winning user
      * @param $product_id
      * @param $sku
      * @return int
@@ -269,9 +271,22 @@ class BidManager
 
     }
 
-    public static function GetWiningUser($product_id, $sku = null)
+    public static function GetWinningUser($product_id, $sku)
     {
-        return 'puytin';
+        $winning_name = null;
+        $logged_in_id = \Yii::$app->user->id;
+        $winning_user_id = BidManager::GetBidWinner($product_id, $sku);
+
+        if ($logged_in_id == $winning_user_id) {
+            $winning_name = 'you are';
+        } else {
+            if ($winning_user_id > 0) {
+                $userData = Users::findOne($winning_user_id);
+                $winning_name = $userData->FULL_NAMES . ' is';
+            }
+        }
+
+        return $winning_name;
     }
 
     /**
@@ -366,7 +381,7 @@ class BidManager
         <input type=\"text\" id=\"bid_price_$product_id\" value=\"0\" readonly=\"readonly\"/>
         <input type=\"text\" id=\"bid_type_$product_id\" value=\"1\" readonly=\"readonly\"/>
         <input type=\"text\" id=\"bid_placed_$product_id\" value=\"0\" readonly=\"readonly\"/>
-        <input type=\"text\" id=\"product_sku_$product_id\" value=\"<?= $sku ?>\" readonly=\"readonly\"/>
+        <input type=\"text\" id=\"product_sku_$product_id\" value=\"$sku\" readonly=\"readonly\"/>
     </div>
     <div class=\"proportion-image\" id=\"image_box$product_id\">
     $imageHtml

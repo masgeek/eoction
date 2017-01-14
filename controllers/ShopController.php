@@ -74,7 +74,7 @@ class ShopController extends Controller
             'bid_price' => BidManager::GetMaxBidAmount($product_id),
             'bid_count' => ProductManager::GetNumberOfBids($product_id),
             'discount' => ProductManager::ComputePercentageDiscount($product_id),
-            'winning_user' => BidManager::GetWiningUser($product_id)
+            'winning_user' => BidManager::GetWinningUser($product_id,$sku)
         ];
         return json_encode($updateData);
     }
@@ -88,10 +88,16 @@ class ShopController extends Controller
     public function actionBidWon($user_id, $product_id, $sku)
     {
         $resp = [];
+        $resp_code = 0;
         $bid_winner = BidManager::GetBidWinner($product_id, $sku);
         if ($bid_winner > 0) {
-            $resp = BidManager::MarkBidAsWon($user_id, $product_id);
+            $resp_code = BidManager::MarkBidAsWon($user_id, $product_id);
         }
+
+        $resp = [
+            'resp' => $resp_code,
+            'winning_user' => BidManager::GetWinningUser($product_id,$sku)
+        ];
 
         return json_encode($resp);
     }
