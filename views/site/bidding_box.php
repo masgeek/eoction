@@ -77,7 +77,7 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
     </div>
     <div class="text-center">
         <div class="text-uppercase bid-message bid-status"><span id="bid_status_<?= $product_id; ?>">Accepting Bids</span></div>
-        <div class="text-uppercase winning-user text-muted"><span id="winning_user_<?= $product_id; ?>">&nbsp;</span></div>
+        <div class="text-uppercase winning-user text-muted"><span id="winning_user_<?= $product_id; ?>">-</span></div>
     </div>
     <div class="productprice">
         <div class="pull-right">

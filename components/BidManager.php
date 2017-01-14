@@ -284,7 +284,7 @@ class BidManager
     {
 
 
-        $winning_name = '';
+        $winning_name = '-';
         $logged_in_id = \Yii::$app->user->id;
         $winning_user_id = BidManager::GetBidWinner($product_id, $sku);
 
@@ -413,7 +413,7 @@ class BidManager
     </div>
     <div>
         <div class=\"text-uppercase bid-message bid-status\"><span id=\"bid_status_$product_id\">Accepting Bids</span></div>
-        <div class=\"text-uppercase winning-user text-muted\"><span id=\"winning_user_$product_id\"></span></div>
+        <div class=\"text-uppercase winning-user text-muted\"><span id=\"winning_user_$product_id\">-</span></div>
     </div>
     <div class=\"productprice\">
         <div class=\"pull-right\">
