@@ -127,13 +127,16 @@
 
 /* new product box sizing and styling */
 .productbox {
+    max-width: 300px;
     background-color: #dddddd;
     padding: 10px;
     margin-bottom: 10px;
+    margin-left:1px;
+    margin-right:1px;
     -webkit-box-shadow: 0 8px 6px -6px #999;
     -moz-box-shadow: 0 8px 6px -6px #999;
     box-shadow: 0 8px 6px -6px #999;
-    border:1px solid black;
+    border:0.03em solid #607D8B;
 }
 
 .producttitle {
