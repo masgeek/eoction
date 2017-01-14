@@ -21,6 +21,7 @@ $updateUrl = Url::toRoute(['shop/item-update']);
 $biddingUrl = Url::toRoute(['site/place-bid']);
 $productUrl = Url::toRoute(['site/next-item']);
 $bidwonUrl = Url::toRoute(['shop/bid-won']);
+$winningUrl = Url::toRoute(['shop/winning-user']);
 
 
 $userId = yii::$app->user->id ? yii::$app->user->id : 0;
@@ -49,6 +50,7 @@ $listviewWidget = ListView::widget([
 <?= Html::textInput('bid_url', $biddingUrl, ['readonly' => true, 'id' => 'bid_url', 'class' => 'hidden']) ?>
 <?= Html::textInput('product_url', $productUrl, ['readonly' => true, 'id' => 'product_url', 'class' => 'hidden']) ?>
 <?= Html::textInput('user_id', $userId, ['readonly' => true, 'id' => 'user_id', 'class' => 'hidden']) ?>
+<?= Html::textInput('winning_url', $winningUrl, ['readonly' => true, 'id' => 'winning_url', 'class' => 'hidden']) ?>
 
 <div class="col-md-10 col-md-offset-1">
     <?= $listviewWidget ?>

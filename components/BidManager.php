@@ -192,9 +192,11 @@ class BidManager
             ->andWhere(['PRODUCT_SKU' => $sku])
             ->asArray()
             ->one();
+
         if (count($bid_winner_data) == 1) {
             $bid_winner = $bid_winner_data['LAST_BIDDING_USER_ID'];
         }
+
         return (int)$bid_winner;
     }
 
@@ -271,8 +273,17 @@ class BidManager
 
     }
 
+    /**
+     * Get the user who is leading in a products bid
+     * @param $product_id
+     * @param $sku
+     * @param bool $bid_won
+     * @return string
+     */
     public static function GetWinningUser($product_id, $sku, $bid_won = false)
     {
+
+
         $winning_name = '';
         $logged_in_id = \Yii::$app->user->id;
         $winning_user_id = BidManager::GetBidWinner($product_id, $sku);
@@ -282,6 +293,7 @@ class BidManager
         } else {
             if ($winning_user_id > 0) {
                 $userData = Users::findOne($winning_user_id);
+
                 $winning_name = $bid_won ? $userData->FULL_NAMES . ' has won!' : $userData->FULL_NAMES . ' is winning';
             }
         }
