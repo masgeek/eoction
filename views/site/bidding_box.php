@@ -20,8 +20,8 @@ $imageHost = \Yii::$app->params['ExternalImageServerLink'];
 $imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
 
 $imageObject = $model->image1;
-//$product_image = $imageObject ? $imageObject : '@web/product_images/placeholder.png';
-$product_image = 'http://lorempixel.com/460/250/';
+$product_image = $imageObject ? $imageObject : '@web/product_images/placeholder.png';
+//$product_image = 'http://lorempixel.com/460/250/';
 
 
 //calculate the percentage discount based on the retail price and the bidded amount
@@ -89,7 +89,7 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
 -->
 
 <div class="col-xs-18 col-sm-6 col-md-3 column productbox" id="item_box_<?= $product_id; ?>">
-    <div class="hidden">
+    <div class="hiddens">
         <input type="text" id="bid_count_<?= $product_id; ?>" value="0" readonly="readonly"/>
         <input type="text" id="bid_price_<?= $product_id; ?>" value="0" readonly="readonly"/>
         <input type="text" id="bid_type_<?= $product_id; ?>" value="1" readonly="readonly"/>
@@ -141,47 +141,4 @@ $this->registerJs("
    SetupProgressBar($product_id,$bidStartTime);
 ", View::POS_END)
 ?>
-
-<style type="text/css">
-    .productbox {
-        background-color: #dddddd;
-        padding: 10px;
-        margin-right: 3px;
-        margin-left: 3px;
-        margin-bottom: 10px;
-        -webkit-box-shadow: 0 8px 6px -6px #999;
-        -moz-box-shadow: 0 8px 6px -6px #999;
-        box-shadow: 0 8px 6px -6px #999;
-    }
-
-    .producttitle {
-        font-weight: bold;
-        padding: 5px 0 5px 0;
-    }
-
-    .bid-status {
-        font-weight: bold;
-        text-align: center;
-    }
-
-    .winning-user {
-        font-weight: 400;
-        text-align: center;
-    }
-
-    .productprice {
-        border-top: 1px solid #dadada;
-        padding-top: 5px;
-    }
-
-    .pricetext {
-        font-weight: bold;
-        font-size: 1.2em;
-    }
-
-    .discount {
-        font-weight: bold;
-        font-size: 1.2em;
-    }
-</style>
 

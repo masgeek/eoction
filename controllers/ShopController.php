@@ -54,7 +54,7 @@ class ShopController extends Controller
     //entry page
     public function actionIndex()
     {
-        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 20, $for_auction = [1, 0], $min_stock = 1, $exclusion_list = [],$random = false);
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 20, $for_auction = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false);
         $this->view->title = 'Online Shopping';
         return $this->render('//site/shop', ['listDataProvider' => $dataProvider]);
     }

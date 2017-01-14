@@ -101,14 +101,14 @@ class ProductManager
                 ->where(['IN', 'visible', $auction_param,])
                 ->andWhere(['>=', 'min_stock', $min_stock])//stock levels should be greater or equal to 1
                 ->andWhere(['NOT IN', 'sku', $exclusion_list])
-                //->orderBy(['rand()' => SORT_DESC])
-                ->orderBy('productid ASC');
+                ->orderBy(['rand()' => SORT_DESC]);
+                //->orderBy('productid ASC');
         }
 
         $item_provider = new ActiveDataProvider([
             'query' => $query, //randomly pick items
             'pagination' => [
-                'pageSize' => $no_of_items = 2
+                'pageSize' => $no_of_items
             ],
         ]);
 
