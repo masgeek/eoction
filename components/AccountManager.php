@@ -66,11 +66,11 @@ class AccountManager
      * @param string $address_type
      * @return static
      */
-    public static function GetUserAddress($user_id, $address_type)
+    public static function GetUserAddress($user_id, $address_type = null)
     {
         $addressInfo = UserAddress::findOne([
             'USER_ID' => $user_id,
-            'ADDRESS_TYPE' => $address_type //start with billing address
+            //'ADDRESS_TYPE' => $address_type //start with billing address
         ]);
 
         return $addressInfo;

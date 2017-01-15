@@ -90,11 +90,12 @@
 
 /* font stuff */
 .bidding-price {
-    font-size: 2rem;
+    font-weight: 600;
+    font-size: 1.4em;
 }
 
 .retail-price {
-    font-size: 2rem;
+    font-size: 1.2em;
 }
 
 .crossed {
@@ -111,4 +112,59 @@
 
     padding: 1em;
     border: solid;
+}
+
+.proportion-image {
+    height: 400px;
+    /*width: 400px;*/
+    overflow: hidden;
+}
+
+.proportion-image img {
+    height: auto;
+    width: 100%;
+}
+
+/* new product box sizing and styling */
+.productbox {
+    /*width: 30%;*/
+    background-color: #dddddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    /*margin-left:1px;
+    margin-right:1px;*/
+    -webkit-box-shadow: 0 8px 6px -6px #999;
+    -moz-box-shadow: 0 8px 6px -6px #999;
+    box-shadow: 0 8px 6px -6px #999;
+    border:0.03em solid #607D8B;
+}
+
+.producttitle {
+    font-weight: bold;
+    padding: 5px 0 5px 0;
+}
+
+.bid-status {
+    font-weight: bold;
+    text-align: center;
+}
+
+.winning-user {
+    font-weight: 400;
+    text-align: center;
+}
+
+.productprice {
+    border-top: 1px solid #dadada;
+    padding-top: 5px;
+}
+
+.pricetext {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.discount {
+    font-weight: bold;
+    font-size: 1.2em;
 }

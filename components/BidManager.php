@@ -14,6 +14,7 @@ namespace app\components;
 
 use app\module\products\models\FryProductImages;
 use app\module\products\models\FryProducts;
+use app\module\users\models\Users;
 use yii\db\Expression;
 use yii\helpers\Html;
 
@@ -177,6 +178,7 @@ class BidManager
 
 
     /**
+     * return teh user id of the winning user
      * @param $product_id
      * @param $sku
      * @return int
@@ -190,9 +192,11 @@ class BidManager
             ->andWhere(['PRODUCT_SKU' => $sku])
             ->asArray()
             ->one();
+
         if (count($bid_winner_data) == 1) {
             $bid_winner = $bid_winner_data['LAST_BIDDING_USER_ID'];
         }
+
         return (int)$bid_winner;
     }
 
@@ -270,6 +274,34 @@ class BidManager
     }
 
     /**
+     * Get the user who is leading in a products bid
+     * @param $product_id
+     * @param $sku
+     * @param bool $bid_won
+     * @return string
+     */
+    public static function GetWinningUser($product_id, $sku, $bid_won = false)
+    {
+
+
+        $winning_name = '-';
+        $logged_in_id = \Yii::$app->user->id;
+        $winning_user_id = BidManager::GetBidWinner($product_id, $sku);
+
+        if ($logged_in_id == $winning_user_id && $winning_user_id > 0) {
+            $winning_name = $bid_won ? 'you have won!' : 'you are winning';
+        } else {
+            if ($winning_user_id > 0) {
+                $userData = Users::findOne($winning_user_id);
+
+                $winning_name = $bid_won ? $userData->FULL_NAMES . ' has won!' : $userData->FULL_NAMES . ' is winning';
+            }
+        }
+
+        return $winning_name;
+    }
+
+    /**
      * @param int $product_id
      * @return array
      */
@@ -329,6 +361,142 @@ class BidManager
      * @return array
      */
     private static function BuildList($product_id, $sku, $product_name, $retail_price_raw, $starting_bid_price_raw, $product_image)
+    {
+        /* @var $imageObject FryProductImages */
+        $formatter = \Yii::$app->formatter;
+        $imageHost = \Yii::$app->params['ExternalImageServerLink'];
+        $imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
+
+        $imageModel = new FryProducts();
+
+
+        $shipping_cost = $formatter->asCurrency(ProductManager::ComputeShippingCost($product_id));
+        $retail_price = $formatter->asCurrency($retail_price_raw);
+        $starting_bid_price = $formatter->asCurrency($starting_bid_price_raw);
+        //$shipping_cost = ProductManager::ComputeShippingCost($product_id);
+        $bids = ProductManager::GetNumberOfBids($product_id);
+        $discount = ProductManager::ComputePercentageDiscount($product_id);
+
+        //$alias_path =  \Yii::getAlias('@web');
+
+
+        $imageHtml = Html::img($product_image, [
+            'id' => 'product_image_' . $product_id,
+            'class' => 'img-responsive proportion-image',
+            'alt' => $product_name,
+        ]);
+
+
+        $html_list = "<div class=\"col-xs-18 col-sm-6 col-md-3 column productbox\" id=\"item_box_$product_id\">
+    <div class=\"hidden\">
+        <input type=\"text\" id=\"bid_count_$product_id\" value=\"0\" readonly=\"readonly\"/>
+        <input type=\"text\" id=\"bid_price_$product_id\" value=\"0\" readonly=\"readonly\"/>
+        <input type=\"text\" id=\"bid_type_$product_id\" value=\"1\" readonly=\"readonly\"/>
+        <input type=\"text\" id=\"bid_placed_$product_id\" value=\"0\" readonly=\"readonly\"/>
+        <input type=\"text\" id=\"product_sku_$product_id\" value=\"$sku\" readonly=\"readonly\"/>
+    </div>
+    <div class=\"proportion-image\" id=\"image_box$product_id\">
+    $imageHtml
+    </div>
+    <div class=\"bidding-price text-center\">
+        Bid Price: <span id=\"bid_price$product_id\">$starting_bid_price</span>
+    </div>
+    <div class=\"producttitle\">
+        <!--<button class=\"btn btn-block\">BID NOW</button>-->
+
+        <div class=\"\" id=\"bid_button_$product_id\">
+            <button class=\"btn btn-bid btn-bid-active btn-block noradius text-uppercase\" id=\"placebid_$product_id\">
+            <span class=\"hammer-icon pull-left\"></span>Bid Now
+            </button>
+        </div>
+        <div class=\"bidProgress noplacedbids\" id=\"progressBar$product_id\"></div>
+    </div>
+    <div>
+        <div class=\"text-uppercase bid-message bid-status\"><span id=\"bid_status_$product_id\">Accepting Bids</span></div>
+        <div class=\"text-uppercase winning-user text-muted\"><span id=\"winning_user_$product_id\">-</span></div>
+    </div>
+    <div class=\"productprice\">
+        <div class=\"pull-right\">
+            <a href=\"#\" class=\"btn btn-default btn-sm\" role=\"button\" title=\"Percentage discount $discount%\">
+                <span class=\"crossed retail-price\">$retail_price</span>
+                <span class=\"discount\" id=\"discount_$product_id\">$discount% Off</span>
+            </a>
+        </div>
+        <div class=\"pricetext text-uppercase\">
+            <a href=\"#\" class=\"btn btn-default btn-sm\" role=\"button\" title=\"Percentage discount $discount%\">
+                <span id=\"bids_placed_$product_id\">$bids</span> Bid(s)
+            </a>
+        </div>
+    </div>
+</div>";
+
+        $html_list_old = "<div class=\"col-xs-18 col-sm-6 col-md-3\" id=\"item_box_$product_id\">
+    <div class=\"hidden\">
+        <input type=\"text\" id=\"bid_count_$product_id\" value=\"0\" readonly=\"readonly\"/>
+        <input type=\"text\" id=\"bid_price_$product_id\" value=\"0\" readonly=\"readonly\"/>
+        <input type=\"text\" id=\"bid_type_$product_id\" value=\"1\" readonly=\"readonly\"/>
+        <input type=\"text\" id=\"bid_placed_$product_id\" value=\"0\" readonly=\"readonly\"/>
+        <input type=\"text\" id=\"product_sku_$product_id\" value=\"$sku\" readonly=\"readonly\"/>
+    </div>
+    <div class=\"offer offer-default\">
+        <div class=\"shape\">
+            <span class=\"shape-text\" id=\"discount_$product_id\">$discount%</span>
+            <span class=\"shape-text quickview\"><i class=\"fa fa-eye \"></i> Quick View</span>
+        </div>
+        <div class=\"offer-content\">
+            $imageHtml
+            <div class=\"col-md-12 col-xs-6 text-center\">
+                <span class=\"bidding-price\">Bid Price: <span id=\"bid_price$product_id\">$starting_bid_price</span></span><br/>
+                <span class=\"crossed retail-price\">$retail_price</span>
+            </div>
+            <div class=\"col-md-12 col-xs-6 text-center\">
+                <span>Shipping $shipping_cost</span>
+            </div>
+            <div class=\"col-md-12 col-xs-6 text-center text-uppercase\">
+                <span id=\"bids_placed_$product_id\">$bids</span> Bid(s)
+            </div>
+            <div class=\"col-md-12 col-xs-6 progress-container\">
+            <div class=\"bidProgress noplacedbids\" id=\"progressBar$product_id\"></div>
+                </div>
+            <div class=\"row\">
+                <div class=\"col-md-10 col-md-offset-1 col-xs-12\" id=\"bid_button_$product_id\">
+                    <button class=\"btn btn-bid btn-bid-active btn-block noradius text-uppercase\" id=\"placebid_$product_id\">
+                        <span class=\"hammer-icon pull-left\"></span>Bid Now
+                    </button>
+                </div>
+
+            </div>
+            <div class=\"col-md-12 col-xs-6 text-center\">
+                <div id=\"bid_status_$product_id\" class=\"text-uppercase bid-message\">Accepting Bids</div>
+            </div>
+        </div>
+    </div>
+</div>";
+
+
+        //return the item list now
+        $product_box = [
+            'bid_price' => $starting_bid_price,
+            'discount' => $discount,
+            'bid_count' => $bids,
+            'product_id' => $product_id,
+            'sku' => $sku,
+            'html_data' => $html_list
+        ];
+        return $product_box;
+    }
+
+
+    /**
+     * @param $product_id
+     * @param $sku
+     * @param $product_name
+     * @param $retail_price_raw
+     * @param $starting_bid_price_raw
+     * @param $product_image
+     * @return array
+     */
+    private static function BuildListOld($product_id, $sku, $product_name, $retail_price_raw, $starting_bid_price_raw, $product_image)
     {
         /* @var $imageObject FryProductImages */
         $formatter = \Yii::$app->formatter;

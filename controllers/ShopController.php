@@ -54,7 +54,7 @@ class ShopController extends Controller
     //entry page
     public function actionIndex()
     {
-        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 20, $for_auction = [1, 0], $min_stock = 1, $exclusion_list = [],$random = false);
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 20, $for_auction = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false);
         $this->view->title = 'Online Shopping';
         return $this->render('//site/shop', ['listDataProvider' => $dataProvider]);
     }
@@ -74,6 +74,7 @@ class ShopController extends Controller
             'bid_price' => BidManager::GetMaxBidAmount($product_id),
             'bid_count' => ProductManager::GetNumberOfBids($product_id),
             'discount' => ProductManager::ComputePercentageDiscount($product_id),
+            'winning_user' => BidManager::GetWinningUser($product_id, $sku, false)
         ];
         return json_encode($updateData);
     }
@@ -86,11 +87,20 @@ class ShopController extends Controller
      */
     public function actionBidWon($user_id, $product_id, $sku)
     {
-        $resp = [];
+        $resp_code = 0;
         $bid_winner = BidManager::GetBidWinner($product_id, $sku);
+        $winning_user = BidManager::GetWinningUser($product_id, $sku, true);
+        $winning_amount = BidManager::GetMaxBidAmount($product_id);
+
         if ($bid_winner > 0) {
-            $resp = BidManager::MarkBidAsWon($user_id, $product_id);
+            $resp_code = BidManager::MarkBidAsWon($user_id, $product_id);
         }
+
+        $resp = [
+            'resp' => $resp_code,
+            'winning_amount' => $winning_amount,
+            'winning_user' => $winning_user
+        ];
 
         return json_encode($resp);
     }

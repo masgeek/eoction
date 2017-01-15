@@ -68,14 +68,14 @@ $countryData = \app\components\AccountManager::GetCountryList();
 
         <div class="col-md-4">
             <?= $form->field($model, 'ADDRESS_TYPE')->dropDownList([
-                \app\module\users\models\UserAddress::BILLING_ADDRESS => 'Billing Address',
-                \app\module\users\models\UserAddress::SHIPPING_ADDRESS => 'Shipping Address'
+                \app\module\users\models\UserAddress::BILLING_ADDRESS => 'For Shipping/Billing',
+                //\app\module\users\models\UserAddress::SHIPPING_ADDRESS => 'Shipping Address'
             ], ['prompt' => '---Address Type---'])->hint('Indicate if the address is used for shipping or billing')->label('') ?>
         </div>
         <div class="col-md-4">
             <?= $form->field($model, 'PRIMARY_ADDRESS')->dropDownList([
-                \app\module\users\models\UserAddress::PRIMARY_ADDRESS => 'Primary Address',
-                \app\module\users\models\UserAddress::SECONDARY_ADDRESS => 'Secondary Address'
+                \app\module\users\models\UserAddress::PRIMARY_ADDRESS => 'Shipping/Billing Address',
+                //\app\module\users\models\UserAddress::SECONDARY_ADDRESS => 'Secondary Address'
             ], ['prompt' => '---Primary Address---'])->hint('Indicate if its a primary address')->label('') ?>
         </div>
     </div>

@@ -102,6 +102,7 @@ class ProductManager
                 ->andWhere(['>=', 'min_stock', $min_stock])//stock levels should be greater or equal to 1
                 ->andWhere(['NOT IN', 'sku', $exclusion_list])
                 ->orderBy(['rand()' => SORT_DESC]);
+                //->orderBy('productid ASC');
         }
 
         $item_provider = new ActiveDataProvider([
