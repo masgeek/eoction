@@ -48,7 +48,7 @@ function SetupProgressBar($productid, $bid_start_time) {
         },
         complete: function () {
             //disable the button
-            var button = '<button class="btn btn-bid btn-bid-ended btn-block noradius text-uppercase" disabled>Next Item</button>';
+            var button = '<button class="btn btn-default btn-bid-ended btn-block noradius text-uppercase" disabled>Loading</button>';
             bidButton.html(button);
             //console.log("No bid placed, removing item");
             //remove the product
