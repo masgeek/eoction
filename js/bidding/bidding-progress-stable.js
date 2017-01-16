@@ -302,7 +302,11 @@ function ItemUpdate($product_id, $sku, $toclear) {
             var $winning_amount = data.winning_amount;
             winningUser.html($winning_user);
             // console.log(data);
-            var button = '<button class="btn btn-bid btn-bid-ended btn-block noradius text-uppercase" disabled>SOLD</button>';
+            if($winning_user=='-'){
+                var button = '<button class="btn btn-bid btn-bid-ended btn-block noradius text-uppercase" disabled>Next</button>';
+            }else {
+                var button = '<button class="btn btn-bid btn-bid-ended btn-block noradius text-uppercase" disabled>Sold</button>';
+            }
             bidButton.html(button);
         });
     }
