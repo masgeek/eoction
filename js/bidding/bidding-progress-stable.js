@@ -6,6 +6,8 @@
 var intervalObj = {};
 
 function SetupProgressBar($productid, $bid_start_time) {
+
+
     /*
      bid types
      0 bid countdown

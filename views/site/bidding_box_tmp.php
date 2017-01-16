@@ -54,46 +54,82 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
         <input type="text" id="bid_placed_<?= $product_id; ?>" value="0" readonly="readonly"/>
         <input type="text" id="product_sku_<?= $product_id; ?>" value="<?= $sku ?>" readonly="readonly"/>
     </div>
+    <div class="proportion-image" id="image_box<?= $product_id ?>">
+        <?= html::img($product_image, [
+    'id' => 'product_image_' . $product_id,
+    'class' => 'img-responsive',
+    'alt' => $product_name,
+]); ?>
+    </div>
+
+    <div class="bidding-price text-center">
+        bid price: <span id="bid_price<?= $product_id ?>"><?= $starting_bid_price ?></span>
+    </div>
+    <div class="producttitle">
+<div class="" id="bid_button_<?= $product_id ?>">
+    <?= html::button('<span class="hammer-icon pull-left"></span>bid now', [
+    'class' => 'btn btn-bid btn-bid-active btn-block noradius',
+    'id' => "placebid_$product_id"
+]) ?>
+</div>
+<div class="bidprogress noplacedbids" id="progressbar<?= $product_id ?>"></div>
+</div>
+<div class="text-center">
+    <div class="text-uppercase bid-message bid-status"><span
+                id="bid_status_<?= $product_id; ?>">accepting bids</span></div>
+    <div class="text-uppercase winning-user text-muted"><span id="winning_user_<?= $product_id; ?>">-</span></div>
+</div>
+<div class="row">
+    <div class="text-uppercase col-md-6 pull-left">
+        <div class="bidcount"><span id="bids_placed_<?= $product_id ?>"><?= $bids ?></span> bid(s)</div>
+    </div>
+    <div class="text-uppercase col-md-6 pull-right">
+        <span class="crossed retail-price"><?= $retail_price; ?></span>
+        <span class="discount" id="discount_<?= $product_id ?>"><?= $discount ?>% off</span>
+    </div>
+</div>
+</div>
+
+
+<!--
+<div class="hidden">
+    <input type="text" id="bid_count_<?= $product_id; ?>" value="0" readonly="readonly"/>
+    <input type="text" id="bid_price_<?= $product_id; ?>" value="0" readonly="readonly"/>
+    <input type="text" id="bid_type_<?= $product_id; ?>" value="1" readonly="readonly"/>
+    <input type="text" id="bid_placed_<?= $product_id; ?>" value="0" readonly="readonly"/>
+    <input type="text" id="product_sku_<?= $product_id; ?>" value="<?= $sku ?>" readonly="readonly"/>
+</div>
+
+<div class="col-sm-6 col-md-3 productbox" id="item_box_<?= $product_id; ?>">
     <div class="thumbnail">
         <h5 class="text-center"><span class="label label-info"><?= $sku ?></span></h5>
         <div class="proportion-image" id="image_box<?= $product_id ?>">
-            <?= Html::img($product_image, [
+            <?= html::img($product_image, [
                 'id' => 'product_image_' . $product_id,
-                'class' => 'img-responsive',
+                'class' => 'img-responsive thumbnail',
                 'alt' => $product_name,
             ]); ?>
         </div>
         <div class="caption">
             <div class="row">
                 <div class="col-md-12 col-xs-12 bidding-price text-center text-uppercase">
-                    Bid Price: <span id="bid_price<?= $product_id ?>"><?= $starting_bid_price ?></span>
+                    Bid: <span id="bid_price<?= $product_id ?>"><?= $starting_bid_price ?></span>
                 </div>
             </div>
-            <div class="row">
-                <!--<button class="btn btn-block">BID NOW</button>-->
-                <div id="bid_button_<?= $product_id ?>">
-                    <?= Html::button('<span class="hammer-icon pull-left"></span>BID NOW', [
-                        'class' => 'btn btn-bid btn-bid-active btn-block noradius',
-                        'id' => "placebid_$product_id"
-                    ]) ?>
-                </div>
-                <div class="bidProgress noplacedbids" id="progressBar<?= $product_id ?>"></div>
+            <div class="row" id="bid_button_<?= $product_id ?>">
+                <?= html::button('<span class="hammer-icon pull-left"></span>bid now', [
+                    'class' => 'btn btn-bid btn-bid-active btn-block noradius text-uppercase',
+                    'id' => "placebid_$product_id"
+                ]) ?>
             </div>
+            <div class="bidprogress noplacedbids" id="progressbar<?= $product_id ?>"></div>
+
             <div class="row text-center">
                 <div class="text-uppercase bid-message bid-status"><span
-                            id="bid_status_<?= $product_id; ?>">Accepting Bids</span></div>
+                            id="bid_status_<?= $product_id; ?>">accepting bids</span></div>
                 <div class="text-uppercase winning-user text-muted"><span id="winning_user_<?= $product_id; ?>">-</span>
                 </div>
             </div>
-            <!--<div class="row">
-                <div class="text-uppercase col-md-6 pull-left">
-                    <div class="bidcount"><span id="bids_placed_<?= $product_id ?>"><?= $bids ?></span> Bid(s)</div>
-                </div>
-                <div class="text-uppercase col-md-6 pull-right">
-                    <span class="crossed retail-price"><?= $retail_price; ?></span>
-                    <span class="discount" id="discount_<?= $product_id ?>"><?= $discount ?>% Off</span>
-                </div>
-            </div>-->
             <div class="row">
                 <div class="col-md-6">
                     <a class="btn btn-default btn-product text-uppercase"><span class="bidcount"><span id="bids_placed_<?= $product_id ?>"><?= $bids ?></span> Bid(s)</span></a>
@@ -107,6 +143,7 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
         </div>
     </div>
 </div>
+-->
 <!-- start the script -->
 <?php
 $this->registerJs("

@@ -51,9 +51,12 @@ $listviewWidget = ListView::widget([
 <?= Html::textInput('product_url', $productUrl, ['readonly' => true, 'id' => 'product_url', 'class' => 'hidden']) ?>
 <?= Html::textInput('user_id', $userId, ['readonly' => true, 'id' => 'user_id', 'class' => 'hidden']) ?>
 <?= Html::textInput('winning_url', $winningUrl, ['readonly' => true, 'id' => 'winning_url', 'class' => 'hidden']) ?>
-
-<div class="col-md-10 col-md-offset-1">
-    <?= $listviewWidget ?>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <?= $listviewWidget ?>
+        </div>
+    </div>
 </div>
 
 
@@ -70,49 +73,4 @@ $listviewWidget = ListView::widget([
     data-show-faces="true">
 </div>
 -->
-<style>
-    .list-wrapper {
-        background-color: transparent;
-    }
 
-    .progress-container {
-        padding: 0 15px; /* padding {top/bottom} and {right/left}}*/
-    }
-
-    .bidProgress {
-        width: 100%;
-        height: 5px;
-        margin-bottom: 5px;
-        /*border-bottom:1px solid #1e002b;*/
-        border:none;
-    }
-
-    .noplacedbids, .awaitingbid,.bidProgress {
-        background-color: #29B6F6;
-        /*background-image: linear-gradient(to right, #f00439, #f28d0d, pink);*/
-    }
-
-    .goingonce {
-        background-color: #29B6F6;
-        /*background-image: linear-gradient(to right, #f09208, #b46e08, red);*/
-    }
-
-    .goingtwice {
-        background-color: #29B6F6;
-        /*background-image: linear-gradient(to right, #f00439, #f28d0d, red);*/
-    }
-
-    .bidwon {
-        background-color: #29B6F6;
-        /*background-image: linear-gradient(to right, #f00439, #f28d0d.red);*/
-    }
-
-    .nextbid {
-        background-color: #29B6F6;
-        /*background-image: linear-gradient(to right, #f00439, #f28d0d);*/
-    }
-
-    .fadein {
-        display: none;
-    }
-</style>
