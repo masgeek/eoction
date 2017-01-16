@@ -81,13 +81,13 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
     </div>
     <div class="productprice row">
         <div class="col-md-6">
-            <a href="#" class="btn btn-default btn-sm" role="button" title="Percentage discount <?= $discount ?>%">
+            <a href="#" class="btn btn-default btn-sm btn-block" role="button" title="Percentage discount <?= $discount ?>%">
                 <span class="crossed retail-price"><?= $retail_price; ?></span>
                 <span class="discount" id="discount_<?= $product_id ?>"><?= $discount ?>% Off</span>
             </a>
         </div>
         <div class="pricetext text-uppercase col-md-6">
-            <a href="#" class="btn btn-default btn-sm" role="button" title="Percentage discount <?= $discount ?>%">
+            <a href="#" class="btn btn-default btn-sm btn-block" role="button" title="Percentage discount <?= $discount ?>%">
                 <span id="bids_placed_<?= $product_id ?>"><?= $bids ?></span> Bid(s)
             </a>
         </div>
