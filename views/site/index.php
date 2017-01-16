@@ -93,22 +93,22 @@ $listviewWidget = ListView::widget([
     }
 
     .goingonce {
-        background-color: #4caf50;
+        background-color: #29B6F6;
         /*background-image: linear-gradient(to right, #f09208, #b46e08, red);*/
     }
 
     .goingtwice {
-        background-color: #ff9800;
+        background-color: #29B6F6;
         /*background-image: linear-gradient(to right, #f00439, #f28d0d, red);*/
     }
 
     .bidwon {
-        background-color: #cddc39;
+        background-color: #29B6F6;
         /*background-image: linear-gradient(to right, #f00439, #f28d0d.red);*/
     }
 
     .nextbid {
-        background-color: #795548;
+        background-color: #29B6F6;
         /*background-image: linear-gradient(to right, #f00439, #f28d0d);*/
     }
 
