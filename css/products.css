@@ -175,6 +175,9 @@
 }
 
 
+.noborder{
+    border:none !important;
+}
 /* bidding progress bars*/
  .list-wrapper {
      background-color: transparent;
