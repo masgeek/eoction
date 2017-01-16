@@ -300,7 +300,7 @@ function ItemUpdate($product_id, $sku, $toclear) {
             var $winning_amount = data.winning_amount;
             winningUser.html($winning_user);
             // console.log(data);
-            var button = '<button class="btn btn-bid btn-bid-ended btn-block noradius text-uppercase" disabled>SOLD ' + $winning_amount + ' Winning Bid</button>';
+            var button = '<button class="btn btn-bid btn-bid-ended btn-block noradius text-uppercase" disabled>SOLD</button>';
             bidButton.html(button);
         });
     }
