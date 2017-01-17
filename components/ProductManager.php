@@ -299,7 +299,7 @@ class ProductManager
 
     public static function CheckImageExists($image_url)
     {
-        $product_image = 'http://lorempixel.com/460/250/';//'@web/product_images/placeholder.png';
+        $product_image = '@web/product_images/placeholder.png';
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $image_url);
         // don't download content
