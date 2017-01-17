@@ -197,27 +197,22 @@
 
 .noplacedbids, .awaitingbid, .bidProgress {
     background-color: #29B6F6;
-    /*background-image: linear-gradient(to right, #f00439, #f28d0d, pink);*/
 }
 
 .goingonce {
-    background-color: #29B6F6;
-    /*background-image: linear-gradient(to right, #f09208, #b46e08, red);*/
+    background-color: #FFEE58;
 }
 
 .goingtwice {
-    background-color: #29B6F6;
-    /*background-image: linear-gradient(to right, #f00439, #f28d0d, red);*/
+    background-color: #f44336;
 }
 
 .bidwon {
-    background-color: #29B6F6;
-    /*background-image: linear-gradient(to right, #f00439, #f28d0d.red);*/
+    background-color: #76FF03;
 }
 
 .nextbid {
-    background-color: #29B6F6;
-    /*background-image: linear-gradient(to right, #f00439, #f28d0d);*/
+    background-color: #FF3D00;
 }
 
 .fadein {

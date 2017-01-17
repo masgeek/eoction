@@ -35,7 +35,11 @@ $product_name = $model->name;
 
 $discount = ProductManager::ComputePercentageDiscount($product_id);
 $shipping = ProductManager::ComputeShippingCost($product_id);
-$bidStartTime = 60;// * $productID; //initial start time for the bid
+if (YII_ENV_DEV) {
+    $bidStartTime = 10;// * $productID; //initial start time for the bid
+} else {
+    $bidStartTime = 60;// * $productID; //initial start time for the bid
+}
 
 $shipping_cost = $formatter->asCurrency($shipping);
 $retail_price = $formatter->asCurrency($model->buyitnow);
@@ -87,7 +91,8 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <a class="btn btn-default btn-product text-uppercase noborder"><span class="bidcount"><span id="bids_placed_<?= $product_id ?>"><?= $bids ?></span> Bid(s)</span></a>
+                    <a class="btn btn-default btn-product text-uppercase noborder"><span class="bidcount"><span
+                                    id="bids_placed_<?= $product_id ?>"><?= $bids ?></span> Bid(s)</span></a>
                 </div>
                 <div class="col-md-6">
                     <a href="#" class="btn btn-default btn-product noborder">
