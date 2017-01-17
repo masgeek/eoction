@@ -25,7 +25,7 @@ function SetupProgressBar($productid, $bid_start_time) {
     var placebid = $('#placebid_' + $productid);
     var bidButton = $('#bid_button_' + $productid);
     var $sku = $('#product_sku_' + $productid).val();
-
+    var $user_id = $('#user_id').val();
     //read the values indicating what type of bid
 
     var params = {
@@ -66,6 +66,9 @@ function SetupProgressBar($productid, $bid_start_time) {
     //add stop click event when placebid is clicked
     placebid.click(function () {
         //progressBar.velocity('stop', false);
+        if($user_id==0) {
+            return false;
+        }
         TriggerProgressBar($productid, $sku, 10);
     });
 }
