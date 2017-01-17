@@ -334,3 +334,10 @@ function UpdateCartItems() {
 
     console.log('Cart items updated');
 }
+
+function load(img)
+{
+    img.fadeOut(0, function() {
+        img.fadeIn(2000);
+    });
+}

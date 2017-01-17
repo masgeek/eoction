@@ -32,7 +32,8 @@ class BowerAsset extends AssetBundle
         'velocity/velocity.js',
         'velocity/velocity.ui.js',
         //'//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js',
-        'tingle/dist/tingle.min.js'
+        'tingle/dist/tingle.min.js',
+        'jquery-lazyload-any/src/jquery.lazyload-any.js'
     ];
 
     public $depends = [

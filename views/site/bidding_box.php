@@ -48,7 +48,8 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
 
 \app\components\BidManager::NextBidAmount($product_id);
 ?>
-
+<div class="lazyload">
+    <script type="text/lazyload">
 <div class="col-xs-18 col-sm-6 col-md-3 column productbox" id="item_box_<?= $product_id; ?>">
     <div class="hidden">
         <input type="text" id="bid_count_<?= $product_id; ?>" value="0" readonly="readonly"/>
@@ -61,10 +62,10 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
         <h5 class="text-center"><span class="label label-info"><?= $sku ?></span></h5>
         <div class="proportion-image" id="image_box<?= $product_id ?>">
             <?= Html::img($product_image, [
-                'id' => 'product_image_' . $product_id,
-                'class' => 'img-responsive',
-                'alt' => $product_name,
-            ]); ?>
+            'id' => 'product_image_' . $product_id,
+            'class' => 'img-responsive',
+            'alt' => $product_name,
+        ]); ?>
         </div>
         <div class="caption">
             <div class="row">
@@ -76,9 +77,9 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
                 <!--<button class="btn btn-block">BID NOW</button>-->
                 <div id="bid_button_<?= $product_id ?>">
                     <?= Html::button('<span class="hammer-icon pull-left"></span>BID NOW', [
-                        'class' => 'btn btn-bid btn-bid-active btn-block noradius',
-                        'id' => "placebid_$product_id"
-                    ]) ?>
+            'class' => 'btn btn-bid btn-bid-active btn-block noradius',
+            'id' => "placebid_$product_id"
+        ]) ?>
                 </div>
                 <div class="bidProgress noplacedbids" id="progressBar<?= $product_id ?>"></div>
             </div>
@@ -102,10 +103,14 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
         </div>
     </div>
 </div>
+
+    </script>
+</div>
 <!-- start the script -->
 <?php
 $this->registerJs("
    SetupProgressBar($product_id,$bidStartTime);
+$('.lazyload').lazyload({load: load});
 ", View::POS_END)
 ?>
 
