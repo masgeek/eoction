@@ -6,7 +6,7 @@
  * Time: 14:40
  */
 /* @var $model app\module\products\models\FryProducts */
-/* @var $imageObject app\module\products\models\FryProductImages */
+/* @var $image_url app\module\products\models\FryProductImages */
 
 
 use yii\helpers\Html;
@@ -19,9 +19,8 @@ $formatter = \Yii::$app->formatter;
 $imageHost = \Yii::$app->params['ExternalImageServerLink'];
 $imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
 
-$imageObject = $model->image1;
-$product_image = $imageObject ? $imageObject : '@web/product_images/placeholder.png';
-//$product_image = 'http://lorempixel.com/460/250/';
+$image_url = $model->image1;
+$product_image = ProductManager::CheckImageExists($image_url);
 
 
 //calculate the percentage discount based on the retail price and the bidded amount

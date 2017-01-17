@@ -352,15 +352,17 @@ class BidManager
         return [];//$item_array;
     }
 
+
     /**
      * @param $product_id
      * @param $sku
      * @param $product_name
      * @param $retail_price_raw
      * @param $starting_bid_price_raw
+     * @param $product_image_raw
      * @return array
      */
-    private static function BuildList($product_id, $sku, $product_name, $retail_price_raw, $starting_bid_price_raw, $product_image)
+    private static function BuildList($product_id, $sku, $product_name, $retail_price_raw, $starting_bid_price_raw, $product_image_raw)
     {
         /* @var $imageObject FryProductImages */
         $formatter = \Yii::$app->formatter;
@@ -369,7 +371,7 @@ class BidManager
 
         $imageModel = new FryProducts();
 
-
+        $product_image = ProductManager::CheckImageExists($product_image_raw);
         $shipping_cost = $formatter->asCurrency(ProductManager::ComputeShippingCost($product_id));
         $retail_price = $formatter->asCurrency($retail_price_raw);
         $starting_bid_price = $formatter->asCurrency($starting_bid_price_raw);

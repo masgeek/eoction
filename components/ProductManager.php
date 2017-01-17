@@ -102,7 +102,7 @@ class ProductManager
                 ->andWhere(['>=', 'min_stock', $min_stock])//stock levels should be greater or equal to 1
                 ->andWhere(['NOT IN', 'sku', $exclusion_list])
                 ->orderBy(['rand()' => SORT_DESC]);
-                //->orderBy('productid ASC');
+            //->orderBy('productid ASC');
         }
 
         $item_provider = new ActiveDataProvider([
@@ -295,5 +295,21 @@ class ProductManager
         ItemsCart::deleteAll();
         BidActivity::deleteAll();
         ProductBids::deleteAll();
+    }
+
+    public static function CheckImageExists($image_url)
+    {
+        $product_image = '@web/product_images/placeholder.png';
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $image_url);
+        // don't download content
+        curl_setopt($ch, CURLOPT_NOBODY, 1);
+        curl_setopt($ch, CURLOPT_FAILONERROR, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        if (curl_exec($ch) !== FALSE) {
+            $product_image = $image_url;
+        }
+
+        return $product_image;
     }
 }
