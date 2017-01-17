@@ -323,12 +323,12 @@ function ItemUpdate($product_id, $sku, $toclear) {
 function UpdateCartItems() {
     var userId = $('#user_id').val()
     var cartitemsUrl = $('#cart_url').val();
+    var $cartItems = $('#cart_items');
 
     if(userId==0){
         return false;
     }
     $.getJSON(cartitemsUrl, function (data) {
-        var $cartItems = $('#cart_items');
         $cartItems.html(data.items_count);
     });
 
