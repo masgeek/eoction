@@ -52,7 +52,7 @@ function SetupProgressBar($productid, $bid_start_time) {
             console.log("No bid placed, removing item");
             //remove the product
             //Math.floor((Math.random() * 5000) + 8000);
-            ItemUpdate($productid, $sku, 'YES'); //stop the timer countdown
+            ItemUpdate($productid, $sku, 'YES');
             FetchNextItem($productid);
         },
     };
@@ -142,7 +142,7 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
                     bidButton.html(button);
                     bidStatusText.html('Won');
 
-                    ItemUpdate($productid, $sku, 'YES')
+                    ItemUpdate($productid, $sku, 'YES');
                     FetchNextItem($productid);
                     break;
                 case '4':
