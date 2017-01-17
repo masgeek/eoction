@@ -297,6 +297,10 @@ class ProductManager
         ProductBids::deleteAll();
     }
 
+    /**
+     * @param $image_url
+     * @return string
+     */
     public static function CheckImageExists($image_url)
     {
         //$product_image = 'http://lorempixel.com/800/400/nature/2';//'@web/product_images/placeholder.png';
