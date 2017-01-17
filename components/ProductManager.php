@@ -16,6 +16,7 @@ use app\module\products\models\ProductBids;
 use app\module\products\models\Products;
 use app\module\products\product;
 use yii\data\ActiveDataProvider;
+use yii\data\SqlDataProvider;
 
 class ProductManager
 {
@@ -90,6 +91,7 @@ class ProductManager
     public static function GetItemsForSale($no_of_items = 20, $auction_param = [1, 0], $min_stock = 1, $exclusion_list = [], $random = true)
     {
         $query = FryProducts::find()
+            ->distinct('sku')
             ->where(['IN', 'visible', $auction_param,])
             ->andWhere(['>=', 'min_stock', $min_stock])//stock levels should be greater or equal to 1
             ->andWhere(['NOT IN', 'sku', $exclusion_list])

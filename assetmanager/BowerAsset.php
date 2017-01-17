@@ -18,7 +18,7 @@ class BowerAsset extends AssetBundle
     public $sourcePath = '@bower';
 
     public $jsOptions = array(
-        'position' => \yii\web\View::POS_LOAD
+        'position' => \yii\web\View::POS_HEAD
     );
 
     public $css = [
