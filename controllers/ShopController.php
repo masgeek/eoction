@@ -153,6 +153,21 @@ class ShopController extends Controller
         return $this->render('//site/coming-soon');
     }
 
+    public function actionBidRequest()
+    {
+        return $this->render('//site/coming-soon');
+    }
+
+    public function actionCartItems()
+    {
+
+        $items_count = CartManager::GetCartItems(yii::$app->user->id);
+        $resp = [
+            'items_count' => $items_count
+        ];
+        return json_encode($resp);
+    }
+
     public function actionPurgeDb($action)
     {
         ProductManager::CleanBiddingData();

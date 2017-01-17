@@ -6,8 +6,6 @@
 var intervalObj = {};
 
 function SetupProgressBar($productid, $bid_start_time) {
-
-
     /*
      bid types
      0 bid countdown
@@ -316,6 +314,18 @@ function ItemUpdate($product_id, $sku, $toclear) {
                 var button = '<button class="btn btn-bid btn-success btn-block noradius text-uppercase" disabled>Sold</button>';
             }
             bidButton.html(button);
+            UpdateCartItems();//cal function to update cart
         });
     }
+}
+
+function UpdateCartItems() {
+    var userId = $('#user_id').val()
+    var cartitemsUrl = $('#cart_url').val();
+    var $cartItems = $('#cart-items');
+    $.getJSON(cartitemsUrl, function (data) {
+        $cartItems.html(data.items_count);
+    });
+
+    console.log('Cart items updated');
 }
