@@ -34,11 +34,11 @@ $product_name = $model->name;
 
 $discount = ProductManager::ComputePercentageDiscount($product_id);
 $shipping = ProductManager::ComputeShippingCost($product_id);
-if (YII_ENV_DEV) {
-    $bidStartTime = 10;// * $productID; //initial start time for the bid
-} else {
+//if (YII_ENV_DEV) {
+  //  $bidStartTime = 10;// * $productID; //initial start time for the bid
+//} else {
     $bidStartTime = 60;// * $productID; //initial start time for the bid
-}
+//}
 
 $shipping_cost = $formatter->asCurrency($shipping);
 $retail_price = $formatter->asCurrency($model->buyitnow);
@@ -105,7 +105,7 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
 <!-- start the script -->
 <?php
 $this->registerJs("
-   //SetupProgressBar($product_id,$bidStartTime);
+   SetupProgressBar($product_id,$bidStartTime);
 ", View::POS_END)
 ?>
 
