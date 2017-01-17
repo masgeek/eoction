@@ -48,8 +48,6 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
 
 \app\components\BidManager::NextBidAmount($product_id);
 ?>
-<div class="lazyload">
-    <script type="text/lazyload">
 <div class="col-xs-18 col-sm-6 col-md-3 column productbox" id="item_box_<?= $product_id; ?>">
     <div class="hidden">
         <input type="text" id="bid_count_<?= $product_id; ?>" value="0" readonly="readonly"/>
@@ -103,14 +101,10 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
         </div>
     </div>
 </div>
-
-    </script>
-</div>
 <!-- start the script -->
 <?php
 $this->registerJs("
    SetupProgressBar($product_id,$bidStartTime);
-$('.lazyload').lazyload({load: load});
 ", View::POS_END)
 ?>
 
