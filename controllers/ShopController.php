@@ -134,10 +134,14 @@ class ShopController extends Controller
     {
         //delete cart item
         $resp = [
-            'REMOVED' => false
+            'removed' => false
         ];
         if (ItemsCart::findOne($id)->delete()) {
-            $resp = ['REMOVED' => true];
+            $resp = [
+                'removed' => true,
+                'items_count' => CartManager::GetCartItems(yii::$app->user->id),
+                'item_total' => 45
+            ];
         }
         return json_encode($resp);
     }

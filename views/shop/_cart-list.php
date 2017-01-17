@@ -7,7 +7,7 @@
  */
 
 /* @var $productModel app\module\products\models\FryProducts */
-/* @var $imageObject app\module\products\models\FryProductImages */
+/* @var $image_url app\module\products\models\FryProductImages */
 /* @var $model app\module\products\models\ItemsCart */
 
 
@@ -34,10 +34,10 @@ $brand_name = $productModel->brand;
 
 $imageHost = \Yii::$app->params['ExternalImageServerLink'];
 $imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
-$imageObject = $productModel->image1;//getSingleImage($product_id);
+$image_url = $productModel->image1;//getSingleImage($product_id);
 
 //$product_image = $imageObject ? "{$imageHost}/{$imageFolder}/{$imageObject->imagefile}" : '@web/product_images/placeholder.png';
-$product_image = $imageObject ? $imageObject : '@web/product_images/placeholder.png';
+$product_image = ProductManager::CheckImageExists($image_url);
 
 //calculate the percentage discount based on the retail price and the bidded amount
 if ($model->BIDDED_ITEM == '1') {
@@ -65,7 +65,7 @@ $retail_price = $formatter->asCurrency($product_price);
             <div class="media">
                 <div class="media-body">
                     <h4 class="media-heading"><a href="#"><?= $product_name ?></a></h4>
-                    <!--<h5 class="media-heading"> by <a href="#"><?= $brand_name ?></a></h5>-->
+                    <h5 class="media-heading"> by <a href="#"><?= $brand_name ?></a></h5>
                     <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
                 </div>
             </div>
