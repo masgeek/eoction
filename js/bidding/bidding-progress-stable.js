@@ -54,7 +54,6 @@ function SetupProgressBar($productid, $bid_start_time) {
             //Math.floor((Math.random() * 5000) + 8000);
             ItemUpdate($productid, $sku, 'YES'); //stop the timer countdown
             FetchNextItem($productid);
-            UpdateCartItems();//cal function to update cart
         },
     };
 
@@ -327,11 +326,12 @@ function ItemUpdate($product_id, $sku, $toclear) {
 function UpdateCartItems() {
     var userId = $('#user_id').val()
     var cartitemsUrl = $('#cart_url').val();
-    var $cartItems = $('#cart-items');
+
     if(userId==0){
         return false;
     }
     $.getJSON(cartitemsUrl, function (data) {
+        var $cartItems = $('#cart_items');
         $cartItems.html(data.items_count);
     });
 

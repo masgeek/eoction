@@ -45,7 +45,7 @@ function RemoveFromCart($cart_item_id) {
 
 function RemoveCartItem($cart_item_id) {
     //lets use the short form of ajax no need for much mumbo jumbo
-    var $cartItems = $('#cart-items');
+    var $cartItems = $('#cart_items');
     var removal_url = $('#remove_url').val();
     var $productBox = $('#cart-row-' + $cart_item_id);
     $.getJSON(removal_url, {id: $cart_item_id}, function (data) {
