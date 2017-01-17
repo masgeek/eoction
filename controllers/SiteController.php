@@ -110,7 +110,7 @@ class SiteController extends Controller
 
         $order_resp = $shipStationService->CreateNewOrder($paypal_hash, $user_id); //for now we have overriden it
 
-        var_dump($order_resp);
+        //var_dump($order_resp);
         return $this->render('about');
     }
 
@@ -120,10 +120,10 @@ class SiteController extends Controller
     public function actionTest()
     {
         $exclusion_list = BidManager::GetExclusionItems();
-        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 1, $auction_param = [1], $min_stock = 1, $exclusion_list, $random = false);
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 1, $auction_param = [1], $min_stock = 1, $exclusion_list, true);
 
-        $this->view->title = 'Live Auction';
-        return $this->render('index_test', ['listDataProvider' => $dataProvider]);
+        $this->view->title = 'Test Live Auction';
+        return $this->render('index', ['listDataProvider' => $dataProvider]);
     }
 
     public function actionIndex()
