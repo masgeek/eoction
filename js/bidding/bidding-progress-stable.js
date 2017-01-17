@@ -54,6 +54,7 @@ function SetupProgressBar($productid, $bid_start_time) {
             //Math.floor((Math.random() * 5000) + 8000);
             ItemUpdate($productid, $sku, 'YES'); //stop the timer countdown
             FetchNextItem($productid);
+            UpdateCartItems();//cal function to update cart
         },
     };
 
@@ -319,7 +320,6 @@ function ItemUpdate($product_id, $sku, $toclear) {
                 var button = '<button class="btn btn-bid btn-success btn-block noradius text-uppercase" disabled>Sold</button>';
             }
             bidButton.html(button);
-            UpdateCartItems();//cal function to update cart
         });
     }
 }
