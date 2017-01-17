@@ -185,6 +185,7 @@ function placeBid($product_id, $sku) {
     var $user_id = $('#user_id').val();
     var bidsPlaced = $('#bids_placed_' + $product_id);
     var bid_price = $('#bid_price' + $product_id);
+    var winningUser = $('#winning_user_' + $product_id);
     //console.log($bidUrl);
     //console.log($user_id);
     //console.log($sku);
@@ -214,6 +215,7 @@ function placeBid($product_id, $sku) {
              .append($description);*/
             bidsPlaced.html(data.bid_count);
             bid_price.html(data.bid_price);
+            winningUser.html(data.winning_user);
         },
         type: 'GET'
     });
@@ -308,7 +310,7 @@ function ItemUpdate($product_id, $sku, $toclear) {
             var $winning_amount = data.winning_amount;
             winningUser.html($winning_user);
             // console.log(data);
-            if($winning_user=='-'){
+            if($winning_user=='-'||$winning_user.length <=0){
                 var button = '<button class="btn btn-bid btn-bid-ended btn-block noradius text-uppercase" disabled>Closed</button>';
             }else {
                 var button = '<button class="btn btn-bid btn-success btn-block noradius text-uppercase" disabled>Sold</button>';
