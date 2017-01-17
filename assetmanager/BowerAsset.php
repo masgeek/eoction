@@ -18,11 +18,11 @@ class BowerAsset extends AssetBundle
     public $sourcePath = '@bower';
 
     public $jsOptions = array(
-        'position' => \yii\web\View::POS_HEAD
+        'position' => \yii\web\View::POS_LOAD
     );
 
     public $css = [
-        'animate.css/animate.min.css',
+        //'animate.css/animate.min.css',
         'tingle/dist/tingle.min.css'
     ];
 
@@ -33,7 +33,7 @@ class BowerAsset extends AssetBundle
         'velocity/velocity.ui.js',
         //'//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js',
         'tingle/dist/tingle.min.js',
-        'jquery-lazyload-any/src/jquery.lazyload-any.js'
+        //'jquery-lazyload-any/src/jquery.lazyload-any.js'
     ];
 
     public $depends = [
