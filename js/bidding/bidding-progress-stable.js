@@ -218,7 +218,7 @@ function placeBid($product_id, $sku) {
              .append($description);*/
             bidsPlaced.html(data.bid_count);
             bid_price.html(data.bid_price);
-            winningUser.html(data.winning_user);
+            //winningUser.html(data.winning_user);
         },
         type: 'GET'
     });
