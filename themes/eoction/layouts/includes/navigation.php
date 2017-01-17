@@ -52,7 +52,7 @@ $cartUrl = \yii\helpers\Url::toRoute(['shop/cart-items']);
                 </li>
                 <li><?= Html::a('<span class="fa fa-heart"></span> My Wishlist', ['//shop/wishlist'], ['title' => 'Items in your wish-list', 'class' => 'text-capitalise']); ?></li>
                 <li>
-                    <?= Html::a('<span class="glyphicon glyphicon-shopping-cart"></span> Cart <small class="badge" id="cart-items">' . CartManager::GetCartItems(yii::$app->user->id) . '</small>',
+                    <?= Html::a('<span class="glyphicon glyphicon-shopping-cart"></span> Cart <small class="badge" id="cart_items">' . CartManager::GetCartItems(yii::$app->user->id) . '</small>',
                         ['//shop/cart', 'id' => yii::$app->user->id],
                         ['title' => 'Items in your cart', 'class' => 'text-capitalise', 'id' => 'cart']); ?>
                     <!--<a href="#">
@@ -65,7 +65,7 @@ $cartUrl = \yii\helpers\Url::toRoute(['shop/cart-items']);
         <form class="nav navbar-form navbar-left" role="search">
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Search" name="search-term">
-                <?= Html::textInput('cart_url', $cartUrl, ['readonly' => true, 'id' => 'update_url', 'class' => 'hidden']) ?>
+                <?= Html::textInput('cart_url', $cartUrl, ['readonly' => true, 'id' => 'cart_url', 'class' => 'hidden']) ?>
             </div>
             <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>
             </button>

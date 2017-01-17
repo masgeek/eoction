@@ -57,6 +57,7 @@ function SetupProgressBar($productid, $bid_start_time) {
         },
     };
 
+
     // Use the progress callback.
     progressBar.velocity(
         {
@@ -73,12 +74,6 @@ function SetupProgressBar($productid, $bid_start_time) {
     });
 }
 
-function changeClasses($classtoSet, $element) {
-    var progressBar = $('#' + $element);
-//first clear all classes
-    progressBar.removeClass(); //clear all classes
-    progressBar.addClass($classtoSet);
-}
 
 function TriggerProgressBar($productid, $sku, $bid_start_time) {
     var bidType = $('#bid_type_' + $productid);
@@ -147,7 +142,7 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
                     bidButton.html(button);
                     bidStatusText.html('Won');
 
-                    ItemUpdate($productid, $sku, 'YES');
+                    ItemUpdate($productid, $sku, 'YES')
                     FetchNextItem($productid);
                     break;
                 case '4':
@@ -319,6 +314,8 @@ function ItemUpdate($product_id, $sku, $toclear) {
                 var button = '<button class="btn btn-bid btn-success btn-block noradius text-uppercase" disabled>Sold</button>';
             }
             bidButton.html(button);
+            //set function timeou
+            UpdateCartItems();
         });
     }
 }
