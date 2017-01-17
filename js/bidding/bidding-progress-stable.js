@@ -328,6 +328,9 @@ function UpdateCartItems() {
     var userId = $('#user_id').val()
     var cartitemsUrl = $('#cart_url').val();
     var $cartItems = $('#cart-items');
+    if(userId==0){
+        return false;
+    }
     $.getJSON(cartitemsUrl, function (data) {
         $cartItems.html(data.items_count);
     });
