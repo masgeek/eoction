@@ -167,20 +167,20 @@ a.desc:after {
    /* border-top: 0.1em solid #0a0a0a;
     border-right: 0.1em solid #0a0a0a;
     border-left: 0.1em solid #0a0a0a;*/
-    background-color: #804013;
+    background-color: #d8a947;
     color:#FFF;/*#a07936*/;
 }
 
 .btn.btn-bid-ended{
     /*border: 0.1em solid #ab1819;*/
     border: none;
-    background-color: #77562d;
+    background-color: #d8a947;
     color: #FFFFFF;
 }
 
 .btn.btn-bid-active:hover{
     transition: background-color 0.5s ease;
-    background-color: #d8a947;
+    background-color: #b68748;
     color:#FFFFFF;
 }
 .btn.noradius{
