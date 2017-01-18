@@ -104,7 +104,7 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
 <!-- start the script -->
 <?php
 $this->registerJs("
-   SetupProgressBar($product_id,$bidStartTime);
+   //SetupProgressBar($product_id,$bidStartTime);
 ", View::POS_END)
 ?>
 
