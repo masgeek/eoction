@@ -11,7 +11,7 @@ use yii\helpers\Html;
 //var_dump($listDataProvider);
 
 //set page title
-$this->title = 'Live Auction';
+//$this->title = 'Live Auction';
 
 //register js file
 $this->registerJsFile('@web/js/bidding/bidding-progress-stable.js');
