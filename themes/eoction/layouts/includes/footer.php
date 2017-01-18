@@ -42,12 +42,11 @@ use yii\helpers\Html;
         </div>
         <div class="col-sm-12 col-md-3">
             <h3>Newsletter</h3>
-            <form class="form-inline">
+            <form class="form-horizontal">
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email">
+                    <input type="email" class="form-control" id="email" placeholder="email address">
                 </div>
-                <button type="submit" class="btn btn-default">Subscribe!</button>
+                <button type="submit" class="btn btn-default btn-block">Subscribe!</button>
             </form>
         </div>
     </div>

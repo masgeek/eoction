@@ -110,7 +110,7 @@ class SiteController extends Controller
 
         $order_resp = $shipStationService->CreateNewOrder($paypal_hash, $user_id); //for now we have overriden it
 
-        var_dump($order_resp);
+        //var_dump($order_resp);
         return $this->render('about');
     }
 
@@ -120,16 +120,16 @@ class SiteController extends Controller
     public function actionTest()
     {
         $exclusion_list = BidManager::GetExclusionItems();
-        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 1, $auction_param = [1], $min_stock = 1, $exclusion_list, $random = false);
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 1, $auction_param = [1], $min_stock = 1, $exclusion_list, true);
 
-        $this->view->title = 'Live Auction';
-        return $this->render('index_test', ['listDataProvider' => $dataProvider]);
+        $this->view->title = 'Test Live Auction';
+        return $this->render('index', ['listDataProvider' => $dataProvider]);
     }
 
     public function actionIndex()
     {
         $exclusion_list = BidManager::GetExclusionItems();
-        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 80, $auction_param = [1], $min_stock = 1, $exclusion_list,  true);
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 24, $auction_param = [1], $min_stock = 1, $exclusion_list,  true);
 
         $this->view->title = 'Live Auction';
         return $this->render('index', ['listDataProvider' => $dataProvider]);
@@ -181,7 +181,8 @@ class SiteController extends Controller
                     'sku' => $model->PRODUCT_SKU,
                     'bid_price' => BidManager::GetMaxBidAmount($model->PRODUCT_ID),
                     'discount' => ProductManager::ComputePercentageDiscount($model->PRODUCT_ID),
-                    'bid_count' => ProductManager::GetNumberOfBids($model->PRODUCT_ID)
+                    'bid_count' => ProductManager::GetNumberOfBids($model->PRODUCT_ID),
+                    //'winning_user'=>BidManager::GetWinningUser($model->PRODUCT_ID,$model->PRODUCT_SKU)
                 ];
             } else {
                 //alert user
@@ -209,7 +210,8 @@ class SiteController extends Controller
                     'sku' => $bidactivity->PRODUCT_SKU,
                     'bid_price' => BidManager::GetMaxBidAmount($bidactivity->PRODUCT_ID),
                     'discount' => ProductManager::ComputePercentageDiscount($bidactivity->PRODUCT_ID),
-                    'bid_count' => ProductManager::GetNumberOfBids($bidactivity->PRODUCT_ID)
+                    'bid_count' => ProductManager::GetNumberOfBids($bidactivity->PRODUCT_ID),
+                    //'winning_user'=>BidManager::GetWinningUser($bidactivity->PRODUCT_ID,$bidactivity->PRODUCT_SKU)
                 ];
             } else {
                 //alert user

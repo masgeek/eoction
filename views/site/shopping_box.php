@@ -19,10 +19,9 @@ $formatter = \Yii::$app->formatter;
 $imageHost = \Yii::$app->params['ExternalImageServerLink'];
 $imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
 
-$imageObject = $model->image1;
+$image_url = $model->image1;
 
-$product_image = $imageObject;
-$product_image_2 = '@web/product_images/placeholder.png';
+$product_image = ProductManager::CheckImageExists($image_url);
 
 
 $retail_price_raw = $model->buyitnow;

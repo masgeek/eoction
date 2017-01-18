@@ -134,10 +134,14 @@ class ShopController extends Controller
     {
         //delete cart item
         $resp = [
-            'REMOVED' => false
+            'removed' => false
         ];
         if (ItemsCart::findOne($id)->delete()) {
-            $resp = ['REMOVED' => true];
+            $resp = [
+                'removed' => true,
+                'items_count' => CartManager::GetCartItems(yii::$app->user->id),
+                'item_total' => 45
+            ];
         }
         return json_encode($resp);
     }
@@ -151,6 +155,21 @@ class ShopController extends Controller
     public function actionWishlist()
     {
         return $this->render('//site/coming-soon');
+    }
+
+    public function actionBidRequest()
+    {
+        return $this->render('//site/coming-soon');
+    }
+
+    public function actionCartItems()
+    {
+
+        $items_count = CartManager::GetCartItems(yii::$app->user->id);
+        $resp = [
+            'items_count' => $items_count
+        ];
+        return json_encode($resp);
     }
 
     public function actionPurgeDb($action)

@@ -21,6 +21,7 @@
     "amcharts-stock": "*",
     "ammap": "^3.18.3",
     "horizontal-timeline": "*",
-    "Flot": "flot#^0.8.3"
+    "Flot": "flot#^0.8.3",
+    "jquery-lazyload-any": "^0.3.0"
   }
 }

@@ -25,7 +25,7 @@ function SetupProgressBar($productid, $bid_start_time) {
     var placebid = $('#placebid_' + $productid);
     var bidButton = $('#bid_button_' + $productid);
     var $sku = $('#product_sku_' + $productid).val();
-
+    var $user_id = $('#user_id').val();
     //read the values indicating what type of bid
 
     var params = {
@@ -46,15 +46,17 @@ function SetupProgressBar($productid, $bid_start_time) {
         },
         complete: function () {
             //disable the button
-            var button = '<button class="btn btn-bid btn-bid-ended btn-block noradius text-uppercase" disabled>Next Item</button>';
+            var button = '<button class="btn btn-default btn-block noradius text-uppercase" disabled>Closed</button>';
             bidButton.html(button);
-            //console.log("No bid placed, removing item");
+            bidStatusText.html('Bid Closed');
+            console.log("No bid placed, removing item");
             //remove the product
             //Math.floor((Math.random() * 5000) + 8000);
-            ItemUpdate($productid, $sku, 'YES'); //stop the timer countdown
-            FetchNextItem($productid); //fetch the next item
+            ItemUpdate($productid, $sku, 'YES');
+            FetchNextItem($productid);
         },
     };
+
 
     // Use the progress callback.
     progressBar.velocity(
@@ -65,16 +67,13 @@ function SetupProgressBar($productid, $bid_start_time) {
     //add stop click event when placebid is clicked
     placebid.click(function () {
         //progressBar.velocity('stop', false);
+        if($user_id==0) {
+            return false;
+        }
         TriggerProgressBar($productid, $sku, 10);
     });
 }
 
-function changeClasses($classtoSet, $element) {
-    var progressBar = $('#' + $element);
-//first clear all classes
-    progressBar.removeClass(); //clear all classes
-    progressBar.addClass($classtoSet);
-}
 
 function TriggerProgressBar($productid, $sku, $bid_start_time) {
     var bidType = $('#bid_type_' + $productid);
@@ -83,6 +82,7 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
     var bidsPlaced = $('#bids_placed_' + $productid);
     var progressBar = $('#progressBar' + $productid);
     var bidStatusText = $('#bid_status_' + $productid);
+    var bidButton = $('#bid_button_' + $productid);
     var placebid = $('#placebid_' + $productid);
     var starttime = $bid_start_time * 1000;//convert to ms
 
@@ -136,6 +136,12 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
                     //show the bid won progress
                     //alert('You have won the bid');
                     console.log('product id to remove ' + $productid);
+
+                    //disable the button
+                    var button = '<button class="btn btn-success btn-block noradius text-uppercase" disabled>Won</button>';
+                    bidButton.html(button);
+                    bidStatusText.html('Won');
+
                     ItemUpdate($productid, $sku, 'YES');
                     FetchNextItem($productid);
                     break;
@@ -177,6 +183,7 @@ function placeBid($product_id, $sku) {
     var $user_id = $('#user_id').val();
     var bidsPlaced = $('#bids_placed_' + $product_id);
     var bid_price = $('#bid_price' + $product_id);
+    var winningUser = $('#winning_user_' + $product_id);
     //console.log($bidUrl);
     //console.log($user_id);
     //console.log($sku);
@@ -206,18 +213,24 @@ function placeBid($product_id, $sku) {
              .append($description);*/
             bidsPlaced.html(data.bid_count);
             bid_price.html(data.bid_price);
+            //winningUser.html(data.winning_user);
         },
         type: 'GET'
     });
 }
 
 function FetchNextItem($previous_product_id) {
-
+    var bidButton = $('#bid_button_' + $previous_product_id);
+    var bidStatusText = $('#bid_status_' + $previous_product_id);
     var $productUrl = $('#product_url').val();
     var $productBox = $('#item_box_' + $previous_product_id);
-    var intervals = 1000;///Math.floor((Math.random() * 1500) + 200);
+    var intervals = Math.floor((Math.random() * 1500) + 2000);
+
+    var button = '<button class="btn btn-primary btn-block noradius text-uppercase" disabled>Next</button>';
 
     setTimeout(function () {//wait n seconds before fetching next item
+        bidButton.html(button);
+        bidStatusText.html('Next Item');
         $.ajax({
             url: $productUrl,
             data: {
@@ -229,11 +242,11 @@ function FetchNextItem($previous_product_id) {
             dataType: 'json',
             success: function (data) {
                 //remove the initial product box
-                $productBox.fadeOut(intervals, function () {
+                $productBox.fadeOut(4000, function () {
                     $(this).remove();
                     $('#product_list').append(data.html_data);
                     //$('#product_list').prepend(data.html_data);
-                    $('.fadein').fadeIn(intervals);
+                    $('.fadein').fadeIn(3500);
                     //scroll to the top
                     //$("html, body").animate({scrollTop: 0}, "slow");
                     //next add the click event listeners to the dynamic items
@@ -242,7 +255,7 @@ function FetchNextItem($previous_product_id) {
             },
             type: 'POST'
         });
-    }, 2000);
+    }, intervals);
 }
 
 function RefreshSomeEventListener($product_id, $sku) {
@@ -257,6 +270,7 @@ function RefreshSomeEventListener($product_id, $sku) {
 }
 
 function ItemUpdate($product_id, $sku, $toclear) {
+
     //var updateUrl = $('#update_url').val();
     var $bidPrice = $('#bid_price' + $product_id);
     var bidsPlaced = $('#bids_placed_' + $product_id);
@@ -264,13 +278,7 @@ function ItemUpdate($product_id, $sku, $toclear) {
     var bidButton = $('#bid_button_' + $product_id);
 
     var intervals = Math.floor((Math.random() * 6000) + 1560);
-    /*$.get(updateUrl, {product_id: $product_id, sku: $sku}, function (data) {
-     var $bid_count = data.bid_count;
-     var $new_bid_price = data.bid_price;
-     var $discount = data.discount;
-     console.log(data);
-     });*/
-    //console.log('Clear interval ' + intervalObj[$product_id]);
+
     clearInterval(intervalObj[$product_id]); //remove the interval
 
     if ($toclear == 'NO') { //if its not in non clear mode do set another interval
@@ -300,8 +308,29 @@ function ItemUpdate($product_id, $sku, $toclear) {
             var $winning_amount = data.winning_amount;
             winningUser.html($winning_user);
             // console.log(data);
-            var button = '<button class="btn btn-bid btn-bid-ended btn-block noradius text-uppercase" disabled>SOLD ' + $winning_amount + ' Winning Bid</button>';
+            if($winning_user=='-'||$winning_user.length <=0){
+                var button = '<button class="btn btn-bid btn-bid-ended btn-block noradius text-uppercase" disabled>Closed</button>';
+            }else {
+                var button = '<button class="btn btn-bid btn-success btn-block noradius text-uppercase" disabled>Sold</button>';
+            }
             bidButton.html(button);
+            //set function timeou
+            UpdateCartItems();
         });
     }
+}
+
+function UpdateCartItems() {
+    var userId = $('#user_id').val()
+    var cartitemsUrl = $('#cart_url').val();
+    var $cartItems = $('#cart_items');
+
+    if(userId==0){
+        return false;
+    }
+    $.getJSON(cartitemsUrl, function (data) {
+        $cartItems.html(data.items_count);
+    });
+
+    console.log('Cart items updated');
 }

@@ -16,6 +16,7 @@ use app\module\products\models\ProductBids;
 use app\module\products\models\Products;
 use app\module\products\product;
 use yii\data\ActiveDataProvider;
+use yii\data\SqlDataProvider;
 
 class ProductManager
 {
@@ -90,6 +91,7 @@ class ProductManager
     public static function GetItemsForSale($no_of_items = 20, $auction_param = [1, 0], $min_stock = 1, $exclusion_list = [], $random = true)
     {
         $query = FryProducts::find()
+            ->distinct('sku')
             ->where(['IN', 'visible', $auction_param,])
             ->andWhere(['>=', 'min_stock', $min_stock])//stock levels should be greater or equal to 1
             ->andWhere(['NOT IN', 'sku', $exclusion_list])
@@ -102,7 +104,7 @@ class ProductManager
                 ->andWhere(['>=', 'min_stock', $min_stock])//stock levels should be greater or equal to 1
                 ->andWhere(['NOT IN', 'sku', $exclusion_list])
                 ->orderBy(['rand()' => SORT_DESC]);
-                //->orderBy('productid ASC');
+            //->orderBy('productid ASC');
         }
 
         $item_provider = new ActiveDataProvider([
@@ -295,5 +297,27 @@ class ProductManager
         ItemsCart::deleteAll();
         BidActivity::deleteAll();
         ProductBids::deleteAll();
+    }
+
+    /**
+     * @param $image_url
+     * @return string
+     */
+    public static function CheckImageExists($image_url)
+    {
+        //$product_image = 'http://lorempixel.com/800/400/nature/2';//'@web/product_images/placeholder.png';
+        $product_image = 'http://placehold.it/800?text=No+Product+Image';//'@web/product_images/placeholder.png';
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $image_url);
+        // don't download content
+        curl_setopt($ch, CURLOPT_NOBODY, 1);
+        curl_setopt($ch, CURLOPT_FAILONERROR, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        if (curl_exec($ch) !== FALSE) {
+            $product_image = $image_url;
+        }
+
+        return $product_image;
     }
 }
