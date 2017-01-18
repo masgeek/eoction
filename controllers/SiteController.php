@@ -120,7 +120,7 @@ class SiteController extends Controller
     public function actionTest()
     {
         $exclusion_list = BidManager::GetExclusionItems();
-        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 4, $auction_param = [1], $min_stock = 1, $exclusion_list, true);
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 4, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
 
         $this->view->title = 'Test Live Auction';
         return $this->render('index', ['listDataProvider' => $dataProvider]);
