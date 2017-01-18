@@ -5,6 +5,8 @@
 
 var intervalObj = {};
 
+var $awaitingBid = 6;
+var $nextBids = 10;
 function RefreshSomeEventListener($product_id, $sku) {
 	var $place_bid = $('#placebid_' + $product_id);
 	$(document).on("click", $place_bid, function () {
@@ -12,7 +14,7 @@ function RefreshSomeEventListener($product_id, $sku) {
 		//console.log('Click event attached for product sku ' + $sku);
 	});
 	//run the intial progress bar
-	SetupProgressBar($product_id, 60); //trigger the progress bar to start
+	SetupProgressBar($product_id, $awaitingBid); //trigger the progress bar to start
 }
 
 
@@ -81,7 +83,7 @@ function SetupProgressBar($productid, $bid_start_time) {
 		if ($user_id == 0) {
 			return false;
 		}
-		TriggerProgressBar($productid, $sku, 10);
+		TriggerProgressBar($productid, $sku, $awaitingBid);
 	});
 }
 
