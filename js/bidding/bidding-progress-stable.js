@@ -5,7 +5,7 @@
 
 var intervalObj = {};
 
-var $awaitingBid = 6;
+var $awaitingBid = 45;
 var $nextBids = 10;
 function RefreshSomeEventListener($product_id, $sku) {
 	var $place_bid = $('#placebid_' + $product_id);

@@ -37,7 +37,7 @@ $shipping = ProductManager::ComputeShippingCost($product_id);
 if (YII_ENV_DEV) {
     $bidStartTime = 30;// * $productID; //initial start time for the bid
 } else {
-    $bidStartTime = 60;// * $productID; //initial start time for the bid
+    $bidStartTime = 45;// * $productID; //initial start time for the bid
 }
 
 $shipping_cost = $formatter->asCurrency($shipping);
