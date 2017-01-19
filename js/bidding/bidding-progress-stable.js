@@ -170,7 +170,7 @@ function TriggerProgressBar($product_id, $sku, $bid_waiting_time) {
 	};
 
 	bidType.val(1); //set to awaiting bids
-	bidStatusText.html('Accepting Bids');
+	bidStatusText.html('<span class="awaitingbid">Accepting Bids</span>');
 	$.when(
 		placeBid($product_id, $sku) //send the bid details for the logged in user
 	).then(function () {
