@@ -406,13 +406,13 @@ function GetWinningUser($product_id, $sku) {
             product_id: $product_id, sku: $sku
         },
         error: function (data) {
-            //do something in th event this fails
+            //do something in the event this fails
             console.log(data);
         },
         dataType: 'json',
         success: function (data) {
             winningUser.html(data.winning_user);
-            console.log('Winning User is ' + data.winning_user);
+            //console.log('Winning User is ' + data.winning_user);
         },
         type: 'GET'
     });
