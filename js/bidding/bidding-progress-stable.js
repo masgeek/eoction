@@ -135,12 +135,12 @@ function TriggerProgressBar($product_id, $sku, $bid_waiting_time) {
 				case '1': //awaiting bids
 					//set value to 2
 					bidType.val(2);
-					text = 'Going Once';
+                    text = '<span class="goingonce-text">Going Once</span>';
 					break;
 				case '2': //going once
 					//set value to 3
 					bidType.val(3);
-					text = 'Going Twice';
+					text = '<span class="goingtwice-text">Going Twice</span>';
 					break;
 				case '3': //going twice
 					//remove item and disable bid item
@@ -154,7 +154,7 @@ function TriggerProgressBar($product_id, $sku, $bid_waiting_time) {
 					//disable the button
 					var button = '<button class="btn btn-success btn-block noradius text-uppercase" disabled>Won</button>';
 					bidButton.html(button);
-					bidStatusText.html('Won');
+					text = '<span class="won-text">Won</span>';;
 
 					ItemUpdate($product_id, $sku, 'YES');
 					FetchNextItem($product_id);
@@ -170,7 +170,7 @@ function TriggerProgressBar($product_id, $sku, $bid_waiting_time) {
 	};
 
 	bidType.val(1); //set to awaiting bids
-	bidStatusText.html('<span class="awaitingbid">Accepting Bids</span>');
+	bidStatusText.html('<span class="awaitingbid-text">Accepting Bids</span>');
 	$.when(
 		placeBid($product_id, $sku) //send the bid details for the logged in user
 	).then(function () {
