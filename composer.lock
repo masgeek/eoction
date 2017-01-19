@@ -4,7 +4,6 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "70cdb2aa4cbabe9103efcaaf41d533d9",
     "content-hash": "e7bec35ba617dc2b497bb62a1e560514",
     "packages": [
         {
@@ -49,7 +48,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2016-10-16 12:06:18"
+            "time": "2016-10-16T12:06:18+00:00"
         },
         {
             "name": "bower-asset/bootstrap",
@@ -300,7 +299,7 @@
                 "opengraph",
                 "twitter cards"
             ],
-            "time": "2015-05-12 18:00:24"
+            "time": "2015-05-12T18:00:24+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -347,7 +346,7 @@
             "keywords": [
                 "html"
             ],
-            "time": "2017-01-13 12:31:37"
+            "time": "2017-01-13T12:31:37+00:00"
         },
         {
             "name": "fatelord/ship-station",
@@ -760,7 +759,7 @@
                 "option",
                 "select"
             ],
-            "time": "2015-12-16 18:15:01"
+            "time": "2015-12-16T18:15:01+00:00"
         },
         {
             "name": "kartik-v/yii2-dialog",
@@ -1017,7 +1016,7 @@
                 "popover",
                 "popover-x"
             ],
-            "time": "2016-01-12 16:59:09"
+            "time": "2016-01-12T16:59:09+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-activeform",
@@ -1620,7 +1619,7 @@
                 "font",
                 "yii"
             ],
-            "time": "2015-06-23 13:06:14"
+            "time": "2015-06-23T13:06:14+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -1822,7 +1821,7 @@
                 "oauth",
                 "yii2"
             ],
-            "time": "2016-08-29 09:21:09"
+            "time": "2016-08-29T09:21:09+00:00"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -2140,7 +2139,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2017-01-05 16:44:55"
+            "time": "2017-01-05T16:44:55+00:00"
         },
         {
             "name": "phpspec/php-diff",
@@ -2178,7 +2177,7 @@
                 }
             ],
             "description": "A comprehensive library for generating differences between two hashable objects (strings or arrays).",
-            "time": "2016-04-07 12:29:16"
+            "time": "2016-04-07T12:29:16+00:00"
         },
         {
             "name": "yiisoft/yii2-debug",
@@ -2225,7 +2224,7 @@
                 "debugger",
                 "yii2"
             ],
-            "time": "2016-12-15 14:50:58"
+            "time": "2016-12-15T14:50:58+00:00"
         },
         {
             "name": "yiisoft/yii2-faker",
@@ -2272,7 +2271,7 @@
                 "faker",
                 "yii2"
             ],
-            "time": "2016-12-02 21:11:03"
+            "time": "2016-12-02T21:11:03+00:00"
         },
         {
             "name": "yiisoft/yii2-gii",
@@ -2280,12 +2279,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-gii.git",
-                "reference": "e28ccc70fe052187c2d060f67241d05e95ff5eae"
+                "reference": "20c6678acded5340785e5e37404213230c4fef38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/e28ccc70fe052187c2d060f67241d05e95ff5eae",
-                "reference": "e28ccc70fe052187c2d060f67241d05e95ff5eae",
+                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/20c6678acded5340785e5e37404213230c4fef38",
+                "reference": "20c6678acded5340785e5e37404213230c4fef38",
                 "shasum": ""
             },
             "require": {
@@ -2325,7 +2324,7 @@
                 "gii",
                 "yii2"
             ],
-            "time": "2016-12-21 16:50:20"
+            "time": "2017-01-19T13:47:05+00:00"
         }
     ],
     "aliases": [],
