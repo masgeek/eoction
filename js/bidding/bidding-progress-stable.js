@@ -7,6 +7,7 @@ var intervalObj = {};
 
 var $awaitingBid = 45;
 var $nextBids = 10;
+var $velocityDelay = 0;
 function RefreshSomeEventListener($product_id, $sku) {
 	var $place_bid = $('#placebid_' + $product_id);
 	$(document).on("click", $place_bid, function () {
@@ -83,31 +84,31 @@ function SetupProgressBar($productid, $bid_start_time) {
 		if ($user_id == 0) {
 			return false;
 		}
-		TriggerProgressBar($productid, $sku, $awaitingBid);
+		TriggerProgressBar($productid, $sku, $nextBids);
 	});
 }
 
 
-function TriggerProgressBar($productid, $sku, $bid_start_time) {
-	var bidType = $('#bid_type_' + $productid);
+function TriggerProgressBar($product_id, $sku, $bid_waiting_time) {
+	var bidType = $('#bid_type_' + $product_id);
 	var text = "Accepting Bids";
 	//var bidCount = $('#bid_count_' + $productid);
 	//var bidsPlaced = $('#bids_placed_' + $productid);
-	var progressBar = $('#progressBar' + $productid);
-	var bidStatusText = $('#bid_status_' + $productid);
-	var bidButton = $('#bid_button_' + $productid);
-	var placebid = $('#placebid_' + $productid);
-	var starttime = $bid_start_time * 1000;//convert to ms
-
+	var progressBar = $('#progressBar' + $product_id);
+	var bidStatusText = $('#bid_status_' + $product_id);
+	var bidButton = $('#bid_button_' + $product_id);
+	var placebid = $('#placebid_' + $product_id);
+	var bid_waiting_time = $bid_waiting_time * 1000;//convert to ms
+	var scenario = 0;
 	//reset the width
 	progressBar.velocity('stop', true); //stop any animations
 	progressBar.width('100%'); //reset the width back to 100
-	var bidplacedParam = {
+	var bidsPlacedParams = {
 		easing: "linear",
-		duration: starttime, //milliseconds
-		delay: 3000,
+		duration: bid_waiting_time, //milliseconds
+		delay: $velocityDelay,
 		begin: function () {
-			ItemUpdate($productid, $sku, 'NO');
+			ItemUpdate($product_id, $sku, 'NO');
 		},
 		progress: function (elements, percentComplete, timeRemaining, timeStart) {
 			//$percentComplete.html(Math.round(percentComplete * 100) + "% complete.");
@@ -125,7 +126,7 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
 			 3 going twice
 			 4 bid won
 			 */
-			var scenario = bidType.val();
+			scenario = bidType.val();
 
 			switch (scenario) {
 				case '0': //bid countdown
@@ -148,15 +149,15 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
 					text = ""; //clear the text
 					//show the bid won progress
 					//alert('You have won the bid');
-					console.log('product id to remove ' + $productid);
+					console.log('product id to remove ' + $product_id);
 
 					//disable the button
 					var button = '<button class="btn btn-success btn-block noradius text-uppercase" disabled>Won</button>';
 					bidButton.html(button);
 					bidStatusText.html('Won');
 
-					ItemUpdate($productid, $sku, 'YES');
-					FetchNextItem($productid);
+					ItemUpdate($product_id, $sku, 'YES');
+					FetchNextItem($product_id);
 					break;
 				case '4':
 //loading next item
@@ -169,25 +170,25 @@ function TriggerProgressBar($productid, $sku, $bid_start_time) {
 	};
 
 	bidType.val(1); //set to awaiting bids
-	bidStatusText.html('Accepting Bids');
+	bidStatusText.html('<span class="awaitingbid">Accepting Bids</span>');
 	$.when(
-		placeBid($productid, $sku) //send the bid details for the logged in user
+		placeBid($product_id, $sku) //send the bid details for the logged in user
 	).then(function () {
-		progressBar.velocity({width: 0}, bidplacedParam) //Accepting Bids
+		progressBar.velocity({width: 0}, bidsPlacedParams) //Accepting Bids
 			.velocity({width: '100%'}, {
 				duration: 1, complete: function () {
 					progressBar.removeClass("noplacedbids awaitingbid goingtwice").addClass('goingonce');
 					/*always await bid*/
 				}
 			}) //reset bar
-			.velocity({width: 0}, bidplacedParam) //going once
+			.velocity({width: 0}, bidsPlacedParams) //going once
 			.velocity({width: '100%'}, {
 				duration: 1, complete: function () {
 					progressBar.removeClass("noplacedbids awaitingbid goingonce").addClass('goingtwice');
 					/*always await bid*/
 				}
 			}) //reset bar
-			.velocity({width: 0}, bidplacedParam); //going twice
+			.velocity({width: 0}, bidsPlacedParams); //going twice
 	})
 }
 
@@ -227,9 +228,7 @@ function placeBid($product_id, $sku) {
 			type: 'GET'
 		}),
 		GetWinningUser($product_id, $sku)
-	).then(function () {
-
-	})
+	).then(function () {});
 }
 
 function FetchNextItem($previous_product_id) {
