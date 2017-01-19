@@ -75,9 +75,9 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
                 <!--<button class="btn btn-block">BID NOW</button>-->
                 <div id="bid_button_<?= $product_id ?>">
                     <?= Html::button('<span class="hammer-icon pull-left"></span>BID NOW', [
-            'class' => 'btn btn-bid btn-bid-active btn-block noradius',
-            'id' => "placebid_$product_id"
-        ]) ?>
+                    'class' => 'btn btn-bid btn-bid-active btn-block noradius',
+                    'id' => "placebid_$product_id"
+                    ]) ?>
                 </div>
                 <div class="bidProgress noplacedbids" id="progressBar<?= $product_id ?>"></div>
             </div>

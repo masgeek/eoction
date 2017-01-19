@@ -100,6 +100,7 @@ function TriggerProgressBar($product_id, $sku, $bid_waiting_time) {
 	var placebid = $('#placebid_' + $product_id);
 	var bid_waiting_time = $bid_waiting_time * 1000;//convert to ms
 	var scenario = 0;
+    var $maxProgressBarWidth = progressBar.outerWidth();
 	//reset the width
 	progressBar.velocity('stop', true); //stop any animations
 	progressBar.width('100%'); //reset the width back to 100
@@ -172,17 +173,19 @@ function TriggerProgressBar($product_id, $sku, $bid_waiting_time) {
 	bidType.val(1); //set to awaiting bids
 	bidStatusText.html('<span class="awaitingbid-text">Accepting Bids</span>');
 	$.when(
-		placeBid($product_id, $sku) //send the bid details for the logged in user
+		placeBid($product_id, $sku), //send the bid details for the logged in user
+    	progressBar.removeClass("noplacedbids goingonce goingtwice").addClass('awaitingbid')
 	).then(function () {
+console.log('Maximum progressbar width is '+$maxProgressBarWidth)
 		progressBar.velocity({width: 0}, bidsPlacedParams) //Accepting Bids
-			.velocity({width: '100%'}, {
+			.velocity({width: $maxProgressBarWidth}, {
 				duration: 1, complete: function () {
 					progressBar.removeClass("noplacedbids awaitingbid goingtwice").addClass('goingonce');
 					/*always await bid*/
 				}
 			}) //reset bar
 			.velocity({width: 0}, bidsPlacedParams) //going once
-			.velocity({width: '100%'}, {
+			.velocity({width: $maxProgressBarWidth}, {
 				duration: 1, complete: function () {
 					progressBar.removeClass("noplacedbids awaitingbid goingonce").addClass('goingtwice');
 					/*always await bid*/

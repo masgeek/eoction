@@ -30,7 +30,7 @@ class BowerAsset extends AssetBundle
         //'timer.jquery/dist/timer.jquery.js'
         //'countdown360/dist/jquery.countdown360.js'
         'velocity/velocity.js',
-        'velocity/velocity.ui.js',
+        //'velocity/velocity.ui.js',
         //'//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js',
         'tingle/dist/tingle.min.js',
         //'jquery-lazyload-any/src/jquery.lazyload-any.js'
