@@ -286,13 +286,34 @@ function ItemUpdate($product_id, $sku, $toclear) {
 		intervalObj[$product_id] = setInterval(function () {
 
 			$.when(
-				$.getJSON(updateUrl, {product_id: $product_id, sku: $sku}, function (data) {
+				/*$.getJSON(updateUrl, {product_id: $product_id, sku: $sku}, function (data) {
 					var $bid_count = data.bid_count;
 					var $new_bid_price = data.bid_price;
 
 					$bidPrice.html($new_bid_price);
 					bidsPlaced.html($bid_count);
-				}), GetWinningUser($product_id, $sku)
+				}), */
+                $.ajax({
+                    url: updateUrl,
+                    data: {
+                        product_id: $product_id,
+                        sku: $sku
+                    },
+                    error: function (data) {
+                        //do something in th event this fails
+                        console.log(data);
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        var $bid_count = data.bid_count;
+                        var $new_bid_price = data.bid_price;
+
+                        $bidPrice.html($new_bid_price);
+                        bidsPlaced.html($bid_count);
+                    },
+                    type: 'GET'
+                }),
+                GetWinningUser($product_id, $sku)
 			).then(function () {
 			});
 		}, random_intervals); //check every n seconds
@@ -304,16 +325,37 @@ function ItemUpdate($product_id, $sku, $toclear) {
 		var bidwonUrl = $('#bidwon_url').val();
 		var button = '<button class="btn btn-bid btn-success btn-block noradius text-uppercase" disabled>Sold</button>';
 		$.when(
-			$.getJSON(bidwonUrl, {user_id: userId, product_id: $product_id, sku: $sku}, function (data) {
+			/*$.getJSON(bidwonUrl, {user_id: userId, product_id: $product_id, sku: $sku}, function (data) {
 				//mark the item as won..and show the winning user
 				var $winning_user = data.winning_user;
-		//		var $winning_amount = data.winning_amount;
+
 				winningUser.html($winning_user);
 				if ($winning_user == '-' || $winning_user.length <= 0) {
 					button = '<button class="btn btn-bid btn-bid-ended btn-block noradius text-uppercase" disabled>Closed</button>';
 				}
 				bidButton.html(button);
-			}),
+			}),*/
+        $.ajax({
+                url: bidwonUrl,
+                data: {
+                    user_id: userId, product_id: $product_id, sku: $sku
+                },
+                error: function (data) {
+                    //do something in th event this fails
+                    console.log(data);
+                },
+                dataType: 'json',
+                success: function (data) {
+                    var $winning_user = data.winning_user;
+
+                    winningUser.html($winning_user);
+                    if ($winning_user == '-' || $winning_user.length <= 0) {
+                        button = '<button class="btn btn-bid btn-bid-ended btn-block noradius text-uppercase" disabled>Closed</button>';
+                    }
+                    bidButton.html(button);
+                },
+                type: 'GET'
+            }),
 			UpdateCartItems()
 		).then(function () {
 		});
@@ -328,18 +370,47 @@ function UpdateCartItems() {
 	if (userId == 0) {
 		return false;
 	}
-	$.getJSON(cartitemsUrl, function (data) {
+	/*$.getJSON(cartitemsUrl, function (data) {
 		$cartItems.html(data.items_count);
 		console.log('Cart items updated ' + data.items_count);
-	});
+	});*/
+    $.ajax({
+        url: cartitemsUrl,
+        error: function (data) {
+            //do something in th event this fails
+            console.log(data);
+        },
+        dataType: 'json',
+        success: function (data) {
+            $cartItems.html(data.items_count);
+            console.log('Cart items updated ' + data.items_count);
+        },
+        type: 'GET'
+    });
 }
 
 function GetWinningUser($product_id, $sku) {
 	var winningUrl = $('#winning_url').val();
 	var winningUser = $('#winning_user_' + $product_id);
 
-	$.getJSON(winningUrl, {product_id: $product_id, sku: $sku}, function (data) {
+	/*$.getJSON(winningUrl, {product_id: $product_id, sku: $sku}, function (data) {
 		winningUser.html(data.winning_user);
 		console.log('Winning User is ' + data.winning_user);
-	});
+	});*/
+    $.ajax({
+        url: cartitemsUrl,
+        data: {
+            product_id: $product_id, sku: $sku
+        },
+        error: function (data) {
+            //do something in th event this fails
+            console.log(data);
+        },
+        dataType: 'json',
+        success: function (data) {
+            winningUser.html(data.winning_user);
+            console.log('Winning User is ' + data.winning_user);
+        },
+        type: 'GET'
+    });
 }
