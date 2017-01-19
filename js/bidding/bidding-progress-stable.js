@@ -398,7 +398,7 @@ function GetWinningUser($product_id, $sku) {
 		console.log('Winning User is ' + data.winning_user);
 	});*/
     $.ajax({
-        url: cartitemsUrl,
+        url: winningUrl,
         data: {
             product_id: $product_id, sku: $sku
         },
