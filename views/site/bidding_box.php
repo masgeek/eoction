@@ -57,7 +57,7 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
         <input type="text" id="product_sku_<?= $product_id; ?>" value="<?= $sku ?>" readonly="readonly"/>
     </div>
     <div class="thumbnail">
-        <h5 class="text-center"><span class="label label-info"><?= $sku ?></span></h5>
+        <!--<h5 class="text-center"><span class="label label-info"><?= $sku ?></span></h5>-->
         <div class="proportion-image" id="image_box<?= $product_id ?>">
             <?= Html::img($product_image, [
             'id' => 'product_image_' . $product_id,
