@@ -27,14 +27,23 @@ $productUrl = Url::toRoute(['site/next-item']);
 $userId = 1;
 $listviewWidget = ListView::widget([
     'dataProvider' => $listDataProvider,
+    //'layout' => "{items}",
+    'layout' => "{pager}\n{items}\n{pager}",
+    'itemView' => '_requestbox',
+    'pager' => [
+
+        'firstPageLabel' => 'First',
+        'lastPageLabel' => 'Last',
+        'nextPageLabel' => 'Next',
+        'prevPageLabel' => 'Previous',
+        'maxButtonCount' => 3,
+
+    ],
     'options' => [
         'tag' => 'div',
         'class' => 'list-wrapper',
-        'id' => 'product_list',
-    ],
-    //'layout' => "{items}",
-    'layout' => "{pager}\n{items}\n{pager}",
-    'itemView' => 'request_box',
+        'id' => 'request_list',
+    ]
 ]);
 //static text fields
 ?>

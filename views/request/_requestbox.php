@@ -38,7 +38,7 @@ $retail_price = $formatter->asCurrency($retail_price_raw);
 ?>
 
 
-<div class="col-xs-18 col-sm-6 col-md-3" id="item_box_<?= $product_id; ?>">
+<div class="col-xs-18 col-sm-6 col-md-3 column" id="request_box_<?= $product_id; ?>">
     <div class="offer offer-default">
         <div class="offer-content">
             <?= Html::img($product_image, [
