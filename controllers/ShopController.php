@@ -156,10 +156,6 @@ class ShopController extends Controller
 		return $this->render('//site/coming-soon');
 	}
 
-	public function actionBidRequest()
-	{
-		return $this->render('//site/coming-soon');
-	}
 
 	public function actionWinningUser($product_id, $sku, $bid_won = false)
 	{

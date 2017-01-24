@@ -25,7 +25,7 @@ $cartUrl = \yii\helpers\Url::toRoute(['shop/cart-items']);
     <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav product-nav">
             <li class="active"><?= Html::a('Live Auctions', ['//site/index'], ['title' => 'live auctions']); ?></li>
-            <li><?= Html::a('Bid Request', ['//shop/bid-request'], ['title' => 'Request Item for bidding']); ?></li>
+            <li><?= Html::a('Bid Request', ['//request/bid-request'], ['title' => 'Request Item for bidding']); ?></li>
             <li><?= Html::a('Live TV', ['//tv/live-tv'], ['title' => 'live TV']); ?></li>
             <li><?= Html::a('Online Shopping', ['//shop/'], ['title' => 'Online Shopping']); ?></li>
         </ul>
