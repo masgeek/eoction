@@ -37,7 +37,6 @@ $shipping_cost = $formatter->asCurrency($shipping);
 $retail_price = $formatter->asCurrency($retail_price_raw);
 ?>
 
-
 <div class="col-xs-18 col-sm-6 col-md-3 column" id="request_box_<?= $product_id; ?>">
     <div class="offer offer-default">
         <div class="offer-content">
@@ -45,7 +44,6 @@ $retail_price = $formatter->asCurrency($retail_price_raw);
                 'id' => 'product_image_' . $product_id,
                 'class' => 'img img-responsive',
                 'alt' => $product_name,
-                //'style' => 'max-height:220px'
             ]); ?>
             <div class="col-md-12 col-xs-6 text-center">
                 <span class="small"><?= $product_name ?></span>
@@ -54,15 +52,12 @@ $retail_price = $formatter->asCurrency($retail_price_raw);
             <div class="col-md-12 col-xs-6 text-center">
                 <span class="retail-price"><?= $retail_price; ?></span>
             </div>
-            <!--<div class="col-md-12 col-xs-6 text-center">
-                <span>Shipping <?= $shipping_cost ?></span>
-            </div>-->
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 col-xs-12" id="buy_button_<?= $product_id ?>">
                     <?= Html::a("Request For Bid",
                         ['//request/request-for-bid', 'user_id' => $userid, 'product_id' => $product_id],
                         [
-                            'class' => 'btn btn-primary btn-block btn-lg noradius',
+                            'class' => 'btn btn-success btn-block btn-lg noradius',
                         ]) ?>
                 </div>
 
@@ -70,3 +65,4 @@ $retail_price = $formatter->asCurrency($retail_price_raw);
         </div>
     </div>
 </div>
+
