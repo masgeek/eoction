@@ -59,12 +59,8 @@ $retail_price = $formatter->asCurrency($retail_price_raw);
             </div>-->
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 col-xs-12" id="buy_button_<?= $product_id ?>">
-                    <!--= Html::button("BUY NOW FOR $retail_price", [
-                        'class' => 'btn btn-primary btn-lg btn-block noradius',
-                        'id' => "buynow_$product_id"
-                    ]) ?-->
-                    <?= Html::a("BUY NOW",
-                        ['//shop/add-to-cart', 'user_id' => $userid, 'product_id' => $product_id, 'price' => $retail_price_raw],
+                    <?= Html::a("Request For Bid",
+                        ['//request/request-for-bid', 'user_id' => $userid, 'product_id' => $product_id],
                         [
                             'class' => 'btn btn-primary btn-block btn-lg noradius',
                         ]) ?>
