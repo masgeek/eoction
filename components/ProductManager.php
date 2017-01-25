@@ -327,15 +327,13 @@ class ProductManager
     public static function UpdateProductStock($product_id_array = [])
     {
 
+        return false;
         $item_count = array_count_values($product_id_array); //count the number of items sold will be grouped based on their values
 
         foreach ($item_count as $product_id => $items_bought) {
-            //echo "Product id $product_id number of items bought $items_bought";
-            //echo '<br/>';
-            //Comment::updateAll(['status' => 1], 'type_id = 1 AND status = 0');
-            FryProducts::updateAll(['dsfsd'=>$items_bought],"productid=$product_id");
+            $items_to_reduce = -1 * (int)$items_bought;
+            //update the stock count i.e available stock minus the bought items
+            FryProducts::updateAllCounters(['stock_level' => $items_to_reduce], "productid=$product_id");
         }
-        //var_dump($product_count_values);
-        die;
     }
 }

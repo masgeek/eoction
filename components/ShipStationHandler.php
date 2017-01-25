@@ -81,9 +81,8 @@ class ShipStationHandler
         $apisecret = \Yii::$app->params['ShipStationApiSecret'];
 
         $options = [];
-        $product_ids = [];
+        $product_id_array = [];
         $shipstation = new ShipStationApi($apikey, $apisecret, $options);
-
 
         $orderservice = $shipstation->getOrdersService();
         $productservice = $shipstation->getProductsService();
@@ -129,7 +128,8 @@ class ShipStationHandler
 
                 $items[] = $orderItem;
                 $total[] = (float)$model->PRODUCT_PRICE;
-                $product_ids[] = $model->PRODUCT_ID;
+
+                $product_id_array[] = $model->PRODUCT_ID;
             }
 
 
@@ -205,6 +205,10 @@ class ShipStationHandler
             $shipping->phone = $clientShippingAddress->PHONE;
             $shipping->residential = null;//$clientShippingAddress->RESIDENTIAL ? 'Residential' : null;
             $order->shipTo = $shipping;
+
+
+            //update the stock count
+            ProductManager::UpdateProductStock($product_id_array);
 
             //$order = $orderservice->getOrder('1234');
             $createOrder = $orderservice->createOrder($order);
