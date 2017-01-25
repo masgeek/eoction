@@ -10,7 +10,7 @@ class m170125_131547_create_bid_requests_table extends Migration
     /**
      * @inheritdoc
      */
-    public function up()
+    public function safeUp()
     {
         $this->createTable('bid_requests', [
             'REQUEST_ID' => $this->primaryKey(),
@@ -25,7 +25,7 @@ class m170125_131547_create_bid_requests_table extends Migration
     /**
      * @inheritdoc
      */
-    public function down()
+    public function safeDown()
     {
         $this->dropTable('bid_requests');
     }
