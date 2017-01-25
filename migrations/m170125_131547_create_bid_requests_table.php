@@ -20,6 +20,9 @@ class m170125_131547_create_bid_requests_table extends Migration
             'CREATED' => $this->timestamp(),
             'UPDATED' => $this->timestamp() . ' ON UPDATE CURRENT_TIMESTAMP'
         ]);
+
+        $this->addForeignKey('FK_PRODUCT_ID', 'bid_requests', 'PRODUCT_ID', 'fry_products', 'productid','RESTRICT', 'CASCADE');
+
     }
 
     /**

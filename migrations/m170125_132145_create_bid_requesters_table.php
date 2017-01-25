@@ -13,8 +13,20 @@ class m170125_132145_create_bid_requesters_table extends Migration
     public function up()
     {
         $this->createTable('bid_requesters', [
-            'id' => $this->primaryKey(),
+            'REQUESTER_ID' => $this->primaryKey(),
+            'REQUEST_ID' => $this->integer()->notNull(),
+            'USER_ID' => $this->integer()->notNull(),
+            'CREATED' => $this->timestamp(),
+            'UPDATED' => $this->timestamp() . ' ON UPDATE CURRENT_TIMESTAMP'
         ]);
+
+        //creeate foreign keys
+        $this->addForeignKey('FK_REQUESTER_ID', 'bid_requesters', 'REQUEST_ID', 'bid_requests', 'REQUEST_ID','CASCADE', 'CASCADE');
+        $this->addForeignKey('FK_USER_ID', 'bid_requesters', 'USER_ID', 'tb_users', 'USER_ID','RESTRICT', 'CASCADE');
+
+        //add indexes
+        $this->createIndex('idx-requester_id', 'bid_requesters', 'REQUESTER_ID');
+        $this->createIndex('idx-user_id', 'bid_requesters', 'USER_ID');
     }
 
     /**
