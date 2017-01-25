@@ -318,4 +318,14 @@ class ProductManager
 
         return $product_image;
     }
+
+
+    /**
+     * This function changes the stock of a product upon successful payment
+     * @param array $product_id
+     */
+    public static function UpdateProductStock($product_id = [])
+    {
+
+    }
 }

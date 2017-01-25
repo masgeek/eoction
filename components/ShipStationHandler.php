@@ -60,6 +60,12 @@ class ShipStationHandler
         return $decoded;
     }
 
+    /**
+     * Create a new order in shipstation
+     * @param $paypal_hash
+     * @param $user_id
+     * @return bool
+     */
     public function CreateNewOrder($paypal_hash, $user_id)
     {
         /* @var $model ItemsCart */
@@ -75,6 +81,7 @@ class ShipStationHandler
         $apisecret = \Yii::$app->params['ShipStationApiSecret'];
 
         $options = [];
+        $product_ids = [];
         $shipstation = new ShipStationApi($apikey, $apisecret, $options);
 
 
@@ -122,6 +129,7 @@ class ShipStationHandler
 
                 $items[] = $orderItem;
                 $total[] = (float)$model->PRODUCT_PRICE;
+                $product_ids[] = $model->PRODUCT_ID;
             }
 
 
@@ -131,26 +139,18 @@ class ShipStationHandler
 
             $order->items = $items;
 
-
-            //var_dump($items);
-            //die;
             //lets get the payment information
             $paypalTransModel = PaypalTransactions::findOne(['HASH' => $paypal_hash]);
             $shippingModel = $paypalTransModel->shippingServices; //get only the first item in the array
 
-            $orderDate = date('Y-m-d') . 'T' . date('H:i:s') . '.0000000';
-            $paymentDate = date('Y-m-d') . 'T' . date('H:i:s') . '.0000000';
+            //$orderDate = date('Y-m-d') . 'T' . date('H:i:s') . '.0000000';
+            //$paymentDate = date('Y-m-d') . 'T' . date('H:i:s') . '.0000000';
 
 
             //$orderDate = date('Y-m-d H:i:s', strtotime($orderDate . "GMT"));
             $paymentDate = \Yii::$app->formatter->asDatetime($paypalTransModel->UPDATE_TIME, "php: Y-m-d H:i:s");;
             $orderDate = \Yii::$app->formatter->asDatetime($paypalTransModel->CREATE_TIME, "php: Y-m-d H:i:s");;
-            //echo '<br/>';
-            //$today = date('Y-m-d H:i:s', $temp['date']->getTimeStamp());
-            //$today = date('Y-m-d H:i:s', strtotime($orderDate . "+8"));
 
-            //echo $time_gmt;
-            //die;
             //$order->orderId = 1;
             $order->orderNumber = strtoupper(uniqid("EOCT-{$paypalTransModel->ID}-"));
             $order->orderKey = $paypal_hash; // if specified, the method becomes idempotent and the existing Order with that key will be updated
@@ -206,23 +206,6 @@ class ShipStationHandler
             $shipping->residential = null;//$clientShippingAddress->RESIDENTIAL ? 'Residential' : null;
             $order->shipTo = $shipping;
 
-
-            //var_dump($transactionInfo);
-            /*
-             *                $orderItem->lineItemKey = '1';
-                $orderItem->sku = '58012345-' . $x;
-                $orderItem->name = "Awesome sweater {$x}";
-                $orderItem->quantity = '1';
-                $orderItem->unitPrice = '29.99';
-                $orderItem->warehouseLocation = 'Warehouse A';
-
-             */
-
-            //var_dump($order);
-            //die;
-            //pull the product information from the said table
-
-
             //$order = $orderservice->getOrder('1234');
             $createOrder = $orderservice->createOrder($order);
 
@@ -230,14 +213,8 @@ class ShipStationHandler
 
             $decoded = \GuzzleHttp\json_decode($orderJsonResponse);
 
-            //sleep(5); //sleep for 5 seconds to await proper processing
-            //save to the database
-            //echo '<pre>';
-            //print_r($orderJsonResponse->items);
-            //echo '</pre>';
 
             $this->SaveOrders($decoded);
-            //var_dump($decoded);
         }
         return $status;
 

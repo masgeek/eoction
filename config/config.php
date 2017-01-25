@@ -1,10 +1,10 @@
 <?php
 
-$params = require(__DIR__ . '/params.php');
+$params = YII_ENV_DEV ? require(__DIR__ . '/params_test.php') : require(__DIR__ . '/params_live.php');
 
 $config = [
     'id' => 'basic',
-    'name' => 'EOCTION',
+    'name' => YII_DEBUG ? 'EOCTION DEV' : 'EOCTION',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -24,10 +24,10 @@ $config = [
         'shopper' => [
             'class' => 'app\module\shopper\Module',
         ],
-	    'merchantportal' => [
-		    'class' => 'app\module\merchant\admin',
+        'merchantportal' => [
+            'class' => 'app\module\merchant\admin',
             'defaultRoute' => 'merchant', //default controller
-	    ],
+        ],
     ],
     'components' => [
         'request' => [
