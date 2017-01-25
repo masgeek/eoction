@@ -11,5 +11,8 @@ namespace app\components;
 
 class BidRequestsManager
 {
+    public static function PlaceRequest($product_id,$user_id)
+    {
 
+    }
 }
