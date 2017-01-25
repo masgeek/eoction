@@ -34,9 +34,12 @@ $config = [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '921af581c20b4666ba21f6b8b888688d',
         ],
-        /*'assetManager' => [
-            'basePath' => '@webroot/my_assets',
-        ],*/
+        'assetManager' => [
+            //'basePath' => '@webroot/my_assets',
+            'class' => 'yii\web\AssetManager',
+            'linkAssets' => true,
+            'forceCopy' => true,
+        ],
 
         /* external files*/
         /*'assetManager' => [
