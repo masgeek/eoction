@@ -38,7 +38,7 @@ $config = [
             //'basePath' => '@webroot/my_assets',
             'class' => 'yii\web\AssetManager',
             'linkAssets' => true,
-            'forceCopy' => true,
+            'forceCopy' => YII_DEBUG,
         ],
 
         /* external files*/
