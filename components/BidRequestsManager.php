@@ -9,7 +9,7 @@
 namespace app\components;
 
 
-class RequestsManager
+class BidRequestsManager
 {
 
 }
