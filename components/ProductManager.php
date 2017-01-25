@@ -93,14 +93,14 @@ class ProductManager
         $query = FryProducts::find()
             ->distinct('sku')
             ->where(['IN', 'visible', $auction_param,])
-            ->andWhere(['>=', 'min_stock', $min_stock])//stock levels should be greater or equal to 1
+            ->andWhere(['>=', 'stock_level', $min_stock])//stock levels should be greater or equal to 1
             ->andWhere(['NOT IN', 'sku', $exclusion_list])
             ->orderBy('productid ASC');
 
         if ($random) {
             $query = FryProducts::find()
                 ->where(['IN', 'visible', $auction_param,])
-                ->andWhere(['>=', 'min_stock', $min_stock])//stock levels should be greater or equal to 1
+                ->andWhere(['>=', 'stock_level', $min_stock])//stock levels should be greater or equal to 1
                 ->andWhere(['NOT IN', 'sku', $exclusion_list])
                 ->orderBy(['rand()' => SORT_DESC]);
         }
@@ -322,10 +322,20 @@ class ProductManager
 
     /**
      * This function changes the stock of a product upon successful payment
-     * @param array $product_id
+     * @param array $product_id_array
      */
-    public static function UpdateProductStock($product_id = [])
+    public static function UpdateProductStock($product_id_array = [])
     {
 
+        $item_count = array_count_values($product_id_array); //count the number of items sold will be grouped based on their values
+
+        foreach ($item_count as $product_id => $items_bought) {
+            //echo "Product id $product_id number of items bought $items_bought";
+            //echo '<br/>';
+            //Comment::updateAll(['status' => 1], 'type_id = 1 AND status = 0');
+            FryProducts::updateAll(['dsfsd'=>$items_bought],"productid=$product_id");
+        }
+        //var_dump($product_count_values);
+        die;
     }
 }
