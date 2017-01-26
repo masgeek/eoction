@@ -6,6 +6,7 @@
  * Time: 14:40
  */
 /* @var $model app\module\products\models\FryProducts */
+/* @var $requestModel app\models\BidRequests */
 /* @var $image app\module\products\models\FryProductImages */
 
 
@@ -60,7 +61,7 @@ $retail_price = $formatter->asCurrency($retail_price_raw);
                             'class' => 'btn btn-success btn-block btn-lg noradius',
                         ]) ?-->
                     <?= Html::beginForm(['//request/request-for-bid'], 'POST',['id'=>"bid-request-$product_id"]) ?>
-                    <?= Html::hiddenInput("PRODUCT_ID",$product_id,['readonly'=>true])?>
+                    <?= Html::activeTextInput($requestModel,"PRODUCT_ID",['readonly'=>true,'value'=>$product_id])?>
                     <?= Html::hiddenInput("USER_ID",$userid)?>
                     <?= Html::submitButton('Request For Bid', ['class' => 'btn btn-success btn-block btn-lg noradius']) ?>
                     <?= Html::endForm() ?>

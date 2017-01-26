@@ -2,6 +2,7 @@
 /**
  *
  * @var \yii\data\ActiveDataProvider $listDataProvider
+ * @var $requestModel app\models\BidRequests
  */
 
 use yii\widgets\ListView;
@@ -18,6 +19,7 @@ $listviewWidget = ListView::widget([
     //'layout' => "{items}",
     'layout' => "{pager}\n{items}\n{pager}",
     'itemView' => '_requestbox',
+    'viewParams' => ['requestModel' => $requestModel],
     'pager' => [
 
         'firstPageLabel' => 'First',

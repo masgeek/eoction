@@ -13,18 +13,17 @@ class m170125_131547_create_bid_requests_table extends Migration
     public function safeUp()
     {
         $this->createTable('bid_requests', [
-            'REQUEST_ID' => $this->primaryKey(),
-            'PRODUCT_ID' => $this->integer()->notNull(),
-            'REQUEST_ACCEPTED' => $this->boolean()->defaultValue(0),
-            'CUSTOMER_NOTES' => $this->string(300),
-            'CREATED' => $this->timestamp(),
-            'UPDATED' => $this->timestamp() . ' ON UPDATE CURRENT_TIMESTAMP'
+            'REQUEST_ID' => $this->primaryKey()->comment('Request ID'),
+            'PRODUCT_ID' => $this->integer()->notNull()->comment('Product ID'),
+            'REQUEST_ACCEPTED' => $this->boolean()->defaultValue(0)->comment('Request Accepted'),
+            'CREATED' => $this->timestamp()->comment('Date Created'),
+            'UPDATED' => $this->timestamp()->comment('Date Updated') . ' ON UPDATE CURRENT_TIMESTAMP'
         ]);
 
         $this->addForeignKey('FK_PRODUCT_ID', 'bid_requests', 'PRODUCT_ID', 'fry_products', 'productid','RESTRICT', 'CASCADE');
 
 
-        $this->createIndex('idx-product_id', 'bid_requesters', 'PRODUCT_ID');
+        $this->createIndex('idx-product_id', 'bid_requests', 'PRODUCT_ID');
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\ProductManager;
+use app\models\BidRequests;
 use yii\filters\VerbFilter;
 
 class RequestController extends \yii\web\Controller
@@ -90,17 +91,26 @@ class RequestController extends \yii\web\Controller
      */
     public function actionBidRequest()
     {
+        $requestModel = new BidRequests();
         $dataProvider = ProductManager::GetItemsForSale($no_of_items = 4, $for_auction = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false);
         $this->view->title = 'Request to Bid';
 
-        return $this->render('bid-request', ['listDataProvider' => $dataProvider]);
+        return $this->render('bid-request', ['listDataProvider' => $dataProvider,'requestModel'=>$requestModel]);
     }
 
     public function actionRequestForBid()
     {
+        $model = new BidRequests();
+
         $product_id = \Yii::$app->request->post('PRODUCT_ID',0);
         $user_id = \Yii::$app->request->post('USER_ID',0);
 
+        var_dump($_POST);
+        if ($model->load(\Yii::$app->request->post()) && $model->save()) {
+            echo $model->REQUEST_ID;
+        } else {
+            var_dump($model->getErrors());
+        }
         //lets post this request to the releveant table
         //return $this->render('//site/coming-soon');
     }
