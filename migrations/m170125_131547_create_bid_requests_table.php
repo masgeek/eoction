@@ -32,6 +32,12 @@ class m170125_131547_create_bid_requests_table extends Migration
      */
     public function safeDown()
     {
+        $this->dropForeignKey('FK_PRODUCT_ID','bid_requests');
+
+
+        $this->dropIndex('idx-product_id','bid_requests');
+
+
         $this->dropTable('bid_requests');
     }
 }
