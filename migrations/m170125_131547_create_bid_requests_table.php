@@ -23,6 +23,8 @@ class m170125_131547_create_bid_requests_table extends Migration
 
         $this->addForeignKey('FK_PRODUCT_ID', 'bid_requests', 'PRODUCT_ID', 'fry_products', 'productid','RESTRICT', 'CASCADE');
 
+
+        $this->createIndex('idx-product_id', 'bid_requesters', 'PRODUCT_ID');
     }
 
     /**
