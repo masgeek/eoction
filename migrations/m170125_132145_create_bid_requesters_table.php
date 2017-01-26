@@ -34,6 +34,12 @@ class m170125_132145_create_bid_requesters_table extends Migration
      */
     public function down()
     {
+        $this->dropForeignKey('FK_REQUESTER_ID','bid_requesters');
+        $this->dropForeignKey('FK_USER_ID','bid_requesters');
+
+        $this->dropIndex('idx-requester_id','bid_requesters');
+        $this->dropIndex('idx-user_id','bid_requesters');
+
         $this->dropTable('bid_requesters');
     }
 }

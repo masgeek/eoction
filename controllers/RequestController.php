@@ -67,6 +67,7 @@ class RequestController extends \yii\web\Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                    'request-for-bid' => ['post'],
                 ],
             ],
             'access' => [
