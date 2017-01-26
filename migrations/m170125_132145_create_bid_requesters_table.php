@@ -10,7 +10,7 @@ class m170125_132145_create_bid_requesters_table extends Migration
     /**
      * @inheritdoc
      */
-    public function up()
+    public function safeUp()
     {
         $this->createTable('bid_requesters', [
             'REQUESTER_ID' => $this->primaryKey(),
@@ -32,7 +32,7 @@ class m170125_132145_create_bid_requesters_table extends Migration
     /**
      * @inheritdoc
      */
-    public function down()
+    public function safeDown()
     {
         $this->dropForeignKey('FK_REQUESTER_ID','bid_requesters');
         $this->dropForeignKey('FK_USER_ID','bid_requesters');
