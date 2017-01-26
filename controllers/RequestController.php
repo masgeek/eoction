@@ -108,12 +108,16 @@ class RequestController extends \yii\web\Controller
         $product_id = $request['REQUESTED_PRODUCT_ID'];
         $user_id = \Yii::$app->request->post('USER_ID');
 
-        $recordCheck = $this->findModel($product_id);
+        $requestsRecordCheck = $this->findRequestsModel($product_id);
+        $requesterRecordCheck = $this->findRequesterModel($product_id,$user_id);
 
-        $requestsModel = $recordCheck == null ? new BidRequests() : $recordCheck;
+
+        var_dump($requesterRecordCheck);
+        die;
+        $requestsModel = $requestsRecordCheck == null ? new BidRequests() : $requestsRecordCheck;
         $requesterModel = new BidRequesters();
 
-        if ($recordCheck == null) {
+        if ($requestsRecordCheck == null) {
 
 
             if ($requestsModel->load(\Yii::$app->request->post()) && $requestsModel->save()) {
@@ -139,9 +143,23 @@ class RequestController extends \yii\web\Controller
      * @param $id
      * @return null|static
      */
-    protected function findModel($id)
+    protected function findRequestsModel($id)
     {
         if (($model = BidRequests::findOne($id)) !== null) {
+            return $model;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * @param $product_id
+     * @param $user_id
+     * @return null|static
+     */
+    protected function findRequesterModel($product_id, $user_id)
+    {
+        if (($model = BidRequesters::findOne(['REQUESTED_PRODUCT_ID'=>$product_id,'REQUESTING_USER_ID'=>$user_id])) !== null) {
             return $model;
         } else {
             return null;
