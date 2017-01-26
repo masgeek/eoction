@@ -14,8 +14,8 @@ class m170126_132145_create_bid_requesters_table extends Migration
     {
         $this->createTable('bid_requesters', [
             'REQUESTER_ID' => $this->primaryKey(),
-            'REQUEST_ID' => $this->integer()->notNull()->comment('Request ID'),
-            'USER_ID' => $this->integer()->notNull()->comment('Requested By'),
+            'REQUESTED_PRODUCT_ID' => $this->integer()->notNull()->comment('Request ID'),
+            'REQUESTING_USER_ID' => $this->integer()->notNull()->comment('Requested By'),
             'CUSTOMER_NOTES' => $this->text()->comment('Comments'),
             'CUSTOMER_NOTIFIED' => $this->boolean()->defaultValue(0)->comment('Notified'),
             'REQUEST_ACCEPTED' => $this->boolean()->defaultValue(0)->comment('Request Accepted'),
@@ -24,12 +24,12 @@ class m170126_132145_create_bid_requesters_table extends Migration
         ]);
 
         //create foreign keys
-        $this->addForeignKey('FK_REQUEST_ID_REQ', 'bid_requesters', 'REQUEST_ID', 'bid_requests', 'REQUEST_ID', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('FK_USER_ID_REQ', 'bid_requesters', 'USER_ID', 'tb_users', 'USER_ID', 'RESTRICT', 'CASCADE');
+        $this->addForeignKey('FK_REQUEST_ID_REQ', 'bid_requesters', 'REQUESTED_PRODUCT_ID', 'bid_requests', 'REQUESTED_PRODUCT_ID', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('FK_USER_ID_REQ', 'bid_requesters', 'REQUESTING_USER_ID', 'tb_users', 'USER_ID', 'RESTRICT', 'CASCADE');
 
         //add indexes
-        $this->createIndex('idx-requester_id', 'bid_requesters', 'REQUESTER_ID');
-        $this->createIndex('idx-user_id', 'bid_requesters', 'USER_ID');
+        $this->createIndex('idx-requester_id', 'bid_requesters', 'REQUESTED_PRODUCT_ID');
+        $this->createIndex('idx-user_id', 'bid_requesters', 'REQUESTING_USER_ID');
     }
 
     /**
