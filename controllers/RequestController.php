@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\ProductManager;
+use app\models\BidRequesters;
 use app\models\BidRequests;
 use yii\filters\VerbFilter;
 
@@ -73,7 +74,7 @@ class RequestController extends \yii\web\Controller
             ],
             'access' => [
                 'class' => \yii\filters\AccessControl::className(),
-                'only' => ['bid-request','request-for-bid'],
+                'only' => ['bid-request', 'request-for-bid'],
                 'rules' => [
                     // allow authenticated users
                     [
@@ -95,23 +96,50 @@ class RequestController extends \yii\web\Controller
         $dataProvider = ProductManager::GetItemsForSale($no_of_items = 4, $for_auction = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false);
         $this->view->title = 'Request to Bid';
 
-        return $this->render('bid-request', ['listDataProvider' => $dataProvider,'requestModel'=>$requestModel]);
+        return $this->render('bid-request', ['listDataProvider' => $dataProvider, 'requestModel' => $requestModel]);
     }
 
     public function actionRequestForBid()
     {
-        $model = new BidRequests();
+        $product_id = \Yii::$app->request->post('PRODUCT_ID', 0);
+        $user_id = \Yii::$app->request->post('USER_ID', 0);
 
-        $product_id = \Yii::$app->request->post('PRODUCT_ID',0);
-        $user_id = \Yii::$app->request->post('USER_ID',0);
+        $requesteModel = new BidRequests();
+        $requesterModel = new BidRequesters();
+
+
 //fist we will check if that product is already added is so we will proceed to add the user only
-        var_dump($_POST);
-        if ($model->load(\Yii::$app->request->post()) && $model->save()) {
-            echo $model->REQUEST_ID;
-        } else {
-            var_dump($model->getErrors());
+        $recordCheck = BidRequests::findOne($product_id);
+
+        if($recordCheck==null) {
+            if ($requesteModel->load(\Yii::$app->request->post())) {
+                echo $requesteModel->primaryKey;
+            } else {
+                var_dump($requesteModel->getErrors());
+            }
+        }else{
+            //add to the user requests table
         }
         //lets post this request to the releveant table
+
+        if($requesteModel->save()){
+
+        }
         //return $this->render('//site/coming-soon');
+    }
+    /**
+     * Finds the Users model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return Users the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = BidRequests::findOne($id)) !== null) {
+            return $model;
+        } else {
+            return new BidRequests(); //return new instance pof th model
+        }
     }
 }

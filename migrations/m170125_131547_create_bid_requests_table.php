@@ -13,8 +13,8 @@ class m170125_131547_create_bid_requests_table extends Migration
     public function safeUp()
     {
         $this->createTable('bid_requests', [
-            //'REQUEST_ID' => $this->primaryKey()->comment('Request ID'),
-            'REQUESTED_PRODUCT_ID' => $this->integer()->notNull()->comment('Product ID')->unique(),
+            'REQUESTED_PRODUCT_ID' => $this->primaryKey()->comment('Request Product ID'),
+            //'REQUESTED_PRODUCT_ID' => $this->integer()->notNull()->comment('Product ID')->unique(),
             'CREATED' => $this->timestamp()->comment('Date Created'),
             'UPDATED' => $this->timestamp()->comment('Date Updated') . ' ON UPDATE CURRENT_TIMESTAMP'
         ]);

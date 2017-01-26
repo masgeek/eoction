@@ -26,10 +26,10 @@ class BidRequests extends \yii\db\ActiveRecord
         return 'bid_requests';
     }
 
-    public static function primaryKey()
+   /* public static function primaryKey()
     {
         return 'REQUESTED_PRODUCT_ID'; //override the primary key
-    }
+    }*/
 
 
     /**
