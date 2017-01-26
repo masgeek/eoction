@@ -92,54 +92,58 @@ class RequestController extends \yii\web\Controller
      */
     public function actionBidRequest()
     {
-        $requestModel = new BidRequests();
+        $requestsModel = new BidRequests();
         $dataProvider = ProductManager::GetItemsForSale($no_of_items = 4, $for_auction = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false);
         $this->view->title = 'Request to Bid';
 
-        return $this->render('bid-request', ['listDataProvider' => $dataProvider, 'requestModel' => $requestModel]);
+        return $this->render('bid-request', ['listDataProvider' => $dataProvider, 'requestModel' => $requestsModel]);
     }
 
     public function actionRequestForBid()
     {
-        $product_id = \Yii::$app->request->post('PRODUCT_ID', 0);
-        $user_id = \Yii::$app->request->post('USER_ID', 0);
+        //$userHost = Yii::$app->request->userHost;
+        //$userIP = Yii::$app->request->userIP;
+        $request = \Yii::$app->request->post('BidRequests');
+        $product_id = $request['REQUESTED_PRODUCT_ID'];
+        $user_id = \Yii::$app->request->post('USER_ID');
 
-        $requesteModel = new BidRequests();
+        $recordCheck = $this->findModel($product_id);
+
+        $requestsModel = $recordCheck == null ? new BidRequests() : $recordCheck;
         $requesterModel = new BidRequesters();
 
+        if ($recordCheck == null) {
 
-//fist we will check if that product is already added is so we will proceed to add the user only
-        $recordCheck = BidRequests::findOne($product_id);
 
-        if($recordCheck==null) {
-            if ($requesteModel->load(\Yii::$app->request->post())) {
-                echo $requesteModel->primaryKey;
+            if ($requestsModel->load(\Yii::$app->request->post()) && $requestsModel->save()) {
+                echo $requestsModel->primaryKey;
             } else {
-                var_dump($requesteModel->getErrors());
+                var_dump($requestsModel->getErrors());
             }
-        }else{
+        } else {
             //add to the user requests table
-        }
-        //lets post this request to the releveant table
-
-        if($requesteModel->save()){
-
+            $requesterModel->REQUESTED_PRODUCT_ID = $product_id;
+            $requesterModel->REQUESTING_USER_ID = $user_id;
+            $requesterModel->CUSTOMER_NOTES = 'Requesting item for bid';
+            if ($requesterModel->save()) {
+            } else {
+                var_dump($requesterModel->getErrors());
+            }
         }
         //return $this->render('//site/coming-soon');
     }
+
+
     /**
-     * Finds the Users model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Users the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
+     * @param $id
+     * @return null|static
      */
     protected function findModel($id)
     {
         if (($model = BidRequests::findOne($id)) !== null) {
             return $model;
         } else {
-            return new BidRequests(); //return new instance pof th model
+            return null;
         }
     }
 }
