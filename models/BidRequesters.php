@@ -13,6 +13,7 @@ use Yii;
  * @property integer $USER_ID
  * @property string $CUSTOMER_NOTES
  * @property integer $CUSTOMER_NOTIFIED
+ * @property integer $REQUEST_ACCEPTED
  * @property string $CREATED
  * @property string $UPDATED
  *
@@ -36,11 +37,11 @@ class BidRequesters extends \yii\db\ActiveRecord
     {
         return [
             [['REQUEST_ID', 'USER_ID'], 'required'],
-            [['REQUEST_ID', 'USER_ID', 'CUSTOMER_NOTIFIED'], 'integer'],
+            [['REQUEST_ID', 'USER_ID', 'CUSTOMER_NOTIFIED', 'REQUEST_ACCEPTED'], 'integer'],
             [['CUSTOMER_NOTES'], 'string'],
             [['CREATED', 'UPDATED'], 'safe'],
             [['REQUEST_ID'], 'exist', 'skipOnError' => true, 'targetClass' => BidRequests::className(), 'targetAttribute' => ['REQUEST_ID' => 'REQUEST_ID']],
-            [['USER_ID'], 'exist', 'skipOnError' => true, 'targetClass' => TbUsers::className(), 'targetAttribute' => ['USER_ID' => 'USER_ID']],
+            [['USER_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['USER_ID' => 'USER_ID']],
         ];
     }
 
@@ -55,6 +56,7 @@ class BidRequesters extends \yii\db\ActiveRecord
             'USER_ID' => 'Requested By',
             'CUSTOMER_NOTES' => 'Comments',
             'CUSTOMER_NOTIFIED' => 'Notified',
+            'REQUEST_ACCEPTED' => 'Request Accepted',
             'CREATED' => 'Date Created',
             'UPDATED' => 'Date Updated',
         ];

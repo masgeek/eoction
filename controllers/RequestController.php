@@ -104,7 +104,7 @@ class RequestController extends \yii\web\Controller
 
         $product_id = \Yii::$app->request->post('PRODUCT_ID',0);
         $user_id = \Yii::$app->request->post('USER_ID',0);
-
+//fist we will check if that product is already added is so we will proceed to add the user only
         var_dump($_POST);
         if ($model->load(\Yii::$app->request->post()) && $model->save()) {
             echo $model->REQUEST_ID;

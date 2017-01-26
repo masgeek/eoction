@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\module\products\models\FryProducts;
 use Yii;
 
 /**
@@ -9,7 +10,6 @@ use Yii;
  *
  * @property integer $REQUEST_ID
  * @property integer $PRODUCT_ID
- * @property integer $REQUEST_ACCEPTED
  * @property string $CREATED
  * @property string $UPDATED
  *
@@ -33,8 +33,9 @@ class BidRequests extends \yii\db\ActiveRecord
     {
         return [
             [['PRODUCT_ID'], 'required'],
-            [['PRODUCT_ID', 'REQUEST_ACCEPTED'], 'integer'],
+            [['PRODUCT_ID'], 'integer'],
             [['CREATED', 'UPDATED'], 'safe'],
+            [['PRODUCT_ID'], 'unique'],
             [['PRODUCT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => FryProducts::className(), 'targetAttribute' => ['PRODUCT_ID' => 'productid']],
         ];
     }
@@ -47,7 +48,6 @@ class BidRequests extends \yii\db\ActiveRecord
         return [
             'REQUEST_ID' => 'Request ID',
             'PRODUCT_ID' => 'Product ID',
-            'REQUEST_ACCEPTED' => 'Request Accepted',
             'CREATED' => 'Date Created',
             'UPDATED' => 'Date Updated',
         ];

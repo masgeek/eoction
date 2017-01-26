@@ -18,6 +18,7 @@ class m170126_132145_create_bid_requesters_table extends Migration
             'USER_ID' => $this->integer()->notNull()->comment('Requested By'),
             'CUSTOMER_NOTES' => $this->text()->comment('Comments'),
             'CUSTOMER_NOTIFIED' => $this->boolean()->defaultValue(0)->comment('Notified'),
+            'REQUEST_ACCEPTED' => $this->boolean()->defaultValue(0)->comment('Request Accepted'),
             'CREATED' => $this->timestamp()->comment('Date Created'),
             'UPDATED' => $this->timestamp()->comment('Date Updated') . ' ON UPDATE CURRENT_TIMESTAMP'
         ]);

@@ -14,8 +14,7 @@ class m170125_131547_create_bid_requests_table extends Migration
     {
         $this->createTable('bid_requests', [
             'REQUEST_ID' => $this->primaryKey()->comment('Request ID'),
-            'PRODUCT_ID' => $this->integer()->notNull()->comment('Product ID'),
-            'REQUEST_ACCEPTED' => $this->boolean()->defaultValue(0)->comment('Request Accepted'),
+            'PRODUCT_ID' => $this->integer()->notNull()->comment('Product ID')->unique(),
             'CREATED' => $this->timestamp()->comment('Date Created'),
             'UPDATED' => $this->timestamp()->comment('Date Updated') . ' ON UPDATE CURRENT_TIMESTAMP'
         ]);
