@@ -92,9 +92,10 @@ class RequestController extends \yii\web\Controller
      */
     public function actionBidRequest()
     {
+        $this->view->title = 'Request to Bid';
         $requestsModel = new BidRequests();
         $dataProvider = ProductManager::GetItemsForSale($no_of_items = 4, $for_auction = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false);
-        $this->view->title = 'Request to Bid';
+
 
         return $this->render('bid-request', ['listDataProvider' => $dataProvider, 'requestModel' => $requestsModel]);
     }
