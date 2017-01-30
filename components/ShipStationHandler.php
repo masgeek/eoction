@@ -32,6 +32,9 @@ class ShipStationHandler
     const SHIPPED = 'shipped';
     const CANCELLED = 'cancelled';
     const ON_HOLD = 'on_hold';
+    const PRODUCT_QUANTITY = 1;
+    const PAYPAL_PAYMENT_METHOD = 'Paypal';
+    const CARD_PAYMENT_METHOD = 'Card';
 
     protected $warehouse = 'Warehouse A';
 
@@ -76,7 +79,7 @@ class ShipStationHandler
         /* @var $clientBillingAddress UserAddress */
 
 
-        $endpointurl = \Yii::$app->params['ShipStationApiUrl'];
+        //$endpointurl = \Yii::$app->params['ShipStationApiUrl'];
         $apikey = \Yii::$app->params['ShipStationApiKey'];
         $apisecret = \Yii::$app->params['ShipStationApiSecret'];
 
@@ -118,9 +121,9 @@ class ShipStationHandler
                 //next build the items array
                 $orderItem = new OrderItem();
                 //$orderItem->lineItemKey = $productsModel->productid;
-                $orderItem->sku = $productsModel->sku; //@TODO confirm which is the SKU
+                $orderItem->sku = $productsModel->sku;
                 $orderItem->name = $productsModel->name;
-                $orderItem->quantity = 1; //will always be one
+                $orderItem->quantity = ShipStationHandler::PRODUCT_QUANTITY; //will always be one
                 $orderItem->unitPrice = $model->PRODUCT_PRICE; //This is the amount paid in paypal
                 $orderItem->warehouseLocation = $this->warehouse;
                 $orderItem->imageUrl = $productsModel->image1; //ProductManager::GetImageUrl($model->PRODUCT_ID);
@@ -207,18 +210,19 @@ class ShipStationHandler
             $order->shipTo = $shipping;
 
 
-            //update the stock count
-            ProductManager::UpdateProductStock($product_id_array);
-
             //$order = $orderservice->getOrder('1234');
             $createOrder = $orderservice->createOrder($order);
 
+
+            $orderStatus = $createOrder->getStatusCode();
             $orderJsonResponse = $createOrder->getBody();
 
             $decoded = \GuzzleHttp\json_decode($orderJsonResponse);
 
-
-            $this->SaveOrders($decoded);
+            if ($orderStatus == 200 && $this->SaveOrders($decoded)) {
+                //update the stock count
+                ProductManager::UpdateProductStock($product_id_array);
+            }
         }
         return $status;
 
@@ -228,7 +232,7 @@ class ShipStationHandler
     {
 
         $orderID = $resp->orderId;
-        //letys search  if a matching record exists
+        //let us search  if a matching record exists
         $model = Orders::findOne($orderID);
         if ($model == null) {
             $model = new Orders();
@@ -248,7 +252,7 @@ class ShipStationHandler
         $model->customerUsername = $resp->customerUsername;
         $model->customerEmail = $resp->customerEmail;
 
-        //next save the address manenos
+        //next save the order manenos
         return ($model->save());
     }
 
