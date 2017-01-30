@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "70cdb2aa4cbabe9103efcaaf41d533d9",
-    "content-hash": "e7bec35ba617dc2b497bb62a1e560514",
+    "hash": "535430a1629ba0bce17cb5c688c00949",
+    "content-hash": "b9fba072e8a7dc34bf8d137cee675f0a",
     "packages": [
         {
             "name": "amnah/yii2-user",
@@ -157,6 +157,22 @@
             },
             "require": {
                 "bower-asset/jquery": ">=1.7"
+            },
+            "type": "library"
+        },
+        {
+            "name": "bower-asset/jquery.terminal",
+            "version": "0.8.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jcubic/jquery.terminal.git",
+                "reference": "8f5407975498807076a76b83424d295091cf9600"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jcubic/jquery.terminal/zipball/8f5407975498807076a76b83424d295091cf9600",
+                "reference": "8f5407975498807076a76b83424d295091cf9600",
+                "shasum": null
             },
             "type": "library"
         },
@@ -624,12 +640,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "afbade5317a5a5c248c6a10ff82cf9ae70f1da2d"
+                "reference": "0f506d63691c5f2f4cb77c576259530bf3d2ab92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/afbade5317a5a5c248c6a10ff82cf9ae70f1da2d",
-                "reference": "afbade5317a5a5c248c6a10ff82cf9ae70f1da2d",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/0f506d63691c5f2f4cb77c576259530bf3d2ab92",
+                "reference": "0f506d63691c5f2f4cb77c576259530bf3d2ab92",
                 "shasum": ""
             },
             "type": "library",
@@ -669,7 +685,7 @@
                 "progress",
                 "upload"
             ],
-            "time": "2017-01-19 19:33:46"
+            "time": "2017-01-26 07:42:27"
         },
         {
             "name": "kartik-v/bootstrap-popover-x",
@@ -820,12 +836,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-editable.git",
-                "reference": "489d2772f92f0da434edff1916c6e5a52bf8546d"
+                "reference": "d703b1979983415ca13dc515aed7d0b61e188144"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-editable/zipball/489d2772f92f0da434edff1916c6e5a52bf8546d",
-                "reference": "489d2772f92f0da434edff1916c6e5a52bf8546d",
+                "url": "https://api.github.com/repos/kartik-v/yii2-editable/zipball/d703b1979983415ca13dc515aed7d0b61e188144",
+                "reference": "d703b1979983415ca13dc515aed7d0b61e188144",
                 "shasum": ""
             },
             "require": {
@@ -865,7 +881,7 @@
                 "popover-x",
                 "widget"
             ],
-            "time": "2017-01-08 07:09:14"
+            "time": "2017-01-28 17:43:50"
         },
         {
             "name": "kartik-v/yii2-grid",
@@ -1623,6 +1639,50 @@
             "time": "2015-06-23 13:06:14"
         },
         {
+            "name": "samdark/yii2-webshell",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/samdark/yii2-webshell.git",
+                "reference": "b55c1d3ae1fb70138e52b2820b831e7c2d4c3116"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/samdark/yii2-webshell/zipball/b55c1d3ae1fb70138e52b2820b831e7c2d4c3116",
+                "reference": "b55c1d3ae1fb70138e52b2820b831e7c2d4c3116",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery.terminal": "~0.8.8",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "samdark\\webshell\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Makarov",
+                    "email": "sam@rmcreative.ru"
+                }
+            ],
+            "description": "A web shell that allows to run yii console commands and create your own commands.",
+            "keywords": [
+                "console",
+                "extension",
+                "shell",
+                "webshell",
+                "yii2"
+            ],
+            "time": "2015-08-26 09:27:42"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "5.x-dev",
             "source": {
@@ -1682,12 +1742,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "51bcb06ecfebf718bad102fc3a8011fd0eb091dd"
+                "reference": "221603ae2c4117ea98b0623bd24a4e9fc62b2ec5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/51bcb06ecfebf718bad102fc3a8011fd0eb091dd",
-                "reference": "51bcb06ecfebf718bad102fc3a8011fd0eb091dd",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/221603ae2c4117ea98b0623bd24a4e9fc62b2ec5",
+                "reference": "221603ae2c4117ea98b0623bd24a4e9fc62b2ec5",
                 "shasum": ""
             },
             "require": {
@@ -1774,7 +1834,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2017-01-25 08:00:13"
+            "time": "2017-01-30 08:42:52"
         },
         {
             "name": "yiisoft/yii2-authclient",
@@ -2280,12 +2340,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-gii.git",
-                "reference": "20c6678acded5340785e5e37404213230c4fef38"
+                "reference": "35d9d0b28c6f3dce25a3dcdb1760277a766ad1b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/20c6678acded5340785e5e37404213230c4fef38",
-                "reference": "20c6678acded5340785e5e37404213230c4fef38",
+                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/35d9d0b28c6f3dce25a3dcdb1760277a766ad1b7",
+                "reference": "35d9d0b28c6f3dce25a3dcdb1760277a766ad1b7",
                 "shasum": ""
             },
             "require": {
@@ -2325,7 +2385,7 @@
                 "gii",
                 "yii2"
             ],
-            "time": "2017-01-19 13:47:05"
+            "time": "2017-01-28 20:27:05"
         }
     ],
     "aliases": [],
