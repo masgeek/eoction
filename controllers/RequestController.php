@@ -118,8 +118,6 @@ class RequestController extends \yii\web\Controller
         $requesterModel = new BidRequesters();
 
         if ($requestsRecordCheck == null) {
-
-
             if ($requestsModel->load(\Yii::$app->request->post()) && $requestsModel->save()) {
                 echo $requestsModel->primaryKey;
             } else {
