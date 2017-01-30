@@ -4,6 +4,7 @@ namespace app\controllers;
 
 
 use app\components\ShipStationHandler;
+use app\module\products\ProductsSearch;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -139,7 +140,11 @@ class SiteController extends Controller
     }
 
     public function actionSearchBids($q){
+        $search = new ProductsSearch();
+        $this->view->title = 'Search - Live Auction';
+        $dataProvider = $search->productsearch($q, $no_of_items = 12, $auction_param = [1], $min_stock = 1);
 
+        return $this->render('index', ['listDataProvider' => $dataProvider]);
     }
     public function actionNextItem($product_id = 0)
     {

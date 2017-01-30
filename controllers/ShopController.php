@@ -66,7 +66,7 @@ class ShopController extends Controller
     {
         $search = new ProductsSearch();
         $this->view->title = 'Search - Online Shopping';
-        $dataProvider = $search->productsearch($q, $no_of_items = 4, $auction_param = [1, 0], $min_stock = 0);
+        $dataProvider = $search->productsearch($q, $no_of_items = 20, $auction_param = [1, 0], $min_stock = 0);
 
         return $this->render('shop', ['listDataProvider' => $dataProvider]);
     }
