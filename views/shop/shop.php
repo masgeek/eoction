@@ -10,11 +10,6 @@ use yii\helpers\Html;
 
 use app\vendor\customhelper\BidManager;
 
-//var_dump($listDataProvider);
-
-//set page title
-$this->title = 'Buy Items';
-
 //register js file
 $this->registerJsFile('@web/js/bidding/bidding-progress.js');
 //$this->registerJsFile('@web/js/bidding/facebook-login.js');
@@ -36,8 +31,8 @@ $listviewWidget = ListView::widget([
         'class' => 'list-wrapper',
         'id' => 'product_list',
     ],
-    'layout' => "{items}",
-    'layout' => "{pager}\n{items}\n{pager}",
+    //'layout' => "{pager}\n{items}\n{pager}",
+    'layout' => "{items}\n{pager}",
     //'itemView' => '_product_view_old',
     'itemView' => 'shopping_box',
 ]);

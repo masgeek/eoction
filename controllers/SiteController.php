@@ -128,6 +128,9 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        $session = Yii::$app->session;
+        $session->set('search_url', \yii\helpers\Url::toRoute(['search-bids']));
+
         $exclusion_list = BidManager::GetExclusionItems();
         $dataProvider = ProductManager::GetItemsForSale($no_of_items = 24, $auction_param = [1], $min_stock = 1, $exclusion_list,  false);
 
@@ -135,6 +138,9 @@ class SiteController extends Controller
         return $this->render('index', ['listDataProvider' => $dataProvider]);
     }
 
+    public function actionSearchBids($q){
+
+    }
     public function actionNextItem($product_id = 0)
     {
         $nextItem = BidManager::GetNextItemToBid($product_id);
