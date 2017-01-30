@@ -30,6 +30,7 @@ $userid = yii::$app->user->id ? yii::$app->user->id : 0;
 $sku = $model->sku;
 $product_id = $model->productid;
 $product_name = $model->name;
+$stock = $model->stock_level;
 
 $shipping = ProductManager::ComputeShippingCost($product_id);
 
@@ -50,6 +51,9 @@ $retail_price = $formatter->asCurrency($retail_price_raw);
             <div class="col-md-12 col-xs-6 text-center">
                 <span class="small"><?= $product_name ?></span>
             </div>
+            <div class="col-md-12 col-xs-6 text-center">
+                <a href="#" class="btn btn-default btn-sm btn-block"><span class="badge"><?= $stock ?></span> Available</a>
+            </div>
             <hr/>
             <div class="col-md-12 col-xs-6 text-center">
                 <span class="retail-price"><?= $retail_price; ?></span>
@@ -57,19 +61,13 @@ $retail_price = $formatter->asCurrency($retail_price_raw);
             <!--<div class="col-md-12 col-xs-6 text-center">
                 <span>Shipping <?= $shipping_cost ?></span>
             </div>-->
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1 col-xs-12" id="buy_button_<?= $product_id ?>">
-                    <!--= Html::button("BUY NOW FOR $retail_price", [
-                        'class' => 'btn btn-primary btn-lg btn-block noradius',
-                        'id' => "buynow_$product_id"
-                    ]) ?-->
-                    <?= Html::a("BUY NOW",
-                        ['//shop/add-to-cart', 'user_id' => $userid, 'product_id' => $product_id, 'price' => $retail_price_raw],
-                        [
-                            'class' => 'btn btn-primary btn-block btn-lg noradius',
-                        ]) ?>
-                </div>
 
+            <div class="col-md-12 col-xs-12" id="buy_button_<?= $product_id ?>">
+                <?= Html::a("BUY NOW",
+                    ['//shop/add-to-cart', 'user_id' => $userid, 'product_id' => $product_id, 'price' => $retail_price_raw],
+                    [
+                        'class' => 'btn btn-primary btn-block btn-lg noradius',
+                    ]) ?>
             </div>
         </div>
     </div>

@@ -326,8 +326,6 @@ class ProductManager
      */
     public static function UpdateProductStock($product_id_array = [])
     {
-
-        return false;
         $item_count = array_count_values($product_id_array); //count the number of items sold will be grouped based on their values
 
         foreach ($item_count as $product_id => $items_bought) {

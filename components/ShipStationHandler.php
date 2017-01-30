@@ -222,6 +222,7 @@ class ShipStationHandler
             if ($orderStatus == 200 && $this->SaveOrders($decoded)) {
                 //update the stock count
                 ProductManager::UpdateProductStock($product_id_array);
+                $status = true;
             }
         }
         return $status;
