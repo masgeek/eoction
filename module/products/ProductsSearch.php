@@ -136,7 +136,6 @@ class ProductsSearch extends FryProducts
         //$query = FryProducts::find();
 
         // add conditions that should always apply here
-        //$query = FryProducts::find();
         $query = FryProducts::find()
             ->distinct('sku')
             ->where(['IN', 'visible', $auction_param,])
