@@ -129,9 +129,9 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        Yii::$app->shippingregions->region_package = 6;
-        return Yii::$app->shippingregions->shippingcost('CA');
-        //return Yii::$app->shippingregions->shippingpackage(1);
+        //Yii::$app->shippingregions->default_package = 'priority';
+        //return Yii::$app->shippingregions->shippingcost();
+        return Yii::$app->shippingregions->shippingpackage();
         die;
         $session = Yii::$app->session;
         $session->set('search_url', \yii\helpers\Url::toRoute(['search-bids']));

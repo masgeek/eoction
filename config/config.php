@@ -129,6 +129,7 @@ $config = [
         'authClientCollection' => require(__DIR__ . '/oauth.php'),
         'shippingregions' => [
             'class' => 'app\components\ShippingRegions',
+            'default_package'=>'normal',
             'us_region_shipping_cost' => [
                 'normal' => 6,
                 'priority' => 10
