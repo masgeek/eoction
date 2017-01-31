@@ -13,12 +13,17 @@ use yii\base\Component;
 class ShippingRegions extends Component
 {
     public $region_package;
+    public $package_type;
     public $region_shipping_cost;
+
+    public $us_region_shipping_cost;
+    public $canada_region_shipping_cost;
+    public $other_region_shipping_cost;
 
     public function init()
     {
         parent::init();
-        $this->region_shipping_cost = 30;
+        $this->package_type = 'normal';
     }
 
     /**
@@ -51,13 +56,13 @@ class ShippingRegions extends Component
         switch ($country_code) {
             case 'US':
             case 'USA':
-                $this->region_shipping_cost = 6;
+                $this->region_shipping_cost = $this->us_region_shipping_cost[$this->package_type];
                 break;
             case 'CA':
-                $this->region_shipping_cost = 14;
+                $this->region_shipping_cost = $this->canada_region_shipping_cost[$this->package_type];
                 break;
             default:
-                $this->region_shipping_cost = 54;
+                $this->region_shipping_cost = $this->other_region_shipping_cost[$this->package_type];
                 break;
         }
         return $this->region_shipping_cost;
