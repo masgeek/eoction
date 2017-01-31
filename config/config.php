@@ -127,6 +127,8 @@ $config = [
         'paypal' => require(__DIR__ . '/paypal.php'),
         //yii2 authclient
         'authClientCollection' => require(__DIR__ . '/oauth.php'),
+
+        //Shipping regions components
         'shippingregions' => [
             'class' => 'app\components\ShippingRegions',
             'default_package'=>'normal',

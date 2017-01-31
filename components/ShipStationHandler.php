@@ -38,6 +38,15 @@ class ShipStationHandler
 
     protected $warehouse = 'Warehouse A';
 
+    protected $apikey;
+    protected $apisecret;
+
+    function __construct()
+    {
+        $this->apikey = \Yii::$app->params['ShipStationApiKey'];
+        $this->apisecret = \Yii::$app->params['ShipStationApiSecret'];
+    }
+
     public function GetSingleOrder($order_id)
     {
         $endpointurl = \Yii::$app->params['ShipStationApiUrl'];
@@ -80,12 +89,12 @@ class ShipStationHandler
 
 
         //$endpointurl = \Yii::$app->params['ShipStationApiUrl'];
-        $apikey = \Yii::$app->params['ShipStationApiKey'];
-        $apisecret = \Yii::$app->params['ShipStationApiSecret'];
+        //$apikey = \Yii::$app->params['ShipStationApiKey'];
+        //$apisecret = \Yii::$app->params['ShipStationApiSecret'];
 
         $options = [];
         $product_id_array = [];
-        $shipstation = new ShipStationApi($apikey, $apisecret, $options);
+        $shipstation = new ShipStationApi($this->apikey, $this->apisecret, $options);
 
         $orderservice = $shipstation->getOrdersService();
         $productservice = $shipstation->getProductsService();
@@ -279,12 +288,12 @@ class ShipStationHandler
     public function ListAllCarriers($as_array = false)
     {
 
-        $apikey = \Yii::$app->params['ShipStationApiKey'];
-        $apisecret = \Yii::$app->params['ShipStationApiSecret'];
+        //$apikey = \Yii::$app->params['ShipStationApiKey'];
+        //$apisecret = \Yii::$app->params['ShipStationApiSecret'];
 
         $options = [];
         $response = [];
-        $shipstation = new ShipStationApi($apikey, $apisecret, $options);
+        $shipstation = new ShipStationApi($this->apikey, $this->apisecret, $options);
 
         $carrierService = $shipstation->getCarriersService();
 
@@ -402,12 +411,12 @@ class ShipStationHandler
 
     public function ListStores($markeplace_id = '23')
     {
-        $apikey = \Yii::$app->params['ShipStationApiKey'];
-        $apisecret = \Yii::$app->params['ShipStationApiSecret'];
+        //$apikey = \Yii::$app->params['ShipStationApiKey'];
+        //$apisecret = \Yii::$app->params['ShipStationApiSecret'];
 
 
         $options = [];
-        $shipstation = new ShipStationApi($apikey, $apisecret, $options);
+        $shipstation = new ShipStationApi($this->apikey, $this->apisecret, $options);
 
         $storeService = $shipstation->getStoresService();
 
@@ -420,12 +429,12 @@ class ShipStationHandler
 
     public function ListMarketPlace()
     {
-        $apikey = \Yii::$app->params['ShipStationApiKey'];
-        $apisecret = \Yii::$app->params['ShipStationApiSecret'];
+        //$apikey = \Yii::$app->params['ShipStationApiKey'];
+        //$apisecret = \Yii::$app->params['ShipStationApiSecret'];
 
 
         $options = [];
-        $shipstation = new ShipStationApi($apikey, $apisecret, $options);
+        $shipstation = new ShipStationApi($this->apikey, $this>apisecret, $options);
 
         $storeService = $shipstation->getStoresService();
 

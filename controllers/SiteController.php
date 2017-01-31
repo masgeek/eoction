@@ -5,6 +5,7 @@ namespace app\controllers;
 
 use app\components\ShipStationHandler;
 use app\module\products\ProductsSearch;
+use MichaelB\ShipStation\ShipStationApi;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -129,9 +130,14 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        $ship = new ShipStationHandler();
+        //$h = $ship->ListAllCarriers(true);
+        $h = $ship->ListCarrierServices('stamps_com',true);
+
+        var_dump($h);
         //Yii::$app->shippingregions->default_package = 'priority';
         //return Yii::$app->shippingregions->shippingcost();
-        return Yii::$app->shippingregions->shippingpackage();
+        //return Yii::$app->shippingregions->shippingpackage();
         die;
         $session = Yii::$app->session;
         $session->set('search_url', \yii\helpers\Url::toRoute(['search-bids']));
