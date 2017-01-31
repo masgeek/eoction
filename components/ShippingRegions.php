@@ -28,7 +28,7 @@ class ShippingRegions extends Component
      */
     public function shippingcost($country_code)
     {
-       return $this->GetRegionShippingCost($country_code);
+        return $this->GetRegionShippingCost($country_code);
     }
 
     /**
@@ -46,7 +46,20 @@ class ShippingRegions extends Component
      * @param $country_code
      * @return mixed
      */
-    private function GetRegionShippingCost($country_code){
+    private function GetRegionShippingCost($country_code)
+    {
+        switch ($country_code) {
+            case 'US':
+            case 'USA':
+                $this->region_shipping_cost = 6;
+                break;
+            case 'CA':
+                $this->region_shipping_cost = 14;
+                break;
+            default:
+                $this->region_shipping_cost = 54;
+                break;
+        }
         return $this->region_shipping_cost;
     }
 
@@ -55,7 +68,8 @@ class ShippingRegions extends Component
      * @param $country_code
      * @return mixed
      */
-    private function GetRegionShippingPackage($country_code){
+    private function GetRegionShippingPackage($country_code)
+    {
         return $this->region_package;
     }
 }
