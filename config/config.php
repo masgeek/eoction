@@ -127,6 +127,9 @@ $config = [
         'paypal' => require(__DIR__ . '/paypal.php'),
         //yii2 authclient
         'authClientCollection' => require(__DIR__ . '/oauth.php'),
+        'shippingregions' => [
+            'class' => 'app\components\ShippingRegions',
+        ],
     ],
     'params' => $params,
 ];
@@ -136,7 +139,7 @@ if (YII_DEBUG) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
-        'allowedIPs' => ['127.0.0.1', '::1', '192.168.0.*' ,  '192.168.56.*', '75.157.241.9']
+        'allowedIPs' => ['127.0.0.1', '::1', '192.168.0.*', '192.168.56.*', '75.157.241.9']
     ];
 
     $config['modules']['webshell'] = [
