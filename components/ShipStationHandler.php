@@ -335,17 +335,18 @@ class ShipStationHandler
 			$services = $carrierService->listServices($carrier_code);
 			$response = $services->getBody();
 
-			//return  \GuzzleHttp\json_decode($response);
-
 			if ($as_array && $keys_only == false) {
 				//convert the response to object array for better breakdown
 				foreach (\GuzzleHttp\json_decode($response) as $carrier) {
 					$international = $carrier->international ? 'INTERNATIONAL' : $carrier->international;
 					$domestic = $carrier->domestic ? 'DOMESTIC' : $carrier->domestic;
 					$name = $carrier->name;
-					$code = "{$carrier->code}|{$carrier->carrierCode}";
+					$code_raw = "{$carrier->code}";
+					$code = "{$code_raw}|{$carrier->carrierCode}";
 					$serviceName = "{$name} ({$domestic}{$international})";
-					if (preg_match("/{$type}/",$code)) {
+					if (in_array($code, $type)) {
+						$serviceList[] = ['id' => "{$code}|{$domestic}|{$international}~{$carrier->name}", 'name' => $serviceName];
+					}else{
 						$serviceList[] = ['id' => "{$code}|{$domestic}|{$international}~{$carrier->name}", 'name' => $serviceName];
 					}
 				}

@@ -132,7 +132,7 @@ class SiteController extends Controller
     {
         $ship = new ShipStationHandler();
         //$h = $ship->ListAllCarriers(true);
-        $h = $ship->ListCarrierServices('stamps_com',true,false,null);
+        $h = $ship->ListCarrierServices('stamps_com',true,true,null);
 
         var_dump($h);
         //Yii::$app->shippingregions->default_package = 'priority';
