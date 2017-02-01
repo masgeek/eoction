@@ -133,14 +133,14 @@ $config = [
             'class' => 'app\components\ShippingRegions',
             'default_package'=>'normal',
             'us_region_shipping_cost' => [
-                'normal' => 6,
+                'first_class' => 6,
                 'priority' => 10
             ],
             'canada_region_shipping_cost' => [
-                'normal' => 14
+                'first_class' => 14
             ],
             'other_region_shipping_cost' => [
-                'normal' => 54
+                'first_class' => 54
             ]
         ],
     ],
