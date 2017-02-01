@@ -6,7 +6,7 @@
  * Time: 3:25 PM
  */
 
-namespace components;
+namespace app\components;
 
 
 class ShippingPackages
@@ -20,5 +20,4 @@ class ShippingPackages
 	CONST USPS_FIRST_CLASS_MAIL_INTERNATIONAL = 'usps_first_class_mail_international';
 	//CONST USPS_PRIORITY_MAIL_INTERNATIONAL = 'usps_priority_mail_international';
 	//CONST USPS_PRIORITY_MAIL_EXPRESS_INTERNATIONAL = 'usps_priority_mail_express_international';
-
 }

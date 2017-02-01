@@ -3,9 +3,9 @@
 namespace app\controllers;
 
 
+use app\components\ShippingPackages;
 use app\components\ShipStationHandler;
 use app\module\products\ProductsSearch;
-use MichaelB\ShipStation\ShipStationApi;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -132,7 +132,7 @@ class SiteController extends Controller
     {
         $ship = new ShipStationHandler();
         //$h = $ship->ListAllCarriers(true);
-        $h = $ship->ListCarrierServices('stamps_com',true,true,null);
+        $h = $ship->ListCarrierServices('stamps_com',true,true,ShippingPackages::USPS_FIRST_CLASS_MAIL_INTERNATIONAL);
 
         var_dump($h);
         //Yii::$app->shippingregions->default_package = 'priority';
