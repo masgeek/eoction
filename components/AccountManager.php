@@ -66,7 +66,7 @@ class AccountManager
      * @param string $address_type
      * @return static
      */
-    public static function GetUserAddress($user_id, $address_type = null)
+    public static function GetUserAddress($user_id, $address_type = null,$return_country = false)
     {
         $addressInfo = UserAddress::findOne([
             'USER_ID' => $user_id,

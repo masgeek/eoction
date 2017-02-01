@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 
+use app\components\AccountManager;
 use app\components\ShippingPackages;
 use app\components\ShipStationHandler;
 use app\module\products\ProductsSearch;
@@ -121,11 +122,15 @@ class SiteController extends Controller
      */
     public function actionTest()
     {
+        $userId = yii::$app->user->id ? yii::$app->user->id : 0;
+        $l = AccountManager::GetUserAddress($userId,null,true);
+
+        var_dump($l);
         $ship = new ShipStationHandler();
         //$h = $ship->ListAllCarriers(true);
         $h = $ship->ListCarrierServices('stamps_com',true,true,ShippingPackages::USPS_FIRST_CLASS_MAIL_INTERNATIONAL);
 
-        var_dump($h);
+        //var_dump($h);
         //Yii::$app->shippingregions->default_package = 'priority';
         //return Yii::$app->shippingregions->shippingcost();
         //return Yii::$app->shippingregions->shippingpackage();
