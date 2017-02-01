@@ -20,14 +20,14 @@ $btn_id = 'btn_order';
 $message = 'Proceed with order creation? Your PayPal account will be billed';
 
 $userId = Yii::$app->user->id ? Yii::$app->user->id : 0;
-$userCountry =\app\components\AccountManager::GetUserAddress($userId, null, true);
+$userCountry = \app\components\AccountManager::GetUserAddress($userId, null, true);
 
 $shippingService = Yii::$app->shippingregions->shippingservice($userCountry);
 $shippingPackage = Yii::$app->shippingregions->shippingpackage();
 $carrierList = $shippingStation->ListAllCarriers(true); //ListCarrierServices('stamps_com',true,true,$shippingService);
 
-$display_fields = 'block';
-if ($userCountry == 'US') {
+$display_fields = 'none';
+if ($userCountry == 'US' || $userCountry == 'USA') {
     $display_fields = 'block';
 }
 ?>
