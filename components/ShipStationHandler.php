@@ -353,7 +353,7 @@ class ShipStationHandler
 					$name = $carrier->name;
 					$code = "{$carrier->code}";
 
-					if (strpos($code, $type)) {
+					if (preg_match("/{$type}/",$code)) {
 						$serviceList[] = ["{$code}"];
 					}
 				}
