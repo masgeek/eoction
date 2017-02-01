@@ -88,6 +88,13 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
                 </div>
             </div>
             <div class="row">
+                <div class="col-md-12">
+                    <a href="#" class="btn btn-default btn-product noborder">
+                        <span class="small" id="shipping_<?= $product_id ?>">Shipping <?= $shipping_cost ?></span>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-6">
                     <a class="btn btn-default btn-product text-uppercase noborder"><span class="bidcount"><span
                                     id="bids_placed_<?= $product_id ?>"><?= $bids ?></span> Bid(s)</span></a>
@@ -96,7 +103,8 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
                     <a href="#" class="btn btn-default btn-product noborder">
                         <span class="crossed retail-price text-uppercase"><?= $retail_price; ?></span>
                         <span class="discount text-uppercase" id="discount_<?= $product_id ?>"><?= $discount ?>%</span>
-                    </a></div>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

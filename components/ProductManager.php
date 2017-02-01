@@ -47,7 +47,11 @@ class ProductManager
      */
     public static function ComputeShippingCost($product_id = null, $retail_price = 0)
     {
-        return 0;
+        $userId = \Yii::$app->user->id ? \Yii::$app->user->id : 0;
+        $country = AccountManager::GetUserAddress($userId,null,true);
+
+        return  \Yii::$app->shippingregions->shippingcost($country);
+
         $product = FryProducts::findOne(['productid' => $product_id]);
         if ($product != null) {
             $retail_price = $product->buyitnow;
