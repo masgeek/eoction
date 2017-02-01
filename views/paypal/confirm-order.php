@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="shipping-service-confirm-order row">
     <div class="col-md-8 col-md-offset-2">
-        <h1><?= Html::encode($this->title) ?></h1>
+        <h2>We are ready to confirm your order</h2>
         <?= $this->render('_form', [
             'model' => $model,
             'payment_id' => $payment_id

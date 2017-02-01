@@ -20,22 +20,26 @@ $btn_id = 'btn_order';
 $message = 'Proceed with order creation? Your PayPal account will be billed';
 
 $userId = Yii::$app->user->id ? Yii::$app->user->id : 0;
-$userCountry = \app\components\AccountManager::GetUserAddress($userId,null,true);
+$userCountry ='US';// \app\components\AccountManager::GetUserAddress($userId, null, true);
 
-$shippingService =  Yii::$app->shippingregions->shippingservice($userCountry);
-$shippingPackage =  Yii::$app->shippingregions->shippingpackage();
-$carrierList= $shippingStation->ListAllCarriers(true); //ListCarrierServices('stamps_com',true,true,$shippingService);
+$shippingService = Yii::$app->shippingregions->shippingservice($userCountry);
+$shippingPackage = Yii::$app->shippingregions->shippingpackage();
+$carrierList = $shippingStation->ListAllCarriers(true); //ListCarrierServices('stamps_com',true,true,$shippingService);
+
+$display_fields = 'none';
+if ($userCountry == 'US') {
+    $display_fields = 'block';
+}
 ?>
 
 <div class="shipping-service-form">
-
     <?php $form = ActiveForm::begin([
         'id' => $form_id,
         'type' => ActiveForm::TYPE_VERTICAL
     ]); ?>
-    <div class="row">
+    <div class="row" style="display:<?= $display_fields ?>;">
         <div class="col-md-4">
-            <?= $form->field($model, 'CARRIER_CODE')->dropDownList($carrierList,[
+            <?= $form->field($model, 'CARRIER_CODE')->dropDownList($carrierList, [
                 'options' => ['id' => 'carrier-code', 'placeholder' => '-- Select carrier --'],
                 'pluginOptions' => [
                     'allowClear' => true
@@ -43,7 +47,7 @@ $carrierList= $shippingStation->ListAllCarriers(true); //ListCarrierServices('st
             ])->hint('Choose your preferred carrier')->label(''); ?>
         </div>
         <div class="col-md-4">
-            <?= $form->field($model, 'SERVICE_DESC')->dropDownList($shippingService,[
+            <?= $form->field($model, 'SERVICE_DESC')->dropDownList($shippingService, [
                 'options' => ['id' => 'carrier-code', 'placeholder' => '-- Select service --'],
                 'pluginOptions' => [
                     'allowClear' => true
@@ -51,17 +55,17 @@ $carrierList= $shippingStation->ListAllCarriers(true); //ListCarrierServices('st
             ])->hint('Choose your preferred shipping service')->label(''); ?>
         </div>
         <div class="col-md-4">
-            <?=$form->field($model,'PACKAGE_CODE')->dropDownList($shippingPackage,[
+            <?= $form->field($model, 'PACKAGE_CODE')->dropDownList($shippingPackage, [
                 'options' => ['id' => 'carrier-code', 'placeholder' => '-- Select package --'],
                 'pluginOptions' => [
                     'allowClear' => true
                 ],
-            ])->hint('Choose your preferred shipping method')->label('')?>
+            ])->hint('Choose your preferred shipping method')->label('') ?>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            <?= $form->field($model, 'CUSTOMER_NOTES')->textarea(['rows' => 6])->hint('Leave additional notes if you have any further instructions') ?>
+            <?= $form->field($model, 'CUSTOMER_NOTES')->textarea(['rows' => 6])->hint('Leave additional notes if you have any further instructions')->label('') ?>
         </div>
     </div>
 
