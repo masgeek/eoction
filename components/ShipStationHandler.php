@@ -377,11 +377,12 @@ class ShipStationHandler
 	 * @param bool $as_array
 	 * @return array|Stream|null|\Psr\Http\Message\StreamInterface
 	 */
-	public function ListCarrierPackage($carrier_code, $domestic, $international, $as_array = true)
+	public function ListCarrierPackage($carrier_code, $domestic=false, $international=false, $as_array = true,$keys_only = false)
 	{
 		$apikey = \Yii::$app->params['ShipStationApiKey'];
 		$apisecret = \Yii::$app->params['ShipStationApiSecret'];
 		$options = [];
+        $serviceList = [];
 		$shipstation = new ShipStationApi($apikey, $apisecret, $options);
 		$carrierService = $shipstation->getCarriersService();
 		try {
@@ -390,7 +391,7 @@ class ShipStationHandler
 			$response = $packages->getBody();
 
 			//return \GuzzleHttp\json_decode($response);
-			if ($as_array) {
+			if ($as_array&&$keys_only==false) {
 				//convert the response to an array for better breakdown
 
 				foreach (\GuzzleHttp\json_decode($response) as $package) {
@@ -415,7 +416,28 @@ class ShipStationHandler
 					}
 				}
 				return $serviceList;
-			}
+			}elseif($as_array&&$keys_only) {
+                foreach (\GuzzleHttp\json_decode($response) as $package) {
+                    $international_pkg = $package->international ? 'INTERNATIONAL' : $package->international;
+                    $domestic_pkg = $package->domestic ? 'DOMESTIC' : $package->domestic;
+                    $name = $package->name;
+                    $code = $package->code;
+                    $serviceName = "{$name} ({$domestic_pkg}/{$international_pkg})";
+
+                    if ($domestic) {
+                        if ($package->domestic == $domestic && $package->international == false) {
+                            $serviceList[] = ['id' => $code, 'name' => $serviceName];
+                        }
+                    } elseif ($international) {
+                        if ($package->domestic == false && $package->international == true) {
+                            $serviceList[] = ['id' => $code, 'name' => $serviceName];
+                        } elseif ($package->domestic == true && $package->international == true) { //packages that got in both
+                            $serviceList[] = ['id' => $code, 'name' => $serviceName];
+                        }
+                    }
+                }
+                return $serviceList;
+            }
 		} catch (\Exception $ex) {
 			//log error maybe
 			$response = null;

@@ -131,7 +131,10 @@ $config = [
         //Shipping regions components
         'shippingregions' => [
             'class' => 'app\components\ShippingRegions',
-            'default_package'=>'usps_first_class_mail_international',
+            'default_package' => [
+                'parcel' => 'parcel'
+            ],
+            'default_service' => 'usps_first_class_mail_international',
             'us_region_shipping_cost' => [
                 'usps_first_class_mail' => 6,
                 'usps_priority_mail' => 10

@@ -9,13 +9,15 @@
 namespace app\components;
 
 
+use app\module\products\models\ShippingService;
 use yii\base\Component;
 
 class ShippingRegions extends Component
 {
-    private $region_package;
+    private $region_service = [];
     private $region_shipping_cost;
 
+    public $default_service;
     public $default_package;
     public $us_region_shipping_cost;
     public $canada_region_shipping_cost;
@@ -40,11 +42,15 @@ class ShippingRegions extends Component
      * @param $country_code
      * @return mixed
      */
-    public function shippingpackage($country_code = 'OTHER')
+    public function shippingservice($country_code = 'OTHER')
     {
-        return $this->GetRegionShippingPackage($country_code);
+        return $this->GetRegionShippingService($country_code);
     }
 
+    public function shippingpackage()
+    {
+        return $this->default_package;
+    }
     /* Private functions */
 
 
@@ -58,18 +64,18 @@ class ShippingRegions extends Component
             switch ($country_code) {
                 case 'US':
                 case 'USA':
-                    $this->region_shipping_cost = $this->us_region_shipping_cost[$this->default_package];
+                    $this->region_shipping_cost = $this->us_region_shipping_cost[$this->default_service];
                     break;
                 case 'CA':
-                    $this->region_shipping_cost = $this->canada_region_shipping_cost[$this->default_package];
+                    $this->region_shipping_cost = $this->canada_region_shipping_cost[$this->default_service];
                     break;
                 case 'OTHER':
                 default:
-                    $this->region_shipping_cost = $this->other_region_shipping_cost[$this->default_package];
+                    $this->region_shipping_cost = $this->other_region_shipping_cost[$this->default_service];
                     break;
             }
         } catch (\ErrorException $ex) {
-            throw new \OutOfBoundsException("Invalid package type '{$this->default_package}'");
+            throw new \OutOfBoundsException("Invalid package type '{$this->default_service}'");
         }
         return $this->region_shipping_cost;
     }
@@ -79,8 +85,27 @@ class ShippingRegions extends Component
      * @param $country_code
      * @return mixed
      */
-    protected function GetRegionShippingPackage($country_code)
+    protected function GetRegionShippingService($country_code)
     {
-        return $this->region_package = 'Priority mail';
+        try {
+            switch ($country_code) {
+                case 'US':
+                case 'USA':
+                    $this->region_service = [
+                        ShippingPackages::USPS_FIRST_CLASS_MAIL => ShippingPackages::USPS_FIRST_CLASS_MAIL,
+                        ShippingPackages::USPS_PRIORITY_MAIL => ShippingPackages::USPS_PRIORITY_MAIL
+                    ];
+                    break;
+                case 'CA':
+                case 'OTHER':
+                default:
+                    $this->region_service = [ShippingPackages::USPS_FIRST_CLASS_MAIL_INTERNATIONAL => ShippingPackages::USPS_FIRST_CLASS_MAIL_INTERNATIONAL];
+                    break;
+            }
+        } catch (\ErrorException $ex) {
+            throw new \OutOfBoundsException("Invalid package type '{$this->default_service}'");
+        }
+
+        return $this->region_service;
     }
 }

@@ -18,13 +18,6 @@ $this->registerJsFile('@web/js/shopping/cart-manager.js');
 $form_id = 'order_form';
 $btn_id = 'btn_order';
 $message = 'Proceed with order creation? Your PayPal account will be billed';
-
-$userId = Yii::$app->user->id ? Yii::$app->user->id : 0;
-$userCountry = \app\components\AccountManager::GetUserAddress($userId,null,true);
-
-$shippingService =  Yii::$app->shippingregions->shippingservice($userCountry);
-$shippingPackage =  Yii::$app->shippingregions->shippingpackage();
-$carrierList= $shippingStation->ListAllCarriers(true); //ListCarrierServices('stamps_com',true,true,$shippingService);
 ?>
 
 <div class="shipping-service-form">
@@ -35,7 +28,8 @@ $carrierList= $shippingStation->ListAllCarriers(true); //ListCarrierServices('st
     ]); ?>
     <div class="row">
         <div class="col-md-4">
-            <?= $form->field($model, 'CARRIER_CODE')->dropDownList($carrierList,[
+            <?= $form->field($model, 'CARRIER_CODE')->widget(kartik\select2\Select2::classname(), [
+                'data' => $carrierList,
                 'options' => ['id' => 'carrier-code', 'placeholder' => '-- Select carrier --'],
                 'pluginOptions' => [
                     'allowClear' => true
@@ -43,20 +37,41 @@ $carrierList= $shippingStation->ListAllCarriers(true); //ListCarrierServices('st
             ])->hint('Choose your preferred carrier')->label(''); ?>
         </div>
         <div class="col-md-4">
-            <?= $form->field($model, 'SERVICE_DESC')->dropDownList($shippingService,[
-                'options' => ['id' => 'carrier-code', 'placeholder' => '-- Select service --'],
+            <?= $form->field($model, 'SERVICE_DESC')->widget(DepDrop::classname(), [
+                'type' => DepDrop::TYPE_SELECT2,
+                'data' => [$model->SERVICE_DESC => $model->REQUESTED_SERVICE],
+                'options' => ['id' => 'service-desc', 'placeholder' => '--- Select shipping type ---'],
+                'select2Options' => ['pluginOptions' => ['allowClear' => true]],
                 'pluginOptions' => [
-                    'allowClear' => true
-                ],
-            ])->hint('Choose your preferred shipping service')->label(''); ?>
+                    'depends' => ['carrier-code'],
+                    'url' => Url::to(['//paypal/select-service']),
+                    //'params' => ['input-type-1', 'input-type-2']
+                ]
+            ])->hint('Choose your preferred shipping method')->label('') ?>
         </div>
         <div class="col-md-4">
-            <?=$form->field($model,'PACKAGE_CODE')->dropDownList($shippingPackage,[
-                'options' => ['id' => 'carrier-code', 'placeholder' => '-- Select package --'],
+            <?= $form->field($model, 'PACKAGE_CODE')->widget(DepDrop::classname(), [
+                'type' => DepDrop::TYPE_SELECT2,
+                'data' => [$model->PACKAGE_CODE => $model->PACKAGE_CODE],
+                'options' => ['id' => 'package_code', 'placeholder' => '--- Select service type ---'],
+                'select2Options' => ['pluginOptions' => ['allowClear' => true]],
                 'pluginOptions' => [
-                    'allowClear' => true
+                    'depends' => ['service-desc'],
+                    'url' => Url::to(['//paypal/select-package']),
+                    //'params' => ['input-type-1', 'input-type-2']
                 ],
-            ])->hint('Choose your preferred shipping method')->label('')?>
+                'pluginEvents' => [
+                    'change' => "function(){
+                var mixedService = $('#service-desc').val();
+               var serviceCode = mixedService.split('|',1);
+               var serviceName = mixedService.split('~');
+                console.log(serviceCode+'  '+serviceName);
+                $('#service_code').val(serviceCode);
+                $('#requested_service').val(serviceName[1]);
+                //$('#test').val(serviceName);
+            }"
+                ]
+            ])->hint('Choose your preferred shipping service')->label('') ?>
         </div>
     </div>
     <div class="row">

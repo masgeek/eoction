@@ -162,12 +162,6 @@ class PaypalController extends Controller
         }
 
         if ($status == 'true') {
-            /*if($model->load(Yii::$app->request->post())){
-
-                var_dump($_POST);
-
-                die;
-            }*/
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 //update the transaction
                 return $this->redirect(['confirm-order', 'paypal_hash' => $paypal_hash, 'PayerID' => $PayerID]);
@@ -176,14 +170,8 @@ class PaypalController extends Controller
             return $this->redirect(['cancel']);
         }
 
+        //if its us show the package selection if not just show order confirmation
 
-        //$t = $shipStation->ListAllCarriers();
-        //$t = $shipStation->ListCarrierServices();
-        //$t = $shipStation->ListCarrierPackage();
-        //$t = $shipStation->ListMarketPlace();
-        //$t = $shipStation->ListStores();
-        //print_r(\GuzzleHttp\json_decode($t));
-        //die;
         return $this->render('confirm-order', [
             'model' => $model,
             'payment_id' => $transactionPayment->ID
