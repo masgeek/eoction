@@ -121,15 +121,6 @@ class SiteController extends Controller
      */
     public function actionTest()
     {
-        $exclusion_list = BidManager::GetExclusionItems();
-        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 4, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
-
-        $this->view->title = 'Test Live Auction';
-        return $this->render('index', ['listDataProvider' => $dataProvider]);
-    }
-
-    public function actionIndex()
-    {
         $ship = new ShipStationHandler();
         //$h = $ship->ListAllCarriers(true);
         $h = $ship->ListCarrierServices('stamps_com',true,true,ShippingPackages::USPS_FIRST_CLASS_MAIL_INTERNATIONAL);
@@ -139,6 +130,15 @@ class SiteController extends Controller
         //return Yii::$app->shippingregions->shippingcost();
         //return Yii::$app->shippingregions->shippingpackage();
         die;
+        $exclusion_list = BidManager::GetExclusionItems();
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 4, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
+
+        $this->view->title = 'Test Live Auction';
+        return $this->render('index', ['listDataProvider' => $dataProvider]);
+    }
+
+    public function actionIndex()
+    {
         $session = Yii::$app->session;
         $session->set('search_url', \yii\helpers\Url::toRoute(['search-bids']));
 
