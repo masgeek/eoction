@@ -64,6 +64,7 @@ class ShippingRegions extends Component
             switch ($country_code) {
                 case 'US':
                 case 'USA':
+                    $this->default_service = ShippingPackages::USPS_FIRST_CLASS_MAIL;
                     $this->region_shipping_cost = $this->us_region_shipping_cost[$this->default_service];
                     break;
                 case 'CA':
@@ -75,7 +76,7 @@ class ShippingRegions extends Component
                     break;
             }
         } catch (\ErrorException $ex) {
-            throw new \OutOfBoundsException("Invalid package type '{$this->default_service}'");
+            throw new \OutOfBoundsException("Invalid service type '{$this->default_service}'");
         }
         return $this->region_shipping_cost;
     }

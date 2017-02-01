@@ -64,9 +64,7 @@ class BidManager
     }
 
     /**
-     * deletes item from the bidactivity table
-     * @param $sku
-     * @throws \Exception
+     * @param int $product_id
      */
     public static function RemoveItemsFromBidActivity($product_id = 0)
     {
