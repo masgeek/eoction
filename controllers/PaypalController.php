@@ -162,6 +162,8 @@ class PaypalController extends Controller
         }
 
         if ($status == 'true') {
+            $model->SERVICE_DESC = 'Order confirmation';
+            $model->REQUESTED_SERVICE = 'Shipping of product';
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 //update the transaction
                 return $this->redirect(['confirm-order', 'paypal_hash' => $paypal_hash, 'PayerID' => $PayerID]);
@@ -223,20 +225,8 @@ class PaypalController extends Controller
             $transactionPayment->COMPLETE = 1;
             if ($transactionPayment->save())//update the changes to the table
             {
-                //now save the transaction data
-                //$payment = Payment::get($transactionPayment->PAYMENT_ID, $context);
-
-
-                //get the payment infor from paypal
-                //$execution = new PaymentExecution();
-                //$execution->setPayerId($PayerID);
-
-                //now charge the user account
-                //$payment->execute($execution, $context);
-
                 //let us update the hash values
                 ProductManager::UpdatePaidCartItems($paypal_hash);
-
                 //clear the hash session value
                 Yii::$app->session->remove('paypal_hash');
             }

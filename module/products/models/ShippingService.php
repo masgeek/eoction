@@ -38,7 +38,7 @@ class ShippingService extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['PAYPAL_TRANS_ID', 'REQUESTED_SERVICE', 'SERVICE_CODE', 'SERVICE_DESC'], 'required'],
+            [['PAYPAL_TRANS_ID', 'REQUESTED_SERVICE', 'SERVICE_CODE', 'SERVICE_DESC','PACKAGE_CODE'], 'required'],
             [['PAYPAL_TRANS_ID'], 'integer'],
             [['ORDER_FINALIZED'], 'boolean'],
             [['PAYPAL_TRANS_ID'], 'unique'],

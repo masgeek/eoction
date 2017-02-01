@@ -20,13 +20,13 @@ $btn_id = 'btn_order';
 $message = 'Proceed with order creation? Your PayPal account will be billed';
 
 $userId = Yii::$app->user->id ? Yii::$app->user->id : 0;
-$userCountry ='US';// \app\components\AccountManager::GetUserAddress($userId, null, true);
+$userCountry =\app\components\AccountManager::GetUserAddress($userId, null, true);
 
 $shippingService = Yii::$app->shippingregions->shippingservice($userCountry);
 $shippingPackage = Yii::$app->shippingregions->shippingpackage();
 $carrierList = $shippingStation->ListAllCarriers(true); //ListCarrierServices('stamps_com',true,true,$shippingService);
 
-$display_fields = 'none';
+$display_fields = 'block';
 if ($userCountry == 'US') {
     $display_fields = 'block';
 }
@@ -39,28 +39,13 @@ if ($userCountry == 'US') {
     ]); ?>
     <div class="row" style="display:<?= $display_fields ?>;">
         <div class="col-md-4">
-            <?= $form->field($model, 'CARRIER_CODE')->dropDownList($carrierList, [
-                'options' => ['id' => 'carrier-code', 'placeholder' => '-- Select carrier --'],
-                'pluginOptions' => [
-                    'allowClear' => true
-                ],
-            ])->hint('Choose your preferred carrier')->label(''); ?>
+            <?= $form->field($model, 'CARRIER_CODE')->dropDownList($carrierList)->hint('Choose your preferred carrier')->label(''); ?>
         </div>
         <div class="col-md-4">
-            <?= $form->field($model, 'SERVICE_DESC')->dropDownList($shippingService, [
-                'options' => ['id' => 'carrier-code', 'placeholder' => '-- Select service --'],
-                'pluginOptions' => [
-                    'allowClear' => true
-                ],
-            ])->hint('Choose your preferred shipping service')->label(''); ?>
+            <?= $form->field($model, 'SERVICE_CODE')->dropDownList($shippingService)->hint('Choose your preferred shipping service')->label(''); ?>
         </div>
         <div class="col-md-4">
-            <?= $form->field($model, 'PACKAGE_CODE')->dropDownList($shippingPackage, [
-                'options' => ['id' => 'carrier-code', 'placeholder' => '-- Select package --'],
-                'pluginOptions' => [
-                    'allowClear' => true
-                ],
-            ])->hint('Choose your preferred shipping method')->label('') ?>
+            <?= $form->field($model, 'PACKAGE_CODE')->dropDownList($shippingPackage)->hint('Choose your preferred shipping method')->label('') ?>
         </div>
     </div>
     <div class="row">
@@ -73,12 +58,6 @@ if ($userCountry == 'US') {
     <div class="row">
         <div class="col-md-4">
             <?= $form->field($model, 'PAYPAL_TRANS_ID')->hiddenInput(['value' => $payment_id, 'readonly' => true])->label('') ?>
-        </div>
-        <div class="col-md-4">
-            <?= $form->field($model, 'SERVICE_CODE')->hiddenInput(['maxlength' => true, 'id' => 'service_code', 'readonly' => true])->label('') ?>
-        </div>
-        <div class="col-md-4">
-            <?= $form->field($model, 'REQUESTED_SERVICE')->hiddenInput(['maxlength' => true, 'id' => 'requested_service', 'readonly' => true])->label('') ?>
         </div>
     </div>
 
