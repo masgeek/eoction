@@ -320,7 +320,7 @@ class ShipStationHandler
 	 * @param string $type
 	 * @return array|Stream|null|\Psr\Http\Message\StreamInterface|string
 	 */
-	public function ListCarrierServices($carrier_code, $as_array = false, $keys_only = false, $type = 'first_class')
+	public function ListCarrierServices($carrier_code, $as_array = false, $keys_only = false, $type = ['first_class'])
 	{
 
 //		$apikey = \Yii::$app->params['ShipStationApiKey'];
@@ -345,7 +345,9 @@ class ShipStationHandler
 					$name = $carrier->name;
 					$code = "{$carrier->code}|{$carrier->carrierCode}";
 					$serviceName = "{$name} ({$domestic}{$international})";
-					$serviceList[] = ['id' => "{$code}|{$domestic}|{$international}~{$carrier->name}", 'name' => $serviceName];
+					if (preg_match("/{$type}/",$code)) {
+						$serviceList[] = ['id' => "{$code}|{$domestic}|{$international}~{$carrier->name}", 'name' => $serviceName];
+					}
 				}
 				$response = $serviceList;
 			} elseif ($as_array && $keys_only) {
