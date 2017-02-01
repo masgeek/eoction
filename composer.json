@@ -53,7 +53,8 @@
     "kartik-v/yii2-widget-depdrop": "@dev",
     "kongoon/yii2-paypal": "dev-master",
     "fatelord/ship-station": "dev-master",
-    "fatelord/yii2-video-embed-widget": "dev-master"
+    "fatelord/yii2-video-embed-widget": "dev-master",
+    "samdark/yii2-webshell": "~1.0"
 
   },
   "require-dev": {

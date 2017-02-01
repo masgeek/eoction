@@ -4,6 +4,8 @@ namespace app\controllers;
 
 
 use app\components\ShipStationHandler;
+use app\module\products\ProductsSearch;
+use MichaelB\ShipStation\ShipStationApi;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -120,7 +122,7 @@ class SiteController extends Controller
     public function actionTest()
     {
         $exclusion_list = BidManager::GetExclusionItems();
-        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 1, $auction_param = [1], $min_stock = 1, $exclusion_list, true);
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 4, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
 
         $this->view->title = 'Test Live Auction';
         return $this->render('index', ['listDataProvider' => $dataProvider]);
@@ -128,13 +130,32 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        $ship = new ShipStationHandler();
+        //$h = $ship->ListAllCarriers(true);
+        $h = $ship->ListCarrierServices('stamps_com',true);
+
+        var_dump($h);
+        //Yii::$app->shippingregions->default_package = 'priority';
+        //return Yii::$app->shippingregions->shippingcost();
+        //return Yii::$app->shippingregions->shippingpackage();
+        die;
+        $session = Yii::$app->session;
+        $session->set('search_url', \yii\helpers\Url::toRoute(['search-bids']));
+
         $exclusion_list = BidManager::GetExclusionItems();
-        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 24, $auction_param = [1], $min_stock = 1, $exclusion_list,  true);
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 24, $auction_param = [1], $min_stock = 1, $exclusion_list,  false);
 
         $this->view->title = 'Live Auction';
         return $this->render('index', ['listDataProvider' => $dataProvider]);
     }
 
+    public function actionSearchBids($q){
+        $search = new ProductsSearch();
+        $this->view->title = 'Search - Live Auction';
+        $dataProvider = $search->productsearch($q, $no_of_items = 12, $auction_param = [1], $min_stock = 1);
+
+        return $this->render('index', ['listDataProvider' => $dataProvider]);
+    }
     public function actionNextItem($product_id = 0)
     {
         $nextItem = BidManager::GetNextItemToBid($product_id);

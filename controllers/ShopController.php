@@ -8,18 +8,18 @@
 
 namespace app\controllers;
 
-use app\components\CartManager;
-use app\module\products\models\ItemsCart;
-use app\module\products\models\Products;
+
+use app\module\products\ProductsSearch;
 use Yii;
-use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
+
 use app\components\BidManager;
 use app\components\ProductManager;
+use app\components\CartManager;
+use app\module\products\models\ItemsCart;
 
 class ShopController extends Controller
 {
@@ -54,9 +54,21 @@ class ShopController extends Controller
     //entry page
     public function actionIndex()
     {
+        $session = Yii::$app->session;
+        $session->set('search_url', \yii\helpers\Url::toRoute(['search-shop']));
+
         $dataProvider = ProductManager::GetItemsForSale($no_of_items = 20, $for_auction = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false);
         $this->view->title = 'Online Shopping';
-        return $this->render('//site/shop', ['listDataProvider' => $dataProvider]);
+        return $this->render('shop', ['listDataProvider' => $dataProvider]);
+    }
+
+    public function actionSearchShop($q)
+    {
+        $search = new ProductsSearch();
+        $this->view->title = 'Search - Online Shopping';
+        $dataProvider = $search->productsearch($q, $no_of_items = 20, $auction_param = [1, 0], $min_stock = 0);
+
+        return $this->render('shop', ['listDataProvider' => $dataProvider]);
     }
 
     /**
@@ -71,10 +83,11 @@ class ShopController extends Controller
         //current bid price
         $updateData = [
             'product_id' => $product_id,
+            'sku' => $sku,
             'bid_price' => BidManager::GetMaxBidAmount($product_id),
             'bid_count' => ProductManager::GetNumberOfBids($product_id),
             'discount' => ProductManager::ComputePercentageDiscount($product_id),
-            'winning_user' => BidManager::GetWinningUser($product_id, $sku, false)
+            //'winning_user' => BidManager::GetWinningUser($product_id, $sku, false)
         ];
         return json_encode($updateData);
     }
@@ -157,9 +170,15 @@ class ShopController extends Controller
         return $this->render('//site/coming-soon');
     }
 
-    public function actionBidRequest()
+
+    public function actionWinningUser($product_id, $sku, $bid_won = false)
     {
-        return $this->render('//site/coming-soon');
+        $winner = BidManager::GetWinningUser($product_id, $sku, $bid_won);
+
+        $winning_user = [
+            'winning_user' => $winner
+        ];
+        return json_encode($winning_user);
     }
 
     public function actionCartItems()
@@ -172,7 +191,7 @@ class ShopController extends Controller
         return json_encode($resp);
     }
 
-    public function actionPurgeDb($action)
+    public function actionPurgeDb()
     {
         ProductManager::CleanBiddingData();
     }

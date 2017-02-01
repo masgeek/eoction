@@ -93,18 +93,16 @@ class ProductManager
         $query = FryProducts::find()
             ->distinct('sku')
             ->where(['IN', 'visible', $auction_param,])
-            ->andWhere(['>=', 'min_stock', $min_stock])//stock levels should be greater or equal to 1
+            ->andWhere(['>=', 'stock_level', $min_stock])//stock levels should be greater or equal to 1
             ->andWhere(['NOT IN', 'sku', $exclusion_list])
-            //->orderBy(['rand()' => SORT_DESC]);
             ->orderBy('productid ASC');
 
         if ($random) {
             $query = FryProducts::find()
                 ->where(['IN', 'visible', $auction_param,])
-                ->andWhere(['>=', 'min_stock', $min_stock])//stock levels should be greater or equal to 1
+                ->andWhere(['>=', 'stock_level', $min_stock])//stock levels should be greater or equal to 1
                 ->andWhere(['NOT IN', 'sku', $exclusion_list])
                 ->orderBy(['rand()' => SORT_DESC]);
-            //->orderBy('productid ASC');
         }
 
         $item_provider = new ActiveDataProvider([
@@ -319,5 +317,21 @@ class ProductManager
         }
 
         return $product_image;
+    }
+
+
+    /**
+     * This function changes the stock of a product upon successful payment
+     * @param array $product_id_array
+     */
+    public static function UpdateProductStock($product_id_array = [])
+    {
+        $item_count = array_count_values($product_id_array); //count the number of items sold will be grouped based on their values
+
+        foreach ($item_count as $product_id => $items_bought) {
+            $items_to_reduce = -1 * (int)$items_bought;
+            //update the stock count i.e available stock minus the bought items
+            FryProducts::updateAllCounters(['stock_level' => $items_to_reduce], "productid=$product_id");
+        }
     }
 }

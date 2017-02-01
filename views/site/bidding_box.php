@@ -35,9 +35,9 @@ $product_name = $model->name;
 $discount = ProductManager::ComputePercentageDiscount($product_id);
 $shipping = ProductManager::ComputeShippingCost($product_id);
 if (YII_ENV_DEV) {
-    $bidStartTime = 10;// * $productID; //initial start time for the bid
+    $bidStartTime = 30;// * $productID; //initial start time for the bid
 } else {
-    $bidStartTime = 60;// * $productID; //initial start time for the bid
+    $bidStartTime = 45;// * $productID; //initial start time for the bid
 }
 
 $shipping_cost = $formatter->asCurrency($shipping);
@@ -57,7 +57,7 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
         <input type="text" id="product_sku_<?= $product_id; ?>" value="<?= $sku ?>" readonly="readonly"/>
     </div>
     <div class="thumbnail">
-        <h5 class="text-center"><span class="label label-info"><?= $sku ?></span></h5>
+        <!--<h5 class="text-center"><span class="label label-info"><?= $sku ?></span></h5>-->
         <div class="proportion-image" id="image_box<?= $product_id ?>">
             <?= Html::img($product_image, [
             'id' => 'product_image_' . $product_id,
@@ -75,9 +75,9 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
                 <!--<button class="btn btn-block">BID NOW</button>-->
                 <div id="bid_button_<?= $product_id ?>">
                     <?= Html::button('<span class="hammer-icon pull-left"></span>BID NOW', [
-            'class' => 'btn btn-bid btn-bid-active btn-block noradius',
-            'id' => "placebid_$product_id"
-        ]) ?>
+                    'class' => 'btn btn-bid btn-bid-active btn-block noradius',
+                    'id' => "placebid_$product_id"
+                    ]) ?>
                 </div>
                 <div class="bidProgress noplacedbids" id="progressBar<?= $product_id ?>"></div>
             </div>

@@ -1,10 +1,10 @@
 <?php
 
-$params = require(__DIR__ . '/params.php');
+$params = YII_ENV_DEV ? require(__DIR__ . '/params_test.php') : require(__DIR__ . '/params_live.php');
 
 $config = [
     'id' => 'basic',
-    'name' => 'EOCTION',
+    'name' => YII_DEBUG ? 'EOCTION DEV' : 'EOCTION',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -24,19 +24,22 @@ $config = [
         'shopper' => [
             'class' => 'app\module\shopper\Module',
         ],
-	    'merchantportal' => [
-		    'class' => 'app\module\merchant\admin',
+        'merchantportal' => [
+            'class' => 'app\module\merchant\admin',
             'defaultRoute' => 'merchant', //default controller
-	    ],
+        ]
     ],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '921af581c20b4666ba21f6b8b888688d',
         ],
-        /*'assetManager' => [
-            'basePath' => '@webroot/my_assets',
-        ],*/
+        'assetManager' => [
+            //'basePath' => '@webroot/my_assets',
+            'class' => 'yii\web\AssetManager',
+            'linkAssets' => true,
+            'forceCopy' => YII_DEBUG,
+        ],
 
         /* external files*/
         /*'assetManager' => [
@@ -124,17 +127,39 @@ $config = [
         'paypal' => require(__DIR__ . '/paypal.php'),
         //yii2 authclient
         'authClientCollection' => require(__DIR__ . '/oauth.php'),
+
+        //Shipping regions components
+        'shippingregions' => [
+            'class' => 'app\components\ShippingRegions',
+            'default_package'=>'normal',
+            'us_region_shipping_cost' => [
+                'normal' => 6,
+                'priority' => 10
+            ],
+            'canada_region_shipping_cost' => [
+                'normal' => 14
+            ],
+            'other_region_shipping_cost' => [
+                'normal' => 54
+            ]
+        ],
     ],
     'params' => $params,
 ];
 
-if (YII_ENV_DEV) {
+if (YII_DEBUG) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
+        'allowedIPs' => ['127.0.0.1', '::1', '192.168.0.*', '192.168.56.*', '75.157.241.9']
     ];
 
+    $config['modules']['webshell'] = [
+        'class' => 'samdark\webshell\Module',
+        // 'yiiScript' => Yii::getAlias('@root'). '/yii', // adjust path to point to your ./yii script
+        'allowedIPs' => ['127.0.0.1', '::1', '192.168.0.2']
+    ];
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',

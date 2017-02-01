@@ -212,12 +212,14 @@ class PaypalController extends Controller
             $order_status = $shipStation->CreateNewOrder($hash, $user_id); //use the paypal hash
             //update the car items as paid for so that they no longer appear in the cart
             //SEND email to the user
-            return $this->redirect(['success', 'trans_id' => $trans_id]);
+            if ($order_status) {
+                return $this->redirect(['success', 'trans_id' => $trans_id]);
+            }
         }
-            return $this->render('edit-order', [
-                'model' => $model,
-                'payment_id' => $model->pAYPALTRANS->ID,
-            ]);
+        return $this->render('edit-order', [
+            'model' => $model,
+            'payment_id' => $model->pAYPALTRANS->ID,
+        ]);
     }
 
     /**
@@ -256,12 +258,15 @@ class PaypalController extends Controller
             $order_status = $shipStation->CreateNewOrder($transactionPayment->HASH, $transactionPayment->USER_ID); //use the paypal hash
             //update the car items as paid for so that they no longer appear in the cart
             //SEND email to the user
-            return $this->redirect(['success', 'trans_id' => $transactionPayment->ID]);
+            if ($order_status) {
+                return $this->redirect(['success', 'trans_id' => $transactionPayment->ID]);
+            }
         }
         return $this->redirect(['error']); //redirect to error page by default
     }
 
     //json functions
+
     /**
      * @return string
      */

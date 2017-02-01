@@ -6,6 +6,10 @@ use app\components\CartManager;
 $home = \yii\helpers\Url::toRoute(['//site']);
 
 $cartUrl = \yii\helpers\Url::toRoute(['shop/cart-items']);
+
+$session = Yii::$app->session;
+$search_url = $session->get('search_url');
+
 ?>
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="navbar-header">
@@ -25,7 +29,7 @@ $cartUrl = \yii\helpers\Url::toRoute(['shop/cart-items']);
     <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav product-nav">
             <li class="active"><?= Html::a('Live Auctions', ['//site/index'], ['title' => 'live auctions']); ?></li>
-            <li><?= Html::a('Bid Request', ['//shop/bid-request'], ['title' => 'Request Item for bidding']); ?></li>
+            <li><?= Html::a('Bid Request', ['//request/bid-request'], ['title' => 'Request Item for bidding']); ?></li>
             <li><?= Html::a('Live TV', ['//tv/live-tv'], ['title' => 'live TV']); ?></li>
             <li><?= Html::a('Online Shopping', ['//shop/'], ['title' => 'Online Shopping']); ?></li>
         </ul>
@@ -62,13 +66,16 @@ $cartUrl = \yii\helpers\Url::toRoute(['shop/cart-items']);
                 </li>
             <?php endif; ?>
         </ul>
-        <form class="nav navbar-form navbar-left" role="search">
+        <form class="nav navbar-form navbar-left" role="search" action="<?= $search_url ?>">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search" name="search-term">
-                <?= Html::textInput('cart_url', $cartUrl, ['readonly' => true, 'id' => 'cart_url', 'class' => 'hidden']) ?>
+                <!--<input type="text" class="form-control" placeholder="Search" name="search-term">-->
+                <?= Html::textInput('q', null, ['placeholder' => 'Search', 'class' => 'form-control']) ?>
             </div>
             <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>
             </button>
+        </form>
+        <form>
+            <?= Html::textInput('cart_url', $cartUrl, ['readonly' => true, 'id' => 'cart_url', 'class' => 'hidden']) ?>
         </form>
     </div>
 </nav>

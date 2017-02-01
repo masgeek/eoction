@@ -32,8 +32,20 @@ class ShipStationHandler
     const SHIPPED = 'shipped';
     const CANCELLED = 'cancelled';
     const ON_HOLD = 'on_hold';
+    const PRODUCT_QUANTITY = 1;
+    const PAYPAL_PAYMENT_METHOD = 'Paypal';
+    const CARD_PAYMENT_METHOD = 'Card';
 
     protected $warehouse = 'Warehouse A';
+
+    protected $apikey;
+    protected $apisecret;
+
+    function __construct()
+    {
+        $this->apikey = \Yii::$app->params['ShipStationApiKey'];
+        $this->apisecret = \Yii::$app->params['ShipStationApiSecret'];
+    }
 
     public function GetSingleOrder($order_id)
     {
@@ -60,6 +72,12 @@ class ShipStationHandler
         return $decoded;
     }
 
+    /**
+     * Create a new order in shipstation
+     * @param $paypal_hash
+     * @param $user_id
+     * @return bool
+     */
     public function CreateNewOrder($paypal_hash, $user_id)
     {
         /* @var $model ItemsCart */
@@ -70,13 +88,13 @@ class ShipStationHandler
         /* @var $clientBillingAddress UserAddress */
 
 
-        $endpointurl = \Yii::$app->params['ShipStationApiUrl'];
-        $apikey = \Yii::$app->params['ShipStationApiKey'];
-        $apisecret = \Yii::$app->params['ShipStationApiSecret'];
+        //$endpointurl = \Yii::$app->params['ShipStationApiUrl'];
+        //$apikey = \Yii::$app->params['ShipStationApiKey'];
+        //$apisecret = \Yii::$app->params['ShipStationApiSecret'];
 
         $options = [];
-        $shipstation = new ShipStationApi($apikey, $apisecret, $options);
-
+        $product_id_array = [];
+        $shipstation = new ShipStationApi($this->apikey, $this->apisecret, $options);
 
         $orderservice = $shipstation->getOrdersService();
         $productservice = $shipstation->getProductsService();
@@ -112,9 +130,9 @@ class ShipStationHandler
                 //next build the items array
                 $orderItem = new OrderItem();
                 //$orderItem->lineItemKey = $productsModel->productid;
-                $orderItem->sku = $productsModel->sku; //@TODO confirm which is the SKU
+                $orderItem->sku = $productsModel->sku;
                 $orderItem->name = $productsModel->name;
-                $orderItem->quantity = 1; //will always be one
+                $orderItem->quantity = ShipStationHandler::PRODUCT_QUANTITY; //will always be one
                 $orderItem->unitPrice = $model->PRODUCT_PRICE; //This is the amount paid in paypal
                 $orderItem->warehouseLocation = $this->warehouse;
                 $orderItem->imageUrl = $productsModel->image1; //ProductManager::GetImageUrl($model->PRODUCT_ID);
@@ -122,6 +140,8 @@ class ShipStationHandler
 
                 $items[] = $orderItem;
                 $total[] = (float)$model->PRODUCT_PRICE;
+
+                $product_id_array[] = $model->PRODUCT_ID;
             }
 
 
@@ -131,26 +151,18 @@ class ShipStationHandler
 
             $order->items = $items;
 
-
-            //var_dump($items);
-            //die;
             //lets get the payment information
             $paypalTransModel = PaypalTransactions::findOne(['HASH' => $paypal_hash]);
             $shippingModel = $paypalTransModel->shippingServices; //get only the first item in the array
 
-            $orderDate = date('Y-m-d') . 'T' . date('H:i:s') . '.0000000';
-            $paymentDate = date('Y-m-d') . 'T' . date('H:i:s') . '.0000000';
+            //$orderDate = date('Y-m-d') . 'T' . date('H:i:s') . '.0000000';
+            //$paymentDate = date('Y-m-d') . 'T' . date('H:i:s') . '.0000000';
 
 
             //$orderDate = date('Y-m-d H:i:s', strtotime($orderDate . "GMT"));
             $paymentDate = \Yii::$app->formatter->asDatetime($paypalTransModel->UPDATE_TIME, "php: Y-m-d H:i:s");;
             $orderDate = \Yii::$app->formatter->asDatetime($paypalTransModel->CREATE_TIME, "php: Y-m-d H:i:s");;
-            //echo '<br/>';
-            //$today = date('Y-m-d H:i:s', $temp['date']->getTimeStamp());
-            //$today = date('Y-m-d H:i:s', strtotime($orderDate . "+8"));
 
-            //echo $time_gmt;
-            //die;
             //$order->orderId = 1;
             $order->orderNumber = strtoupper(uniqid("EOCT-{$paypalTransModel->ID}-"));
             $order->orderKey = $paypal_hash; // if specified, the method becomes idempotent and the existing Order with that key will be updated
@@ -207,37 +219,20 @@ class ShipStationHandler
             $order->shipTo = $shipping;
 
 
-            //var_dump($transactionInfo);
-            /*
-             *                $orderItem->lineItemKey = '1';
-                $orderItem->sku = '58012345-' . $x;
-                $orderItem->name = "Awesome sweater {$x}";
-                $orderItem->quantity = '1';
-                $orderItem->unitPrice = '29.99';
-                $orderItem->warehouseLocation = 'Warehouse A';
-
-             */
-
-            //var_dump($order);
-            //die;
-            //pull the product information from the said table
-
-
             //$order = $orderservice->getOrder('1234');
             $createOrder = $orderservice->createOrder($order);
 
+
+            $orderStatus = $createOrder->getStatusCode();
             $orderJsonResponse = $createOrder->getBody();
 
             $decoded = \GuzzleHttp\json_decode($orderJsonResponse);
 
-            //sleep(5); //sleep for 5 seconds to await proper processing
-            //save to the database
-            //echo '<pre>';
-            //print_r($orderJsonResponse->items);
-            //echo '</pre>';
-
-            $this->SaveOrders($decoded);
-            //var_dump($decoded);
+            if ($orderStatus == 200 && $this->SaveOrders($decoded)) {
+                //update the stock count
+                ProductManager::UpdateProductStock($product_id_array);
+                $status = true;
+            }
         }
         return $status;
 
@@ -247,7 +242,7 @@ class ShipStationHandler
     {
 
         $orderID = $resp->orderId;
-        //letys search  if a matching record exists
+        //let us search  if a matching record exists
         $model = Orders::findOne($orderID);
         if ($model == null) {
             $model = new Orders();
@@ -267,7 +262,7 @@ class ShipStationHandler
         $model->customerUsername = $resp->customerUsername;
         $model->customerEmail = $resp->customerEmail;
 
-        //next save the address manenos
+        //next save the order manenos
         return ($model->save());
     }
 
@@ -293,12 +288,12 @@ class ShipStationHandler
     public function ListAllCarriers($as_array = false)
     {
 
-        $apikey = \Yii::$app->params['ShipStationApiKey'];
-        $apisecret = \Yii::$app->params['ShipStationApiSecret'];
+        //$apikey = \Yii::$app->params['ShipStationApiKey'];
+        //$apisecret = \Yii::$app->params['ShipStationApiSecret'];
 
         $options = [];
         $response = [];
-        $shipstation = new ShipStationApi($apikey, $apisecret, $options);
+        $shipstation = new ShipStationApi($this->apikey, $this->apisecret, $options);
 
         $carrierService = $shipstation->getCarriersService();
 
@@ -416,12 +411,12 @@ class ShipStationHandler
 
     public function ListStores($markeplace_id = '23')
     {
-        $apikey = \Yii::$app->params['ShipStationApiKey'];
-        $apisecret = \Yii::$app->params['ShipStationApiSecret'];
+        //$apikey = \Yii::$app->params['ShipStationApiKey'];
+        //$apisecret = \Yii::$app->params['ShipStationApiSecret'];
 
 
         $options = [];
-        $shipstation = new ShipStationApi($apikey, $apisecret, $options);
+        $shipstation = new ShipStationApi($this->apikey, $this->apisecret, $options);
 
         $storeService = $shipstation->getStoresService();
 
@@ -434,12 +429,12 @@ class ShipStationHandler
 
     public function ListMarketPlace()
     {
-        $apikey = \Yii::$app->params['ShipStationApiKey'];
-        $apisecret = \Yii::$app->params['ShipStationApiSecret'];
+        //$apikey = \Yii::$app->params['ShipStationApiKey'];
+        //$apisecret = \Yii::$app->params['ShipStationApiSecret'];
 
 
         $options = [];
-        $shipstation = new ShipStationApi($apikey, $apisecret, $options);
+        $shipstation = new ShipStationApi($this->apikey, $this>apisecret, $options);
 
         $storeService = $shipstation->getStoresService();
 
