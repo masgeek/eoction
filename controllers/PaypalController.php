@@ -162,8 +162,6 @@ class PaypalController extends Controller
         }
 
         if ($status == 'true') {
-            $model->SERVICE_DESC = 'Order confirmation';
-            $model->REQUESTED_SERVICE = 'Shipping of product';
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 //update the transaction
                 return $this->redirect(['confirm-order', 'paypal_hash' => $paypal_hash, 'PayerID' => $PayerID]);

@@ -82,6 +82,8 @@ class ShippingService extends \yii\db\ActiveRecord
             if ($this->isNewRecord) {
                 $this->CREATED = $date;
                 $this->ORDER_FINALIZED = true;
+                $this->SERVICE_DESC = $this->PACKAGE_CODE;
+                $this->REQUESTED_SERVICE = $this->SERVICE_CODE;
             }
             $this->UPDATED = $date;
             return true;
