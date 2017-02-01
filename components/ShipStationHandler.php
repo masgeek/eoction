@@ -320,7 +320,7 @@ class ShipStationHandler
 	 * @param string $type
 	 * @return array|Stream|null|\Psr\Http\Message\StreamInterface|string
 	 */
-	public function ListCarrierServices($carrier_code, $as_array = false, $keys_only = false, $type = ['first_class'])
+	public function ListCarrierServices($carrier_code, $as_array = false, $keys_only = false, $type = [ShippingPackages::USPS_FIRST_CLASS_MAIL_INTERNATIONAL])
 	{
 
 //		$apikey = \Yii::$app->params['ShipStationApiKey'];

@@ -210,7 +210,7 @@ class ProductManager
         /* @var $model ItemsCart */
         /* @var $productModel FryProducts */
 
-        $userId = yii::$app->user->id ? yii::$app->user->id : 0;
+        $userId = \Yii::$app->user->id ? \Yii::$app->user->id : 0;
 
         $addressCountry = AccountManager::GetUserAddress($userId,null,true);
 
