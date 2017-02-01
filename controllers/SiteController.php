@@ -125,14 +125,14 @@ class SiteController extends Controller
         $userId = yii::$app->user->id ? yii::$app->user->id : 0;
         $l = AccountManager::GetUserAddress($userId,null,true);
 
-        var_dump($l);
+        //var_dump($l);
         $ship = new ShipStationHandler();
         //$h = $ship->ListAllCarriers(true);
         $h = $ship->ListCarrierServices('stamps_com',true,true,ShippingPackages::USPS_FIRST_CLASS_MAIL_INTERNATIONAL);
 
         //var_dump($h);
         //Yii::$app->shippingregions->default_package = 'priority';
-        //return Yii::$app->shippingregions->shippingcost();
+        return Yii::$app->shippingregions->shippingcost();
         //return Yii::$app->shippingregions->shippingpackage();
         die;
         $exclusion_list = BidManager::GetExclusionItems();

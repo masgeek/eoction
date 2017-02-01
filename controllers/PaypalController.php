@@ -39,7 +39,6 @@ class PaypalController extends Controller
     {
         //initalize the paypal extension so that we can get the default parameters
         Yii::$app->paypal->init();
-
         $subtotal = 0;
         $shipping = 0;
         $total = 0;

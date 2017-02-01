@@ -131,16 +131,16 @@ $config = [
         //Shipping regions components
         'shippingregions' => [
             'class' => 'app\components\ShippingRegions',
-            'default_package'=>'normal',
+            'default_package'=>'usps_first_class_mail_international',
             'us_region_shipping_cost' => [
-                'first_class' => 6,
-                'priority' => 10
+                'usps_first_class_mail' => 6,
+                'usps_priority_mail' => 10
             ],
             'canada_region_shipping_cost' => [
-                'first_class' => 14
+                'usps_first_class_mail_international' => 14
             ],
             'other_region_shipping_cost' => [
-                'first_class' => 54
+                'usps_first_class_mail_international' => 54
             ]
         ],
     ],

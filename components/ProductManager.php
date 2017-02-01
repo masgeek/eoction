@@ -205,6 +205,11 @@ class ProductManager
     {
         /* @var $model ItemsCart */
         /* @var $productModel FryProducts */
+
+        $userId = yii::$app->user->id ? yii::$app->user->id : 0;
+
+        $addressCountry = AccountManager::GetUserAddress($userId,null,true);
+
         $total = [];
         $shipping = [];
         $paypalItems = [];
