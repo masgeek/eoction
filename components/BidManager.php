@@ -350,7 +350,7 @@ class BidManager
         return $exclusion_array;
     }
 
-    public static function AddToExclusionList($product_id, $high_demand = false, $bidding_duration = 1, $exclusion_duration = 1)
+    public static function AddToExclusionList($product_id, $high_demand = false, $bidding_duration = 30, $exclusion_duration = 1)
     {
 
         /* @var $model BidExclusion */
@@ -361,7 +361,7 @@ class BidManager
         date_default_timezone_set($usersTimezone);
         $date = date('Y-m-d  H:i:s');
         $currentDate = strtotime($date);
-        $bidDuration = strtotime($date . "+$bidding_duration hours");
+        $bidDuration = strtotime($date . "+$bidding_duration minutes");
         $futureDate = strtotime($date . "+$exclusion_duration hours");
 
 
