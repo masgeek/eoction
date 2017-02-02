@@ -27,7 +27,7 @@ $config = [
         'merchantportal' => [
             'class' => 'app\module\merchant\admin',
             'defaultRoute' => 'merchant', //default controller
-        ]
+        ],
     ],
     'components' => [
         'request' => [
@@ -156,7 +156,6 @@ $config = [
     ],
     'params' => $params,
 ];
-
 if (YII_DEBUG) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
@@ -164,11 +163,10 @@ if (YII_DEBUG) {
         'class' => 'yii\debug\Module',
         'allowedIPs' => ['127.0.0.1', '::1', '192.168.0.*', '192.168.56.*', '75.157.241.9']
     ];
-
     $config['modules']['webshell'] = [
         'class' => 'samdark\webshell\Module',
         // 'yiiScript' => Yii::getAlias('@root'). '/yii', // adjust path to point to your ./yii script
-        'allowedIPs' => ['127.0.0.1', '::1', '192.168.0.2']
+        'allowedIPs' => ['127.0.0.1', '::1', '154.70.4.147']
     ];
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
