@@ -162,7 +162,7 @@ class SiteController extends Controller
 
         //var_dump($exclusion_list);
         //die;
-        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 4, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 20, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
 
         $this->view->title = 'Live Auction';
         return $this->render('index', ['listDataProvider' => $dataProvider]);
