@@ -17,16 +17,15 @@ class EmailComponent extends Component
     public $from;
     public $views;
     public $params = [];
+    public $subject;
+    public $plainTextMessage;
 
-    protected $message;
+
+    protected $mailer;
 
     public function init()
     {
-        //var_dump($this->views);
-        //die;
         parent::init();
-        $this->message = Yii::$app->mailer->compose($this->views, $this->params)
-            ->setFrom($this->from);
     }
 
     public function temp()
@@ -42,13 +41,19 @@ class EmailComponent extends Component
         die;
     }
 
-    public function sendemail($to, $subject, $plainTextMessage, $htmlMessage, $attachment = [])
+    public function sendemail($to, $attachment = [])
     {
-        $this->message->setFrom('noreply@eoction.com')
+        $this->params['subject'] = $this->subject;
+        //var_dump($this->params);
+        //die;
+        $this->mailer = Yii::$app->mailer->compose($this->views, $this->params);
+
+        $this->mailer->setFrom($this->from)
             ->setTo($to)
-            ->setSubject($subject)
-            ->setTextBody($plainTextMessage)
-            ->setHtmlBody($htmlMessage)
-            ->send();
+            ->setSubject($this->subject)
+            ->setTextBody($this->plainTextMessage);
+
+        //send the message
+        return $this->mailer->send();
     }
 }

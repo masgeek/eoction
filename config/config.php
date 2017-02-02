@@ -62,6 +62,7 @@ $config = [
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
+            'viewPath' => '@app/mail',
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
@@ -79,11 +80,10 @@ $config = [
         'emailer' => [
             'class' => 'app\components\EmailComponent',
             'from' => 'noreply@eoction.com',
-            'views' => [
-                '@app/mail/views/html',
-                '@app/mail/views/text'
-            ],
-            //'params' => []
+            'views' => 'views/html',
+            'params' => [
+                'htmlMessage' => '<h1>No Message</h1>'
+            ]
         ],
 
         'log' => [
