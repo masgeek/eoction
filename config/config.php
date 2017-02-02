@@ -79,11 +79,8 @@ $config = [
         //emailing component
         'emailer' => [
             'class' => 'app\components\EmailComponent',
-            'from' => 'noreply@eoction.com',
-            'views' => 'views/html',
-            'params' => [
-                'htmlMessage' => '<h1>No Message</h1>'
-            ]
+            'from' => ['noreply@eoction.com' => 'Eoction'],
+            'views' => '@app/mail/layouts/html',
         ],
 
         'log' => [

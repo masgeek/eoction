@@ -18,8 +18,9 @@ class EmailComponent extends Component
     public $views;
     public $params = [];
     public $subject;
+    public $names;
     public $plainTextMessage;
-
+    public $htmlMessage;
 
     protected $mailer;
 
@@ -28,32 +29,38 @@ class EmailComponent extends Component
         parent::init();
     }
 
-    public function temp()
-    {
-        Yii::$app->mailer->compose('layouts/html', ['content' => '3'])
-            ->setFrom('noreply@eoction.com')
-            ->setTo('barsamms@gmail.com')
-            ->setSubject('Eoction Message subject')
-            ->setTextBody('Plain text content')
-            ->setHtmlBody('<b>HTML content</b>')
-            ->send();
-
-        die;
-    }
-
     public function sendemail($to, $attachment = [])
     {
         $this->params['subject'] = $this->subject;
-        //var_dump($this->params);
-        //die;
-        $this->mailer = Yii::$app->mailer->compose($this->views, $this->params);
+        $this->params['names'] = $this->names;
+
+
+        $this->mailer = Yii::$app->mailer->compose();
 
         $this->mailer->setFrom($this->from)
             ->setTo($to)
             ->setSubject($this->subject)
-            ->setTextBody($this->plainTextMessage);
+            ->setTextBody($this->plainTextMessage)
+            ->setHtmlBody($this->CreateHtmlBody());
 
         //send the message
         return $this->mailer->send();
+    }
+
+    protected function CreateHtmlBody()
+    {
+        return <<<HTML
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>{$this->subject}</title>
+        </head>
+        <body>
+        <p><strong>Dear {$this->names}.</strong></p>
+        <p>{$this->htmlMessage}</p>
+        </body>
+        </html>
+HTML;
     }
 }
