@@ -321,7 +321,7 @@ class BidManager
             ->one();
 
 
-        BidManager::AddToExclusionList($productModel->productid, 0, 1, 5);
+        BidManager::AddToExclusionList($productModel->productid, 0);
         //add the item to bid activity
         BidManager::AddItemsToBidActivity($productModel, $multimodel = false); //add the picked item to bid activity table
         $product_list = BidManager::BuildProductHtmlList($productModel->productid, $productModel->sku,
@@ -334,35 +334,52 @@ class BidManager
      */
     public static function GetExclusionItems()
     {
+
+        $maxExpiry = 3600 * 5;
+        $usersTimezone = 'GMT';
+        date_default_timezone_set($usersTimezone);
+        $date = date('Y-m-d  H:i:s');
+        $currentDate = strtotime($date);
+
         //clean the table
         //BidManager::RemoveItemsFromBidActivity();
         $nested_items_array = BidExclusion::find()
-            ->select(['PRODUCT_ID', 'EXCLUSION_PERIOD'])
+            ->select(['PRODUCT_ID', 'EXCLUSION_PERIOD', 'BIDDING_PERIOD'])
             ->where('HIGH_DEMAND=0')
             ->asArray()
             ->all();
         //flatten the nested arrays
         $exclusion_array = [];
         foreach ($nested_items_array as $item) {
-            $exclusion_array[] = $item['PRODUCT_ID'];
+            $bidDuration = $item['BIDDING_PERIOD'];
+            $futureExpiry = $item['EXCLUSION_PERIOD'];
+
+            $bid_duration = floor((($bidDuration - $currentDate) / 60));
+            $bid_expiry = floor((($futureExpiry - $currentDate) / 60));
+
+            if ($bid_expiry > 0 || $bid_duration >= 0) {
+                $exclusion_array[] = $item['PRODUCT_ID'];
+            }
         }
 
         return $exclusion_array;
     }
 
-    public static function AddToExclusionList($product_id, $high_demand = false, $bidding_duration = 30, $exclusion_duration = 1)
+    public static function AddToExclusionList($product_id, $high_demand = false)
     {
+        $bidding_duration = 15;
+        $exclusion_duration = 30;
 
         /* @var $model BidExclusion */
         //exclusion is in seconds 1hr 3600 seconds
         //$exclusion_time = date("Y-m-d H:i:s", $futureDate);
         //compute exclusion period
-        $usersTimezone = 'America/New_York';
+        $usersTimezone = 'GMT';
         date_default_timezone_set($usersTimezone);
         $date = date('Y-m-d  H:i:s');
         $currentDate = strtotime($date);
         $bidDuration = strtotime($date . "+$bidding_duration minutes");
-        $futureDate = strtotime($date . "+$exclusion_duration hours");
+        $futureDate = strtotime($date . "+$exclusion_duration minutes");
 
 
         //return $futureDate - $currentDate; //. ' ' . $exclusion_time;

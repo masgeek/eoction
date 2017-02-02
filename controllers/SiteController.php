@@ -159,7 +159,10 @@ class SiteController extends Controller
         $session->set('search_url', \yii\helpers\Url::toRoute(['search-bids']));
 
         $exclusion_list = BidManager::GetExclusionItems();
-        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 16, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
+
+        //var_dump($exclusion_list);
+        //die;
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 4, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
 
         $this->view->title = 'Live Auction';
         return $this->render('index', ['listDataProvider' => $dataProvider]);

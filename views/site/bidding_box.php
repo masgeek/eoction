@@ -50,7 +50,7 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
 
 \app\components\BidManager::NextBidAmount($product_id);
 //BidManager::AddToExclusionList(1);
-\app\components\BidManager::AddToExclusionList($product_id, 0, 1, 5);
+\app\components\BidManager::AddToExclusionList($product_id, 0);
 ?>
 <div class="col-xs-18 col-sm-6 col-md-3 column productbox" id="item_box_<?= $product_id; ?>">
     <div class="hidden">
