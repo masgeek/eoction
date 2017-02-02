@@ -15,8 +15,6 @@ use yii;
 class EmailComponent extends Component
 {
     public $from;
-    public $views;
-    public $params = [];
     public $subject;
     public $names;
     public $plainTextMessage;
@@ -27,15 +25,11 @@ class EmailComponent extends Component
     public function init()
     {
         parent::init();
+        $this->mailer = Yii::$app->mailer->compose();
     }
 
-    public function sendemail($to, $attachment = [])
+    public function sendemail($to, $attachments = [])
     {
-        $this->params['subject'] = $this->subject;
-        $this->params['names'] = $this->names;
-
-
-        $this->mailer = Yii::$app->mailer->compose();
 
         $this->mailer->setFrom($this->from)
             ->setTo($to)
@@ -43,6 +37,10 @@ class EmailComponent extends Component
             ->setTextBody($this->plainTextMessage)
             ->setHtmlBody($this->CreateHtmlBody());
 
+        //check if we have attachments
+        foreach ($attachments as $atachment) {
+            $this->mailer->attach($atachment);
+        }
         //send the message
         return $this->mailer->send();
     }

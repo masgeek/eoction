@@ -80,7 +80,6 @@ $config = [
         'emailer' => [
             'class' => 'app\components\EmailComponent',
             'from' => ['noreply@eoction.com' => 'Eoction'],
-            'views' => '@app/mail/layouts/html',
         ],
 
         'log' => [
