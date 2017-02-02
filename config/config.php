@@ -75,6 +75,14 @@ $config = [
                 //'encryption' => 'tls',
             ],
         ],
+        //emailing component
+        'emailer' => [
+            'class' => 'app\components\EmailComponent',
+            'from' => 'noreply@eoction.com',
+            'view' => 'views/mail',
+            'params' => []
+        ],
+
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
@@ -128,14 +136,6 @@ $config = [
         'paypal' => require(__DIR__ . '/paypal.php'),
         //yii2 authclient
         'authClientCollection' => require(__DIR__ . '/oauth.php'),
-
-        //emailing component
-        'emailer' => [
-            'class' => 'app\components\EmailComponent',
-            'from' => 'noreply@eoction.com',
-            'view' => 'views/mail',
-            'params' => []
-        ],
         //Shipping regions components
         'shippingregions' => [
             'class' => 'app\components\ShippingRegions',

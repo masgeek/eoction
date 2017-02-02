@@ -1,7 +1,10 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: 219350
- * Date: 2017/02/02
- * Time: 12:26
- */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
