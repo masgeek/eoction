@@ -307,12 +307,12 @@ class BidManager
     {
         /* @var $productModel FryProducts */
 
-        $item_array = BidManager::GetExclusionItems();
+        $exclusionItems = BidManager::GetExclusionItems();
 
 
         $productModel = FryProducts::find()
             ->where([
-                'NOT IN', 'sku', $item_array,
+                'NOT IN', 'sku', $exclusionItems,
             ])
             ->andWhere(['>=', 'stock_level', 1])//stock levels should be greater or equal to 1
             //->andWhere('!=','PRODUCT_ID',$product_id)
@@ -323,7 +323,7 @@ class BidManager
 
         //add the item to bid activity
         BidManager::AddItemsToBidActivity($productModel, $multimodel = false); //add the picked item to bid activity table
-        $product_list = BidManager::BuildList($productModel->productid, $productModel->sku,
+        $product_list = BidManager::BuildProductHtmlList($productModel->productid, $productModel->sku,
             $productModel->name, $productModel->buyitnow, $productModel->price, $productModel->image1);
         return $product_list;
     }
@@ -336,18 +336,17 @@ class BidManager
         //clean the table
         //BidManager::RemoveItemsFromBidActivity();
         $nested_items_array = BidActivity::find()
-            ->select('PRODUCT_SKU')
-            //->where('ACTIVITY_COUNT <= 0')
+            ->select('PRODUCT_ID')
+            ->where('HIGH_DEMAND=0')
             ->asArray()
             ->all();
         //flatten the nested arrays
-        $item_array = [];
+        $exclusion_array = [];
         foreach ($nested_items_array as $item) {
-
-            $item_array[] = $item['PRODUCT_SKU'];
+            $exclusion_array[] = $item['PRODUCT_ID'];
         }
 
-        return [];//$item_array;
+        return $exclusion_array;
     }
 
 
@@ -360,7 +359,7 @@ class BidManager
      * @param $product_image_raw
      * @return array
      */
-    private static function BuildList($product_id, $sku, $product_name, $retail_price_raw, $starting_bid_price_raw, $product_image_raw)
+    private static function BuildProductHtmlList($product_id, $sku, $product_name, $retail_price_raw, $starting_bid_price_raw, $product_image_raw)
     {
         /* @var $imageObject FryProductImages */
         $formatter = \Yii::$app->formatter;

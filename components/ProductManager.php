@@ -98,7 +98,7 @@ class ProductManager
             ->distinct('sku')
             ->where(['IN', 'visible', $auction_param,])
             ->andWhere(['>=', 'stock_level', $min_stock])//stock levels should be greater or equal to 1
-            ->andWhere(['NOT IN', 'sku', $exclusion_list])
+            ->andWhere(['NOT IN', 'productid', $exclusion_list])
             ->orderBy('productid ASC');
 
         if ($random) {
