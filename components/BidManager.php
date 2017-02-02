@@ -304,16 +304,15 @@ class BidManager
      * @param int $product_id
      * @return array
      */
-    public static function GetNextItemToBid($product_id = 0)
+    public static function GetNextItemToBid($product_id)
     {
         /* @var $productModel FryProducts */
-
         $exclusionItems = BidManager::GetExclusionItems();
 
 
         $productModel = FryProducts::find()
             ->where([
-                'NOT IN', 'sku', $exclusionItems,
+                'NOT IN', 'productid', $exclusionItems,
             ])
             ->andWhere(['>=', 'stock_level', 1])//stock levels should be greater or equal to 1
             //->andWhere('!=','PRODUCT_ID',$product_id)
@@ -322,6 +321,7 @@ class BidManager
             ->one();
 
 
+        BidManager::AddToExclusionList($productModel->productid, 0, 1, 5);
         //add the item to bid activity
         BidManager::AddItemsToBidActivity($productModel, $multimodel = false); //add the picked item to bid activity table
         $product_list = BidManager::BuildProductHtmlList($productModel->productid, $productModel->sku,
@@ -350,27 +350,40 @@ class BidManager
         return $exclusion_array;
     }
 
-    public static function AddToExclusionList($product_id, $high_demand = false, $exclusion_period = 5)
+    public static function AddToExclusionList($product_id, $high_demand = false, $bidding_duration = 1, $exclusion_duration = 1)
     {
 
+        /* @var $model BidExclusion */
+        //exclusion is in seconds 1hr 3600 seconds
+        //$exclusion_time = date("Y-m-d H:i:s", $futureDate);
         //compute exclusion period
-        $date =date('Y-m-d  H:i:s');
+        $usersTimezone = 'America/New_York';
+        date_default_timezone_set($usersTimezone);
+        $date = date('Y-m-d  H:i:s');
         $currentDate = strtotime($date);
-        $futureDate = $currentDate+(60*5);
-        $exclusion_time = date("Y-m-d H:i:s", $futureDate);
+        $bidDuration = strtotime($date . "+$bidding_duration hours");
+        $futureDate = strtotime($date . "+$exclusion_duration hours");
 
-        return $exclusion_time;
-        $exclusion_time = $exclusion_period;
-        $model = new BidExclusion();
-        $model->isNewRecord = true;
+
+        //return $futureDate - $currentDate; //. ' ' . $exclusion_time;
+        $exclusion_time = $exclusion_duration;
+        //first lest check if the record exists
+        $model = BidExclusion::findOne(['PRODUCT_ID' => $product_id]);
+        if ($model == null) {
+            //prepare new record insertion
+            $model = new BidExclusion();
+            $model->isNewRecord = true;
+        }//default is to update the reord
         $model->PRODUCT_ID = $product_id;
-        $model->EXCLUSION_PERIOD = $exclusion_time;
-        $model->HIGH_DEMAND = $high_demand;
+        $model->BIDDING_PERIOD = $bidDuration;
+        $model->EXCLUSION_PERIOD = $futureDate;
+        $model->HIGH_DEMAND = $high_demand ? 1 : 0;
 
         if ($model->save()) {
             return true;
         }
-        return false;
+
+        return $model->getErrors();
     }
 
     /**

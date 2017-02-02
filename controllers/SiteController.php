@@ -145,7 +145,7 @@ class SiteController extends Controller
     public function actionIndex()
     {
 
-        return BidManager::AddToExclusionList('');
+        //return BidManager::AddToExclusionList(1);
         $to = ['barsamms@gmail.com' => 'Sammy Barasa'];
         Yii::$app->emailer->subject = 'Message subject here';
         Yii::$app->emailer->names = 'Sammy Barasa';
@@ -159,7 +159,7 @@ class SiteController extends Controller
         $session->set('search_url', \yii\helpers\Url::toRoute(['search-bids']));
 
         $exclusion_list = BidManager::GetExclusionItems();
-        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 2, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 24, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
 
         $this->view->title = 'Live Auction';
         return $this->render('index', ['listDataProvider' => $dataProvider]);
@@ -174,8 +174,9 @@ class SiteController extends Controller
         return $this->render('index', ['listDataProvider' => $dataProvider]);
     }
 
-    public function actionNextItem($product_id = 0)
+    public function actionNextItem($product_id)
     {
+        usleep(1200);
         $nextItem = BidManager::GetNextItemToBid($product_id);
         return json_encode($nextItem);
     }

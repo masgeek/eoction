@@ -4,7 +4,6 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "535430a1629ba0bce17cb5c688c00949",
     "content-hash": "b9fba072e8a7dc34bf8d137cee675f0a",
     "packages": [
         {
@@ -49,7 +48,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2016-10-16 12:06:18"
+            "time": "2016-10-16T12:06:18+00:00"
         },
         {
             "name": "bower-asset/bootstrap",
@@ -316,7 +315,7 @@
                 "opengraph",
                 "twitter cards"
             ],
-            "time": "2015-05-12 18:00:24"
+            "time": "2015-05-12T18:00:24+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -363,7 +362,7 @@
             "keywords": [
                 "html"
             ],
-            "time": "2017-01-13 12:31:37"
+            "time": "2017-01-13T12:31:37+00:00"
         },
         {
             "name": "fatelord/ship-station",
@@ -776,7 +775,7 @@
                 "option",
                 "select"
             ],
-            "time": "2015-12-16 18:15:01"
+            "time": "2015-12-16T18:15:01+00:00"
         },
         {
             "name": "kartik-v/yii2-dialog",
@@ -1033,7 +1032,7 @@
                 "popover",
                 "popover-x"
             ],
-            "time": "2016-01-12 16:59:09"
+            "time": "2016-01-12T16:59:09+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-activeform",
@@ -1636,7 +1635,7 @@
                 "font",
                 "yii"
             ],
-            "time": "2015-06-23 13:06:14"
+            "time": "2015-06-23T13:06:14+00:00"
         },
         {
             "name": "samdark/yii2-webshell",
@@ -1680,7 +1679,7 @@
                 "webshell",
                 "yii2"
             ],
-            "time": "2015-08-26 09:27:42"
+            "time": "2015-08-26T09:27:42+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -1742,12 +1741,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "c7d252b30d394819fb97d56ad2c24a65f83a2243"
+                "reference": "d41d4be57aa2b8d6c7cfee0609e63641acb989f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/c7d252b30d394819fb97d56ad2c24a65f83a2243",
-                "reference": "c7d252b30d394819fb97d56ad2c24a65f83a2243",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/d41d4be57aa2b8d6c7cfee0609e63641acb989f1",
+                "reference": "d41d4be57aa2b8d6c7cfee0609e63641acb989f1",
                 "shasum": ""
             },
             "require": {
@@ -1834,7 +1833,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2017-02-02 07:53:56"
+            "time": "2017-02-02 13:35:16"
         },
         {
             "name": "yiisoft/yii2-authclient",
@@ -1882,7 +1881,7 @@
                 "oauth",
                 "yii2"
             ],
-            "time": "2016-08-29 09:21:09"
+            "time": "2016-08-29T09:21:09+00:00"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -2200,7 +2199,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2017-02-01 09:18:35"
+            "time": "2017-02-01T09:18:35+00:00"
         },
         {
             "name": "phpspec/php-diff",
@@ -2385,7 +2384,7 @@
                 "gii",
                 "yii2"
             ],
-            "time": "2017-01-30 21:05:41"
+            "time": "2017-01-30T21:05:41+00:00"
         }
     ],
     "aliases": [],
