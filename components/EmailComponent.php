@@ -28,7 +28,7 @@ class EmailComponent extends Component
         $this->mailer = Yii::$app->mailer->compose();
     }
 
-    public function sendemail($to, $attachments = [])
+    public function SendEmail($to, $attachments = [])
     {
 
         $this->mailer->setFrom($this->from)

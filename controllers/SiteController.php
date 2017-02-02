@@ -151,14 +151,14 @@ class SiteController extends Controller
         Yii::$app->emailer->plainTextMessage = 'Hello plaintext';
         Yii::$app->emailer->htmlMessage = '<i>Hello html</i>';
 
-        return Yii::$app->emailer->sendemail($to);
+        //return Yii::$app->emailer->SendEmail($to);
 
-        die;
+        //die;
         $session = Yii::$app->session;
         $session->set('search_url', \yii\helpers\Url::toRoute(['search-bids']));
 
         $exclusion_list = BidManager::GetExclusionItems();
-        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 24, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 2, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
 
         $this->view->title = 'Live Auction';
         return $this->render('index', ['listDataProvider' => $dataProvider]);
