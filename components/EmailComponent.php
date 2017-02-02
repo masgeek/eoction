@@ -15,15 +15,17 @@ use yii;
 class EmailComponent extends Component
 {
     public $from;
-    public $view;
+    public $views;
     public $params = [];
 
     protected $message;
 
     public function init()
     {
+        //var_dump($this->views);
+        //die;
         parent::init();
-        $this->message = Yii::$app->mailer->compose($this->view, $this->params)
+        $this->message = Yii::$app->mailer->compose($this->views, $this->params)
             ->setFrom($this->from);
     }
 

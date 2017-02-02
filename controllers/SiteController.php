@@ -145,11 +145,13 @@ class SiteController extends Controller
     public function actionIndex()
     {
 
-        $to = 'barsamms@gmail.com';
+        $to = 'smbarasa@uonbi.ac.ke';
         $subject = 'Email components testing';
-        $plainTextMessage = 'Hello';
-        $htmlMessage = '<h2>Hello</h2>';
 
+        Yii::$app->emailer->params = [
+            $plainTextMessage = 'Hello plaintext',
+            $htmlMessage = '<h2>Hello html</h2>'
+        ];
         return Yii::$app->emailer->sendemail($to, $subject, $plainTextMessage, $htmlMessage);
 
         die;
