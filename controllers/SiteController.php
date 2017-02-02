@@ -123,12 +123,12 @@ class SiteController extends Controller
     public function actionTest()
     {
         $userId = yii::$app->user->id ? yii::$app->user->id : 0;
-        $l = AccountManager::GetUserAddress($userId,null,true);
+        $l = AccountManager::GetUserAddress($userId, null, true);
 
         //var_dump($l);
         $ship = new ShipStationHandler();
         //$h = $ship->ListAllCarriers(true);
-        $h = $ship->ListCarrierServices('stamps_com',true,true,ShippingPackages::USPS_FIRST_CLASS_MAIL_INTERNATIONAL);
+        $h = $ship->ListCarrierServices('stamps_com', true, true, ShippingPackages::USPS_FIRST_CLASS_MAIL_INTERNATIONAL);
 
         //var_dump($h);
         //Yii::$app->shippingregions->default_package = 'priority';
@@ -144,23 +144,34 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+
+        $to = 'barsamms@gmail.com';
+        $subject = 'Email components testing';
+        $plainTextMessage = 'Hello';
+        $htmlMessage = '<h2>Hello</h2>';
+
+        return Yii::$app->emailer->sendemail($to, $subject, $plainTextMessage, $htmlMessage);
+
+        die;
         $session = Yii::$app->session;
         $session->set('search_url', \yii\helpers\Url::toRoute(['search-bids']));
 
         $exclusion_list = BidManager::GetExclusionItems();
-        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 24, $auction_param = [1], $min_stock = 1, $exclusion_list,  false);
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 24, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
 
         $this->view->title = 'Live Auction';
         return $this->render('index', ['listDataProvider' => $dataProvider]);
     }
 
-    public function actionSearchBids($q){
+    public function actionSearchBids($q)
+    {
         $search = new ProductsSearch();
         $this->view->title = 'Search - Live Auction';
         $dataProvider = $search->productsearch($q, $no_of_items = 12, $auction_param = [1], $min_stock = 1);
 
         return $this->render('index', ['listDataProvider' => $dataProvider]);
     }
+
     public function actionNextItem($product_id = 0)
     {
         $nextItem = BidManager::GetNextItemToBid($product_id);

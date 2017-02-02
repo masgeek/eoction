@@ -40,13 +40,6 @@ $config = [
             'linkAssets' => true,
             'forceCopy' => YII_DEBUG,
         ],
-
-        /* external files*/
-        /*'assetManager' => [
-            'assetMap' => [
-                'jquery.js' => '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js',
-            ],
-        ],*/
         /* custom view template*/
         'view' => [
             'theme' => [
@@ -72,7 +65,15 @@ $config = [
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
-            'useFileTransport' => true,
+            'useFileTransport' => false,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'mail.eoction.com',
+                'username' => 'noreply@eoction.com',
+                'password' => 'PSeOction',
+                'port' => '587',
+                //'encryption' => 'tls',
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -128,6 +129,13 @@ $config = [
         //yii2 authclient
         'authClientCollection' => require(__DIR__ . '/oauth.php'),
 
+        //emailing component
+        'emailer' => [
+            'class' => 'app\components\EmailComponent',
+            'from' => 'noreply@eoction.com',
+            'view' => 'views/mail',
+            'params' => []
+        ],
         //Shipping regions components
         'shippingregions' => [
             'class' => 'app\components\ShippingRegions',
