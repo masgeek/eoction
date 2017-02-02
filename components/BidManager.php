@@ -12,6 +12,7 @@
 
 namespace app\components;
 
+use app\module\products\models\BidExclusion;
 use app\module\products\models\FryProductImages;
 use app\module\products\models\FryProducts;
 use app\module\users\models\Users;
@@ -335,8 +336,8 @@ class BidManager
     {
         //clean the table
         //BidManager::RemoveItemsFromBidActivity();
-        $nested_items_array = BidActivity::find()
-            ->select('PRODUCT_ID')
+        $nested_items_array = BidExclusion::find()
+            ->select(['PRODUCT_ID', 'EXCLUSION_PERIOD'])
             ->where('HIGH_DEMAND=0')
             ->asArray()
             ->all();
@@ -349,6 +350,28 @@ class BidManager
         return $exclusion_array;
     }
 
+    public static function AddToExclusionList($product_id, $high_demand = false, $exclusion_period = 5)
+    {
+
+        //compute exclusion period
+        $date =date('Y-m-d  H:i:s');
+        $currentDate = strtotime($date);
+        $futureDate = $currentDate+(60*5);
+        $exclusion_time = date("Y-m-d H:i:s", $futureDate);
+
+        return $exclusion_time;
+        $exclusion_time = $exclusion_period;
+        $model = new BidExclusion();
+        $model->isNewRecord = true;
+        $model->PRODUCT_ID = $product_id;
+        $model->EXCLUSION_PERIOD = $exclusion_time;
+        $model->HIGH_DEMAND = $high_demand;
+
+        if ($model->save()) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * @param $product_id

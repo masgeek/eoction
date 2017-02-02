@@ -145,6 +145,7 @@ class SiteController extends Controller
     public function actionIndex()
     {
 
+        return BidManager::AddToExclusionList('');
         $to = ['barsamms@gmail.com' => 'Sammy Barasa'];
         Yii::$app->emailer->subject = 'Message subject here';
         Yii::$app->emailer->names = 'Sammy Barasa';
