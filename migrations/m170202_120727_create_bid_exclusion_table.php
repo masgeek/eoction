@@ -15,8 +15,8 @@ class m170202_120727_create_bid_exclusion_table extends Migration
         $this->createTable('bid_exclusion', [
             'EXCLUSION_ID' => $this->primaryKey(),
             'PRODUCT_ID' => $this->integer()->notNull(),
-            'EXCLUSION_PERIOD' => $this->timestamp()->notNull()->comment('How long to exclude the item from bid (hours)'),
-            'HIGH_DEMAND'=>$this->boolean()->defaultValue(false)->comment('If item is high demand dont exclude it')
+            'EXCLUSION_PERIOD' => $this->time()->notNull()->comment('How long to exclude the item from bid (hours)'),
+            'HIGH_DEMAND'=>$this->boolean()->defaultValue(false)->comment('If item is high demand do not exclude it')
         ]);
 
         $this->addForeignKey('FK_PRODUCT_ID_ECL', 'bid_exclusion', 'PRODUCT_ID', 'fry_products', 'productid','RESTRICT', 'CASCADE');
