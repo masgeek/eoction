@@ -122,29 +122,6 @@ class SiteController extends Controller
      */
     public function actionTest()
     {
-        $userId = yii::$app->user->id ? yii::$app->user->id : 0;
-        $l = AccountManager::GetUserAddress($userId, null, true);
-
-        //var_dump($l);
-        $ship = new ShipStationHandler();
-        //$h = $ship->ListAllCarriers(true);
-        $h = $ship->ListCarrierServices('stamps_com', true, true, ShippingPackages::USPS_FIRST_CLASS_MAIL_INTERNATIONAL);
-
-        //var_dump($h);
-        //Yii::$app->shippingregions->default_package = 'priority';
-        return Yii::$app->shippingregions->shippingcost();
-        //return Yii::$app->shippingregions->shippingpackage();
-        die;
-        $exclusion_list = BidManager::GetExclusionItems();
-        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 4, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
-
-        $this->view->title = 'Test Live Auction';
-        return $this->render('index', ['listDataProvider' => $dataProvider]);
-    }
-
-    public function actionIndex()
-    {
-
         //return BidManager::AddToExclusionList(1);
         $to = ['barsamms@gmail.com' => 'Sammy Barasa'];
         Yii::$app->emailer->subject = 'Message subject here';
@@ -158,6 +135,15 @@ class SiteController extends Controller
         $session = Yii::$app->session;
         $session->set('search_url', \yii\helpers\Url::toRoute(['search-bids']));
 
+        $exclusion_list = BidManager::GetExclusionItems();
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 4, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
+
+        $this->view->title = 'Test Live Auction';
+        return $this->render('index', ['listDataProvider' => $dataProvider]);
+    }
+
+    public function actionIndex()
+    {
         $exclusion_list = BidManager::GetExclusionItems();
 
         //var_dump($exclusion_list);

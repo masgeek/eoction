@@ -82,6 +82,8 @@ function SetupProgressBar($productid, $bid_start_time) {
     placebid.click(function () {
         //progressBar.velocity('stop', false);
         if ($user_id == 0) {
+            //show the dialog for logging in
+            ShowLoginPrompt($productid);
             return false;
         }
         TriggerProgressBar($productid, $sku, $nextBids);
@@ -418,4 +420,34 @@ function GetWinningUser($product_id, $sku) {
         },
         type: 'GET'
     });
+}
+
+function ShowLoginPrompt($product_id) {
+    // instanciate new modal
+    //var prompt_login = $('#placebid_' + $product_id);
+
+    var modal = new tingle.modal({
+        footer: true,
+        stickyFooter: false,
+        cssClass: ['custom-class-1', 'custom-class-2'],
+        onOpen: function () {
+            //console.log('modal open');
+        },
+        onClose: function () {
+            //console.log('modal closed');
+        }
+    });
+
+    // set content
+    modal.setContent('<h1>You need to login in order to bid</h1>');
+
+// add a button
+    modal.addFooterBtn('Okay', 'btn btn-primary btn-block', function () {
+        // here goes some logic
+        modal.close();
+    });
+
+// close modal
+    modal.open();
+
 }
