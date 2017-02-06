@@ -400,7 +400,7 @@ class BidManager
             return true;
         }
 
-	    \Yii::info($model->getErrors(), 'bidExclusions'); //log to an exclusions log file
+	    \Yii::error($model->getErrors(), 'bidExclusions'); //log to an exclusions log file
         return false; //return false indicating teh update/insert failed
     }
 
