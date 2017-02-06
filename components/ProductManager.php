@@ -49,16 +49,7 @@ class ProductManager
     {
         $userId = \Yii::$app->user->id ? \Yii::$app->user->id : 0;
         $country = AccountManager::GetUserAddress($userId,null,true);
-
-        return  \Yii::$app->shippingregions->shippingcost($country);
-
-        $product = FryProducts::findOne(['productid' => $product_id]);
-        if ($product != null) {
-            $retail_price = $product->buyitnow;
-        }
-
-        $shipping_cost = round(((5 * $retail_price) / 100), 2);
-        return $shipping_cost;
+        return  \Yii::$app->shippingregions->shippingcost($country,$userId);
     }
 
     /**

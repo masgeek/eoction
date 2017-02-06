@@ -35,11 +35,11 @@ $product_name = $model->name;
 $discount = ProductManager::ComputePercentageDiscount($product_id);
 $shipping = ProductManager::ComputeShippingCost($product_id);
 
-$randseed = rand(0, 10);
+$randseed = rand(0, 25);
 if (YII_ENV_DEV) {
-    $bidStartTime = 30 + $randseed;// * $productID; //initial start time for the bid
+    $bidStartTime = 10 + $randseed;// * $productID; //initial start time for the bid
 } else {
-    $bidStartTime = 45 + $randseed;// * $productID; //initial start time for the bid
+    $bidStartTime = 40 + $randseed;// * $productID; //initial start time for the bid
 }
 
 $shipping_cost = $formatter->asCurrency($shipping);

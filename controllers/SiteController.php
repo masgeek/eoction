@@ -145,9 +145,6 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $exclusion_list = BidManager::GetExclusionItems();
-
-        //var_dump($exclusion_list);
-        //die;
         $dataProvider = ProductManager::GetItemsForSale($no_of_items = 20, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
 
         $this->view->title = 'Live Auction';
