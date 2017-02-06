@@ -15,18 +15,16 @@ use yii\bootstrap\ActiveForm;
 ?>
 <?php $form = ActiveForm::begin([
 	'id' => 'recover-form',
-	//'options' => ['class' => 'form-horizontal'],
-	'fieldConfig' => [
-		//'template' => "<div class=\"col-md-12\">{input}</div>\n<div class=\"col-md-12\">{error}</div>",
-		//'labelOptions' => ['class' => 'col-lg-1 control-label'],
-	],
+	'options' => ['class' => 'form-horizontal'],
 ]); ?>
-    <!--= $form->field($model, 'username')->textInput(['autofocus' => true, 'placeholder' => 'Email Address']) ?-->
-    <div class="form-group">
+    <div class="row">
         <div class="col-md-12">
-	        <?= Html::textInput('username', null, ['class' => 'form-control', 'placeholder' => 'Email Address/ Username', 'required' => true]) ?>
+			<?= Html::textInput('username', null, ['class' => 'form-control input-lg', 'placeholder' => 'Email Address/ Username', 'required' => true]) ?>
         </div>
-        <div class="col-md-8 col-md-offset-2">
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-md-12">
 			<?= Html::submitButton('Recover Password', ['class' => 'btn btn-success btn-block btn-lg', 'name' => 'recover-button']) ?>
         </div>
     </div>
