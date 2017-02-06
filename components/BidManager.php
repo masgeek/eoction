@@ -410,6 +410,7 @@ class BidManager
 		}else {
 			//default is to update the record
 			$model->isNewRecord = false;
+			$model->AUCTION_COUNT = (int)($model->AUCTION_COUNT) + 1; //increment by one
 		}
 		$model->BIDDING_PERIOD = $bidDuration;
 		$model->EXCLUSION_PERIOD = $futureDate;

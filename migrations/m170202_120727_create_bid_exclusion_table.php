@@ -17,6 +17,7 @@ class m170202_120727_create_bid_exclusion_table extends Migration
             'PRODUCT_ID' => $this->integer()->unique()->notNull(),
             'BIDDING_PERIOD' => $this->integer()->notNull()->comment('How long to include the item from bid (hours)'),
             'EXCLUSION_PERIOD' => $this->integer()->notNull()->comment('How long to exclude the item from bid (hours)'),
+            'AUCTION_COUNT' => $this->integer(1)->defaultValue(1)->comment('Number of times it been auctioned'),
             'HIGH_DEMAND' => $this->integer(1)->defaultValue(0)->comment('If item is high demand do not exclude it'),
             'DATE_CREATED' => $this->timestamp(),
             'DATE_UPDATED' => $this->timestamp()
