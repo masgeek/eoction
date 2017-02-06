@@ -317,10 +317,13 @@ class SiteController extends Controller
 				Yii::$app->emailer->plainTextMessage = 'Hello plaintext';
 				Yii::$app->emailer->htmlMessage = '<i>Hello html</i>';
 
-				return Yii::$app->emailer->SendEmail($to);
+				//return Yii::$app->emailer->SendEmail($to);
 				//return $user->FULL_NAMES;
+				return $this->refresh(); //refresh page and clear pending post values
 			}else{
 				Yii::$app->getSession()->setFlash('error','<b>No account matching provided email exists</b>');
+
+				return $this->refresh(); //refresh page and clear pending post values
 			}
 		}
 		return $this->render('recover');

@@ -1,7 +1,6 @@
 <?php
-$g = Yii::$app->session->getAllFlashes();
-
-var_dump($g);
+//$g = Yii::$app->session->getAllFlashes();
+//var_dump($g);
 ?>
 <div class="users-login col-md-4 col-md-offset-4">
     <div class="panel panel-default">
