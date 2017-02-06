@@ -367,7 +367,7 @@ class BidManager
 
     public static function AddToExclusionList($product_id, $high_demand = false)
     {
-        $bidding_duration = 5;
+        $bidding_duration = 10;
         $exclusion_duration = 30;
 
         /* @var $model BidExclusion */
@@ -382,8 +382,6 @@ class BidManager
         $futureDate = strtotime($date . "+$exclusion_duration minutes");
 
 
-        //return $futureDate - $currentDate; //. ' ' . $exclusion_time;
-        $exclusion_time = $exclusion_duration;
         //first lest check if the record exists
         $model = BidExclusion::findOne(['PRODUCT_ID' => $product_id]);
         if ($model == null) {
@@ -394,7 +392,7 @@ class BidManager
         $model->PRODUCT_ID = $product_id;
         $model->BIDDING_PERIOD = $bidDuration;
         $model->EXCLUSION_PERIOD = $futureDate;
-        $model->HIGH_DEMAND = $high_demand ? 1 : 0;
+        $model->HIGH_DEMAND = $high_demand ? 1 : 0; //indicate if the product is in high demand
 
         if ($model->save()) {
             return true;

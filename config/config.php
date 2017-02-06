@@ -110,7 +110,7 @@ $config = [
 					'class' => 'yii\log\FileTarget',
 					'levels' => ['info'],
 					'categories' => ['Notifications'],
-					'logFile' => '@app/runtime/logs/Orders/notification.log',
+					'logFile' => '@app/runtime/logs/Notifications/notification.log',
 					'maxFileSize' => 1024 * 2,
 					'maxLogFiles' => 50,
 				],
