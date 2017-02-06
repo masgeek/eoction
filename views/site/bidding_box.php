@@ -37,7 +37,7 @@ $shipping = ProductManager::ComputeShippingCost($product_id);
 
 $randseed = rand(0, 25);
 if (YII_ENV_DEV) {
-    $bidStartTime = 10 + $randseed;// * $productID; //initial start time for the bid
+    $bidStartTime = 5 + $randseed;// * $productID; //initial start time for the bid
 } else {
     $bidStartTime = 40 + $randseed;// * $productID; //initial start time for the bid
 }

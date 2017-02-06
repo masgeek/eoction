@@ -3,6 +3,7 @@
 namespace app\module\products\models;
 
 use Yii;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "bid_exclusion".
@@ -56,6 +57,19 @@ class BidExclusion extends \yii\db\ActiveRecord
             'DATE_UPDATED' => 'Date  Updated',
         ];
     }
+
+	public function beforeValidate()
+	{
+		$date = new Expression('NOW()');
+		if (parent::beforeValidate()) {
+			if ($this->isNewRecord) {
+				$this->DATE_CREATED = $date;
+			}
+			$this->DATE_UPDATED = $date;
+			return true;
+		}
+		return false;
+	}
 
     /**
      * @return \yii\db\ActiveQuery
