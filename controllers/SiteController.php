@@ -303,13 +303,12 @@ class SiteController extends Controller
 	 */
 	public function actionRecover()
 	{
-
+		$model = new Users();
 		if (Yii::$app->request->post('username')) {
-			$username = Yii::$app->request->post('username');
+			$email = Yii::$app->request->post('email');
 
-			$user = Users::findOne(['EMAIL_ADDRESS' => $username]);
+			$user = Users::findOne(['EMAIL_ADDRESS' => $email]);
 			if ($user != null) {
-				Yii::$app->getSession()->setFlash('success','<b>Password reset instructions have been sent to your registered email address</b>');
 				$to = [$user->EMAIL_ADDRESS => $user->FULL_NAMES];
 				Yii::$app->emailer->subject = 'Eoction Account Password Recovery';
 				Yii::$app->emailer->names = $user->FULL_NAMES;
@@ -317,16 +316,17 @@ class SiteController extends Controller
 				Yii::$app->emailer->plainTextMessage = 'Hello plaintext';
 				Yii::$app->emailer->htmlMessage = '<i>Hello html</i>';
 
-				//return Yii::$app->emailer->SendEmail($to);
-				//return $user->FULL_NAMES;
-				return $this->refresh(); //refresh page and clear pending post values
-			}else{
-				Yii::$app->getSession()->setFlash('error','<b>No account matching provided email exists</b>');
-
-				return $this->refresh(); //refresh page and clear pending post values
+				if (Yii::$app->emailer->SendEmail($to)) {
+					Yii::$app->getSession()->setFlash('success', '<b>Password reset instructions have been sent to your registered email address</b>');
+				} else {
+					Yii::$app->getSession()->setFlash('error', '<b>Unable to send password recovery email</b>');
+				}
+			} else {
+				Yii::$app->getSession()->setFlash('error', '<b>No account matching provided email exists</b>');
 			}
+			return $this->refresh(); //refresh page and clear pending post values
 		}
-		return $this->render('recover');
+		return $this->render('recover', ['model' => $model]);
 	}
 
 	/**

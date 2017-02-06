@@ -17,7 +17,7 @@
 					<?= Yii::$app->session->getFlash('error') ?>
                 </div>
 			<?php endif; ?>
-			<?= $this->render('_recover') ?>
+			<?= $this->render('_recover', ['model' => $model]) ?>
         </div>
     </div>
 </div>

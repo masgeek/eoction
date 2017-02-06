@@ -17,15 +17,13 @@ use yii\bootstrap\ActiveForm;
 	'id' => 'recover-form',
 	'options' => ['class' => 'form-horizontal'],
 ]); ?>
-    <div class="row">
-        <div class="col-md-12">
-			<?= Html::textInput('username', null, ['class' => 'form-control input-lg', 'placeholder' => 'Email Address/ Username', 'required' => true]) ?>
-        </div>
+    <div class="col-md-10 col-md-offset-1">
+        <!--?= Html::textInput('email', null, ['class' => 'form-control input-lg', 'placeholder' => 'Email Address', 'required' => true]) ?-->
+		<?= $form->field($model, 'EMAIL_ADDRESS')->textInput()->hint('Enter registered email address')->label('') ?>
     </div>
-    <br/>
-    <div class="row">
-        <div class="col-md-12">
-			<?= Html::submitButton('Recover Password', ['class' => 'btn btn-success btn-block btn-lg', 'name' => 'recover-button']) ?>
-        </div>
+
+    <div class="col-md-12">
+		<?= Html::submitButton('Recover Password', ['class' => 'btn btn-success btn-block btn-lg', 'name' => 'recover-button']) ?>
     </div>
+
 <?php ActiveForm::end(); ?>
