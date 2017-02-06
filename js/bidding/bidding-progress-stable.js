@@ -254,18 +254,9 @@ function FetchNextItem($previous_product_id) {
 		bidStatusText.html('Next Item');
 		$.ajax({
 			url: $productUrl,
+			type: 'GET',
 			data: {
 				product_id: $previous_product_id
-			},
-			beforeSend: function () {
-				//var $nextProductBox = $('#item_box_' + data.product_id);
-				if ($('#item_box_' + $previous_product_id).length) {
-					//fetch next item
-					console.log("Duplicate element detected  " + "  - " + $previous_product_id);// + " --  duplicate " + data.product_id);
-				} else {
-					console.log("Iam here no duplicates new " + $previous_product_id);
-
-				}
 			},
 			error: function () {
 				$('#info').html('<p>An error has occurred</p>');
@@ -283,11 +274,24 @@ function FetchNextItem($previous_product_id) {
 					$('.fadein').fadeIn(500);
 					//scroll to the top
 					//$("html, body").animate({scrollTop: 0}, "slow");
-					//next add the click event listeners to the dynamic items
-					RefreshSomeEventListener(data.product_id, data.sku);
 				});
 			},
-			type: 'GET'
+			complete: function (data) {
+				//var $nextProductBox = $('#item_box_' + data.product_id);
+				if ($('#item_box_'+data.product_id).length) {
+					//fetch next item
+					//$productBox.remove(); //remove it :-)
+					console.log("Duplicate element detected  " + "  - " + $previous_product_id);// + " --  duplicate " + data.product_id);
+					//return false;
+				} else {
+					console.log("No duplicates new " + $previous_product_id);
+
+				}
+
+				//console.log($data);
+				//next add the click event listeners to the dynamic items
+				RefreshSomeEventListener(data.product_id, data.sku);
+			}
 		});
 	}, intervals);
 }

@@ -323,11 +323,12 @@ class BidManager
 			->one();
 
 		//if data is null recursivelly call the function again
-		if ($productModel == null){
+		if ($productModel == null) {
 			//select without using the exclusion list
 			$productModel = FryProducts::find()
 				->Where(['>=', 'stock_level', 1])
-				->andWhere(['!=','productid',$product_id])
+				->andWhere(['!=', 'productid', $product_id])
+				->offset($product_id)
 				->one();
 
 		}
@@ -364,7 +365,7 @@ class BidManager
 		$nested_items_array = BidExclusion::find()
 			->select(['PRODUCT_ID', 'EXCLUSION_PERIOD', 'BIDDING_PERIOD'])
 			->where('HIGH_DEMAND=0')
-			->orderBy(['AUCTION_COUNT'=>SORT_ASC])
+			->orderBy(['AUCTION_COUNT' => SORT_ASC])
 			->asArray()
 			->all();
 		//flatten the nested arrays
@@ -409,7 +410,7 @@ class BidManager
 			$model->isNewRecord = true;
 
 			$model->PRODUCT_ID = $product_id;
-		}else {
+		} else {
 			//default is to update the record
 			$model->isNewRecord = false;
 			$model->AUCTION_COUNT = (int)($model->AUCTION_COUNT) + 1; //increment by one
