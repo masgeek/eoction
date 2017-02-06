@@ -295,6 +295,14 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
+	/**
+	 * Password recovery page
+	 *
+	 * @return string
+	 */
+	public function actionRecover(){
+	    return $this->render('recover');
+    }
     /**
      * Displays contact page.
      *
