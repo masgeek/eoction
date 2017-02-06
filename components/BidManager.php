@@ -367,7 +367,7 @@ class BidManager
 
     public static function AddToExclusionList($product_id, $high_demand = false)
     {
-        $bidding_duration = 15;
+        $bidding_duration = 5;
         $exclusion_duration = 30;
 
         /* @var $model BidExclusion */
@@ -400,7 +400,8 @@ class BidManager
             return true;
         }
 
-        return $model->getErrors();
+	    \Yii::info($model->getErrors(), 'bidExclusions'); //log to an exclusions log file
+        return false; //return false indicating teh update/insert failed
     }
 
     /**
