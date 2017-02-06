@@ -327,6 +327,7 @@ class BidManager
 			//select without using the exclusion list
 			$productModel = FryProducts::find()
 				->Where(['>=', 'stock_level', 1])
+				->andWhere(['!=','productid',$product_id])
 				->one();
 
 		}
@@ -363,6 +364,7 @@ class BidManager
 		$nested_items_array = BidExclusion::find()
 			->select(['PRODUCT_ID', 'EXCLUSION_PERIOD', 'BIDDING_PERIOD'])
 			->where('HIGH_DEMAND=0')
+			->orderBy(['AUCTION_COUNT'=>SORT_ASC])
 			->asArray()
 			->all();
 		//flatten the nested arrays

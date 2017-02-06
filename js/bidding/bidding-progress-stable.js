@@ -248,6 +248,8 @@ function FetchNextItem($previous_product_id) {
 	var button = '<button class="btn btn-primary btn-block noradius text-uppercase" disabled>Next</button>';
 
 	setTimeout(function () {//wait n seconds before fetching next item
+
+
 		bidButton.html(button);
 		bidStatusText.html('Next Item');
 		$.ajax({
@@ -255,20 +257,26 @@ function FetchNextItem($previous_product_id) {
 			data: {
 				product_id: $previous_product_id
 			},
+			beforeSend: function () {
+				//var $nextProductBox = $('#item_box_' + data.product_id);
+				if ($('#item_box_' + $previous_product_id).length) {
+					//fetch next item
+					console.log("Duplicate element detected  " + "  - " + $previous_product_id);// + " --  duplicate " + data.product_id);
+					//FetchNextItem(data.product_id);//recursive call
+				//	console.log('Recursive call');
+				} else {
+					console.log("Iam here no duplicates new " + $previous_product_id);
+
+				}
+			},
 			error: function () {
 				$('#info').html('<p>An error has occurred</p>');
 			},
 			dataType: 'json',
 			success: function (data) {
 				//first we will check if a similar id exists
-				//var $nextProductBox = $('#item_box_' + data.product_id);
-				if ($('#item_box_' + data.product_id).length) {
-					console.log("Duplicate element detected  " + "  - " + $previous_product_id + " --  " + data.product_id);
-				} else {
-					console.log("Iam here no duplicates " + data.product_id + " " + $previous_product_id);
-				}
 
-// To remove last inserted element with duplicate ID
+				// To remove last inserted element with duplicate ID
 				//remove the initial product box
 				$productBox.fadeOut(1000, function () {
 					$(this).remove();
