@@ -1,32 +1,14 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: KRONOS
- * Date: 11/22/2016
- * Time: 2:04 PM
- */
-
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model app\models\LoginForm */
-
-use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
-?>
-
-
-<?php $form = ActiveForm::begin([
-	'id' => 'recover-form',
-	'options' => ['class' => 'form-horizontal'],
-	'fieldConfig' => [
-		'template' => "<div class=\"col-md-12\">{input}</div>\n<div class=\"col-md-12\">{error}</div>",
-		'labelOptions' => ['class' => 'col-lg-1 control-label'],
-	],
-]); ?>
-    <!--= $form->field($model, 'username')->textInput(['autofocus' => true, 'placeholder' => 'Email Address']) ?-->
-<?= Html::textInput('username', null, ['class' => 'form-control', 'placeholder' => 'Email Address/ Username', 'required' => true]) ?>
-    <div class="form-group">
-        <div class="col-md-8 col-md-offset-2">
-			<?= Html::submitButton('Recover Password', ['class' => 'btn btn-success btn-block btn-lg', 'name' => 'recover-button']) ?>
-        </div>
-    </div>
-<?php ActiveForm::end(); ?>
+<div class="users-login col-md-4 col-md-offset-4">
+	<div class="panel panel-default">
+		<div class="panel-heading">Please login to proceed</div>
+		<div class="panel-body">
+			<?php if (Yii::$app->session->hasFlash('success')): ?>
+				<div class="alert alert-success alert-dismissable">
+					<button aria-hidden="true" data-dismiss="alert" class="close" type="button">CLOSE</button>
+					<?= Yii::$app->session->getFlash('success') ?>
+				</div>
+			<?php endif; ?>
+			<?= $this->render('_recover') ?>
+		</div>
+	</div>
+</div>
