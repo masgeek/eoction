@@ -47,14 +47,9 @@ class ProductManager
      */
     public static function ComputeShippingCost($product_id = null, $retail_price = 0)
     {
-        return 0;
-        $product = FryProducts::findOne(['productid' => $product_id]);
-        if ($product != null) {
-            $retail_price = $product->buyitnow;
-        }
-
-        $shipping_cost = round(((5 * $retail_price) / 100), 2);
-        return $shipping_cost;
+        $userId = \Yii::$app->user->id ? \Yii::$app->user->id : 0;
+        $country = AccountManager::GetUserAddress($userId,null,true);
+        return  \Yii::$app->shippingregions->shippingcost($country,$userId);
     }
 
     /**
@@ -94,7 +89,7 @@ class ProductManager
             ->distinct('sku')
             ->where(['IN', 'visible', $auction_param,])
             ->andWhere(['>=', 'stock_level', $min_stock])//stock levels should be greater or equal to 1
-            ->andWhere(['NOT IN', 'sku', $exclusion_list])
+            ->andWhere(['NOT IN', 'productid', $exclusion_list])
             ->orderBy('productid ASC');
 
         if ($random) {
@@ -205,6 +200,11 @@ class ProductManager
     {
         /* @var $model ItemsCart */
         /* @var $productModel FryProducts */
+
+        $userId = \Yii::$app->user->id ? \Yii::$app->user->id : 0;
+
+        $addressCountry = AccountManager::GetUserAddress($userId,null,true);
+
         $total = [];
         $shipping = [];
         $paypalItems = [];

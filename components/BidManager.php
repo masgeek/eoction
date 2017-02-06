@@ -12,6 +12,7 @@
 
 namespace app\components;
 
+use app\module\products\models\BidExclusion;
 use app\module\products\models\FryProductImages;
 use app\module\products\models\FryProducts;
 use app\module\users\models\Users;
@@ -64,9 +65,7 @@ class BidManager
     }
 
     /**
-     * deletes item from the bidactivity table
-     * @param $sku
-     * @throws \Exception
+     * @param int $product_id
      */
     public static function RemoveItemsFromBidActivity($product_id = 0)
     {
@@ -289,13 +288,13 @@ class BidManager
         $winning_user_id = BidManager::GetBidWinner($product_id, $sku);
 
         //if ($logged_in_id == $winning_user_id && $winning_user_id > 0) {
-            //$winning_name = $bid_won ? 'you have won!' : 'you are winning';
+        //$winning_name = $bid_won ? 'you have won!' : 'you are winning';
         //} else {
-            if ($winning_user_id > 0) {
-                $userData = Users::findOne($winning_user_id);
+        if ($winning_user_id > 0) {
+            $userData = Users::findOne($winning_user_id);
 
-                $winning_name = $bid_won ? $userData->FULL_NAMES . ' has won!' : $userData->FULL_NAMES . ' is winning';
-            }
+            $winning_name = $bid_won ? $userData->FULL_NAMES . ' has won!' : $userData->FULL_NAMES . ' is winning';
+        }
         //}
 
         return $winning_name;
@@ -305,27 +304,27 @@ class BidManager
      * @param int $product_id
      * @return array
      */
-    public static function GetNextItemToBid($product_id = 0)
+    public static function GetNextItemToBid($product_id)
     {
         /* @var $productModel FryProducts */
-
-        $item_array = BidManager::GetExclusionItems();
+        $exclusionItems = BidManager::GetExclusionItems();
 
 
         $productModel = FryProducts::find()
             ->where([
-                'NOT IN', 'sku', $item_array,
+                'NOT IN', 'productid', $exclusionItems,
             ])
             ->andWhere(['>=', 'stock_level', 1])//stock levels should be greater or equal to 1
             //->andWhere('!=','PRODUCT_ID',$product_id)
-            ->orderBy(['rand()' => SORT_DESC])//randomly pick products
+            //->orderBy(['rand()' => SORT_DESC])//randomly pick products
             ->limit(1)//limit to one record only
             ->one();
 
 
+        BidManager::AddToExclusionList($productModel->productid, 0);
         //add the item to bid activity
         BidManager::AddItemsToBidActivity($productModel, $multimodel = false); //add the picked item to bid activity table
-        $product_list = BidManager::BuildList($productModel->productid, $productModel->sku,
+        $product_list = BidManager::BuildProductHtmlList($productModel->productid, $productModel->sku,
             $productModel->name, $productModel->buyitnow, $productModel->price, $productModel->image1);
         return $product_list;
     }
@@ -335,23 +334,74 @@ class BidManager
      */
     public static function GetExclusionItems()
     {
+
+        $maxExpiry = 3600 * 5;
+        $usersTimezone = 'GMT';
+        date_default_timezone_set($usersTimezone);
+        $date = date('Y-m-d  H:i:s');
+        $currentDate = strtotime($date);
+
         //clean the table
         //BidManager::RemoveItemsFromBidActivity();
-        $nested_items_array = BidActivity::find()
-            ->select('PRODUCT_SKU')
-            //->where('ACTIVITY_COUNT <= 0')
+        $nested_items_array = BidExclusion::find()
+            ->select(['PRODUCT_ID', 'EXCLUSION_PERIOD', 'BIDDING_PERIOD'])
+            ->where('HIGH_DEMAND=0')
             ->asArray()
             ->all();
         //flatten the nested arrays
-        $item_array = [];
+        $exclusion_array = [];
         foreach ($nested_items_array as $item) {
+            $bidDuration = $item['BIDDING_PERIOD'];
+            $futureExpiry = $item['EXCLUSION_PERIOD'];
 
-            $item_array[] = $item['PRODUCT_SKU'];
+            $bid_duration = floor((($bidDuration - $currentDate) / 60));
+            $bid_expiry = floor((($futureExpiry - $currentDate) / 60));
+
+            if ($bid_expiry > 0 || $bid_duration >= 0) {
+                $exclusion_array[] = $item['PRODUCT_ID'];
+            }
         }
 
-        return [];//$item_array;
+        return $exclusion_array;
     }
 
+    public static function AddToExclusionList($product_id, $high_demand = false)
+    {
+        $bidding_duration = 15;
+        $exclusion_duration = 30;
+
+        /* @var $model BidExclusion */
+        //exclusion is in seconds 1hr 3600 seconds
+        //$exclusion_time = date("Y-m-d H:i:s", $futureDate);
+        //compute exclusion period
+        $usersTimezone = 'GMT';
+        date_default_timezone_set($usersTimezone);
+        $date = date('Y-m-d  H:i:s');
+        $currentDate = strtotime($date);
+        $bidDuration = strtotime($date . "+$bidding_duration minutes");
+        $futureDate = strtotime($date . "+$exclusion_duration minutes");
+
+
+        //return $futureDate - $currentDate; //. ' ' . $exclusion_time;
+        $exclusion_time = $exclusion_duration;
+        //first lest check if the record exists
+        $model = BidExclusion::findOne(['PRODUCT_ID' => $product_id]);
+        if ($model == null) {
+            //prepare new record insertion
+            $model = new BidExclusion();
+            $model->isNewRecord = true;
+        }//default is to update the reord
+        $model->PRODUCT_ID = $product_id;
+        $model->BIDDING_PERIOD = $bidDuration;
+        $model->EXCLUSION_PERIOD = $futureDate;
+        $model->HIGH_DEMAND = $high_demand ? 1 : 0;
+
+        if ($model->save()) {
+            return true;
+        }
+
+        return $model->getErrors();
+    }
 
     /**
      * @param $product_id
@@ -362,7 +412,7 @@ class BidManager
      * @param $product_image_raw
      * @return array
      */
-    private static function BuildList($product_id, $sku, $product_name, $retail_price_raw, $starting_bid_price_raw, $product_image_raw)
+    private static function BuildProductHtmlList($product_id, $sku, $product_name, $retail_price_raw, $starting_bid_price_raw, $product_image_raw)
     {
         /* @var $imageObject FryProductImages */
         $formatter = \Yii::$app->formatter;
@@ -389,189 +439,61 @@ class BidManager
         ]);
 
 
-        $html_list = "<div class=\"col-xs-18 col-sm-6 col-md-3 column productbox\"id=\"item_box_$product_id\">
-   <div class=\"hidden\">
-       <input type=\"text\"id=\"bid_count_$product_id\"value=\"0\"readonly=\"readonly\"/>
-       <input type=\"text\"id=\"bid_price_$product_id\"value=\"0\"readonly=\"readonly\"/>
-       <input type=\"text\"id=\"bid_type_$product_id\"value=\"1\"readonly=\"readonly\"/>
-       <input type=\"text\"id=\"bid_placed_$product_id\"value=\"0\"readonly=\"readonly\"/>
-       <input type=\"text\"id=\"product_sku_$product_id\"value=\"$sku\"readonly=\"readonly\"/>
-   </div>
-   <div class=\"thumbnail\">
-       <!--<h5 class=\"text-center\"><span class=\"label label-info\">$sku</span></h5>-->
-       <div class=\"proportion-image\"id=\"image_box$product_id\">
-       $imageHtml
-       </div>
-       <div class=\"caption\">
-           <div class=\"row\">
-               <div class=\"col-md-12 col-xs-12 bidding-price text-center text-uppercase\">
-                    Bid Price:<span id=\"bid_price$product_id\">$starting_bid_price</span>
-               </div>
-           </div>
-           <div class=\"row\">
-               <!--<button class=\"btn btn-block\">BID NOW</button>-->
-               <div id=\"bid_button_$product_id\">
-                    <button class=\"btn btn-bid btn-bid-active btn-block noradius text-uppercase\" id=\"placebid_$product_id\">
-                        <span class=\"hammer-icon pull-left\"></span>Bid Now
-                    </button>
-               </div>
-               <div class=\"bidProgress noplacedbids\"id=\"progressBar$product_id\"></div>
-           </div>
-           <div class=\"row text-center\">
-               <div class=\"text-uppercase bid-message bid-status\"><span
-                            id=\"bid_status_$product_id\">Accepting Bids</span></div>
-               <div class=\"text-uppercase winning-user text-muted\"><span id=\"winning_user_$product_id\">-</span>
-               </div>
-           </div>
-           <div class=\"row\">
-               <div class=\"col-md-6\">
-                   <a class=\"btn btn-default btn-product text-uppercase noborder\"><span class=\"bidcount\"><span id=\"bids_placed_$product_id\">$bids</span> Bid(s)</span></a>
-               </div>
-               <div class=\"col-md-6\">
-                   <a href=\"#\"class=\"btn btn-default btn-product noborder\">
-                       <span class=\"crossed retail-price text-uppercase\">$retail_price</span>
-                       <span class=\"discount text-uppercase\"id=\"discount_$product_id\">$discount %</span>
-                   </a></div>
-           </div>
-       </div>
-   </div>
-</div>";
-
-        $html_list_old = "<div class=\"col-xs-18 col-sm-6 col-md-3 column productbox\" id=\"item_box_$product_id\">
-    <div class=\"hidden\">
-        <input type=\"text\" id=\"bid_count_$product_id\" value=\"0\" readonly=\"readonly\"/>
-        <input type=\"text\" id=\"bid_price_$product_id\" value=\"0\" readonly=\"readonly\"/>
-        <input type=\"text\" id=\"bid_type_$product_id\" value=\"1\" readonly=\"readonly\"/>
-        <input type=\"text\" id=\"bid_placed_$product_id\" value=\"0\" readonly=\"readonly\"/>
-        <input type=\"text\" id=\"product_sku_$product_id\" value=\"$sku\" readonly=\"readonly\"/>
+        $html_list = <<<BID_BOX
+<div class="col-xs-18 col-sm-6 col-md-3 column productbox" id="item_box_$product_id">
+    <div class="hidden">
+        <input type="text" id="bid_count_$product_id" value="0" readonly="readonly"/>
+        <input type="text" id="bid_price_$product_id" value="0" readonly="readonly"/>
+        <input type="text" id="bid_type_$product_id" value="1" readonly="readonly"/>
+        <input type="text" id="bid_placed_$product_id" value="0" readonly="readonly"/>
+        <input type="text" id="product_sku_$product_id" value="$sku" readonly="readonly"/>
     </div>
-    <div class=\"proportion-image\" id=\"image_box$product_id\">
-    $imageHtml
-    </div>
-    <div class=\"bidding-price text-center\">
-        Bid Price: <span id=\"bid_price$product_id\">$starting_bid_price</span>
-    </div>
-    <div class=\"producttitle\">
-        <!--<button class=\"btn btn-block\">BID NOW</button>-->
-
-        <div class=\"\" id=\"bid_button_$product_id\">
-            <button class=\"btn btn-bid btn-bid-active btn-block noradius text-uppercase\" id=\"placebid_$product_id\">
-            <span class=\"hammer-icon pull-left\"></span>Bid Now
+    <div class="thumbnail">
+        <div class="proportion-image" id="image_box$product_id">{$imageHtml}</div>
+        <div class="caption">
+            <div class="row">
+                <div class="col-md-12 col-xs-12 bidding-price text-center text-uppercase">
+                    Bid Price: <span id="bid_price$product_id">$starting_bid_price</span>
+                </div>
+            </div>
+            <div class="row">
+                <div id="bid_button_$product_id">
+                    <button class="btn btn-bid btn-bid-active btn-block noradius text-uppercase" id="placebid_$product_id">
+            <span class="hammer-icon pull-left"></span>Bid Now
             </button>
-        </div>
-        <div class=\"bidProgress noplacedbids\" id=\"progressBar$product_id\"></div>
-    </div>
-    <div>
-        <div class=\"text-uppercase bid-message bid-status\"><span id=\"bid_status_$product_id\">Accepting Bids</span></div>
-        <div class=\"text-uppercase winning-user text-muted\"><span id=\"winning_user_$product_id\">-</span></div>
-    </div>
-    <div class=\"productprice\">
-        <div class=\"pull-right\">
-            <a href=\"#\" class=\"btn btn-default btn-sm\" role=\"button\" title=\"Percentage discount $discount%\">
-                <span class=\"crossed retail-price\">$retail_price</span>
-                <span class=\"discount\" id=\"discount_$product_id\">$discount% Off</span>
-            </a>
-        </div>
-        <div class=\"pricetext text-uppercase\">
-            <a href=\"#\" class=\"btn btn-default btn-sm\" role=\"button\" title=\"Percentage discount $discount%\">
-                <span id=\"bids_placed_$product_id\">$bids</span> Bid(s)
-            </a>
-        </div>
-    </div>
-</div>";
-
-
-        //return the item list now
-        $product_box = [
-            'bid_price' => $starting_bid_price,
-            'discount' => $discount,
-            'bid_count' => $bids,
-            'product_id' => $product_id,
-            'sku' => $sku,
-            'html_data' => $html_list
-        ];
-        return $product_box;
-    }
-
-
-    /**
-     * @param $product_id
-     * @param $sku
-     * @param $product_name
-     * @param $retail_price_raw
-     * @param $starting_bid_price_raw
-     * @param $product_image
-     * @return array
-     */
-    private static function BuildListOld($product_id, $sku, $product_name, $retail_price_raw, $starting_bid_price_raw, $product_image)
-    {
-        /* @var $imageObject FryProductImages */
-        $formatter = \Yii::$app->formatter;
-        $imageHost = \Yii::$app->params['ExternalImageServerLink'];
-        $imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
-
-        $imageModel = new FryProducts();
-
-
-        $shipping_cost = $formatter->asCurrency(ProductManager::ComputeShippingCost($product_id));
-        $retail_price = $formatter->asCurrency($retail_price_raw);
-        $starting_bid_price = $formatter->asCurrency($starting_bid_price_raw);
-        //$shipping_cost = ProductManager::ComputeShippingCost($product_id);
-        $bids = ProductManager::GetNumberOfBids($product_id);
-        $discount = ProductManager::ComputePercentageDiscount($product_id);
-
-        //$alias_path =  \Yii::getAlias('@web');
-
-
-        $imageHtml = Html::img($product_image, [
-            'id' => 'product_image_' . $product_id,
-            'class' => 'img img-responsive',
-            'alt' => $product_name,
-        ]);
-
-
-        $html_list = "<div class=\"col-xs-18 col-sm-6 col-md-3\" id=\"item_box_$product_id\">
-    <div class=\"hidden\">
-        <input type=\"text\" id=\"bid_count_$product_id\" value=\"0\" readonly=\"readonly\"/>
-        <input type=\"text\" id=\"bid_price_$product_id\" value=\"0\" readonly=\"readonly\"/>
-        <input type=\"text\" id=\"bid_type_$product_id\" value=\"1\" readonly=\"readonly\"/>
-        <input type=\"text\" id=\"bid_placed_$product_id\" value=\"0\" readonly=\"readonly\"/>
-        <input type=\"text\" id=\"product_sku_$product_id\" value=\"$sku\" readonly=\"readonly\"/>
-    </div>
-    <div class=\"offer offer-default\">
-        <div class=\"shape\">
-            <span class=\"shape-text\" id=\"discount_$product_id\">$discount%</span>
-            <span class=\"shape-text quickview\"><i class=\"fa fa-eye \"></i> Quick View</span>
-        </div>
-        <div class=\"offer-content\">
-            $imageHtml
-            <div class=\"col-md-12 col-xs-6 text-center\">
-                <span class=\"bidding-price\">Bid Price: <span id=\"bid_price$product_id\">$starting_bid_price</span></span><br/>
-                <span class=\"crossed retail-price\">$retail_price</span>
-            </div>
-            <div class=\"col-md-12 col-xs-6 text-center\">
-                <span>Shipping $shipping_cost</span>
-            </div>
-            <div class=\"col-md-12 col-xs-6 text-center text-uppercase\">
-                <span id=\"bids_placed_$product_id\">$bids</span> Bid(s)
-            </div>
-            <div class=\"col-md-12 col-xs-6 progress-container\">
-            <div class=\"bidProgress noplacedbids\" id=\"progressBar$product_id\"></div>
                 </div>
-            <div class=\"row\">
-                <div class=\"col-md-10 col-md-offset-1 col-xs-12\" id=\"bid_button_$product_id\">
-                    <button class=\"btn btn-bid btn-bid-active btn-block noradius text-uppercase\" id=\"placebid_$product_id\">
-                        <span class=\"hammer-icon pull-left\"></span>Bid Now
-                    </button>
-                </div>
-
+                <div class="bidProgress noplacedbids" id="progressBar$product_id"></div>
             </div>
-            <div class=\"col-md-12 col-xs-6 text-center\">
-                <div id=\"bid_status_$product_id\" class=\"text-uppercase bid-message\">Accepting Bids</div>
+            <div class="row text-center">
+                <div class="text-uppercase bid-message bid-status"><span
+                            id="bid_status_$product_id">Accepting Bids</span></div>
+                <div class="text-uppercase winning-user text-muted"><span id="winning_user_$product_id">-</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="#" class="btn btn-default btn-product noborder">
+                        <span class="small" id="shipping_$product_id">Shipping $shipping_cost</span>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <a class="btn btn-default btn-product text-uppercase noborder"><span class="bidcount"><span
+                                    id="bids_placed_$product_id">$bids</span> Bid(s)</span></a>
+                </div>
+                <div class="col-md-6">
+                    <a href="#" class="btn btn-default btn-product noborder">
+                        <span class="crossed retail-price text-uppercase">$retail_price</span>
+                        <span class="discount text-uppercase" id="discount_$product_id">$discount%</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>";
+</div>
+BID_BOX;
+
 
         //return the item list now
         $product_box = [

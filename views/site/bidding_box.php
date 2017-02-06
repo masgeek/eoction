@@ -34,10 +34,12 @@ $product_name = $model->name;
 
 $discount = ProductManager::ComputePercentageDiscount($product_id);
 $shipping = ProductManager::ComputeShippingCost($product_id);
+
+$randseed = rand(0, 25);
 if (YII_ENV_DEV) {
-    $bidStartTime = 30;// * $productID; //initial start time for the bid
+    $bidStartTime = 10 + $randseed;// * $productID; //initial start time for the bid
 } else {
-    $bidStartTime = 45;// * $productID; //initial start time for the bid
+    $bidStartTime = 40 + $randseed;// * $productID; //initial start time for the bid
 }
 
 $shipping_cost = $formatter->asCurrency($shipping);
@@ -47,6 +49,8 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
 
 
 \app\components\BidManager::NextBidAmount($product_id);
+//BidManager::AddToExclusionList(1);
+\app\components\BidManager::AddToExclusionList($product_id, 0);
 ?>
 <div class="col-xs-18 col-sm-6 col-md-3 column productbox" id="item_box_<?= $product_id; ?>">
     <div class="hidden">
@@ -60,10 +64,10 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
         <!--<h5 class="text-center"><span class="label label-info"><?= $sku ?></span></h5>-->
         <div class="proportion-image" id="image_box<?= $product_id ?>">
             <?= Html::img($product_image, [
-            'id' => 'product_image_' . $product_id,
-            'class' => 'img-responsive',
-            'alt' => $product_name,
-        ]); ?>
+                'id' => 'product_image_' . $product_id,
+                'class' => 'img-responsive',
+                'alt' => $product_name,
+            ]); ?>
         </div>
         <div class="caption">
             <div class="row">
@@ -75,8 +79,8 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
                 <!--<button class="btn btn-block">BID NOW</button>-->
                 <div id="bid_button_<?= $product_id ?>">
                     <?= Html::button('<span class="hammer-icon pull-left"></span>BID NOW', [
-                    'class' => 'btn btn-bid btn-bid-active btn-block noradius',
-                    'id' => "placebid_$product_id"
+                        'class' => 'btn btn-bid btn-bid-active btn-block noradius',
+                        'id' => "placebid_$product_id"
                     ]) ?>
                 </div>
                 <div class="bidProgress noplacedbids" id="progressBar<?= $product_id ?>"></div>
@@ -88,6 +92,13 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
                 </div>
             </div>
             <div class="row">
+                <div class="col-md-12">
+                    <a href="#" class="btn btn-default btn-product noborder">
+                        <span class="small" id="shipping_<?= $product_id ?>">Shipping <?= $shipping_cost ?></span>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-6">
                     <a class="btn btn-default btn-product text-uppercase noborder"><span class="bidcount"><span
                                     id="bids_placed_<?= $product_id ?>"><?= $bids ?></span> Bid(s)</span></a>
@@ -96,7 +107,8 @@ $starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
                     <a href="#" class="btn btn-default btn-product noborder">
                         <span class="crossed retail-price text-uppercase"><?= $retail_price; ?></span>
                         <span class="discount text-uppercase" id="discount_<?= $product_id ?>"><?= $discount ?>%</span>
-                    </a></div>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

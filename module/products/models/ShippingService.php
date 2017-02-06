@@ -38,7 +38,7 @@ class ShippingService extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['PAYPAL_TRANS_ID', 'REQUESTED_SERVICE', 'SERVICE_CODE', 'SERVICE_DESC'], 'required'],
+            [['PAYPAL_TRANS_ID', 'SERVICE_CODE','PACKAGE_CODE'], 'required'],
             [['PAYPAL_TRANS_ID'], 'integer'],
             [['ORDER_FINALIZED'], 'boolean'],
             [['PAYPAL_TRANS_ID'], 'unique'],
@@ -82,6 +82,8 @@ class ShippingService extends \yii\db\ActiveRecord
             if ($this->isNewRecord) {
                 $this->CREATED = $date;
                 $this->ORDER_FINALIZED = true;
+                $this->SERVICE_DESC = $this->PACKAGE_CODE;
+                $this->REQUESTED_SERVICE = $this->SERVICE_CODE;
             }
             $this->UPDATED = $date;
             return true;

@@ -18,65 +18,39 @@ $this->registerJsFile('@web/js/shopping/cart-manager.js');
 $form_id = 'order_form';
 $btn_id = 'btn_order';
 $message = 'Proceed with order creation? Your PayPal account will be billed';
+
+$userId = Yii::$app->user->id ? Yii::$app->user->id : 0;
+$userCountry = \app\components\AccountManager::GetUserAddress($userId, null, true);
+
+$shippingService = Yii::$app->shippingregions->shippingservice($userCountry);
+$shippingPackage = Yii::$app->shippingregions->shippingpackage();
+$carrierList = $shippingStation->ListAllCarriers(true); //ListCarrierServices('stamps_com',true,true,$shippingService);
+
+$display_fields = 'none';
+if ($userCountry == 'US' || $userCountry == 'USA') {
+    $display_fields = 'block';
+}
 ?>
 
 <div class="shipping-service-form">
-
     <?php $form = ActiveForm::begin([
         'id' => $form_id,
         'type' => ActiveForm::TYPE_VERTICAL
     ]); ?>
-    <div class="row">
+    <div class="row" style="display:<?= $display_fields ?>;">
         <div class="col-md-4">
-            <?= $form->field($model, 'CARRIER_CODE')->widget(kartik\select2\Select2::classname(), [
-                'data' => $carrierList,
-                'options' => ['id' => 'carrier-code', 'placeholder' => '-- Select carrier --'],
-                'pluginOptions' => [
-                    'allowClear' => true
-                ],
-            ])->hint('Choose your preferred carrier')->label(''); ?>
+            <?= $form->field($model, 'CARRIER_CODE')->dropDownList($carrierList)->hint('Choose your preferred carrier')->label(''); ?>
         </div>
         <div class="col-md-4">
-            <?= $form->field($model, 'SERVICE_DESC')->widget(DepDrop::classname(), [
-                'type' => DepDrop::TYPE_SELECT2,
-                'data' => [$model->SERVICE_DESC => $model->REQUESTED_SERVICE],
-                'options' => ['id' => 'service-desc', 'placeholder' => '--- Select shipping type ---'],
-                'select2Options' => ['pluginOptions' => ['allowClear' => true]],
-                'pluginOptions' => [
-                    'depends' => ['carrier-code'],
-                    'url' => Url::to(['//paypal/select-service']),
-                    //'params' => ['input-type-1', 'input-type-2']
-                ]
-            ])->hint('Choose your preferred shipping method')->label('') ?>
+            <?= $form->field($model, 'SERVICE_CODE')->dropDownList($shippingService)->hint('Choose your preferred shipping service')->label(''); ?>
         </div>
         <div class="col-md-4">
-            <?= $form->field($model, 'PACKAGE_CODE')->widget(DepDrop::classname(), [
-                'type' => DepDrop::TYPE_SELECT2,
-                'data' => [$model->PACKAGE_CODE => $model->PACKAGE_CODE],
-                'options' => ['id' => 'package_code', 'placeholder' => '--- Select service type ---'],
-                'select2Options' => ['pluginOptions' => ['allowClear' => true]],
-                'pluginOptions' => [
-                    'depends' => ['service-desc'],
-                    'url' => Url::to(['//paypal/select-package']),
-                    //'params' => ['input-type-1', 'input-type-2']
-                ],
-                'pluginEvents' => [
-                    'change' => "function(){
-                var mixedService = $('#service-desc').val();
-               var serviceCode = mixedService.split('|',1);
-               var serviceName = mixedService.split('~');
-                console.log(serviceCode+'  '+serviceName);
-                $('#service_code').val(serviceCode);
-                $('#requested_service').val(serviceName[1]);
-                //$('#test').val(serviceName);
-            }"
-                ]
-            ])->hint('Choose your preferred shipping service')->label('') ?>
+            <?= $form->field($model, 'PACKAGE_CODE')->dropDownList($shippingPackage)->hint('Choose your preferred shipping method')->label('') ?>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            <?= $form->field($model, 'CUSTOMER_NOTES')->textarea(['rows' => 6])->hint('Leave additional notes if you have any further instructions') ?>
+            <?= $form->field($model, 'CUSTOMER_NOTES')->textarea(['rows' => 6])->hint('Leave additional notes if you have any further instructions')->label('') ?>
         </div>
     </div>
 
@@ -84,12 +58,6 @@ $message = 'Proceed with order creation? Your PayPal account will be billed';
     <div class="row">
         <div class="col-md-4">
             <?= $form->field($model, 'PAYPAL_TRANS_ID')->hiddenInput(['value' => $payment_id, 'readonly' => true])->label('') ?>
-        </div>
-        <div class="col-md-4">
-            <?= $form->field($model, 'SERVICE_CODE')->hiddenInput(['maxlength' => true, 'id' => 'service_code', 'readonly' => true])->label('') ?>
-        </div>
-        <div class="col-md-4">
-            <?= $form->field($model, 'REQUESTED_SERVICE')->hiddenInput(['maxlength' => true, 'id' => 'requested_service', 'readonly' => true])->label('') ?>
         </div>
     </div>
 

@@ -27,7 +27,7 @@ $config = [
         'merchantportal' => [
             'class' => 'app\module\merchant\admin',
             'defaultRoute' => 'merchant', //default controller
-        ]
+        ],
     ],
     'components' => [
         'request' => [
@@ -40,13 +40,6 @@ $config = [
             'linkAssets' => true,
             'forceCopy' => YII_DEBUG,
         ],
-
-        /* external files*/
-        /*'assetManager' => [
-            'assetMap' => [
-                'jquery.js' => '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js',
-            ],
-        ],*/
         /* custom view template*/
         'view' => [
             'theme' => [
@@ -69,11 +62,26 @@ $config = [
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
+            'viewPath' => '@app/mail',
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
-            'useFileTransport' => true,
+            'useFileTransport' => false,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'mail.eoction.com',
+                'username' => 'noreply@eoction.com',
+                'password' => 'PSeOction',
+                'port' => '587',
+                //'encryption' => 'tls',
+            ],
         ],
+        //emailing component
+        'emailer' => [
+            'class' => 'app\components\EmailComponent',
+            'from' => ['noreply@eoction.com' => 'Eoction'],
+        ],
+
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
@@ -127,26 +135,27 @@ $config = [
         'paypal' => require(__DIR__ . '/paypal.php'),
         //yii2 authclient
         'authClientCollection' => require(__DIR__ . '/oauth.php'),
-
         //Shipping regions components
         'shippingregions' => [
             'class' => 'app\components\ShippingRegions',
-            'default_package'=>'normal',
+            'default_package' => [
+                'package' => 'package'
+            ],
+            'default_service' => 'usps_first_class_mail_international',
             'us_region_shipping_cost' => [
-                'normal' => 6,
-                'priority' => 10
+                'usps_first_class_mail' => 6,
+                'usps_priority_mail' => 10
             ],
             'canada_region_shipping_cost' => [
-                'normal' => 14
+                'usps_first_class_mail_international' => 14
             ],
             'other_region_shipping_cost' => [
-                'normal' => 54
+                'usps_first_class_mail_international' => 54
             ]
         ],
     ],
     'params' => $params,
 ];
-
 if (YII_DEBUG) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
@@ -154,11 +163,10 @@ if (YII_DEBUG) {
         'class' => 'yii\debug\Module',
         'allowedIPs' => ['127.0.0.1', '::1', '192.168.0.*', '192.168.56.*', '75.157.241.9']
     ];
-
     $config['modules']['webshell'] = [
         'class' => 'samdark\webshell\Module',
         // 'yiiScript' => Yii::getAlias('@root'). '/yii', // adjust path to point to your ./yii script
-        'allowedIPs' => ['127.0.0.1', '::1', '192.168.0.2']
+        'allowedIPs' => ['127.0.0.1', '::1', '154.70.4.147']
     ];
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
