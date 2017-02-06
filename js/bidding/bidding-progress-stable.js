@@ -262,8 +262,6 @@ function FetchNextItem($previous_product_id) {
 				if ($('#item_box_' + $previous_product_id).length) {
 					//fetch next item
 					console.log("Duplicate element detected  " + "  - " + $previous_product_id);// + " --  duplicate " + data.product_id);
-					//FetchNextItem(data.product_id);//recursive call
-				//	console.log('Recursive call');
 				} else {
 					console.log("Iam here no duplicates new " + $previous_product_id);
 
