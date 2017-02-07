@@ -199,7 +199,7 @@ if (YII_DEBUG) {
 		'generators' => [
 			'model'   => [
 				'class'     => 'yii\gii\generators\model\Generator',
-				'templates' => ['mymodel' => '@app/mygenerators/model/default']
+				'templates' => ['mymodel' => '@app/mygenerators/model/beforesave']
 			]
 		]
 	];

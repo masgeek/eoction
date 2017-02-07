@@ -20,6 +20,7 @@ echo "<?php\n";
 namespace <?= $generator->ns ?>;
 
 use Yii;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "<?= $generator->generateTableName($tableName) ?>".
@@ -60,6 +61,22 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
     public function rules()
     {
         return [<?= empty($rules) ? '' : ("\n            " . implode(",\n            ", $rules) . ",\n        ") ?>];
+    }
+
+    /**
+    * @inheritdoc
+    */
+    public function beforeSave($insert)
+    {
+        $date = new Expression('NOW()');
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                //$this->DATE_CREATED = $date; //@TODO edit to mach data field columns
+            }
+            //$this->DATE_UPDATED = $date; //@TODO edit to mach data field columns
+            return true;
+        }
+        return false;
     }
 
     /**
