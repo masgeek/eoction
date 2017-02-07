@@ -197,9 +197,9 @@ if (YII_DEBUG) {
 	$config['modules']['gii'] = [
 		'class' => 'yii\gii\Module',
 		'generators' => [
-			'module'   => [
-				'class'     => 'yii\gii\generators\crud\Generator',
-				'templates' => ['custommodel' => '@app/mygenerators/model']
+			'model'   => [
+				'class'     => 'yii\gii\generators\model\Generator',
+				'templates' => ['mymodel' => '@app/mygenerators/model/default']
 			]
 		]
 	];
