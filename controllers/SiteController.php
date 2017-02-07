@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\bidding\ActiveBids;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -143,6 +144,11 @@ class SiteController extends Controller
 
 	public function actionIndex()
 	{
+		/* @var $activebids ActiveBids */
+		$activebids = \Yii::$app->activebids;
+
+		return $activebids->FetchBidItems();
+		return 5;
 		$exclusion_list = BidManager::GetExclusionItems();
 		$dataProvider = ProductManager::GetItemsForSale($no_of_items = 4, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
 
