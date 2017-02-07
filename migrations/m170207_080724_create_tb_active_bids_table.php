@@ -17,7 +17,7 @@ class m170207_080724_create_tb_active_bids_table extends Migration
 		    'PRODUCT_ID' => $this->integer()->unique()->notNull(),
 		    'BIDDING_DURATION' => $this->integer()->notNull()->comment('How long the item will be on bid if is not won'),
 		    'ITEM_WON' => $this->integer()->notNull()->defaultValue(0)->comment('Indicate if item is won or not'),
-		    'DATE_CREATED' => $this->timestamp(),
+		    //'DATE_CREATED' => $this->timestamp(),
 		    'DATE_UPDATED' => $this->timestamp()
 	    ]);
 

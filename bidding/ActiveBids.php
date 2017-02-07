@@ -19,6 +19,7 @@ class ActiveBids extends Component
 	public $maximum_items;
 	public $bidding_minute_duration;
 	public $timezone;
+	public $current_date;
 
 	public function init()
 	{
@@ -34,6 +35,13 @@ class ActiveBids extends Component
 		if ($this->timezone == null) {
 			$this->timezone = 'GMT';
 		}
+
+		if ($this->current_date == null) {
+			$this->current_date = date('Y-m-d  H:i:s');
+		}
+
+		//set the current timezone
+		date_default_timezone_set($this->timezone);
 	}
 
 	/**
@@ -50,7 +58,12 @@ class ActiveBids extends Component
 		$model = $this->ValidateItem($product_id);
 
 		$model->BIDDING_DURATION = $this->ComputeBidDuration(); //get the bid duration
-		return $model->BIDDING_DURATION;
+		if ($model->save()) {
+			return true;//saved
+		} else {
+			\Yii::error($model->getErrors(), 'bidExclusions'); //log to an exclusions log file;
+		}
+		return false;
 	}
 
 	/**
@@ -64,7 +77,7 @@ class ActiveBids extends Component
 		if ($model == null) {
 			//i is a new record
 			$model = new TbActiveBids();
-			$model->isNewRecord = false;
+			$model->isNewRecord = true;
 			$model->PRODUCT_ID = $product_id;
 		}
 		return $model; //return the model if the record does exist
@@ -76,11 +89,19 @@ class ActiveBids extends Component
 	 */
 	private function ComputeBidDuration()
 	{
-		date_default_timezone_set($this->timezone);
-		$date = date('Y-m-d  H:i:s');
 		//$currentDate = strtotime($date);
-		$bidDuration = strtotime($date . "+$this->bidding_minute_duration minutes");
-
+		$bidDuration = strtotime($this->current_date . "+$this->bidding_minute_duration minutes");
 		return $bidDuration;
+	}
+
+	/**
+	 * @param $bid_duration
+	 * @return float
+	 */
+	private function GetRemainingBidDuration($bid_duration)
+	{
+		$currentDate = strtotime($this->current_date);
+		$remaining_time = floor((($bid_duration - $currentDate) / 60));
+		return $remaining_time;
 	}
 }
