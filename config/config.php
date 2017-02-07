@@ -196,6 +196,12 @@ if (YII_DEBUG) {
 	$config['bootstrap'][] = 'gii';
 	$config['modules']['gii'] = [
 		'class' => 'yii\gii\Module',
+		'generators' => [
+			'module'   => [
+				'class'     => 'yii\gii\generators\crud\Generator',
+				'templates' => ['custommodel' => '@app/mygenerators/model']
+			]
+		]
 	];
 }
 
