@@ -10,17 +10,18 @@
  */
 
 
-namespace app\components;
+namespace app\bidding;
 
+use yii\db\Expression;
+use yii\helpers\Html;
+
+use app\components\ProductManager;
 use app\module\products\models\BidExclusion;
 use app\module\products\models\FryProductImages;
 use app\module\products\models\FryProducts;
 use app\module\users\models\Users;
-use yii\db\Expression;
-use yii\helpers\Html;
 
 use app\models\BidActivity;
-use app\module\products\models\Products;
 use app\module\products\models\ProductBids;
 
 class BidManager

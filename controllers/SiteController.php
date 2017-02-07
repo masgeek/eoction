@@ -2,12 +2,6 @@
 
 namespace app\controllers;
 
-
-use app\components\AccountManager;
-use app\components\ShippingPackages;
-use app\components\ShipStationHandler;
-use app\module\products\ProductsSearch;
-use app\module\users\models\Users;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -16,10 +10,14 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 
+use app\bidding\BidManager;
 use app\models\BidActivity;
 
-use app\components\BidManager;
 use app\components\ProductManager;
+use app\components\ShipStationHandler;
+
+use app\module\products\ProductsSearch;
+use app\module\users\models\Users;
 
 class SiteController extends Controller
 {
@@ -146,7 +144,7 @@ class SiteController extends Controller
 	public function actionIndex()
 	{
 		$exclusion_list = BidManager::GetExclusionItems();
-		$dataProvider = ProductManager::GetItemsForSale($no_of_items = 24, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
+		$dataProvider = ProductManager::GetItemsForSale($no_of_items = 4, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
 
 		$this->view->title = 'Live Auction';
 		return $this->render('index', ['listDataProvider' => $dataProvider]);

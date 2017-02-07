@@ -16,7 +16,7 @@ use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 
-use app\components\BidManager;
+use app\bidding\BidManager;
 use app\components\ProductManager;
 use app\components\CartManager;
 use app\module\products\models\ItemsCart;

@@ -45,12 +45,10 @@ if (YII_ENV_DEV) {
 $shipping_cost = $formatter->asCurrency($shipping);
 $retail_price = $formatter->asCurrency($model->buyitnow);
 
-$starting_bid_price = \app\components\BidManager::GetMaxBidAmount($product_id);
+$starting_bid_price = \app\bidding\BidManager::GetMaxBidAmount($product_id);
 
-
-\app\components\BidManager::NextBidAmount($product_id);
-//BidManager::AddToExclusionList(1);
-\app\components\BidManager::AddToExclusionList($product_id, 0);
+\app\bidding\BidManager::NextBidAmount($product_id);
+\app\bidding\BidManager::AddToExclusionList($product_id, 0);
 ?>
 <div class="col-xs-18 col-sm-6 col-md-3 column productbox" id="item_box_<?= $product_id; ?>">
     <div class="hidden">

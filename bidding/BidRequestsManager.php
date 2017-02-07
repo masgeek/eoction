@@ -6,7 +6,7 @@
  * Time: 16:03
  */
 
-namespace app\components;
+namespace app\bidding;
 
 
 class BidRequestsManager
