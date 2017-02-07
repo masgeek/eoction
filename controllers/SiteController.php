@@ -147,7 +147,7 @@ class SiteController extends Controller
 		/* @var $activebids ActiveBids */
 		$activebids = \Yii::$app->activebids;
 
-		return $activebids->FetchBidItems();
+		return $activebids->AddToActiveBids(1);
 		return 5;
 		$exclusion_list = BidManager::GetExclusionItems();
 		$dataProvider = ProductManager::GetItemsForSale($no_of_items = 4, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
