@@ -100,7 +100,7 @@ $config = [
 				],
 				[
 					'class' => 'yii\log\FileTarget',
-					'levels' => ['info','error','warning'],
+					'levels' => ['info', 'error', 'warning'],
 					'categories' => ['bidExclusions'],
 					'logFile' => '@app/runtime/logs/Bids/bid_exclusions.log',
 					'maxFileSize' => 1024 * 2,
@@ -178,6 +178,11 @@ $config = [
 				'usps_first_class_mail_international' => 54
 			]
 		],
+		//Active bids manager
+		'activebids' => [
+			'class' => 'app\bidding\ActiveBids',
+			'maximum_items' => 40
+		],
 	],
 	'params' => $params,
 ];
@@ -197,8 +202,8 @@ if (YII_DEBUG) {
 	$config['modules']['gii'] = [
 		'class' => 'yii\gii\Module',
 		'generators' => [
-			'model'   => [
-				'class'     => 'yii\gii\generators\model\Generator',
+			'model' => [
+				'class' => 'yii\gii\generators\model\Generator',
 				'templates' => ['mymodel' => '@app/mygenerators/model/beforesave']
 			]
 		]
