@@ -49,9 +49,9 @@ class TbActiveBids extends \yii\db\ActiveRecord
 		$date = new Expression('NOW()');
 		if (parent::beforeSave($insert)) {
 			if ($this->isNewRecord) {
-				$this->DATE_CREATED = $date; //@TODO edit to mach data field columns
+				$this->DATE_CREATED = $date;
 			}
-			$this->DATE_UPDATED = $date; //@TODO edit to mach data field columns
+			$this->DATE_UPDATED = $date;
 			return true;
 		}
 		return false;
