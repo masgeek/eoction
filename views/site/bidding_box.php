@@ -46,14 +46,6 @@ $shipping_cost = $formatter->asCurrency($shipping);
 $retail_price = $formatter->asCurrency($model->buyitnow);
 
 $starting_bid_price = \app\bidding\BidManager::GetMaxBidAmount($product_id);
-
-//\app\bidding\BidManager::NextBidAmount($product_id);
-//\app\bidding\BidManager::AddToExclusionList($product_id, 0);
-
-/* @var $activebids ActiveBids */
-$activebids = \Yii::$app->activebids;
-
-echo $activebids->AddToActiveBids($product_id);
 ?>
 <div class="col-xs-18 col-sm-6 col-md-3 column productbox" id="item_box_<?= $product_id; ?>">
     <div class="hidden">
