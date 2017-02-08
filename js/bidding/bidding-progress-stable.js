@@ -423,6 +423,7 @@ function GetWinningUser($product_id, $sku) {
 }
 
 function ShowLoginPrompt($product_id) {
+    var loginUrl = $('#login_url').val();
 	var modal = new tingle.modal({
 		footer: true,
 		stickyFooter: false,
@@ -437,9 +438,11 @@ function ShowLoginPrompt($product_id) {
 	// set content
 	modal.setContent('<h1>You need to login in order to bid</h1>');
 // add a button
-	modal.addFooterBtn('OK', 'btn btn-primary btn-block', function () {
+	modal.addFooterBtn('Proceed to Login', 'btn btn-primary btn-block', function () {
 		// here goes some logic
+		//redirect to login page
 		modal.close();
+        window.location.replace(loginUrl);
 	});
 // close modal
 	modal.open();
