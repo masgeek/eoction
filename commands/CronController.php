@@ -1,10 +1,10 @@
 <?php
+
 namespace app\commands;
 
 
 use fedemotta\cronjob\models\CronJob;
 use yii\console\Controller;
-
 
 class CronController extends Controller
 {
@@ -17,25 +17,28 @@ class CronController extends Controller
 	 */
 	public function actionInitBids($from, $to)
 	{
-		$dates  = CronJob::getDateRange($from, $to);
+		/* @var $activebids \app\bidding\ActiveBids */
+
+		$dates = CronJob::getDateRange($from, $to);
 		$command = CronJob::run($this->id, $this->action->id, 0, CronJob::countDateRange($dates));
-		if ($command === false){
+		if ($command === false) {
 			return Controller::EXIT_CODE_ERROR;
-		}else{
-			foreach ($dates as $date) {
-				//this is the function to execute for each day
-				//SomeModel::some_method((string) $date);
-			}
+		} else {
+			//lets check the active bids
+
+			$activebids = \Yii::$app->activebids;
+			//$activebids->AddToActiveBids(1);
+
 			$command->finish();
 			return Controller::EXIT_CODE_NORMAL;
 
 		}
 	}
 
-    public function actionActiveBids()
-    {
-	    return $this->actionInitBids(date("Y-m-d"), date("Y-m-d"));
-    }
+	public function actionActiveBids()
+	{
+		return $this->actionInitBids(date("Y-m-d"), date("Y-m-d"));
+	}
 
 	public function actionIndex()
 	{
