@@ -1,10 +1,9 @@
 <?php
-
-namespace app\controllers;
+namespace app\commands;
 
 
 use fedemotta\cronjob\models\CronJob;
-use yii\web\Controller;
+use yii\console\Controller;
 
 
 class CronController extends Controller
@@ -21,14 +20,14 @@ class CronController extends Controller
 		$dates  = CronJob::getDateRange($from, $to);
 		$command = CronJob::run($this->id, $this->action->id, 0, CronJob::countDateRange($dates));
 		if ($command === false){
-			return false;
+			return Controller::EXIT_CODE_ERROR;
 		}else{
 			foreach ($dates as $date) {
 				//this is the function to execute for each day
 				//SomeModel::some_method((string) $date);
 			}
 			$command->finish();
-			return true;
+			return Controller::EXIT_CODE_NORMAL;
 
 		}
 	}
@@ -37,5 +36,10 @@ class CronController extends Controller
     {
 	    return $this->actionInitBids(date("Y-m-d"), date("Y-m-d"));
     }
+
+	public function actionIndex()
+	{
+		echo $this->message . "\n";
+	}
 
 }
