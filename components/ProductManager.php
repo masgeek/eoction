@@ -14,6 +14,7 @@ use app\module\products\models\FryProducts;
 use app\module\products\models\ItemsCart;
 use app\module\products\models\ProductBids;
 use app\module\products\models\Products;
+use app\module\products\models\TbActiveBids;
 use app\module\products\product;
 use yii\data\ActiveDataProvider;
 use yii\data\SqlDataProvider;
@@ -83,29 +84,23 @@ class ProductManager
 	 * @param bool $random
 	 * @return ActiveDataProvider
 	 */
-	public static function GetItemsForSale($no_of_items = 20, $auction_param = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false, $no_filter = false)
+	public static function GetItemsForBidding($no_of_items = 20, $auction_param = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false, $no_filter = false)
 	{
 		//first we will check to see if we have any existing active bids that havent expired
 		//then based on the item count
 		//it items are less than 20 we first update this table
 		//then check the table again after that we now query the items
 
-		$query = FryProducts::find()
-			->distinct('sku')
-			->where(['IN', 'visible', $auction_param,])
-			->andWhere(['>=', 'stock_level', $min_stock])//stock levels should be greater or equal to 1
-			->andWhere(['NOT IN', 'productid', $exclusion_list])
-			->orderBy('productid ASC');
+		$query = TbActiveBids::find()
+			->andWhere(['NOT IN', 'PRODUCT_ID', $exclusion_list])
+			->limit($no_of_items);
 
 		$item_provider = new ActiveDataProvider([
 			'query' => $query, //randomly pick items
-			'pagination' => [
-				'pageSize' => $no_of_items
-			],
 		]);
 	}
 
-	public static function GetItemsForSaleOld($no_of_items = 20, $auction_param = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false, $no_filter = false)
+	public static function GetItemsForSale($no_of_items = 20, $auction_param = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false, $no_filter = false)
 	{
 		$query = FryProducts::find()
 			->distinct('sku')

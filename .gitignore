@@ -76,4 +76,4 @@ vendor/ezyang
 vendor/rmrevin
 !vendor/remove_redundant.sh
 /assets/
-composer.lock
+!composer.lock

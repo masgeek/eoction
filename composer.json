@@ -54,7 +54,8 @@
     "kongoon/yii2-paypal": "dev-master",
     "fatelord/ship-station": "dev-master",
     "fatelord/yii2-video-embed-widget": "dev-master",
-    "samdark/yii2-webshell": "~1.0"
+    "samdark/yii2-webshell": "~1.0",
+    "fedemotta/yii2-cronjob": "*"
 
   },
   "require-dev": {
