@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2c493aa99e06f1ebe21585225cbe11e5",
-    "content-hash": "b9fba072e8a7dc34bf8d137cee675f0a",
+    "content-hash": "b0ece7c26529d4a613eb4c1cce3fcf48",
     "packages": [
         {
             "name": "amnah/yii2-user",
@@ -49,7 +48,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2017-02-04 02:20:24"
+            "time": "2017-02-04T02:20:24+00:00"
         },
         {
             "name": "bower-asset/bootstrap",
@@ -316,7 +315,7 @@
                 "opengraph",
                 "twitter cards"
             ],
-            "time": "2015-05-12 18:00:24"
+            "time": "2015-05-12T18:00:24+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -360,7 +359,7 @@
             "keywords": [
                 "html"
             ],
-            "time": "2016-07-16 12:58:58"
+            "time": "2016-07-16T12:58:58+00:00"
         },
         {
             "name": "fatelord/ship-station",
@@ -452,6 +451,52 @@
                 "source": "https://github.com/fatelord/yii2-video-embed-widget/tree/master"
             },
             "time": "2016-12-21 18:52:38"
+        },
+        {
+            "name": "fedemotta/yii2-cronjob",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fedemotta/yii2-cronjob.git",
+                "reference": "01f99a808f7ff0ad7faa52711b0b49ed1a0e9992"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fedemotta/yii2-cronjob/zipball/01f99a808f7ff0ad7faa52711b0b49ed1a0e9992",
+                "reference": "01f99a808f7ff0ad7faa52711b0b49ed1a0e9992",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "fedemotta\\cronjob\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Federico Nicolás Motta",
+                    "email": "fedemotta@gmail.com"
+                }
+            ],
+            "description": "Yii2 extension to help in the creation of automated console scripts",
+            "keywords": [
+                "console",
+                "cron",
+                "crontab",
+                "extension",
+                "job",
+                "schedule",
+                "script",
+                "yii2"
+            ],
+            "time": "2015-10-08T01:25:55+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -776,7 +821,7 @@
                 "option",
                 "select"
             ],
-            "time": "2015-12-16 18:15:01"
+            "time": "2015-12-16T18:15:01+00:00"
         },
         {
             "name": "kartik-v/yii2-dialog",
@@ -1033,7 +1078,7 @@
                 "popover",
                 "popover-x"
             ],
-            "time": "2016-01-12 16:59:09"
+            "time": "2016-01-12T16:59:09+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-activeform",
@@ -1636,7 +1681,7 @@
                 "font",
                 "yii"
             ],
-            "time": "2015-06-23 13:06:14"
+            "time": "2015-06-23T13:06:14+00:00"
         },
         {
             "name": "samdark/yii2-webshell",
@@ -1680,7 +1725,7 @@
                 "webshell",
                 "yii2"
             ],
-            "time": "2015-08-26 09:27:42"
+            "time": "2015-08-26T09:27:42+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -1882,7 +1927,7 @@
                 "oauth",
                 "yii2"
             ],
-            "time": "2016-08-29 09:21:09"
+            "time": "2016-08-29T09:21:09+00:00"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
