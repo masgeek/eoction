@@ -4,6 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+    "hash": "2c493aa99e06f1ebe21585225cbe11e5",
     "content-hash": "b9fba072e8a7dc34bf8d137cee675f0a",
     "packages": [
         {
@@ -48,7 +49,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2017-02-04T02:20:24+00:00"
+            "time": "2017-02-04 02:20:24"
         },
         {
             "name": "bower-asset/bootstrap",
@@ -315,27 +316,24 @@
                 "opengraph",
                 "twitter cards"
             ],
-            "time": "2015-05-12T18:00:24+00:00"
+            "time": "2015-05-12 18:00:24"
         },
         {
             "name": "ezyang/htmlpurifier",
-            "version": "v4.9.0",
+            "version": "v4.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ezyang/htmlpurifier.git",
-                "reference": "a1c09b09e398687deeb8e309a6305def4b43439b"
+                "reference": "d0c392f77d2f2a3dcf7fcb79e2a1e2b8804e75b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/a1c09b09e398687deeb8e309a6305def4b43439b",
-                "reference": "a1c09b09e398687deeb8e309a6305def4b43439b",
+                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/d0c392f77d2f2a3dcf7fcb79e2a1e2b8804e75b2",
+                "reference": "d0c392f77d2f2a3dcf7fcb79e2a1e2b8804e75b2",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2"
-            },
-            "require-dev": {
-                "simpletest/simpletest": "^1.1"
             },
             "type": "library",
             "autoload": {
@@ -362,7 +360,7 @@
             "keywords": [
                 "html"
             ],
-            "time": "2017-01-13T12:31:37+00:00"
+            "time": "2016-07-16 12:58:58"
         },
         {
             "name": "fatelord/ship-station",
@@ -778,7 +776,7 @@
                 "option",
                 "select"
             ],
-            "time": "2015-12-16T18:15:01+00:00"
+            "time": "2015-12-16 18:15:01"
         },
         {
             "name": "kartik-v/yii2-dialog",
@@ -1035,7 +1033,7 @@
                 "popover",
                 "popover-x"
             ],
-            "time": "2016-01-12T16:59:09+00:00"
+            "time": "2016-01-12 16:59:09"
         },
         {
             "name": "kartik-v/yii2-widget-activeform",
@@ -1638,7 +1636,7 @@
                 "font",
                 "yii"
             ],
-            "time": "2015-06-23T13:06:14+00:00"
+            "time": "2015-06-23 13:06:14"
         },
         {
             "name": "samdark/yii2-webshell",
@@ -1682,7 +1680,7 @@
                 "webshell",
                 "yii2"
             ],
-            "time": "2015-08-26T09:27:42+00:00"
+            "time": "2015-08-26 09:27:42"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -1884,7 +1882,7 @@
                 "oauth",
                 "yii2"
             ],
-            "time": "2016-08-29T09:21:09+00:00"
+            "time": "2016-08-29 09:21:09"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -2287,7 +2285,7 @@
                 "debugger",
                 "yii2"
             ],
-            "time": "2017-02-04T12:25:15+00:00"
+            "time": "2017-02-04 12:25:15"
         },
         {
             "name": "yiisoft/yii2-faker",
@@ -2334,7 +2332,7 @@
                 "faker",
                 "yii2"
             ],
-            "time": "2017-02-02T18:01:25+00:00"
+            "time": "2017-02-02 18:01:25"
         },
         {
             "name": "yiisoft/yii2-gii",
@@ -2387,7 +2385,7 @@
                 "gii",
                 "yii2"
             ],
-            "time": "2017-02-02T22:45:14+00:00"
+            "time": "2017-02-02 22:45:14"
         }
     ],
     "aliases": [],
