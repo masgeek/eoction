@@ -438,7 +438,7 @@ function ShowLoginPrompt($product_id) {
 	// set content
 	modal.setContent('<h1>You need to login in order to bid</h1>');
 // add a button
-	modal.addFooterBtn('Proceed to Login', 'btn btn-primary btn-block', function () {
+	modal.addFooterBtn('Proceed to Login', 'btn btn-info btn-block', function () {
 		// here goes some logic
 		//redirect to login page
 		modal.close();
