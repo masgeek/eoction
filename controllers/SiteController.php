@@ -150,7 +150,7 @@ class SiteController extends Controller
 		//return $activebids->AddToActiveBids(1);
 		///return 5;
 		$exclusion_list = BidManager::GetExclusionItems();
-		$dataProvider = ProductManager::GetItemsForSale($no_of_items = 24, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
+		$dataProvider = ProductManager::GetItemsForSale($no_of_items = 4, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
 
 		$this->view->title = 'Eoction - Live Auction';
 		return $this->render('index', ['listDataProvider' => $dataProvider]);
