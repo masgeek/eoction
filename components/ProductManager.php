@@ -78,37 +78,11 @@ class ProductManager
 	/**
 	 *  returns items to either be sold or auctioned off
 	 * @param int $no_of_items
-	 * @param array $auction_param
-	 * @param int $min_stock
-	 * @param array $exclusion_list
-	 * @param bool $random
+	 * @param array $item_won
 	 * @return ActiveDataProvider
 	 */
-	public static function GetItemsForBidding($no_of_items = 20, $auction_param = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false, $no_filter = false)
-	{
-		//first we will check to see if we have any existing active bids that havent expired
-		//then based on the item count
-		//it items are less than 20 we first update this table
-		//then check the table again after that we now query the items
-
-		$query = TbActiveBids::find()
-			->andWhere(['NOT IN', 'PRODUCT_ID', $exclusion_list])
-			->limit($no_of_items);
-
-		$item_provider = new ActiveDataProvider([
-			'query' => $query, //randomly pick items
-		]);
-	}
-
-	public static function GetItemsForSale($no_of_items = 20, $item_won = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false, $no_filter = false)
-	{
-		/*$query = FryProducts::find()
-			->distinct('sku')
-			->where(['IN', 'visible', $auction_param,])
-			->andWhere(['>=', 'stock_level', $min_stock])//stock levels should be greater or equal to 1
-			->andWhere(['NOT IN', 'productid', $exclusion_list])
-			->orderBy('productid ASC');		*/
-
+	public static function GetItemsForSale($no_of_items = 20, $item_won = [1, 0])
+    {
 		$query = TbActiveBids::find()
 			->where(['IN', 'ITEM_WON', $item_won,])
             ->limit($no_of_items)
@@ -117,9 +91,6 @@ class ProductManager
 
 		$item_provider = new ActiveDataProvider([
 			'query' => $query, //randomly pick items
-			/*'pagination' => [
-				'pageSize' => $no_of_items
-			],*/
 		]);
 		return $item_provider;
 	}

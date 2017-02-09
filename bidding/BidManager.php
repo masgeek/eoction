@@ -12,6 +12,7 @@
 
 namespace app\bidding;
 
+use app\module\products\models\TbActiveBids;
 use yii\db\Expression;
 use yii\helpers\Html;
 
@@ -310,10 +311,18 @@ class BidManager
 		/* @var $productModel FryProducts */
 		$exclusionItems = BidManager::GetExclusionItems();
 
+        /* @var $activebids ActiveBids */
+        $activebids = \Yii::$app->activebids;
+
+        $activebids->RemoveExpiredBid($product_id);
+        //refresh the items table
+        $activebids->ProcessNextBidItems(); //refreshed the table
+
+        return false;
 		$exclusionItems[] = $product_id; //add the passed id to the array
 
 
-		$productModel = FryProducts::find()
+		$productModel = TbActiveBids::find()
 			->where([
 				'NOT IN', 'productid', $exclusionItems,
 			])
