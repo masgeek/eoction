@@ -136,6 +136,9 @@ class ActiveBids extends Component
 		return 	$this->ProcessNextBidItems();
 	}
 
+	public function GetExclusionList(){
+	    return json_encode($this->GetExcludedItems());
+    }
 	public function RemoveExpiredBid($product_id){
         TbActiveBids::findOne(['PRODUCT_ID' => $product_id])->delete();
     }
