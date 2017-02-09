@@ -104,4 +104,8 @@ class ActiveBids extends Component
 		$remaining_time = floor((($bid_duration - $currentDate) / 60));
 		return $remaining_time;
 	}
+
+	private function PickNextBidItems($item_count){
+
+	}
 }
