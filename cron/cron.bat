@@ -2,4 +2,4 @@
 @ECHO OFF
 
 chcp 65001 > NUL
-php "D:\uwamp\www\eoction\yii" % "cron/active-bids"
+php "E:\uwamp\www\eoction\yii" % "cron/active-bids"

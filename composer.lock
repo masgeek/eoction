@@ -319,20 +319,23 @@
         },
         {
             "name": "ezyang/htmlpurifier",
-            "version": "v4.8.0",
+            "version": "v4.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ezyang/htmlpurifier.git",
-                "reference": "d0c392f77d2f2a3dcf7fcb79e2a1e2b8804e75b2"
+                "reference": "a1c09b09e398687deeb8e309a6305def4b43439b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/d0c392f77d2f2a3dcf7fcb79e2a1e2b8804e75b2",
-                "reference": "d0c392f77d2f2a3dcf7fcb79e2a1e2b8804e75b2",
+                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/a1c09b09e398687deeb8e309a6305def4b43439b",
+                "reference": "a1c09b09e398687deeb8e309a6305def4b43439b",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2"
+            },
+            "require-dev": {
+                "simpletest/simpletest": "^1.1"
             },
             "type": "library",
             "autoload": {
@@ -359,7 +362,7 @@
             "keywords": [
                 "html"
             ],
-            "time": "2016-07-16T12:58:58+00:00"
+            "time": "2017-01-13T12:31:37+00:00"
         },
         {
             "name": "fatelord/ship-station",
@@ -496,7 +499,7 @@
                 "script",
                 "yii2"
             ],
-            "time": "2015-10-08T01:25:55+00:00"
+            "time": "2015-10-08 01:25:55"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1787,12 +1790,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "d3f1298ce1d0c06355764ea7c6626407204234af"
+                "reference": "5c58feab4c2d967c347f983685f54bfb8506951e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/d3f1298ce1d0c06355764ea7c6626407204234af",
-                "reference": "d3f1298ce1d0c06355764ea7c6626407204234af",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/5c58feab4c2d967c347f983685f54bfb8506951e",
+                "reference": "5c58feab4c2d967c347f983685f54bfb8506951e",
                 "shasum": ""
             },
             "require": {
@@ -1879,7 +1882,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2017-02-04 12:51:12"
+            "time": "2017-02-09 10:30:53"
         },
         {
             "name": "yiisoft/yii2-authclient",
@@ -2035,12 +2038,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-httpclient.git",
-                "reference": "e4078a4daf4263161283cdaaa9880a1fafe9d08f"
+                "reference": "a0ddfd54b27827aa13dad89933804d730c58d2ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-httpclient/zipball/e4078a4daf4263161283cdaaa9880a1fafe9d08f",
-                "reference": "e4078a4daf4263161283cdaaa9880a1fafe9d08f",
+                "url": "https://api.github.com/repos/yiisoft/yii2-httpclient/zipball/a0ddfd54b27827aa13dad89933804d730c58d2ec",
+                "reference": "a0ddfd54b27827aa13dad89933804d730c58d2ec",
                 "shasum": ""
             },
             "require": {
@@ -2074,7 +2077,7 @@
                 "httpclient",
                 "yii2"
             ],
-            "time": "2016-12-27 11:18:28"
+            "time": "2017-02-09 11:47:46"
         },
         {
             "name": "yiisoft/yii2-jui",
@@ -2291,12 +2294,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-debug.git",
-                "reference": "73bc9708660ed1d09028c6967b8a1eedb83612d9"
+                "reference": "7bfe34392a176ad1c60f6f4c033263612251fa3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/73bc9708660ed1d09028c6967b8a1eedb83612d9",
-                "reference": "73bc9708660ed1d09028c6967b8a1eedb83612d9",
+                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/7bfe34392a176ad1c60f6f4c033263612251fa3d",
+                "reference": "7bfe34392a176ad1c60f6f4c033263612251fa3d",
                 "shasum": ""
             },
             "require": {
@@ -2330,7 +2333,7 @@
                 "debugger",
                 "yii2"
             ],
-            "time": "2017-02-04 12:25:15"
+            "time": "2017-02-08T09:02:13+00:00"
         },
         {
             "name": "yiisoft/yii2-faker",
@@ -2377,7 +2380,7 @@
                 "faker",
                 "yii2"
             ],
-            "time": "2017-02-02 18:01:25"
+            "time": "2017-02-02T18:01:25+00:00"
         },
         {
             "name": "yiisoft/yii2-gii",
@@ -2430,7 +2433,7 @@
                 "gii",
                 "yii2"
             ],
-            "time": "2017-02-02 22:45:14"
+            "time": "2017-02-02T22:45:14+00:00"
         }
     ],
     "aliases": [],
