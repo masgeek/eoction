@@ -179,11 +179,7 @@ $config = [
 			]
 		],
 		//Active bids manager
-		'activebids' => [
-			'class' => 'app\bidding\ActiveBids',
-			'maximum_items' => 40,
-			'bidding_minute_duration'=>5
-		],
+		'activebids' => require (__DIR__.'/activebids.php'),
 	],
 	'params' => $params,
 ];
