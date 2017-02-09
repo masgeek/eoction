@@ -9,9 +9,13 @@
 
 namespace app\bidding;
 
+use app\module\products\models\BidExclusion;
+use app\module\products\models\FryProducts;
 use app\module\products\models\TbActiveBids;
+use function GuzzleHttp\json_decode;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
+use yii\data\ActiveDataProvider;
 
 class ActiveBids extends Component
 {
@@ -45,13 +49,10 @@ class ActiveBids extends Component
 	}
 
 	/**
-	 * @return mixed
+	 * Add items to the active bids table
+	 * @param $product_id
+	 * @return bool
 	 */
-	public function FetchBidItems()
-	{
-		return $this->maximum_items;
-	}
-
 	public function AddToActiveBids($product_id)
 	{
 		/* @var $model TbActiveBids */
@@ -67,11 +68,77 @@ class ActiveBids extends Component
 	}
 
 	/**
+	 * @param $item_count
+	 * @return $this
+	 */
+	public function ProcessNextBidItems()
+	{
+		/* @var $model TbActiveBids */
+		$exclusion_list = $this->GetExcludedItems();
+
+
+		$items_to_fetch = 0;
+		$exclusion_array = [];
+
+		$item_provider = TbActiveBids::find()
+			->select('PRODUCT_ID')
+			->andWhere(['NOT IN', 'PRODUCT_ID', $exclusion_list])
+			->limit($this->maximum_items)
+			->asArray()
+			->all();
+
+		$itemcount = count($item_provider);
+
+		//check if item count is less than the specified minimum
+		if ($itemcount < $this->maximum_items) {
+			//update the active bids table first with the number of missing items
+			$items_to_fetch = ($this->maximum_items - $itemcount);
+		}
+		if ($items_to_fetch > 0) {
+			foreach ($item_provider as $key => $model) {
+				$exclusion_array[] = $model['PRODUCT_ID'];
+			}
+			$this->UpdateActiveBids($items_to_fetch, $exclusion_array);
+		}
+		return true;
+	}
+
+	public function Remove_Won_Expired_Items()
+	{
+		$this->ProcessNextBidItems();
+
+		die;
+		$query = TbActiveBids::find()
+			->select(['PRODUCT_ID', 'BIDDING_DURATION'])
+			//->where(['ITEM_WON' => 0])
+			//->limit(1)
+			->asArray()
+			->all();
+
+
+		foreach ($query as $key => $model) {
+			//call function to compute duration
+			$product_id = $model['PRODUCT_ID'];
+			$remaining = $this->GetRemainingItemDuration($model['BIDDING_DURATION']);
+			//if remaining is less than zero delete that one
+			$expired_array[] = $remaining;
+			//before deleting add to bid exclusion list
+			if ($remaining < 0) {
+				BidManager::AddToExclusionList($product_id);
+				TbActiveBids::findOne(['PRODUCT_ID' => $product_id])->delete();
+			}
+		}
+	}
+//=============================== PRIVATE FUNCTIONS ========================================================
+
+
+	/**
 	 * Check if a record already exists
 	 * @param $product_id
 	 * @return bool|static
 	 */
-	private function ValidateItem($product_id)
+	private
+	function ValidateItem($product_id)
 	{
 		$model = TbActiveBids::findOne(['PRODUCT_ID' => $product_id]);
 		if ($model == null) {
@@ -87,7 +154,8 @@ class ActiveBids extends Component
 	 * returns the bid duration timestamp
 	 * @return false|int
 	 */
-	private function ComputeBidDuration()
+	private
+	function ComputeBidDuration()
 	{
 		//$currentDate = strtotime($date);
 		$bidDuration = strtotime($this->current_date . "+$this->bidding_minute_duration minutes");
@@ -98,14 +166,72 @@ class ActiveBids extends Component
 	 * @param $bid_duration
 	 * @return float
 	 */
-	private function GetRemainingBidDuration($bid_duration)
+	private
+	function GetRemainingItemDuration($bid_duration)
 	{
 		$currentDate = strtotime($this->current_date);
 		$remaining_time = floor((($bid_duration - $currentDate) / 60));
+
 		return $remaining_time;
 	}
 
-	private function PickNextBidItems($item_count){
+	/**
+	 * Process the next batch of items to be added to the active bids table
+	 * @param $items_to_update
+	 * @param $excluded_items
+	 */
+	private
+	function UpdateActiveBids($items_to_update, $excluded_items)
+	{
+		$products_records = FryProducts::find()
+			->select('productid')
+			->andWhere(['NOT IN', 'productid', $excluded_items])
+			->limit($items_to_update)
+			->asArray()
+			->all();
 
+		foreach ($products_records as $key => $value) {
+			//now add it to the bid activebbids table
+			$this->AddToActiveBids($value['productid']);
+		}
+
+		//next return to process bids table
+		//$this->ProcessNextBidItems(); //called recursively until we have all our items
 	}
+
+	/**
+	 * get items in teh bid exclusion list
+	 * @return array
+	 */
+	private
+	function GetExcludedItems()
+	{
+		$exclusion_array = [];
+		//clean the table
+		//BidManager::RemoveItemsFromBidActivity();
+		$nested_items_array = BidExclusion::find()
+			->select(['PRODUCT_ID', 'EXCLUSION_PERIOD', 'BIDDING_PERIOD'])
+			->where('HIGH_DEMAND = 0')
+			->orderBy(['AUCTION_COUNT' => SORT_ASC])
+			->asArray()
+			->all();
+		//flatten the nested arrays
+
+		foreach ($nested_items_array as $item) {
+			$bid_duration = $item['BIDDING_PERIOD'];
+			$futureExpiry = $item['EXCLUSION_PERIOD'];
+
+			$bid_duration = $this->GetRemainingItemDuration($bid_duration);
+			$bid_expiry = $this->GetRemainingItemDuration($futureExpiry);
+
+			if ($bid_expiry > 0 || $bid_duration >= 0) {
+				$exclusion_array[] = $item['PRODUCT_ID'];
+			}
+		}
+
+
+		return $exclusion_array;
+	}
+
+//End of the class
 }

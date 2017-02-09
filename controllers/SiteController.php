@@ -145,9 +145,13 @@ class SiteController extends Controller
 	public function actionIndex()
 	{
 		/* @var $activebids ActiveBids */
-	///	$activebids = \Yii::$app->activebids;
+		$activebids = \Yii::$app->activebids;
 
-		//return $activebids->AddToActiveBids(1);
+		//$activebids->maximum_items = 20;
+		$activebids->Remove_Won_Expired_Items();
+
+		return 2;
+//		return $activebids->ProcessNextBidItems(); //AddToActiveBids(1);
 		///return 5;
 		$exclusion_list = BidManager::GetExclusionItems();
 		$dataProvider = ProductManager::GetItemsForSale($no_of_items = 24, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
