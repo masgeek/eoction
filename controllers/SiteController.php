@@ -148,9 +148,8 @@ class SiteController extends Controller
 		$activebids = \Yii::$app->activebids;
 
 		//$activebids->maximum_items = 20;
-		$activebids->Remove_Won_Expired_Items();
+		return $activebids->Remove_Won_Expired_Items();
 
-		return 2;
 //		return $activebids->ProcessNextBidItems(); //AddToActiveBids(1);
 		///return 5;
 		$exclusion_list = BidManager::GetExclusionItems();

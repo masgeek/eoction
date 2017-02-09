@@ -81,7 +81,7 @@ class ActiveBids extends Component
 		$exclusion_array = [];
 
 		$item_provider = TbActiveBids::find()
-			->select('PRODUCT_ID')
+			->select(['PRODUCT_ID'])
 			->andWhere(['NOT IN', 'PRODUCT_ID', $exclusion_list])
 			->limit($this->maximum_items)
 			->asArray()
@@ -94,20 +94,24 @@ class ActiveBids extends Component
 			//update the active bids table first with the number of missing items
 			$items_to_fetch = ($this->maximum_items - $itemcount);
 		}
+
 		if ($items_to_fetch > 0) {
 			foreach ($item_provider as $key => $model) {
-				$exclusion_array[] = $model['PRODUCT_ID'];
+                    $exclusion_array[] = $model['PRODUCT_ID'];
 			}
-			$this->UpdateActiveBids($items_to_fetch, $exclusion_array);
+			if(count($exclusion_array)<= 0){
+                $this->UpdateActiveBids($items_to_fetch, $exclusion_list);
+            }else {
+                $this->UpdateActiveBids($items_to_fetch, $exclusion_array);
+            }
 		}
 		return true;
 	}
 
 	public function Remove_Won_Expired_Items()
 	{
-		$this->ProcessNextBidItems();
 
-		die;
+
 		$query = TbActiveBids::find()
 			->select(['PRODUCT_ID', 'BIDDING_DURATION'])
 			//->where(['ITEM_WON' => 0])
@@ -128,6 +132,8 @@ class ActiveBids extends Component
 				TbActiveBids::findOne(['PRODUCT_ID' => $product_id])->delete();
 			}
 		}
+
+		return 	$this->ProcessNextBidItems();
 	}
 //=============================== PRIVATE FUNCTIONS ========================================================
 
@@ -190,11 +196,10 @@ class ActiveBids extends Component
 			->asArray()
 			->all();
 
-		foreach ($products_records as $key => $value) {
+		foreach ($products_records as $value) {
 			//now add it to the bid activebbids table
 			$this->AddToActiveBids($value['productid']);
 		}
-
 		//next return to process bids table
 		//$this->ProcessNextBidItems(); //called recursively until we have all our items
 	}
@@ -211,8 +216,8 @@ class ActiveBids extends Component
 		//BidManager::RemoveItemsFromBidActivity();
 		$nested_items_array = BidExclusion::find()
 			->select(['PRODUCT_ID', 'EXCLUSION_PERIOD', 'BIDDING_PERIOD'])
-			->where('HIGH_DEMAND = 0')
-			->orderBy(['AUCTION_COUNT' => SORT_ASC])
+			//->where('HIGH_DEMAND = 0')
+			//->orderBy(['AUCTION_COUNT' => SORT_ASC])
 			->asArray()
 			->all();
 		//flatten the nested arrays
@@ -224,11 +229,10 @@ class ActiveBids extends Component
 			$bid_duration = $this->GetRemainingItemDuration($bid_duration);
 			$bid_expiry = $this->GetRemainingItemDuration($futureExpiry);
 
-			if ($bid_expiry > 0 || $bid_duration >= 0) {
+			//if ($bid_expiry > 0 || $bid_duration >= 0) {
 				$exclusion_array[] = $item['PRODUCT_ID'];
-			}
+			//}
 		}
-
 
 		return $exclusion_array;
 	}
