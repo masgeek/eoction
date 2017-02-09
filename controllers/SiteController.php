@@ -148,12 +148,12 @@ class SiteController extends Controller
 		$activebids = \Yii::$app->activebids;
 
 		//$activebids->maximum_items = 20;
-		return $activebids->Remove_Won_Expired_Items();
+		//return $activebids->Remove_Won_Expired_Items();
 
 //		return $activebids->ProcessNextBidItems(); //AddToActiveBids(1);
 		///return 5;
-		$exclusion_list = BidManager::GetExclusionItems();
-		$dataProvider = ProductManager::GetItemsForSale($no_of_items = 24, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
+		//$exclusion_list = BidManager::GetExclusionItems();
+		$dataProvider = ProductManager::GetItemsForSale($no_of_items = 24, $item_won = [1,0]);
 
 		$this->view->title = 'Eoction - Live Auction';
 		return $this->render('index', ['listDataProvider' => $dataProvider]);

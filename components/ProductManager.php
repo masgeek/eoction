@@ -100,45 +100,29 @@ class ProductManager
 		]);
 	}
 
-	public static function GetItemsForSale($no_of_items = 20, $auction_param = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false, $no_filter = false)
+	public static function GetItemsForSale($no_of_items = 20, $item_won = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false, $no_filter = false)
 	{
-		$query = FryProducts::find()
+		/*$query = FryProducts::find()
 			->distinct('sku')
 			->where(['IN', 'visible', $auction_param,])
 			->andWhere(['>=', 'stock_level', $min_stock])//stock levels should be greater or equal to 1
 			->andWhere(['NOT IN', 'productid', $exclusion_list])
-			->orderBy('productid ASC');
+			->orderBy('productid ASC');		*/
 
-		if ($random) {
-			$query = FryProducts::find()
-				->where(['IN', 'visible', $auction_param,])
-				->andWhere(['>=', 'stock_level', $min_stock])//stock levels should be greater or equal to 1
-				->andWhere(['NOT IN', 'sku', $exclusion_list])
-				->orderBy(['rand()' => SORT_DESC]);
-		}
-
-		if ($no_filter) {
-			$query = FryProducts::find()
-				->distinct('sku')
-				->where(['IN', 'visible', $auction_param,])
-				->andWhere(['>=', 'stock_level', $min_stock])//stock levels should be greater or equal to 1
-				//->andWhere(['NOT IN', 'productid', $exclusion_list])
-				->orderBy('productid ASC');
-		}
+		$query = TbActiveBids::find()
+			->where(['IN', 'ITEM_WON', $item_won,])
+            ->limit($no_of_items)
+			->orderBy('PRODUCT_ID ASC');
 
 
 		$item_provider = new ActiveDataProvider([
 			'query' => $query, //randomly pick items
-			'pagination' => [
+			/*'pagination' => [
 				'pageSize' => $no_of_items
-			],
+			],*/
 		]);
 
-		if ($item_provider->count <= 0) {
-//recursively call the function
-			return self::GetItemsForSale($no_of_items, $auction_param = [1], $min_stock = 1, $exclusion_list = [], $random = false, $no_filter = true);
-		}
-
+		var_dump($item_provider->totalCount);
 		return $item_provider;
 	}
 
