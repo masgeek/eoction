@@ -18,10 +18,11 @@ class CronController extends Controller
 	public function actionInitBids($from, $to)
 	{
 		/* @var $activebids \app\bidding\ActiveBids */
-
+		\Yii::info('Starting cron', 'activebids'); //log to an exclusions log file;
 		$dates = CronJob::getDateRange($from, $to);
 		$command = CronJob::run($this->id, $this->action->id, 0, CronJob::countDateRange($dates));
 		if ($command === false) {
+			\Yii::error('Cron failed', 'activebids'); //log to an exclusions log file;
 			return Controller::EXIT_CODE_ERROR;
 		} else {
 			//lets check the active bids
@@ -30,8 +31,8 @@ class CronController extends Controller
 			//$activebids->AddToActiveBids(1);
 
 			$command->finish();
+			\Yii::info('Finishing cron', 'activebids'); //log to an exclusions log file;
 			return Controller::EXIT_CODE_NORMAL;
-
 		}
 	}
 

@@ -97,12 +97,14 @@ $config = [
 				[
 					'class' => 'yii\log\FileTarget',
 					'levels' => ['error', 'warning'],
+					'logVars' => [null],
 				],
 				[
 					'class' => 'yii\log\FileTarget',
 					'levels' => ['info', 'error', 'warning'],
 					'categories' => ['bidExclusions'],
 					'logFile' => '@app/runtime/logs/Bids/bid_exclusions.log',
+					'logVars' => [null],
 					'maxFileSize' => 1024 * 2,
 					'maxLogFiles' => 20,
 				],
@@ -111,6 +113,7 @@ $config = [
 					'levels' => ['info'],
 					'categories' => ['Notifications'],
 					'logFile' => '@app/runtime/logs/Notifications/notification.log',
+					'logVars' => [null],
 					'maxFileSize' => 1024 * 2,
 					'maxLogFiles' => 50,
 				],

@@ -20,7 +20,17 @@ $config = [
 					'class' => 'yii\log\FileTarget',
 					'levels' => ['error', 'warning'],
 				],
+				[
+					'class' => 'yii\log\FileTarget',
+					'levels' => ['info', 'error', 'warning'],
+					'categories' => ['activebids'],
+					'logVars' => [null],
+					'logFile' => '@app/runtime/logs/Bids/active_bids.log',
+					'maxFileSize' => 1024 * 2,
+					'maxLogFiles' => 20,
+				],
 			],
+
 		],
 		'db' => $db,
 		'activebids' => require(__DIR__ . '/activebids.php'),
