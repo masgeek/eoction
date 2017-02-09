@@ -121,8 +121,6 @@ class ProductManager
 				'pageSize' => $no_of_items
 			],*/
 		]);
-
-		var_dump($item_provider->totalCount);
 		return $item_provider;
 	}
 

@@ -129,12 +129,16 @@ class ActiveBids extends Component
 			//before deleting add to bid exclusion list
 			if ($remaining < 0) {
 				BidManager::AddToExclusionList($product_id);
-				TbActiveBids::findOne(['PRODUCT_ID' => $product_id])->delete();
+				$this->RemoveExpiredBid($product_id);
 			}
 		}
 
 		return 	$this->ProcessNextBidItems();
 	}
+
+	public function RemoveExpiredBid($product_id){
+        TbActiveBids::findOne(['PRODUCT_ID' => $product_id])->delete();
+    }
 //=============================== PRIVATE FUNCTIONS ========================================================
 
 
