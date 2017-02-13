@@ -16,7 +16,7 @@ class m170125_131547_create_bid_requests_table extends Migration
             'REQUESTED_PRODUCT_ID' => $this->primaryKey()->comment('Request Product ID'),
             //'REQUESTED_PRODUCT_ID' => $this->integer()->notNull()->comment('Product ID')->unique(),
             'CREATED' => $this->timestamp()->comment('Date Created'),
-            'UPDATED' => $this->timestamp()->comment('Date Updated') . ' ON UPDATE CURRENT_TIMESTAMP'
+            'UPDATED' => $this->timestamp()->comment('Date Updated'),// . ' ON UPDATE CURRENT_TIMESTAMP'
         ]);
 
         $this->addForeignKey('FK_PRODUCT_ID', 'bid_requests', 'REQUESTED_PRODUCT_ID', 'fry_products', 'productid','RESTRICT', 'CASCADE');

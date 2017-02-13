@@ -22,7 +22,7 @@ class m170202_082711_create_messages_table extends Migration
             'MESSAGE_SENT'=>$this->boolean()->defaultValue(false),
             'MESSAGE_DELETED'=>$this->boolean()->defaultValue(false),
             'CREATED' => $this->timestamp()->comment('Date Created'),
-            'DATE_SENT' => $this->timestamp()->comment('Date Sent') . ' ON UPDATE CURRENT_TIMESTAMP'
+            'DATE_SENT' => $this->timestamp()->comment('Date Sent'),// . ' ON UPDATE CURRENT_TIMESTAMP'
         ]);
 
         //create foreign keys
