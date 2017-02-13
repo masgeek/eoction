@@ -19,8 +19,8 @@ class m170126_132145_create_bid_requesters_table extends Migration
             'CUSTOMER_NOTES' => $this->text()->comment('Comments'),
             'CUSTOMER_NOTIFIED' => $this->boolean()->defaultValue(0)->comment('Notified'),
             'REQUEST_ACCEPTED' => $this->boolean()->defaultValue(0)->comment('Request Accepted'),
-            'CREATED' => $this->timestamp()->comment('Date Created'),
-            'UPDATED' => $this->timestamp()->comment('Date Updated'),// . ' ON UPDATE CURRENT_TIMESTAMP'
+            'CREATED' => $this->dateTime()->comment('Date Created'),
+            'UPDATED' => $this->dateTime()->comment('Date Updated'),// . ' ON UPDATE CURRENT_TIMESTAMP'
         ]);
 
         //create foreign keys
