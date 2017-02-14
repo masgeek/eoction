@@ -119,7 +119,8 @@ class RequestController extends \yii\web\Controller
 
         if ($requestsRecordCheck == null) {
             if ($requestsModel->load(\Yii::$app->request->post()) && $requestsModel->save()) {
-                echo $requestsModel->primaryKey;
+                //echo $requestsModel->primaryKey;
+                Yii::$app->getSession()->setFlash('success', 'Bid request placed successfully');
             } else {
                 var_dump($requestsModel->getErrors());
             }
@@ -129,11 +130,13 @@ class RequestController extends \yii\web\Controller
             $requesterModel->REQUESTING_USER_ID = $user_id;
             $requesterModel->CUSTOMER_NOTES = 'Requesting item for bid';
             if ($requesterModel->save()) {
+                Yii::$app->getSession()->setFlash('success', 'Bid request placed successfully');
             } else {
-                var_dump($requesterModel->getErrors());
+                //var_dump($requesterModel->getErrors());
             }
         }
         //return $this->render('//site/coming-soon');
+        return $this->redirect(['bid-request']);
     }
 
 
