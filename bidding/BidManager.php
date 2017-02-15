@@ -319,7 +319,8 @@ class BidManager
 
         $productModel = FryProducts::find()
             ->where([
-                'NOT IN', 'productid', $exclusionItems,
+               // 'NOT IN', 'productid', $exclusionItems,
+	            'productid'=>$product_id
             ])
             ->andWhere(['>=', 'stock_level', 1])//stock levels should be greater or equal to 1
             //->orderBy(['rand()' => SORT_DESC])//randomly pick products
