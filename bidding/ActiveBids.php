@@ -141,6 +141,7 @@ class ActiveBids extends Component
     }
 	public function RemoveExpiredBid($product_id){
         TbActiveBids::findOne(['PRODUCT_ID' => $product_id])->delete();
+		\Yii::error("Error deleting product with id $product_id", 'activebids'); //log to an exclusions log file;
     }
 //=============================== PRIVATE FUNCTIONS ========================================================
 
