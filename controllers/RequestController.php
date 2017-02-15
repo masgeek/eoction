@@ -90,51 +90,44 @@ class RequestController extends \yii\web\Controller
     /**
      * @return string
      */
-    public function actionBidRequest()
-    {
-        $this->view->title = 'Request to Bid';
-        $requestsModel = new BidRequests();
-        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 4, $for_auction = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false);
+	public function actionRequestForBid()
+	{
+		//$userHost = Yii::$app->request->userHost;
+		//$userIP = Yii::$app->request->userIP;
+		$request = \Yii::$app->request->post('BidRequests');
+		$product_id = $request['REQUESTED_PRODUCT_ID'];
+		$user_id = \Yii::$app->request->post('USER_ID');
+
+		$requestsRecordCheck = $this->findRequestsModel($product_id);
+		$requesterRecordCheck = $this->findRequesterModel($product_id,$user_id);
 
 
-        return $this->render('bid-request', ['listDataProvider' => $dataProvider, 'requestModel' => $requestsModel]);
-    }
+		//var_dump($requesterRecordCheck);
+		//die;
+		$requestsModel = $requestsRecordCheck == null ? new BidRequests() : $requestsRecordCheck;
+		$requesterModel = new BidRequesters();
 
-    public function actionRequestForBid()
-    {
-        //$userHost = Yii::$app->request->userHost;
-        //$userIP = Yii::$app->request->userIP;
-        $request = \Yii::$app->request->post('BidRequests');
-        $product_id = $request['REQUESTED_PRODUCT_ID'];
-        $user_id = \Yii::$app->request->post('USER_ID');
-
-        $requestsRecordCheck = $this->findRequestsModel($product_id);
-        $requesterRecordCheck = $this->findRequesterModel($product_id,$user_id);
-
-
-        var_dump($requesterRecordCheck);
-        die;
-        $requestsModel = $requestsRecordCheck == null ? new BidRequests() : $requestsRecordCheck;
-        $requesterModel = new BidRequesters();
-
-        if ($requestsRecordCheck == null) {
-            if ($requestsModel->load(\Yii::$app->request->post()) && $requestsModel->save()) {
-                echo $requestsModel->primaryKey;
-            } else {
-                var_dump($requestsModel->getErrors());
-            }
-        } else {
-            //add to the user requests table
-            $requesterModel->REQUESTED_PRODUCT_ID = $product_id;
-            $requesterModel->REQUESTING_USER_ID = $user_id;
-            $requesterModel->CUSTOMER_NOTES = 'Requesting item for bid';
-            if ($requesterModel->save()) {
-            } else {
-                var_dump($requesterModel->getErrors());
-            }
-        }
-        //return $this->render('//site/coming-soon');
-    }
+		if ($requestsRecordCheck == null) {
+			if ($requestsModel->load(\Yii::$app->request->post()) && $requestsModel->save()) {
+				//echo $requestsModel->primaryKey;
+				\Yii::$app->getSession()->setFlash('success', 'Bid request placed successfully');
+			} else {
+				var_dump($requestsModel->getErrors());
+			}
+		} else {
+			//add to the user requests table
+			$requesterModel->REQUESTED_PRODUCT_ID = $product_id;
+			$requesterModel->REQUESTING_USER_ID = $user_id;
+			$requesterModel->CUSTOMER_NOTES = 'Requesting item for bid';
+			if ($requesterModel->save()) {
+				\Yii::$app->getSession()->setFlash('success', 'Bid request placed successfully');
+			} else {
+				//var_dump($requesterModel->getErrors());
+			}
+		}
+		//return $this->render('//site/coming-soon');
+		return $this->redirect(['bid-request']);
+	}
 
 
     /**
