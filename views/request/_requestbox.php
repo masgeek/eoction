@@ -55,11 +55,6 @@ $retail_price = $formatter->asCurrency($retail_price_raw);
             </div>
             <div class="row">
                 <div class="col-md-10 col-md-offset-1 col-xs-12" id="buy_button_<?= $product_id ?>">
-                    <!--?= Html::a("Request For Bid",
-                        ['//request/request-for-bid', 'user_id' => $userid, 'product_id' => $product_id],
-                        [
-                            'class' => 'btn btn-success btn-block btn-lg noradius',
-                        ]) ?-->
                     <?= Html::beginForm(['//request/request-for-bid'], 'POST',['id'=>"bid-request-$product_id"]) ?>
                     <?= Html::activeHiddenInput($requestModel,"REQUESTED_PRODUCT_ID",['readonly'=>true,'value'=>$product_id])?>
                     <?= Html::hiddenInput("USER_ID",$userid)?>
