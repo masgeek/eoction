@@ -574,12 +574,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "5f17a79615bd36d52d3b3ce44075aec02605d8bf"
+                "reference": "662ca4c076d56de355f423c1fa0fa7b51c224e17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/5f17a79615bd36d52d3b3ce44075aec02605d8bf",
-                "reference": "5f17a79615bd36d52d3b3ce44075aec02605d8bf",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/662ca4c076d56de355f423c1fa0fa7b51c224e17",
+                "reference": "662ca4c076d56de355f423c1fa0fa7b51c224e17",
                 "shasum": ""
             },
             "require": {
@@ -631,7 +631,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2016-11-02 14:11:11"
+            "time": "2017-02-14 19:21:36"
         },
         {
             "name": "kartik-v/bootstrap-fileinput",
@@ -639,12 +639,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "6014bde57d1f4709885ba76ea600c5ba7bbc91c5"
+                "reference": "f42cd949ea2780853c80f26bcb9ddb5e4127a771"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/6014bde57d1f4709885ba76ea600c5ba7bbc91c5",
-                "reference": "6014bde57d1f4709885ba76ea600c5ba7bbc91c5",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/f42cd949ea2780853c80f26bcb9ddb5e4127a771",
+                "reference": "f42cd949ea2780853c80f26bcb9ddb5e4127a771",
                 "shasum": ""
             },
             "type": "library",
@@ -684,7 +684,7 @@
                 "progress",
                 "upload"
             ],
-            "time": "2017-02-13 15:39:24"
+            "time": "2017-02-15 00:59:11"
         },
         {
             "name": "kartik-v/bootstrap-popover-x",
@@ -1741,12 +1741,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "eb7d683ac7f3908bd8a27944738450d974d1750e"
+                "reference": "f6c739b580981fd88ed77cbe652ccc0aa36e980e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/eb7d683ac7f3908bd8a27944738450d974d1750e",
-                "reference": "eb7d683ac7f3908bd8a27944738450d974d1750e",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/f6c739b580981fd88ed77cbe652ccc0aa36e980e",
+                "reference": "f6c739b580981fd88ed77cbe652ccc0aa36e980e",
                 "shasum": ""
             },
             "require": {
@@ -1833,7 +1833,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2017-02-14 09:50:39"
+            "time": "2017-02-14 22:33:23"
         },
         {
             "name": "yiisoft/yii2-authclient",
