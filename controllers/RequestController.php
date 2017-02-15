@@ -94,7 +94,7 @@ class RequestController extends \yii\web\Controller
     {
         $this->view->title = 'Request to Bid';
         $requestsModel = new BidRequests();
-        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 4, $for_auction = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false);
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 12, $for_auction = [1, 0], $min_stock = 4, $exclusion_list = [], $random = false);
 
 
         return $this->render('bid-request', ['listDataProvider' => $dataProvider, 'requestModel' => $requestsModel]);
@@ -112,14 +112,15 @@ class RequestController extends \yii\web\Controller
         $requesterRecordCheck = $this->findRequesterModel($product_id,$user_id);
 
 
-        var_dump($requesterRecordCheck);
-        die;
+        //var_dump($requesterRecordCheck);
+        //die;
         $requestsModel = $requestsRecordCheck == null ? new BidRequests() : $requestsRecordCheck;
         $requesterModel = new BidRequesters();
 
         if ($requestsRecordCheck == null) {
             if ($requestsModel->load(\Yii::$app->request->post()) && $requestsModel->save()) {
-                echo $requestsModel->primaryKey;
+                //echo $requestsModel->primaryKey;
+                \Yii::$app->getSession()->setFlash('success', 'Bid request placed successfully');
             } else {
                 var_dump($requestsModel->getErrors());
             }
@@ -129,11 +130,13 @@ class RequestController extends \yii\web\Controller
             $requesterModel->REQUESTING_USER_ID = $user_id;
             $requesterModel->CUSTOMER_NOTES = 'Requesting item for bid';
             if ($requesterModel->save()) {
+                \Yii::$app->getSession()->setFlash('success', 'Bid request placed successfully');
             } else {
-                var_dump($requesterModel->getErrors());
+                //var_dump($requesterModel->getErrors());
             }
         }
         //return $this->render('//site/coming-soon');
+        return $this->redirect(['bid-request']);
     }
 
 
