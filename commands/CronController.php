@@ -15,7 +15,7 @@ class CronController extends Controller
 	 * @param string $to
 	 * @return int exit code
 	 */
-	public function actionInitBids($from, $to)
+	private function actionInitBids($from, $to)
 	{
 		/* @var $activebids \app\bidding\ActiveBids */
 
@@ -38,6 +38,32 @@ class CronController extends Controller
 		}
 	}
 
+    private function actionInitRequests($from, $to)
+    {
+        /* @var $activebids \app\bidding\ActiveBids */
+
+        $activebids = \Yii::$app->activebids;
+
+        \Yii::info('Starting cron', 'activebids'); //log to an exclusions log file;
+        $dates = CronJob::getDateRange($from, $to);
+        $command = CronJob::run($this->id, $this->action->id, 0, CronJob::countDateRange($dates));
+        if ($command === false) {
+            \Yii::error('Cron failed', 'activebids'); //log to an exclusions log file;
+            return Controller::EXIT_CODE_ERROR;
+        } else {
+            //lets check the active bids
+            //$activebids->maximum_items = 20;
+            $result = 'Done';//$activebids->Remove_Won_Expired_Items(); //proces the active bids
+            echo "Processing bid requests $result \n";
+            $command->finish();
+            \Yii::info("Finishing cron $result expired items removed", 'activebids'); //log to an exclusions log file;
+            return Controller::EXIT_CODE_NORMAL;
+        }
+    }
+
+	public function actionActiveRequests(){
+        return $this->actionInitRequests(date("Y-m-d"), date("Y-m-d"));
+    }
 	public function actionActiveBids()
 	{
 		return $this->actionInitBids(date("Y-m-d"), date("Y-m-d"));
