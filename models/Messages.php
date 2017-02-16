@@ -52,9 +52,9 @@ class Messages extends \yii\db\ActiveRecord
         $date = new Expression('NOW()');
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
-                $this->CREATED  =$date; //@TODO edit to mach data field columns
+                $this->CREATED  =$date;
             }
-            $this->UPDATED = $date; //@TODO edit to mach data field columns
+            $this->UPDATED = $date;
             return true;
         }
         return false;
@@ -69,7 +69,7 @@ class Messages extends \yii\db\ActiveRecord
             'REQUESTER_ID' => 'Requester  ID',
             'RECIPIENT' => 'Recipient could be phone or email',
             'MESSAGE' => 'Message body',
-            'CHANNEL' => 'Could be SMS, EMAIL orPUSH',
+            'CHANNEL' => 'Could be SMS, EMAIL or PUSH',
             'MESSAGE_SENT' => 'Request Accepted',
             'CREATED' => 'Date Added',
             'UPDATED' => 'Date Sent',
