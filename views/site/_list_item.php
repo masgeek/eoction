@@ -13,7 +13,6 @@ use yii\helpers\Url;
 
 $imageObject = $model->getSingleImage();
 $image = $imageObject ? $imageObject->IMAGE_URL : 'http://placehold.it/400/c55/fff';
-
 ?>
 
 <div class="col-md-3">

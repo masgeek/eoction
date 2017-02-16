@@ -17,9 +17,7 @@ class m170216_082404_created_bid_requests_table extends Migration
 		]);
 
 		$this->addForeignKey('FK_PRODUCT_ID', 'bid_requests', 'REQUESTED_PRODUCT_ID', 'fry_products', 'productid','RESTRICT', 'CASCADE');
-
-
-		$this->createIndex('idx-product_id', 'bid_requests', 'REQUESTED_PRODUCT_ID');
+		$this->createIndex('IDX-PRODUCT_ID', 'bid_requests', 'REQUESTED_PRODUCT_ID');
 	}
 
 	/**
@@ -28,11 +26,7 @@ class m170216_082404_created_bid_requests_table extends Migration
 	public function safeDown()
 	{
 		$this->dropForeignKey('FK_PRODUCT_ID','bid_requests');
-
-
-		$this->dropIndex('idx-product_id','bid_requests');
-
-
+		$this->dropIndex('IDX-PRODUCT_ID','bid_requests');
 		$this->dropTable('bid_requests');
 	}
 }

@@ -10,7 +10,7 @@ use yii\db\Expression;
  * This is the model class for table "bid_requesters".
  *
  * @property int $REQUESTER_ID
- * @property int $REQUESTED_PRODUCT_ID Request ID
+ * @property int $REQUESTED_ID Request ID
  * @property int $REQUESTING_USER_ID Requested By
  * @property string $CUSTOMER_NOTES Comments
  * @property int $CUSTOMER_NOTIFIED Notified
@@ -18,7 +18,7 @@ use yii\db\Expression;
  * @property string $CREATED Date Created
  * @property string $UPDATED Date Updated
  *
- * @property BidRequests $rEQUESTEDPRODUCT
+ * @property BidRequests $rEQUESTED
  * @property TbUsers $rEQUESTINGUSER
  */
 class BidRequesters extends \yii\db\ActiveRecord
@@ -37,11 +37,11 @@ class BidRequesters extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['REQUESTED_PRODUCT_ID', 'REQUESTING_USER_ID'], 'required'],
-            [['REQUESTED_PRODUCT_ID', 'REQUESTING_USER_ID', 'CUSTOMER_NOTIFIED', 'REQUEST_ACCEPTED'], 'integer'],
+            [['REQUESTED_ID', 'REQUESTING_USER_ID'], 'required'],
+            [['REQUESTED_ID', 'REQUESTING_USER_ID', 'CUSTOMER_NOTIFIED', 'REQUEST_ACCEPTED'], 'integer'],
             [['CUSTOMER_NOTES'], 'string'],
             [['CREATED', 'UPDATED'], 'safe'],
-            [['REQUESTED_PRODUCT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => BidRequests::className(), 'targetAttribute' => ['REQUESTED_PRODUCT_ID' => 'REQUESTED_PRODUCT_ID']],
+            [['REQUESTED_ID'], 'exist', 'skipOnError' => true, 'targetClass' => BidRequests::className(), 'targetAttribute' => ['REQUESTED_ID' => 'REQUESTED_PRODUCT_ID']],
             [['REQUESTING_USER_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['REQUESTING_USER_ID' => 'USER_ID']],
         ];
     }
@@ -69,7 +69,7 @@ class BidRequesters extends \yii\db\ActiveRecord
     {
         return [
             'REQUESTER_ID' => 'Requester  ID',
-            'REQUESTED_PRODUCT_ID' => 'Request ID',
+            'REQUESTED_ID' => 'Request ID',
             'REQUESTING_USER_ID' => 'Requested By',
             'CUSTOMER_NOTES' => 'Comments',
             'CUSTOMER_NOTIFIED' => 'Notified',
@@ -82,9 +82,9 @@ class BidRequesters extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getREQUESTEDPRODUCT()
+    public function getREQUESTED()
     {
-        return $this->hasOne(BidRequests::className(), ['REQUESTED_PRODUCT_ID' => 'REQUESTED_PRODUCT_ID']);
+        return $this->hasOne(BidRequests::className(), ['REQUESTED_PRODUCT_ID' => 'REQUESTED_ID']);
     }
 
     /**
