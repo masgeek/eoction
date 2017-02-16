@@ -118,9 +118,10 @@ class RequestController extends \yii\web\Controller
 		$requestsModel = $requestsRecordCheck == null ? new BidRequests() : $requestsRecordCheck;
 		$requesterModel = new BidRequesters();
 
+		//add teh request then add the requesters
+
 		if ($requestsRecordCheck == null) {
 			if ($requestsModel->load(\Yii::$app->request->post()) && $requestsModel->save()) {
-				//echo $requestsModel->primaryKey;
 				\Yii::$app->getSession()->setFlash('success', 'Bid request placed successfully');
 			} else {
 				var_dump($requestsModel->getErrors());
