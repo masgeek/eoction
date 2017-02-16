@@ -40,7 +40,7 @@ class CronController extends Controller
 
     private function actionInitRequests($from, $to)
     {
-        /* @var $activebids \app\bidding\ActiveBids */
+        /* @var $activebids \app\bidding\BidRequests */
 
         $activebids = \Yii::$app->activebids;
 
