@@ -40,23 +40,21 @@ class CronController extends Controller
 
     private function actionInitRequests($from, $to)
     {
-        /* @var $activebids \app\bidding\BidRequests */
+        /* @var $bidRequests \app\bidding\BidRequests */
 
-        $activebids = \Yii::$app->activebids;
+        $bidRequests = \Yii::$app->bidrequests;
 
-        \Yii::info('Starting cron', 'activebids'); //log to an exclusions log file;
+        //\Yii::info('Starting cron', 'activebids'); //log to an exclusions log file;
         $dates = CronJob::getDateRange($from, $to);
         $command = CronJob::run($this->id, $this->action->id, 0, CronJob::countDateRange($dates));
         if ($command === false) {
             \Yii::error('Cron failed', 'activebids'); //log to an exclusions log file;
             return Controller::EXIT_CODE_ERROR;
         } else {
-            //lets check the active bids
-            //$activebids->maximum_items = 20;
-            $result = 'Done';//$activebids->Remove_Won_Expired_Items(); //proces the active bids
+            $result = $bidRequests->ProcessRequests($approved = false); //process the requests
             echo "Processing bid requests $result \n";
             $command->finish();
-            \Yii::info("Finishing cron $result expired items removed", 'activebids'); //log to an exclusions log file;
+            //\Yii::info("Finishing cron $result expired items removed", 'activebids'); //log to an exclusions log file;
             return Controller::EXIT_CODE_NORMAL;
         }
     }

@@ -34,6 +34,7 @@ $config = [
 		],
 		'db' => $db,
 		'activebids' => require(__DIR__ . '/activebids.php'),
+		'bidrequests' => require(__DIR__ . '/bidrequests.php'),
 	],
 	'params' => $params,
 	/*

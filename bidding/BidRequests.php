@@ -33,7 +33,7 @@ class BidRequests extends \yii\base\Component
     public function ProcessRequests($approved, $request_id = null)
     {
         //$this->ProcessProcess($request_id, $approved ? 1 : 0);
-        return $this->Process($approved, $request_id);
+        return $this->Process($approved ? 1 : 0, $request_id);
     }
 
     /**
