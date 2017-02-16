@@ -78,16 +78,42 @@ class ProductManager
 	/**
 	 *  returns items to either be sold or auctioned off
 	 * @param int $no_of_items
+	 * @param array $auction_param
+	 * @param int $min_stock
+	 * @param array $exclusion_list
+	 * @param bool $random
+	 * @return ActiveDataProvider
+	 */
+	public static function GetItemsForSale($no_of_items = 20, $auction_param = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false)
+	{
+		$query = FryProducts::find()
+			->distinct('sku')
+			->where(['IN', 'visible', $auction_param,])
+			->andWhere(['>=', 'stock_level', $min_stock])//stock levels should be greater or equal to 1
+			->orderBy('productid ASC');
+
+		$item_provider = new ActiveDataProvider([
+			'query' => $query, //randomly pick items
+			'pagination' => [
+				'pageSize' => $no_of_items
+			],
+		]);
+
+		return $item_provider;
+	}
+
+	/**
+	 *  returns items to either be sold or auctioned off
+	 * @param int $no_of_items
 	 * @param array $item_won
 	 * @return ActiveDataProvider
 	 */
-	public static function GetItemsForSale($no_of_items = 20, $item_won = [1, 0])
+	public static function GetItemsForBidding($no_of_items = 20, $item_won = [1, 0])
     {
-		$query = TbActiveBids::find()
-			->where(['IN', 'ITEM_WON', $item_won,])
-            ->limit($no_of_items)
-			->orderBy('PRODUCT_ID ASC');
-
+		    $query = TbActiveBids::find()
+			    ->where(['IN', 'ITEM_WON', $item_won,])
+			    ->limit($no_of_items)
+			    ->orderBy('PRODUCT_ID ASC');
 
 		$item_provider = new ActiveDataProvider([
 			'query' => $query, //randomly pick items

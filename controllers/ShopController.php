@@ -57,7 +57,7 @@ class ShopController extends Controller
         $session = Yii::$app->session;
         $session->set('search_url', \yii\helpers\Url::toRoute(['search-shop']));
 
-        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 20, $for_auction = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false);
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 24, $for_auction = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false);
         $this->view->title = 'Online Shopping';
         return $this->render('shop', ['listDataProvider' => $dataProvider]);
     }
