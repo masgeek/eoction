@@ -48,7 +48,7 @@ class BidRequests extends \yii\base\Component
         $requests = new BidRequesters();
         if ($request_id == null) {
             //process everything
-            $result = BidRequesters::updateAll(['REQUEST_ACCEPTED' => 1]);
+            $result = BidRequesters::updateAll(['REQUEST_ACCEPTED' => $approved], 'REQUEST_ACCEPTED=0');
         } else {
             //process the specific request
         }
