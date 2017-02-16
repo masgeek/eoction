@@ -17,7 +17,7 @@ use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\data\ActiveDataProvider;
 
-class ActiveBids extends \yii\base\Component;
+class ActiveBids extends \yii\base\Component
 {
 
 	public $maximum_items;
