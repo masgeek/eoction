@@ -10,7 +10,7 @@ class m170216_121025_messages_init extends Migration
         $this->createTable('messages', [
             'REQUESTER_ID' => $this->primaryKey(),
             'RECIPIENT' => $this->string(40)->notNull()->comment('Recipient could be phone or email'),
-            'MESSAGE' => $this->text()->comment('Comments'),
+            'MESSAGE' => $this->text()->comment('Message body'),
             'CHANNEL' => $this->string(5)->defaultValue(0)->comment('Could be SMS, EMAIL orPUSH'),
             'MESSAGE_SENT' => $this->boolean()->defaultValue(0)->comment('Request Accepted'),
             'CREATED' => $this->dateTime()->comment('Date Added'),
