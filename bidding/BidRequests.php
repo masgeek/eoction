@@ -9,6 +9,8 @@
 namespace app\bidding;
 
 
+use app\models\BidRequesters;
+
 class BidRequests extends \yii\base\Component
 {
     public $timezone;
@@ -43,8 +45,10 @@ class BidRequests extends \yii\base\Component
      */
     private function Process($approved, $request_id)
     {
+        $requests = new BidRequesters();
         if ($request_id == null) {
             //process everything
+            $result = BidRequesters::updateAll(['REQUEST_ACCEPTED' => 1]);
         } else {
             //process the specific request
         }
