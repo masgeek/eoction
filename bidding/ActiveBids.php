@@ -32,8 +32,8 @@ class ActiveBids extends Component
 			throw new InvalidConfigException('Maximum items should equal to or greater than 1');
 		}
 
-		if ($this->bidding_minute_duration == null || $this->bidding_minute_duration < 5) {
-			throw new InvalidConfigException('Bidding duration should be at least 5 minutes');
+		if ($this->bidding_minute_duration == null || $this->bidding_minute_duration < 1) {
+			throw new InvalidConfigException('Bidding duration should be at least 1 minute(s)');
 		}
 
 		if ($this->timezone == null) {

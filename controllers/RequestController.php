@@ -102,8 +102,6 @@ class RequestController extends \yii\web\Controller
 		$requesterRecordCheck = $this->findRequesterModel($product_id,$user_id);
 
 
-		//var_dump($requesterRecordCheck);
-		//die;
 		$requestsModel = $requestsRecordCheck == null ? new BidRequests() : $requestsRecordCheck;
 		$requesterModel = new BidRequesters();
 
@@ -122,7 +120,7 @@ class RequestController extends \yii\web\Controller
 			if ($requesterModel->save()) {
 				\Yii::$app->getSession()->setFlash('success', 'Bid request placed successfully');
 			} else {
-				//var_dump($requesterModel->getErrors());
+				var_dump($requesterModel->getErrors());
 			}
 		}
 		//return $this->render('//site/coming-soon');
