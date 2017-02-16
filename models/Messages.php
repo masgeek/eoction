@@ -8,7 +8,7 @@ use yii\db\Expression;
 /**
  * This is the model class for table "messages".
  *
- * @property int $REQUESTER_ID
+ * @property int $MESSAGE_ID
  * @property string $RECIPIENT Recipient could be phone or email
  * @property string $MESSAGE Message body
  * @property string $CHANNEL Could be SMS, EMAIL orPUSH
@@ -19,8 +19,8 @@ use yii\db\Expression;
 class Messages extends \yii\db\ActiveRecord
 {
     const EMAIL_CHANNEL = 'EMAIL';
-    const PUSH_CHANNEL = 'PUSH';
     const SMS_CHANNEL = 'SMS';
+    const PUSH_CHANNEL = 'PUSH';
     /**
      * @inheritdoc
      */
@@ -52,9 +52,9 @@ class Messages extends \yii\db\ActiveRecord
         $date = new Expression('NOW()');
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
-                $this->CREATED  =$date;
+                //$this->DATE_CREATED = $date; //@TODO edit to mach data field columns
             }
-            $this->UPDATED = $date;
+            //$this->DATE_UPDATED = $date; //@TODO edit to mach data field columns
             return true;
         }
         return false;
@@ -66,7 +66,7 @@ class Messages extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'REQUESTER_ID' => 'Requester  ID',
+            'MESSAGE_ID' => 'Message  ID',
             'RECIPIENT' => 'Recipient could be phone or email',
             'MESSAGE' => 'Message body',
             'CHANNEL' => 'Could be SMS, EMAIL or PUSH',
