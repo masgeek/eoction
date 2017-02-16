@@ -9,7 +9,9 @@
 namespace app\bidding;
 
 
-class BidRequests
+
+
+class BidRequests extends \yii\base\Component
 {
 
 }
