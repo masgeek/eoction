@@ -10,8 +10,9 @@ namespace app\bidding;
 
 
 use app\models\BidRequesters;
+use yii\base\Component;
 
-class BidRequests extends \yii\base\Component
+class BidRequests extends Component
 {
     public $timezone;
     public $current_date;
@@ -41,10 +42,11 @@ class BidRequests extends \yii\base\Component
     /**
      * @param $approved
      * @param $request_id
-     * @return mixed
+     * @return boolean
      */
     private function Process($approved, $request_id)
     {
+        $result = false;
         $requests = new BidRequesters();
         if ($request_id == null) {
             //process everything
@@ -52,6 +54,6 @@ class BidRequests extends \yii\base\Component
         } else {
             //process the specific request
         }
-        return $approved;
+        return $result;
     }
 }
