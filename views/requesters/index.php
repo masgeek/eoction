@@ -67,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'REQUEST_ACCEPTED',
-                'filter' => [0 => 'Not Accepted', 1 => 'Accepted']
+                'filter' => [0 => 'Not Processed', 2 => 'Not Accepted', 1 => 'Accepted']
             ],
             //['class' => 'yii\grid\ActionColumn'],
             //Action Column
@@ -94,7 +94,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'view' => function ($url, $model, $key) {
                         return $url;
                     },
-                    'label'=>'Reject Request',
+                    'label' => 'Reject Request',
                 ],
                 'urlCreator' => function ($action, $model, $key, $index) {
                     /* @var $model app\models\BidRequesters */

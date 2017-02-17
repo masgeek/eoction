@@ -82,8 +82,9 @@ class RequestersController extends Controller
      */
     public function actionAccept($id)
     {
-        $model = $this->findModel($id);
-        //return $this->redirect(['view', 'id' => $model->REQUESTER_ID]);
+        /* @var $bidRequests \app\bidding\BidRequests */
+        $bidRequests = \Yii::$app->bidrequests;
+        $bidRequests->ProcessRequests($approved = true,$id); //process the requests
         return $this->redirect(['index']);
     }
 
@@ -95,8 +96,9 @@ class RequestersController extends Controller
      */
     public function actionDecline($id)
     {
-        //$this->findModel($id)->delete();
-
+        /* @var $bidRequests \app\bidding\BidRequests */
+        $bidRequests = \Yii::$app->bidrequests;
+        $bidRequests->ProcessRequests($approved = false,$id); //process the requests
         return $this->redirect(['index']);
     }
 

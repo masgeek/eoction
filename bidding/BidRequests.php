@@ -36,7 +36,7 @@ class BidRequests extends Component
     public function ProcessRequests($approved, $requester_id = null)
     {
         //$this->ProcessProcess($request_id, $approved ? 1 : 0);
-        return $this->Process($approved ? 1 : 0, $requester_id);
+        return $this->Process($approved ? 1 : 3, $requester_id);
     }
 
     /**
@@ -56,8 +56,9 @@ class BidRequests extends Component
             //process the specific requester id
             $result = BidRequesters::updateAll(
                 ['REQUEST_ACCEPTED' => $approved],
-                "REQUEST_ACCEPTED=$approved AND REQUESTER_ID=$requester_id");
+                "REQUESTER_ID=$requester_id");
         }
+
         return $result;
     }
 
