@@ -30,8 +30,8 @@ $search_url = $session->get('search_url');
         <ul class="nav navbar-nav product-nav">
             <li class="active"><?= Html::a('Live Auctions', ['//site/index'], ['title' => 'live auctions']); ?></li>
             <li><?= Html::a('Bid Request', ['//request/bid-request'], ['title' => 'Request Item for bidding']); ?></li>
-            <li><?= Html::a('Requested Items', ['//requests'], ['title' => 'Request Item for bidding']); ?></li>
-            <li><?= Html::a('Live TV', ['//tv/live-tv'], ['title' => 'live TV']); ?></li>
+            <li><?= Html::a('Requested Items', ['//requests'], ['title' => 'Requested Items for bidding']); ?></li>
+            <li><?= Html::a('Live TV', ['//tv/live-tv'], ['title' => 'Live TV']); ?></li>
             <li><?= Html::a('Online Shopping', ['//shop/'], ['title' => 'Online Shopping']); ?></li>
         </ul>
         <ul class="nav navbar-nav navbar-right" style="margin-right: 10px;">
