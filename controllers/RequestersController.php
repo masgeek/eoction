@@ -80,17 +80,11 @@ class RequestersController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionAccept($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->REQUESTER_ID]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+        //return $this->redirect(['view', 'id' => $model->REQUESTER_ID]);
+        return $this->redirect(['index']);
     }
 
     /**
@@ -99,9 +93,9 @@ class RequestersController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDecline($id)
     {
-        $this->findModel($id)->delete();
+        //$this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }

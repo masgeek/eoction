@@ -63,7 +63,7 @@ class ReuestersSearch extends BidRequesters
             'REQUESTED_ID' => $this->REQUESTED_ID,
             'REQUESTING_USER_ID' => $this->REQUESTING_USER_ID,
             //'CUSTOMER_NOTIFIED' => $this->CUSTOMER_NOTIFIED,
-            //'REQUEST_ACCEPTED' => $this->REQUEST_ACCEPTED,
+            'REQUEST_ACCEPTED' => $this->REQUEST_ACCEPTED,
             //'CREATED' => $this->CREATED,
             //'UPDATED' => $this->UPDATED,
         ]);

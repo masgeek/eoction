@@ -19,7 +19,7 @@ use yii\db\Expression;
  * @property string $UPDATED Date Updated
  *
  * @property BidRequests $rEQUESTED
- * @property TbUsers $rEQUESTINGUSER
+ * @property Users $rEQUESTINGUSER
  */
 class BidRequesters extends \yii\db\ActiveRecord
 {
@@ -68,11 +68,11 @@ class BidRequesters extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'REQUESTER_ID' => 'Requester  ID',
+            'REQUESTER_ID' => 'Requester ID',
             'REQUESTED_ID' => 'Request ID',
             'REQUESTING_USER_ID' => 'Requested By',
             'CUSTOMER_NOTES' => 'Comments',
-            'CUSTOMER_NOTIFIED' => 'Notified',
+            'CUSTOMER_NOTIFIED' => 'Notification Sent',
             'REQUEST_ACCEPTED' => 'Request Accepted',
             'CREATED' => 'Date Created',
             'UPDATED' => 'Date Updated',
