@@ -31,7 +31,6 @@ class CronController extends Controller
 			//lets check the active bids
 			//$activebids->maximum_items = 20;
 			$result = $activebids->Remove_Won_Expired_Items(); //proces the active bids
-			echo "Removing expired items $result \n";
 			$command->finish();
 			\Yii::info("Finishing cron $result expired items removed", 'activebids'); //log to an exclusions log file;
 			return Controller::EXIT_CODE_NORMAL;
@@ -51,8 +50,7 @@ class CronController extends Controller
             \Yii::error('Cron failed', 'activebids'); //log to an exclusions log file;
             return Controller::EXIT_CODE_ERROR;
         } else {
-            $result = $bidRequests->ProcessRequests($approved = false); //process the requests
-            echo "Processing bid requests $result \n";
+            $result = $bidRequests->ProcessRequests($approved = true); //process the requests
             $command->finish();
 
             return Controller::EXIT_CODE_NORMAL;

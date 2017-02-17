@@ -51,7 +51,7 @@ class BidRequests extends Component
             //process everything
             $result = BidRequesters::updateAll(
                 ['REQUEST_ACCEPTED' => $approved],
-                "REQUEST_ACCEPTED=$approved");
+                "REQUEST_ACCEPTED=0");
         } else {
             //process the specific requester id
             $result = BidRequesters::updateAll(
