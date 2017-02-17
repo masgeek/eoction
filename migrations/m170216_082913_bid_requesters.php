@@ -34,11 +34,11 @@ class m170216_082913_bid_requesters extends Migration
 	 */
 	public function safeDown()
 	{
-		$this->dropForeignKey('FK_REQUESTED_ID_REQ', 'bid_requesters');
-		$this->dropForeignKey('FK_USER_ID_REQ', 'bid_requesters');
+		//$this->dropForeignKey('FK_REQUESTED_ID_REQ', 'bid_requesters');
+		//$this->dropForeignKey('FK_USER_ID_REQ', 'bid_requesters');
 
-		$this->dropIndex('idx-requester_id', 'bid_requesters');
-		$this->dropIndex('idx-user_id', 'bid_requesters');
+		//$this->dropIndex('idx-requester_id', 'bid_requesters');
+		//$this->dropIndex('idx-user_id', 'bid_requesters');
 
 		$this->dropTable('bid_requesters');
 	}

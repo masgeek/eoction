@@ -6,10 +6,31 @@
  * Time: 2:34 PM
  */
 
-namespace components;
-
+namespace app\components;
 
 class MessagingManager
 {
+
+
+    public function ProcessMessages(){
+
+    }
+
+    public function SendSMS(){
+
+    }
+
+    public function SendPUSH(){
+
+    }
+
+    public function SendEmail(){
+
+    }
+
+
+    private function GetUserContacts(){
+
+    }
 
 }
