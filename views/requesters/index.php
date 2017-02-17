@@ -91,8 +91,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header' => 'Reject',
                 'template' => '{delete}',
                 'buttons' => [
-                    'view' => function ($url, $model, $key) {
-                        return $url;
+                    'delete' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon  glyphicon-ban-circle"></span>',$url);
                     },
                     'label' => 'Reject Request',
                 ],
@@ -105,7 +105,22 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $url;
                 },
                 'deleteOptions' => ['label' => '<i class="glyphicon glyphicon-ban-circle"></i>'],
-            ]
+            ],
+            /*[
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{delete}',
+                'buttons' => [
+                    'delete' => function($url, $model){
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->REQUESTER_ID], [
+                            'class' => '',
+                            'data' => [
+                                'confirm' => 'Are you absolutely sure ? You will lose all the information about this user with this action.',
+                                'method' => 'post',
+                            ],
+                        ]);
+                    }
+                ]
+            ],*/
         ],
     ]); ?>
     <?php Pjax::end(); ?>

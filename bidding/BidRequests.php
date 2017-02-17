@@ -36,7 +36,7 @@ class BidRequests extends Component
     public function ProcessRequests($approved, $requester_id = null)
     {
         //$this->ProcessProcess($request_id, $approved ? 1 : 0);
-        return $this->Process($approved ? 1 : 3, $requester_id);
+        return $this->Process($approved ? 1 : 2, $requester_id);
     }
 
     /**
