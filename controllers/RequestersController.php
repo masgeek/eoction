@@ -10,9 +10,9 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * BidRequestersController implements the CRUD actions for BidRequesters model.
+ * RequestersController implements the CRUD actions for BidRequesters model.
  */
-class BidRequestersController extends Controller
+class RequestersController extends Controller
 {
     /**
      * @inheritdoc

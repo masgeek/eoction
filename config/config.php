@@ -146,6 +146,7 @@ $config = [
 				'reset-password' => 'site/reset-password',
 				//merchant portal access
 				'merchant' => 'merchantportal/merchant/index',
+				'requests' => 'requesters/index',
 			],
 		],
 

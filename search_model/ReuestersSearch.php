@@ -62,10 +62,10 @@ class ReuestersSearch extends BidRequesters
             'REQUESTER_ID' => $this->REQUESTER_ID,
             'REQUESTED_ID' => $this->REQUESTED_ID,
             'REQUESTING_USER_ID' => $this->REQUESTING_USER_ID,
-            'CUSTOMER_NOTIFIED' => $this->CUSTOMER_NOTIFIED,
-            'REQUEST_ACCEPTED' => $this->REQUEST_ACCEPTED,
-            'CREATED' => $this->CREATED,
-            'UPDATED' => $this->UPDATED,
+            //'CUSTOMER_NOTIFIED' => $this->CUSTOMER_NOTIFIED,
+            //'REQUEST_ACCEPTED' => $this->REQUEST_ACCEPTED,
+            //'CREATED' => $this->CREATED,
+            //'UPDATED' => $this->UPDATED,
         ]);
 
         $query->andFilterWhere(['like', 'CUSTOMER_NOTES', $this->CUSTOMER_NOTES]);

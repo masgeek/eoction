@@ -30,6 +30,7 @@ $search_url = $session->get('search_url');
         <ul class="nav navbar-nav product-nav">
             <li class="active"><?= Html::a('Live Auctions', ['//site/index'], ['title' => 'live auctions']); ?></li>
             <li><?= Html::a('Bid Request', ['//request/bid-request'], ['title' => 'Request Item for bidding']); ?></li>
+            <li><?= Html::a('Requested Items', ['//requests'], ['title' => 'Request Item for bidding']); ?></li>
             <li><?= Html::a('Live TV', ['//tv/live-tv'], ['title' => 'live TV']); ?></li>
             <li><?= Html::a('Online Shopping', ['//shop/'], ['title' => 'Online Shopping']); ?></li>
         </ul>
@@ -54,7 +55,7 @@ $search_url = $session->get('search_url');
                         <?= Html::endForm() ?>
                     </ul>
                 </li>
-                <li><?= Html::a('<span class="fa fa-heart"></span> My Wishlist', ['//shop/wishlist'], ['title' => 'Items in your wish-list', 'class' => 'text-capitalise']); ?></li>
+                <li><?= Html::a('<span class="fa fa-heart"></span> My Wish List', ['//shop/wishlist'], ['title' => 'Items in your wish-list', 'class' => 'text-capitalise']); ?></li>
                 <li>
                     <?= Html::a('<span class="glyphicon glyphicon-shopping-cart"></span> Cart <small class="badge" id="cart_items">' . CartManager::GetCartItems(yii::$app->user->id) . '</small>',
                         ['//shop/cart', 'id' => yii::$app->user->id],
