@@ -50,7 +50,7 @@ class CronController extends Controller
             \Yii::error('Cron failed', 'activebids'); //log to an exclusions log file;
             return Controller::EXIT_CODE_ERROR;
         } else {
-            $result = $bidRequests->ProcessRequests($approved = true); //process the requests
+            $bidRequests->ProcessRequests($approved = true); //process the requests
             $command->finish();
 
             return Controller::EXIT_CODE_NORMAL;
