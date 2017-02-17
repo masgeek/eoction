@@ -33,27 +33,38 @@ class BidRequests extends Component
         date_default_timezone_set($this->timezone);
     }
 
-    public function ProcessRequests($approved, $request_id = null)
+    public function ProcessRequests($approved, $requester_id = null)
     {
         //$this->ProcessProcess($request_id, $approved ? 1 : 0);
-        return $this->Process($approved ? 1 : 0, $request_id);
+        return $this->Process($approved ? 1 : 0, $requester_id);
     }
 
     /**
      * @param $approved
-     * @param $request_id
+     * @param $requester_id
      * @return boolean
      */
-    private function Process($approved, $request_id)
+    private function Process($approved, $requester_id)
     {
         $result = false;
-        $requests = new BidRequesters();
-        if ($request_id == null) {
+        if ($requester_id == null) {
             //process everything
-            $result = BidRequesters::updateAll(['REQUEST_ACCEPTED' => $approved], 'REQUEST_ACCEPTED=0');
+            $result = BidRequesters::updateAll(
+                ['REQUEST_ACCEPTED' => $approved],
+                "REQUEST_ACCEPTED=$approved");
         } else {
-            //process the specific request
+            //process the specific requester id
+            $result = BidRequesters::updateAll(
+                ['REQUEST_ACCEPTED' => $approved],
+                "REQUEST_ACCEPTED=$approved AND REQUESTER_ID=$requester_id");
         }
         return $result;
+    }
+
+    private function GetAllPendingRecords(){
+
+    }
+    private function SendAlerts(){
+
     }
 }

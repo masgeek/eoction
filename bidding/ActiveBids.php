@@ -110,12 +110,8 @@ class ActiveBids extends \yii\base\Component
 
 	public function Remove_Won_Expired_Items()
 	{
-
-
 		$query = TbActiveBids::find()
 			->select(['PRODUCT_ID', 'BIDDING_DURATION'])
-			//->where(['ITEM_WON' => 0])
-			//->limit(1)
 			->asArray()
 			->all();
 
