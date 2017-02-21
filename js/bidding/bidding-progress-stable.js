@@ -5,7 +5,7 @@
 
 var intervalObj = {};
 
-var $awaitingBid = 45;
+var $awaitingBid = 40+Math.floor((Math.random() * 17) + 7);;
 var $nextBids = 10;
 var $velocityDelay = 0;
 function RefreshSomeEventListener($product_id, $sku) {
@@ -20,14 +20,14 @@ function RefreshSomeEventListener($product_id, $sku) {
 
 
 function SetupProgressBar($productid, $bid_start_time) {
-    /*
-     bid types
-     0 bid countdown
-     1 awaiting bids
-     2 going once
-     3 going twice
-     4 bid won
-     */
+	/*
+	 bid types
+	 0 bid countdown
+	 1 awaiting bids
+	 2 going once
+	 3 going twice
+	 4 bid won
+	 */
     var starttime = $bid_start_time * 1000;//convert to ms
     // Cache our jQuery objects.
     //var $percentComplete = $("#percentComplete" + $productid);
@@ -121,14 +121,14 @@ function TriggerProgressBar($product_id, $sku, $bid_waiting_time) {
         },
         complete: function () {
             //what happens when it is complete?
-            /*
-             bid types
-             0 bid countdown
-             1 awaiting bids
-             2 going once
-             3 going twice
-             4 bid won
-             */
+			/*
+			 bid types
+			 0 bid countdown
+			 1 awaiting bids
+			 2 going once
+			 3 going twice
+			 4 bid won
+			 */
             scenario = bidType.val();
 
             switch (scenario) {
@@ -184,14 +184,14 @@ function TriggerProgressBar($product_id, $sku, $bid_waiting_time) {
             .velocity({width: $maxProgressBarWidth}, {
                 duration: 1, complete: function () {
                     progressBar.removeClass("noplacedbids awaitingbid goingtwice").addClass('goingonce');
-                    /*always await bid*/
+					/*always await bid*/
                 }
             }) //reset bar
             .velocity({width: 0}, bidsPlacedParams) //going once
             .velocity({width: $maxProgressBarWidth}, {
                 duration: 1, complete: function () {
                     progressBar.removeClass("noplacedbids awaitingbid goingonce").addClass('goingtwice');
-                    /*always await bid*/
+					/*always await bid*/
                 }
             }) //reset bar
             .velocity({width: 0}, bidsPlacedParams); //going twice
@@ -293,13 +293,13 @@ function ItemUpdate($product_id, $sku, $toclear) {
         intervalObj[$product_id] = setInterval(function () {
 
             $.when(
-                /*$.getJSON(updateUrl, {product_id: $product_id, sku: $sku}, function (data) {
-                 var $bid_count = data.bid_count;
-                 var $new_bid_price = data.bid_price;
+				/*$.getJSON(updateUrl, {product_id: $product_id, sku: $sku}, function (data) {
+				 var $bid_count = data.bid_count;
+				 var $new_bid_price = data.bid_price;
 
-                 $bidPrice.html($new_bid_price);
-                 bidsPlaced.html($bid_count);
-                 }), */
+				 $bidPrice.html($new_bid_price);
+				 bidsPlaced.html($bid_count);
+				 }), */
                 $.ajax({
                     url: updateUrl,
                     data: {
@@ -332,16 +332,16 @@ function ItemUpdate($product_id, $sku, $toclear) {
         var bidwonUrl = $('#bidwon_url').val();
         var button = '<button class="btn btn-bid btn-success btn-block noradius text-uppercase" disabled>Sold</button>';
         $.when(
-            /*$.getJSON(bidwonUrl, {user_id: userId, product_id: $product_id, sku: $sku}, function (data) {
-             //mark the item as won..and show the winning user
-             var $winning_user = data.winning_user;
+			/*$.getJSON(bidwonUrl, {user_id: userId, product_id: $product_id, sku: $sku}, function (data) {
+			 //mark the item as won..and show the winning user
+			 var $winning_user = data.winning_user;
 
-             winningUser.html($winning_user);
-             if ($winning_user == '-' || $winning_user.length <= 0) {
-             button = '<button class="btn btn-bid btn-bid-ended btn-block noradius text-uppercase" disabled>Closed</button>';
-             }
-             bidButton.html(button);
-             }),*/
+			 winningUser.html($winning_user);
+			 if ($winning_user == '-' || $winning_user.length <= 0) {
+			 button = '<button class="btn btn-bid btn-bid-ended btn-block noradius text-uppercase" disabled>Closed</button>';
+			 }
+			 bidButton.html(button);
+			 }),*/
             $.ajax({
                 url: bidwonUrl,
                 data: {
@@ -377,10 +377,10 @@ function UpdateCartItems() {
     if (userId == 0) {
         return false;
     }
-    /*$.getJSON(cartitemsUrl, function (data) {
-     $cartItems.html(data.items_count);
-     console.log('Cart items updated ' + data.items_count);
-     });*/
+	/*$.getJSON(cartitemsUrl, function (data) {
+	 $cartItems.html(data.items_count);
+	 console.log('Cart items updated ' + data.items_count);
+	 });*/
     $.ajax({
         url: cartitemsUrl,
         error: function (data) {
@@ -400,10 +400,10 @@ function GetWinningUser($product_id, $sku) {
     var winningUrl = $('#winning_url').val();
     var winningUser = $('#winning_user_' + $product_id);
 
-    /*$.getJSON(winningUrl, {product_id: $product_id, sku: $sku}, function (data) {
-     winningUser.html(data.winning_user);
-     console.log('Winning User is ' + data.winning_user);
-     });*/
+	/*$.getJSON(winningUrl, {product_id: $product_id, sku: $sku}, function (data) {
+	 winningUser.html(data.winning_user);
+	 console.log('Winning User is ' + data.winning_user);
+	 });*/
     $.ajax({
         url: winningUrl,
         data: {
@@ -423,9 +423,7 @@ function GetWinningUser($product_id, $sku) {
 }
 
 function ShowLoginPrompt($product_id) {
-    // instanciate new modal
-    //var prompt_login = $('#placebid_' + $product_id);
-
+    var loginUrl = $('#login_url').val();
     var modal = new tingle.modal({
         footer: true,
         stickyFooter: false,
@@ -437,16 +435,15 @@ function ShowLoginPrompt($product_id) {
             //console.log('modal closed');
         }
     });
-
     // set content
     modal.setContent('<h1>You need to login in order to bid</h1>');
-
 // add a button
-    modal.addFooterBtn('Okay', 'btn btn-primary btn-block', function () {
+    modal.addFooterBtn('Proceed to Login', 'btn btn-info btn-block', function () {
         // here goes some logic
+        //redirect to login page
         modal.close();
+        window.location.replace(loginUrl);
     });
-
 // close modal
     modal.open();
 

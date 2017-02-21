@@ -10,17 +10,19 @@
  */
 
 
-namespace app\components;
+namespace app\bidding;
 
+use app\module\products\models\TbActiveBids;
+use yii\db\Expression;
+use yii\helpers\Html;
+
+use app\components\ProductManager;
 use app\module\products\models\BidExclusion;
 use app\module\products\models\FryProductImages;
 use app\module\products\models\FryProducts;
 use app\module\users\models\Users;
-use yii\db\Expression;
-use yii\helpers\Html;
 
 use app\models\BidActivity;
-use app\module\products\models\Products;
 use app\module\products\models\ProductBids;
 
 class BidManager
@@ -307,25 +309,39 @@ class BidManager
     public static function GetNextItemToBid($product_id)
     {
         /* @var $productModel FryProducts */
-        $exclusionItems = BidManager::GetExclusionItems();
+        /* @var $activebids ActiveBids */
+        $activebids = \Yii::$app->activebids;
 
+        //first add to exclusions list
+        BidManager::AddToExclusionList($product_id);
+        $activebids->RemoveExpiredBid($product_id); //delete from bid active table//fetch next item
+        $exclusionItems = json_decode($activebids->GetExclusionList());
 
         $productModel = FryProducts::find()
             ->where([
-                'NOT IN', 'productid', $exclusionItems,
+               // 'NOT IN', 'productid', $exclusionItems,
+	            'productid'=>$product_id
             ])
             ->andWhere(['>=', 'stock_level', 1])//stock levels should be greater or equal to 1
-            //->andWhere('!=','PRODUCT_ID',$product_id)
             //->orderBy(['rand()' => SORT_DESC])//randomly pick products
-            ->limit(1)//limit to one record only
             ->one();
 
 
-        BidManager::AddToExclusionList($productModel->productid, 0);
+        $next_item_id = $productModel->productid; //add this to teh active bids table
+
+        $activebids->AddToActiveBids($next_item_id);
+
+        $sku = $productModel->sku;
+        $product_name = $productModel->name;
+        $retail_price_raw = $productModel->buyitnow;
+        $starting_bid_price_raw = $productModel->price;
+        $product_image_raw = $productModel->image1;
+
+        //BidManager::AddToExclusionList($productModel->productid, 0);
         //add the item to bid activity
         BidManager::AddItemsToBidActivity($productModel, $multimodel = false); //add the picked item to bid activity table
-        $product_list = BidManager::BuildProductHtmlList($productModel->productid, $productModel->sku,
-            $productModel->name, $productModel->buyitnow, $productModel->price, $productModel->image1);
+
+        $product_list = BidManager::BuildProductHtmlList($next_item_id, $sku, $product_name, $retail_price_raw, $starting_bid_price_raw, $product_image_raw);
         return $product_list;
     }
 
@@ -346,6 +362,7 @@ class BidManager
         $nested_items_array = BidExclusion::find()
             ->select(['PRODUCT_ID', 'EXCLUSION_PERIOD', 'BIDDING_PERIOD'])
             ->where('HIGH_DEMAND=0')
+            ->orderBy(['AUCTION_COUNT' => SORT_ASC])
             ->asArray()
             ->all();
         //flatten the nested arrays
@@ -367,7 +384,7 @@ class BidManager
 
     public static function AddToExclusionList($product_id, $high_demand = false)
     {
-        $bidding_duration = 15;
+        $bidding_duration = 10;
         $exclusion_duration = 30;
 
         /* @var $model BidExclusion */
@@ -382,25 +399,29 @@ class BidManager
         $futureDate = strtotime($date . "+$exclusion_duration minutes");
 
 
-        //return $futureDate - $currentDate; //. ' ' . $exclusion_time;
-        $exclusion_time = $exclusion_duration;
         //first lest check if the record exists
         $model = BidExclusion::findOne(['PRODUCT_ID' => $product_id]);
         if ($model == null) {
             //prepare new record insertion
             $model = new BidExclusion();
             $model->isNewRecord = true;
-        }//default is to update the reord
-        $model->PRODUCT_ID = $product_id;
+
+            $model->PRODUCT_ID = $product_id;
+        } else {
+            //default is to update the record
+            $model->isNewRecord = false;
+            $model->AUCTION_COUNT = (int)($model->AUCTION_COUNT) + 1; //increment by one
+        }
         $model->BIDDING_PERIOD = $bidDuration;
         $model->EXCLUSION_PERIOD = $futureDate;
-        $model->HIGH_DEMAND = $high_demand ? 1 : 0;
+        $model->HIGH_DEMAND = $high_demand ? 1 : 0; //indicate if the product is in high demand
 
         if ($model->save()) {
             return true;
         }
 
-        return $model->getErrors();
+        \Yii::error($model->getErrors(), 'bidExclusions'); //log to an exclusions log file
+        return false; //return false indicating teh update/insert failed
     }
 
     /**

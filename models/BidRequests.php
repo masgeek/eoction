@@ -2,16 +2,16 @@
 
 namespace app\models;
 
-use Yii;
 use app\module\products\models\FryProducts;
-
+use Yii;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "bid_requests".
  *
- * @property integer $REQUESTED_PRODUCT_ID
- * @property string $CREATED
- * @property string $UPDATED
+ * @property int $REQUESTED_PRODUCT_ID Request Product ID
+ * @property string $CREATED Date Created
+ * @property string $UPDATED Date Updated
  *
  * @property BidRequesters[] $bidRequesters
  * @property FryProducts $rEQUESTEDPRODUCT
@@ -26,24 +26,31 @@ class BidRequests extends \yii\db\ActiveRecord
         return 'bid_requests';
     }
 
-   /* public static function primaryKey()
-    {
-        return 'REQUESTED_PRODUCT_ID'; //override the primary key
-    }*/
-
-
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['REQUESTED_PRODUCT_ID'], 'required'],
-            [['REQUESTED_PRODUCT_ID'], 'integer'],
             [['CREATED', 'UPDATED'], 'safe'],
-            [['REQUESTED_PRODUCT_ID'], 'unique'],
             [['REQUESTED_PRODUCT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => FryProducts::className(), 'targetAttribute' => ['REQUESTED_PRODUCT_ID' => 'productid']],
         ];
+    }
+
+    /**
+    * @inheritdoc
+    */
+    public function beforeSave($insert)
+    {
+        $date = new Expression('NOW()');
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->UPDATED = $date; //@TODO edit to mach data field columns
+            }
+            $this->CREATED = $date; //@TODO edit to mach data field columns
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -52,7 +59,7 @@ class BidRequests extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'REQUESTED_PRODUCT_ID' => 'Product ID',
+            'REQUESTED_PRODUCT_ID' => 'Request Product ID',
             'CREATED' => 'Date Created',
             'UPDATED' => 'Date Updated',
         ];
@@ -63,7 +70,7 @@ class BidRequests extends \yii\db\ActiveRecord
      */
     public function getBidRequesters()
     {
-        return $this->hasMany(BidRequesters::className(), ['REQUESTED_PRODUCT_ID' => 'REQUESTED_PRODUCT_ID']);
+        return $this->hasMany(BidRequesters::className(), ['REQUESTED_ID' => 'REQUESTED_PRODUCT_ID']);
     }
 
     /**

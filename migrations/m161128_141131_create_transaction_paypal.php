@@ -26,7 +26,7 @@ class m161128_141131_create_transaction_paypal extends Migration
             'COMPLETE' => $this->boolean()->notNull()->defaultValue(false),
             'ORDER_CREATED' => $this->boolean()->notNull()->defaultValue(false),
             'CREATE_TIME' => $this->dateTime(),
-            'UPDATE_TIME' => $this->dateTime() . ' ON UPDATE CURRENT_TIMESTAMP',
+            'UPDATE_TIME' => $this->dateTime(),// . ' ON UPDATE CURRENT_TIMESTAMP',
         ]);
         //add foreign keys
         $this->addForeignKey('FK_USER_ID', 'paypal_transactions', 'USER_ID', 'tb_users', 'USER_ID', 'RESTRICT', 'CASCADE');
