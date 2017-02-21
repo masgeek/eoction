@@ -106,8 +106,11 @@ $starting_bid_price = \app\bidding\BidManager::GetMaxBidAmount($product_id);
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <a class="btn btn-default btn-product text-uppercase noborder"><span class="bidcount"><span
-                                    id="bids_placed_<?= $product_id ?>"><?= $bids ?></span> Bid(s)</span></a>
+                    <a class="btn btn-default btn-product text-uppercase noborder">
+                        <span class="bidcount">
+                            <span id="bids_placed_<?= $product_id ?>"><?= $bids ?></span> Bid(s)
+                        </span>
+                    </a>
                 </div>
                 <div class="col-md-6">
                     <a href="#" class="btn btn-default btn-product noborder">

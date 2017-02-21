@@ -5,7 +5,8 @@
  * Date: 2016/10/10
  * Time: 14:40
  */
-/* @var $model app\module\products\models\FryProducts */
+/* @var $model app\module\products\models\TbActiveBids */
+/* @var $productModel app\module\products\models\FryProducts */
 /* @var $image_url app\module\products\models\FryProductImages */
 
 
@@ -14,23 +15,29 @@ use yii\web\View;
 
 use app\components\ProductManager;
 
+
+$productModel = $model->pRODUCT;
+
+$product_id = $model->PRODUCT_ID;
+
+
 $formatter = \Yii::$app->formatter;
 
 $imageHost = \Yii::$app->params['ExternalImageServerLink'];
 $imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
 
-$image_url = $model->image1;
+$image_url = $productModel->image1;
 $product_image = ProductManager::CheckImageExists($image_url);
 
 
 //calculate the percentage discount based on the retail price and the bidded amount
-$starting_bid_price = $model->price;
-$sku = $model->sku;
+$starting_bid_price = $productModel->price;
+$sku = $productModel->sku;
 
-$bids = ProductManager::GetNumberOfBids($model->productid);
+$bids = ProductManager::GetNumberOfBids($productModel->productid);
 
-$product_id = $model->productid;
-$product_name = $model->name;
+
+$product_name = $productModel->name;
 
 $discount = ProductManager::ComputePercentageDiscount($product_id);
 $shipping = ProductManager::ComputeShippingCost($product_id);
@@ -43,7 +50,7 @@ if (YII_ENV_DEV) {
 }
 
 $shipping_cost = $formatter->asCurrency($shipping);
-$retail_price = $formatter->asCurrency($model->buyitnow);
+$retail_price = $formatter->asCurrency($productModel->buyitnow);
 
 $starting_bid_price = \app\bidding\BidManager::GetMaxBidAmount($product_id);
 
