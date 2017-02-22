@@ -4,14 +4,8 @@
         "commonjs": true,
         "es6": true
     },
-    "plugins": [
-        "jquery"
-    ],
     "extends": "eslint:recommended",
     "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
         "sourceType": "module"
     },
     "rules": {
@@ -25,7 +19,7 @@
         ],
         "quotes": [
             "error",
-            "double"
+            "single"
         ],
         "semi": [
             "error",

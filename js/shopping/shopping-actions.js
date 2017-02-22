@@ -4,5 +4,5 @@ function evaluateProducts(product_id){
 
 	$spinnerValue = $('#quantity-'+product_id);
 
-	console.log('Action stsarted for '+product_id);
+	console.log('Action started for '+product_id);
 }
