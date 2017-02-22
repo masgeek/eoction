@@ -21,10 +21,12 @@ class CartManager
      * @param $price
      * @param int $bidden_item
      * @param int $quantity
-     * @return array|mixed|null
+     * @return bool
      */
     public static function AddItemsToCart($user_id, $product_id, $price, $bidden_item = 0, $quantity = 1)
     {
+        if ($quantity <= 0) return false;
+
         $cartModel = new ItemsCart();
         $cartModel->isNewRecord = true;
 
