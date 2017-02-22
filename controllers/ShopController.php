@@ -58,7 +58,7 @@ class ShopController extends Controller
         $session->set('search_url', \yii\helpers\Url::toRoute(['search-shop']));
 
         $cartModel = new ItemsCart();
-        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 24, $for_auction = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false);
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 4, $for_auction = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false);
         $this->view->title = 'Online Shopping';
         return $this->render('shop', ['listDataProvider' => $dataProvider, 'cartModel' => $cartModel]);
     }
@@ -121,13 +121,13 @@ class ShopController extends Controller
     }
 
 
-    /**
-     * @param $user_id
-     * @param $product_id
-     * @param $price
-     * @return \yii\web\Response
-     */
-    public function actionAddToCart($user_id, $product_id, $price)
+    public function actionAddToCart(){
+
+        var_dump($_POST);
+
+        //return $this->redirect(['//shop/index']);
+    }
+    public function actionAddToCart2($user_id, $product_id, $price)
     {
         //check if user is logged in
         if (Yii::$app->user->isGuest):

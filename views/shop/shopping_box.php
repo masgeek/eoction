@@ -13,6 +13,7 @@
 use yii\helpers\Html;
 
 use app\components\ProductManager;
+use kartik\form\ActiveForm;
 
 $formatter = \Yii::$app->formatter;
 
@@ -37,6 +38,9 @@ $shipping = ProductManager::ComputeShippingCost($product_id);
 
 $shipping_cost = $formatter->asCurrency($shipping);
 $retail_price = $formatter->asCurrency($retail_price_raw);
+
+$cartModel->PRODUCT_ID = $product_id;
+$cartModel->QUANTITY = 1;
 ?>
 
 
@@ -53,7 +57,9 @@ $retail_price = $formatter->asCurrency($retail_price_raw);
                 <span class="small"><?= $product_name ?></span>
             </div>
             <div class="col-md-12 col-xs-6 text-center">
-                <a href="#" class="btn btn-default btn-sm btn-block"><span class="badge"><?= $stock ?></span> Available</a>
+                <a href="#" class="btn btn-default btn-sm btn-block">
+                    <span class="badge" id="stock<?= $product_id ?>"><?= $stock ?></span>
+                    Available</a>
             </div>
             <hr/>
             <div class="col-md-12 col-xs-6 text-center">
@@ -69,11 +75,30 @@ $retail_price = $formatter->asCurrency($retail_price_raw);
                     [
                         'class' => 'btn btn-primary btn-block btn-lg noradius',
                     ]) ?-->
-                <?= Html::beginForm(['//shop/add-to-cart'], 'POST',['id'=>"shop-now-$product_id"]) ?>
-                <?= Html::activeInput('text',$model,"productid",['class'=>'form-control'])?>
-                <?= Html::activeInput('text',$model,"productid",['class'=>'form-control'])?>
-                <?= Html::submitButton('Buy Now', ['class' => 'btn btn-primary btn-block btn-lg noradius']) ?>
-                <?= Html::endForm() ?>
+                <?php
+                $form = ActiveForm::begin([
+                    'id' => "shop-$product_id",
+                    'action' => ['//shop/add-to-cart'],
+                    'options' => [
+                        'class' => 'form-horizontal',
+                        'enctype' => 'multipart/form-data'
+                    ],
+                ]); ?>
+                <?= $form->field($cartModel, 'PRODUCT_ID')
+                    ->hiddenInput(['class' => 'form-control text-center', 'readonly' => true])
+                    ->label(false) ?>
+
+                <?= $form->field($cartModel, 'QUANTITY')
+                    ->widget(\kartik\touchspin\TouchSpin::className(), [
+                        'options' => ['placeholder' => 'Enter quantity to purchase', 'id' => "qunatity-$product_id"],
+                        'pluginOptions' => ['postfix' => 'Items', 'verticalbuttons' => true, 'min' => 1, 'max' => $stock],
+                        'pluginEvents' => [
+                            "touchspin.on.startspin" => "function() { console.log('touchspin . on . startspin'); }",
+                            "touchspin.on.startupspin" => "function() { console.log('touchspin . on . startupspin'); }",
+                        ]
+                    ])->label(false) ?>
+                <?= Html::submitButton('Buy Now', ['class' => 'btn btn-primary btn-block btn-lg noradius']); ?>
+                <?php ActiveForm::end(); ?>
             </div>
         </div>
     </div>
