@@ -25,7 +25,7 @@ $listviewWidget = ListView::widget([
     'options' => [
         'tag' => 'div',
         'class' => 'list-wrapper',
-        'id' => 'product_list',
+        'id' => 'shopping_list',
     ],
     'viewParams' => ['cartModel' => $cartModel],
     //'layout' => "{pager}\n{items}\n{pager}",
