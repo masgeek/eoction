@@ -133,7 +133,7 @@ class ShopController extends Controller
             return $this->redirect(['//login']);
         else:
             //add it to the cart
-            $resp = CartManager::AddItemsToCart($user_id, $product_id, $price);
+            $resp = CartManager::AddItemsToCart($user_id, $product_id, $price,0,0);
 
             if ($resp == true) {
                 return $this->redirect(['//shop/cart', 'id' => $user_id]);

@@ -42,7 +42,7 @@ class CartManager
             ]);
             return true;
         } else {
-            return $cartModel->getErrors();
+            \Yii::error(json_encode($cartModel->getErrors()), 'activebids');
         }
 
         return false;
