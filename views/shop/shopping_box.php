@@ -7,10 +7,10 @@
  */
 /* @var $model app\module\products\models\FryProducts */
 /* @var $image app\module\products\models\FryProductImages */
+/* @var $cartModel app\module\products\models\ItemsCart */
 
 
 use yii\helpers\Html;
-use yii\web\View;
 
 use app\components\ProductManager;
 
@@ -27,6 +27,7 @@ $product_image = ProductManager::CheckImageExists($image_url);
 $retail_price_raw = $model->buyitnow;
 
 $userid = yii::$app->user->id ? yii::$app->user->id : 0;
+
 $sku = $model->sku;
 $product_id = $model->productid;
 $product_name = $model->name;
@@ -63,11 +64,16 @@ $retail_price = $formatter->asCurrency($retail_price_raw);
             </div>-->
 
             <div class="col-md-12 col-xs-12" id="buy_button_<?= $product_id ?>">
-                <?= Html::a("BUY NOW",
+                <!--?= Html::a("BUY NOW",
                     ['//shop/add-to-cart', 'user_id' => $userid, 'product_id' => $product_id, 'price' => $retail_price_raw],
                     [
                         'class' => 'btn btn-primary btn-block btn-lg noradius',
-                    ]) ?>
+                    ]) ?-->
+                <?= Html::beginForm(['//shop/add-to-cart'], 'POST',['id'=>"shop-now-$product_id"]) ?>
+                <?= Html::activeInput('text',$model,"productid",['class'=>'form-control'])?>
+                <?= Html::activeInput('text',$model,"productid",['class'=>'form-control'])?>
+                <?= Html::submitButton('Buy Now', ['class' => 'btn btn-primary btn-block btn-lg noradius']) ?>
+                <?= Html::endForm() ?>
             </div>
         </div>
     </div>

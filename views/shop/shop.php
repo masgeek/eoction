@@ -2,13 +2,12 @@
 /**
  *
  * @var \yii\data\ActiveDataProvider $listDataProvider
+ * @var \\app\module\products\models\ItemsCart $cartModel
  */
 
 use yii\widgets\ListView;
 use yii\helpers\Url;
 use yii\helpers\Html;
-
-use app\vendor\customhelper\BidManager;
 
 //register js file
 $this->registerJsFile('@web/js/bidding/bidding-progress.js');
@@ -31,6 +30,7 @@ $listviewWidget = ListView::widget([
         'class' => 'list-wrapper',
         'id' => 'product_list',
     ],
+    'viewParams' => ['cartModel' => $cartModel],
     //'layout' => "{pager}\n{items}\n{pager}",
     'layout' => "{items}\n{pager}",
     //'itemView' => '_product_view_old',
