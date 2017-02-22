@@ -14,6 +14,7 @@ use yii\db\Expression;
  * @property integer $PRODUCT_ID
  * @property string $PRODUCT_PRICE
  * @property integer $BIDDED_ITEM
+ * @property integer $QUANTITY
  * @property integer $IS_SOLD
  * @property string $PAYPAL_HASH
  * @property string $DATE_ADDED
@@ -47,7 +48,7 @@ class ItemsCart extends \yii\db\ActiveRecord
     {
         return [
             [['USER_ID', 'PRODUCT_ID', 'PRODUCT_PRICE', 'DATE_ADDED', 'EXPIRY_DATE', 'DATE_BOUGHT'], 'required'],
-            [['USER_ID', 'PRODUCT_ID', 'BIDDED_ITEM', 'IS_SOLD'], 'integer'],
+            [['USER_ID', 'PRODUCT_ID', 'BIDDED_ITEM','QUANTITY', 'IS_SOLD'], 'integer'],
             [['PRODUCT_PRICE'], 'number'],
             [['DATE_ADDED', 'EXPIRY_DATE', 'DATE_BOUGHT'], 'safe'],
             [['PAYPAL_HASH'], 'string', 'max' => 100],
@@ -66,7 +67,8 @@ class ItemsCart extends \yii\db\ActiveRecord
             'PRODUCT_ID' => 'Product  ID',
             'PRODUCT_PRICE' => 'Product  Price',
             'BIDDED_ITEM' => 'Bidded  Item',
-            'IS_SOLD' => 'Is  Sold',
+            'QUANTITY' => 'Quantity Sold',
+            'IS_SOLD' => 'Sold',
             'PAYPAL_HASH' => 'Use to track which items were paid for',
             'DATE_ADDED' => 'Date  Added',
             'EXPIRY_DATE' => 'Expiry  Date',
