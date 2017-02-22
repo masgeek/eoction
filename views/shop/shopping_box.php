@@ -90,11 +90,12 @@ $cartModel->QUANTITY = 1;
 
                 <?= $form->field($cartModel, 'QUANTITY')
                     ->widget(\kartik\touchspin\TouchSpin::className(), [
-                        'options' => ['placeholder' => 'Enter quantity to purchase', 'id' => "qunatity-$product_id"],
+                        'options' => ['placeholder' => 'Enter quantity to purchase', 'id' => "quantity-$product_id"],
                         'pluginOptions' => ['postfix' => 'Items', 'verticalbuttons' => true, 'min' => 1, 'max' => $stock],
                         'pluginEvents' => [
-                            "touchspin.on.startspin" => "function() { console.log('touchspin . on . startspin'); }",
-                            "touchspin.on.startupspin" => "function() { console.log('touchspin . on . startupspin'); }",
+                            "change" => "function() { evaluateProducts($product_id);}",
+                            //"touchspin.on.startspin" => "function() { evaluateProducts($product_id);}",
+                            //"touchspin.on.startupspin" => "function() { evaluateProducts($product_id); }",
                         ]
                     ])->label(false) ?>
                 <?= Html::submitButton('Buy Now', ['class' => 'btn btn-primary btn-block btn-lg noradius']); ?>

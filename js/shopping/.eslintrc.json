@@ -1,12 +1,23 @@
 {
     "env": {
-        "browser": true
+        "browser": true,
+        "commonjs": true,
+        "es6": true
     },
+    "plugins": [
+        "jquery"
+    ],
     "extends": "eslint:recommended",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "sourceType": "module"
+    },
     "rules": {
         "indent": [
             "error",
-            "tab"
+            4
         ],
         "linebreak-style": [
             "error",
@@ -14,7 +25,7 @@
         ],
         "quotes": [
             "error",
-            "single"
+            "double"
         ],
         "semi": [
             "error",
