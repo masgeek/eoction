@@ -7,18 +7,15 @@
 
 use yii\widgets\ListView;
 use yii\helpers\Url;
-use yii\helpers\Html;
 
 //register js file
-$this->registerJsFile('@web/js/bidding/bidding-progress.js');
+$this->registerJsFile('@web/js/shopping/shopping-actions.js');
 //$this->registerJsFile('@web/js/bidding/facebook-login.js');
 
 $updateUrl = Url::toRoute(['shop/item-update']);
 $biddingUrl = Url::toRoute(['site/place-bid']);
 $productUrl = Url::toRoute(['site/next-item']);
 
-
-$userId = 1;
 //$helper::AddItemsToBidActivity($listDataProvider);
 //BidManager::AddItemsToBidActivity($listDataProvider);
 //BidManager::RemoveItemsFromBidActivity('NHQ-J272582011000');
