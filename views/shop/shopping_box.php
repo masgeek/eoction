@@ -39,8 +39,13 @@ $shipping = ProductManager::ComputeShippingCost($product_id);
 $shipping_cost = $formatter->asCurrency($shipping);
 $retail_price = $formatter->asCurrency($retail_price_raw);
 
+
+//set eth inital values for the cart items model
 $cartModel->PRODUCT_ID = $product_id;
 $cartModel->QUANTITY = 1;
+$cartModel->USER_ID = $userid;
+$cartModel->TOTAL_PRICE = $retail_price_raw;
+$cartModel->PRODUCT_PRICE = $retail_price_raw;
 ?>
 
 
@@ -80,7 +85,7 @@ $cartModel->QUANTITY = 1;
                     'id' => "shop-$product_id",
                     'action' => ['//shop/add-to-cart'],
                     'options' => [
-                        'class' => 'form-horizontal',
+                        //'class' => 'form-horizontal',
                         'enctype' => 'multipart/form-data'
                     ],
                 ]); ?>
@@ -88,9 +93,24 @@ $cartModel->QUANTITY = 1;
                     ->hiddenInput(['class' => 'form-control text-center', 'readonly' => true])
                     ->label(false) ?>
 
+                <?= $form->field($cartModel, 'USER_ID')
+                    ->hiddenInput(['class' => 'form-control text-center', 'readonly' => true])
+                    ->label(false) ?>
+
+                <?= $form->field($cartModel, 'PRODUCT_PRICE')
+                    ->hiddenInput(['class' => 'form-control text-center', 'readonly' => true, 'id' => "product-price-$product_id"])
+                    ->label(false)
+                ?>
+
+                <!-- fields visible to the user -->
+
                 <?= $form->field($cartModel, 'QUANTITY')
                     ->widget(\kartik\touchspin\TouchSpin::className(), [
-                        'options' => ['placeholder' => 'Enter quantity to purchase', 'id' => "quantity-$product_id"],
+                        'options' => [
+                            'placeholder' => 'Enter quantity to purchase',
+                            'id' => "quantity-$product_id",
+                            'onkeypress' => "return event.keyCode != 13;"
+                        ],
                         'pluginOptions' => ['postfix' => 'Items', 'verticalbuttons' => true, 'min' => 1, 'max' => $stock],
                         'pluginEvents' => [
                             "change" => "function() { evaluateProducts($product_id);}",
@@ -98,6 +118,18 @@ $cartModel->QUANTITY = 1;
                             //"touchspin.on.startupspin" => "function() { evaluateProducts($product_id); }",
                         ]
                     ])->label(false) ?>
+
+                <?= $form->field($cartModel, 'TOTAL_PRICE')
+                    ->textInput([
+                        'class' => 'form-control text-center',
+                        'readonly' => true,
+                        'id' => "total-$product_id",
+                        'onkeypress' => "return event.keyCode != 13;"
+                    ])
+                    ->label(false) ?>
+
+                <!-- end user visible fields -->
+
                 <?= Html::submitButton('Buy Now', ['class' => 'btn btn-primary btn-block btn-lg noradius']); ?>
                 <?php ActiveForm::end(); ?>
             </div>

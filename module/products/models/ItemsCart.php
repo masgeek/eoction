@@ -2,21 +2,21 @@
 
 namespace app\module\products\models;
 
-use Yii;
 use app\module\users\models\Users;
 use yii\db\Expression;
 
 /**
  * This is the model class for table "{{%tb_items_cart}}".
  *
- * @property integer $CART_ID
- * @property integer $USER_ID
- * @property integer $PRODUCT_ID
+ * @property int $CART_ID
+ * @property int $USER_ID
+ * @property int $PRODUCT_ID
+ * @property string $TOTAL_PRICE
  * @property string $PRODUCT_PRICE
- * @property integer $BIDDED_ITEM
- * @property integer $QUANTITY
- * @property integer $IS_SOLD
- * @property string $PAYPAL_HASH
+ * @property int $BIDDED_ITEM
+ * @property int $QUANTITY
+ * @property int $IS_SOLD
+ * @property string $PAYPAL_HASH Use to track which items were paid for
  * @property string $DATE_ADDED
  * @property string $EXPIRY_DATE
  * @property string $DATE_BOUGHT
@@ -34,22 +34,14 @@ class ItemsCart extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\Connection the database connection used by this AR class.
-     */
-    public static function getDb()
-    {
-        return Yii::$app->get('db');
-    }
-
-    /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
             [['USER_ID', 'PRODUCT_ID', 'PRODUCT_PRICE', 'DATE_ADDED', 'EXPIRY_DATE', 'DATE_BOUGHT'], 'required'],
-            [['USER_ID', 'PRODUCT_ID', 'BIDDED_ITEM','QUANTITY', 'IS_SOLD'], 'integer'],
-            [['PRODUCT_PRICE'], 'number'],
+            [['USER_ID', 'PRODUCT_ID', 'BIDDED_ITEM', 'QUANTITY', 'IS_SOLD'], 'integer'],
+            [['TOTAL_PRICE', 'PRODUCT_PRICE'], 'number'],
             [['DATE_ADDED', 'EXPIRY_DATE', 'DATE_BOUGHT'], 'safe'],
             [['PAYPAL_HASH'], 'string', 'max' => 100],
             [['USER_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['USER_ID' => 'USER_ID']],
@@ -57,26 +49,8 @@ class ItemsCart extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'CART_ID' => 'Cart  ID',
-            'USER_ID' => 'User  ID',
-            'PRODUCT_ID' => 'Product  ID',
-            'PRODUCT_PRICE' => 'Product  Price',
-            'BIDDED_ITEM' => 'Bidded  Item',
-            'QUANTITY' => 'Quantity Sold',
-            'IS_SOLD' => 'Sold',
-            'PAYPAL_HASH' => 'Use to track which items were paid for',
-            'DATE_ADDED' => 'Date  Added',
-            'EXPIRY_DATE' => 'Expiry  Date',
-            'DATE_BOUGHT' => 'Date  Bought',
-        ];
-    }
-
-
+    * @inheritdoc
+    */
     public function beforeValidate()
     {
         $date = new Expression('NOW()');
@@ -90,6 +64,26 @@ class ItemsCart extends \yii\db\ActiveRecord
         }
         return false;
     }
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'CART_ID' => 'Cart  ID',
+            'USER_ID' => 'User  ID',
+            'PRODUCT_ID' => 'Product  ID',
+            'TOTAL_PRICE' => 'Total  Price',
+            'PRODUCT_PRICE' => 'Product  Price',
+            'BIDDED_ITEM' => 'Bidded Item',
+            'QUANTITY' => 'Quantity',
+            'IS_SOLD' => 'Is  Sold',
+            'PAYPAL_HASH' => 'Use to track which items were paid for',
+            'DATE_ADDED' => 'Date  Added',
+            'EXPIRY_DATE' => 'Expiry  Date',
+            'DATE_BOUGHT' => 'Date  Bought',
+        ];
+    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -97,10 +91,5 @@ class ItemsCart extends \yii\db\ActiveRecord
     public function getUSER()
     {
         return $this->hasOne(Users::className(), ['USER_ID' => 'USER_ID']);
-    }
-
-    public function getProductInfo($product_id)
-    {
-        return FryProducts::findOne($product_id);
     }
 }
