@@ -33,7 +33,6 @@ $listviewWidget = ListView::widget([
     //'itemView' => '_product_view_old',
     'itemView' => 'shopping_box',
 ]);
-//static text fields
 ?>
 
 <div class="col-md-10 col-md-offset-1">
