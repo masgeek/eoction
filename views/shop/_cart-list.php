@@ -25,7 +25,7 @@ $imageModel = new \app\module\products\models\FryProductImages();
 $cart_item_id = $model->CART_ID;
 $product_id = $model->PRODUCT_ID;
 
-$productModel = $model->getProductInfo($product_id);
+$productModel = $model->pRODUCT; //getProductInfo($product_id);
 
 $product_name = $productModel->name;
 $product_description = $productModel->desc;

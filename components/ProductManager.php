@@ -153,6 +153,7 @@ class ProductManager
     public static function GetUserCartItemsTotal($user_id, $sold_status = [0, 1])
     {
         /* @var $productModel FryProducts */
+        /* @var $model ItemsCart */
 
         $total = [];
         $shipping = [];
@@ -165,7 +166,7 @@ class ProductManager
             'pagination' => false,
         ]);
         foreach ($cart_item_data->models as $model) {
-            $productModel = $model->getProductInfo($model->PRODUCT_ID);
+            $productModel = $model->pRODUCT; //getProductInfo($model->PRODUCT_ID);
             if ($model->BIDDED_ITEM == '1') {
                 $product_price = $model->PRODUCT_PRICE;
             } else {
