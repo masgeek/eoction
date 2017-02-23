@@ -121,12 +121,17 @@ class ShopController extends Controller
     }
 
 
-    public function actionAddToCart(){
+    public function actionAddToCart()
+    {
+        $model = new ItemsCart();
 
-        var_dump($_POST);
-
-        //return $this->redirect(['//shop/index']);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['//shop/cart', 'id' => $model->USER_ID]);
+        } else {
+            return $this->redirect(['//shop/index']);
+        }
     }
+
     public function actionAddToCart2($user_id, $product_id, $price)
     {
         //check if user is logged in

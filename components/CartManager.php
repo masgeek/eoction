@@ -34,6 +34,7 @@ class CartManager
         $cartModel->PRODUCT_ID = $product_id;
         $cartModel->USER_ID = $user_id;
         $cartModel->PRODUCT_PRICE = $price;
+        $cartModel->TOTAL_PRICE = $price;
         $cartModel->BIDDED_ITEM = $bidden_item;
         $cartModel->QUANTITY = $quantity;
         if ($cartModel->save() && $cartModel->validate()) {

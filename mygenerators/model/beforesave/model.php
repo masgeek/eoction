@@ -80,6 +80,22 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
     }
 
     /**
+    * @inheritdoc
+    */
+    public function beforeValidate()
+    {
+        $date = new Expression('NOW()');
+        if (parent::beforeValidate()) {
+            if ($this->isNewRecord) {
+                //$this->DATE_ADDED = $date; //@TODO edit to mach data field columns
+                //$this->EXPIRY_DATE = ProductManager::SetProductExpiryDate(); //@TODO edit to mach data field columns
+            }
+                //$this->DATE_BOUGHT = $date; //@TODO edit to mach data field columns
+                return true;
+        }
+        return false;
+    }
+    /**
      * @inheritdoc
      */
     public function attributeLabels()

@@ -2,6 +2,7 @@
 
 namespace app\module\products\models;
 
+use app\components\ProductManager;
 use app\module\users\models\Users;
 use yii\db\Expression;
 
@@ -49,21 +50,22 @@ class ItemsCart extends \yii\db\ActiveRecord
     }
 
     /**
-    * @inheritdoc
-    */
+     * @inheritdoc
+     */
     public function beforeValidate()
     {
         $date = new Expression('NOW()');
         if (parent::beforeValidate()) {
             if ($this->isNewRecord) {
                 $this->DATE_ADDED = $date;
-                $this->EXPIRY_DATE = $date; //@TODO update expiry date and inquire after how long
+                $this->EXPIRY_DATE = ProductManager::SetProductExpiryDate();
             }
             $this->DATE_BOUGHT = $date;
             return true;
         }
         return false;
     }
+
     /**
      * @inheritdoc
      */
