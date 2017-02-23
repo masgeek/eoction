@@ -205,7 +205,7 @@ class ProductManager
         if ($cartItems->count > 0) {
 
             foreach ($cartItems->models as $model) {
-                $productModel = $model->getProductInfo($model->PRODUCT_ID);
+                $productModel = $model->pRODUCT;
                 if ($model->BIDDED_ITEM == '1') {
                     $product_price = $model->PRODUCT_PRICE;
                 } else {

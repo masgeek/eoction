@@ -39,8 +39,8 @@ $image_url = $productModel->image1;//getSingleImage($product_id);
 $product_image = ProductManager::CheckImageExists($image_url);
 
 
-$product_price =  $formatter->asDecimal($model->PRODUCT_PRICE);
-$total_price_raw =  $formatter->asDecimal($model->TOTAL_PRICE);
+$product_price = $formatter->asDecimal($model->PRODUCT_PRICE);
+$total_price_raw = $formatter->asDecimal($model->TOTAL_PRICE);
 
 $shipping = ProductManager::ComputeShippingCost($product_id);
 $shipping_cost = $formatter->asCurrency($shipping);
@@ -66,8 +66,22 @@ $total_price = $formatter->asCurrency($total_price_raw);
                 </div>
             </div>
         </td>
-        <td>
-            <input type="number" class="form-control" id="quantity" readonly="readonly" value="<?= $model->QUANTITY ?>">
+        <td width="200">
+            <!--<input type="number" class="form-control" id="quantity" readonly="readonly" value="<?= $model->QUANTITY ?>">-->
+            <?= \kartik\touchspin\TouchSpin::widget([
+                'name' => 'quantity',
+                'id' => "quantity-$model->CART_ID",
+                'value' => $model->QUANTITY,
+                'pluginOptions' => [
+                    'min' => 1,
+                    //'max' => $model->pRODUCT->available,
+                    //'step' => 1,
+                    //'decimals' => 0,
+                    //'boostat' => 0,
+                    //'maxboostedstep' => 10,
+                    'verticalbuttons' => true
+                ],
+            ]); ?>
         </td>
         <td class="text-center"><strong><?= $retail_price ?></strong></td>
         <td class="text-center"><strong><?= $total_price ?></strong></td>

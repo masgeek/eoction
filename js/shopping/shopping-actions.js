@@ -13,3 +13,7 @@ function evaluateProducts(product_id) {
 
     console.log('Action started for id ' + product_id + ' and value for ' + item_quantity + ' price is ' + total_product_cost);
 }
+
+function itemQuantityChanged($cart_item_id){
+
+}
