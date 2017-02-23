@@ -23,7 +23,7 @@ use yii\db\Expression;
  * @property string $DATE_BOUGHT
  *
  * @property FryProducts $pRODUCT
- * @property TbUsers $uSER
+ * @property Users $uSER
  */
 class ItemsCart extends \yii\db\ActiveRecord
 {
