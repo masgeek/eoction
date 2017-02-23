@@ -12,8 +12,8 @@ use yii\db\Expression;
  * @property int $CART_ID
  * @property int $USER_ID
  * @property int $PRODUCT_ID
- * @property string $TOTAL_PRICE
  * @property string $PRODUCT_PRICE
+ * @property string $TOTAL_PRICE
  * @property int $BIDDED_ITEM
  * @property int $QUANTITY
  * @property int $IS_SOLD
@@ -22,7 +22,8 @@ use yii\db\Expression;
  * @property string $EXPIRY_DATE
  * @property string $DATE_BOUGHT
  *
- * @property Users $uSER
+ * @property FryProducts $pRODUCT
+ * @property TbUsers $uSER
  */
 class ItemsCart extends \yii\db\ActiveRecord
 {
@@ -42,16 +43,17 @@ class ItemsCart extends \yii\db\ActiveRecord
         return [
             [['USER_ID', 'PRODUCT_ID', 'PRODUCT_PRICE', 'DATE_ADDED', 'EXPIRY_DATE', 'DATE_BOUGHT'], 'required'],
             [['USER_ID', 'PRODUCT_ID', 'BIDDED_ITEM', 'QUANTITY', 'IS_SOLD'], 'integer'],
-            [['TOTAL_PRICE', 'PRODUCT_PRICE'], 'number'],
+            [['PRODUCT_PRICE', 'TOTAL_PRICE'], 'number'],
             [['DATE_ADDED', 'EXPIRY_DATE', 'DATE_BOUGHT'], 'safe'],
             [['PAYPAL_HASH'], 'string', 'max' => 100],
+            [['PRODUCT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => FryProducts::className(), 'targetAttribute' => ['PRODUCT_ID' => 'productid']],
             [['USER_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['USER_ID' => 'USER_ID']],
         ];
     }
 
     /**
-     * @inheritdoc
-     */
+    * @inheritdoc
+    */
     public function beforeValidate()
     {
         $date = new Expression('NOW()');
@@ -60,12 +62,11 @@ class ItemsCart extends \yii\db\ActiveRecord
                 $this->DATE_ADDED = $date;
                 $this->EXPIRY_DATE = ProductManager::SetProductExpiryDate();
             }
-            $this->DATE_BOUGHT = $date;
-            return true;
+                $this->DATE_BOUGHT = $date; //@TODO edit to mach data field columns
+                return true;
         }
         return false;
     }
-
     /**
      * @inheritdoc
      */
@@ -75,9 +76,9 @@ class ItemsCart extends \yii\db\ActiveRecord
             'CART_ID' => 'Cart  ID',
             'USER_ID' => 'User  ID',
             'PRODUCT_ID' => 'Product  ID',
-            'TOTAL_PRICE' => 'Total  Price',
             'PRODUCT_PRICE' => 'Product  Price',
-            'BIDDED_ITEM' => 'Bidded Item',
+            'TOTAL_PRICE' => 'Total  Price',
+            'BIDDED_ITEM' => 'Bidded  Item',
             'QUANTITY' => 'Quantity',
             'IS_SOLD' => 'Is  Sold',
             'PAYPAL_HASH' => 'Use to track which items were paid for',
@@ -85,6 +86,14 @@ class ItemsCart extends \yii\db\ActiveRecord
             'EXPIRY_DATE' => 'Expiry  Date',
             'DATE_BOUGHT' => 'Date  Bought',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPRODUCT()
+    {
+        return $this->hasOne(FryProducts::className(), ['productid' => 'PRODUCT_ID']);
     }
 
     /**
