@@ -73,18 +73,18 @@ class ItemsCart extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'CART_ID' => 'Cart  ID',
-            'USER_ID' => 'User  ID',
-            'PRODUCT_ID' => 'Product  ID',
-            'PRODUCT_PRICE' => 'Product  Price',
-            'TOTAL_PRICE' => 'Total  Price',
-            'BIDDED_ITEM' => 'Bidded  Item',
+            'CART_ID' => 'Cart ID',
+            'USER_ID' => 'User ID',
+            'PRODUCT_ID' => 'Product ID',
+            'PRODUCT_PRICE' => 'Product Price',
+            'TOTAL_PRICE' => 'Total Price',
+            'BIDDED_ITEM' => 'Bid Item',
             'QUANTITY' => 'Quantity',
-            'IS_SOLD' => 'Is  Sold',
+            'IS_SOLD' => 'Sold',
             'PAYPAL_HASH' => 'Use to track which items were paid for',
-            'DATE_ADDED' => 'Date  Added',
-            'EXPIRY_DATE' => 'Expiry  Date',
-            'DATE_BOUGHT' => 'Date  Bought',
+            'DATE_ADDED' => 'Date Added',
+            'EXPIRY_DATE' => 'Expiry Date',
+            'DATE_BOUGHT' => 'Date Bought',
         ];
     }
 
