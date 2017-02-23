@@ -7,7 +7,6 @@
  */
 
 /* @var $productModel app\module\products\models\FryProducts */
-/* @var $image_url app\module\products\models\FryProductImages */
 /* @var $model app\module\products\models\ItemsCart */
 
 
@@ -71,7 +70,7 @@ $retail_price = $formatter->asCurrency($product_price);
             </div>
         </td>
         <td>
-            <input type="number" class="form-control" id="quantity" readonly="readonly" value="1">
+            <input type="number" class="form-control" id="quantity" readonly="readonly" value="<?=$model->QUANTITY?>">
         </td>
         <td class="text-center"><strong><?= $retail_price ?></strong></td>
         <td class="text-center"><strong><?= $retail_price ?></strong></td>
