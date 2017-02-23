@@ -25,7 +25,7 @@ $image_url = $model->image1;
 $product_image = ProductManager::CheckImageExists($image_url);
 
 
-$retail_price_raw = $model->buyitnow;
+$retail_price_raw = $formatter->asDecimal($model->buyitnow);
 
 $userid = yii::$app->user->id ? yii::$app->user->id : 0;
 

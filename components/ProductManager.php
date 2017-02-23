@@ -167,11 +167,9 @@ class ProductManager
         ]);
         foreach ($cart_item_data->models as $model) {
             $productModel = $model->pRODUCT; //getProductInfo($model->PRODUCT_ID);
-            if ($model->BIDDED_ITEM == '1') {
-                $product_price = $model->PRODUCT_PRICE;
-            } else {
-                $product_price = $productModel->buyitnow; //get the retail price if its not a bid item
-            }
+
+            $product_price = $model->TOTAL_PRICE;
+
             $total[] = (float)$product_price;
             $shipping[] = ProductManager::ComputeShippingCost($productModel->productid);
         }

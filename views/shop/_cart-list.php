@@ -38,17 +38,14 @@ $image_url = $productModel->image1;//getSingleImage($product_id);
 //$product_image = $imageObject ? "{$imageHost}/{$imageFolder}/{$imageObject->imagefile}" : '@web/product_images/placeholder.png';
 $product_image = ProductManager::CheckImageExists($image_url);
 
-//calculate the percentage discount based on the retail price and the bidded amount
-if ($model->BIDDED_ITEM == '1') {
-    $product_price = $model->PRODUCT_PRICE;
-} else {
-    $product_price = $productModel->buyitnow; //get the retail price if its not a bid item
-}
 
+$product_price =  $formatter->asDecimal($model->PRODUCT_PRICE);
+$total_price_raw =  $formatter->asDecimal($model->TOTAL_PRICE);
 
 $shipping = ProductManager::ComputeShippingCost($product_id);
 $shipping_cost = $formatter->asCurrency($shipping);
 $retail_price = $formatter->asCurrency($product_price);
+$total_price = $formatter->asCurrency($total_price_raw);
 
 ?>
     <tr id="cart-row-<?= $cart_item_id ?>">
@@ -70,10 +67,10 @@ $retail_price = $formatter->asCurrency($product_price);
             </div>
         </td>
         <td>
-            <input type="number" class="form-control" id="quantity" readonly="readonly" value="<?=$model->QUANTITY?>">
+            <input type="number" class="form-control" id="quantity" readonly="readonly" value="<?= $model->QUANTITY ?>">
         </td>
         <td class="text-center"><strong><?= $retail_price ?></strong></td>
-        <td class="text-center"><strong><?= $retail_price ?></strong></td>
+        <td class="text-center"><strong><?= $total_price ?></strong></td>
         <td>
             <button type="button" class="btn btn-danger" id="remove-item-<?= $cart_item_id ?>">
                 <span class="glyphicon glyphicon-remove"></span> Remove
