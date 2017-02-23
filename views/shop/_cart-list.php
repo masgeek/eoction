@@ -68,8 +68,9 @@ $total_price = $formatter->asCurrency($total_price_raw);
         </td>
         <td width="200">
             <!--<input type="number" class="form-control" id="quantity" readonly="readonly" value="<?= $model->QUANTITY ?>">-->
+            <input type="number" class="form-control" id="item-cost-<?=$model->CART_ID?>" readonly="readonly" value="<?= $product_price ?>">
             <?= \kartik\touchspin\TouchSpin::widget([
-                'name' => 'quantity',
+                'name' => "quantity-$model->CART_ID",
                 'id' => "quantity-$model->CART_ID",
                 'value' => $model->QUANTITY,
                 'pluginOptions' => [
@@ -81,10 +82,13 @@ $total_price = $formatter->asCurrency($total_price_raw);
                     //'maxboostedstep' => 10,
                     'verticalbuttons' => true
                 ],
+                'pluginEvents' => [
+                    "change" => "function() { itemQuantityChanged($model->CART_ID);}",
+                ]
             ]); ?>
         </td>
-        <td class="text-center"><strong><?= $retail_price ?></strong></td>
-        <td class="text-center"><strong><?= $total_price ?></strong></td>
+        <td class="text-center"><strong id="retail-<?= $model->CART_ID ?>"><?= $retail_price ?></strong></td>
+        <td class="text-center"><strong id="total-<?= $model->CART_ID ?>"><?= $total_price ?></strong></td>
         <td>
             <button type="button" class="btn btn-danger" id="remove-item-<?= $cart_item_id ?>">
                 <span class="glyphicon glyphicon-remove"></span> Remove
