@@ -15,15 +15,18 @@ use app\module\products\models\ItemsCart;
 class CartManager
 {
     /**
-     * Add items to car to purchase processing
+     * Add items to cart for purchase processing
      * @param $user_id
      * @param $product_id
      * @param $price
      * @param int $bidden_item
-     * @return array|mixed|null
+     * @param int $quantity
+     * @return bool
      */
-    public static function AddItemsToCart($user_id, $product_id, $price, $bidden_item = 0)
+    public static function AddItemsToCart($user_id, $product_id, $price, $bidden_item = 0, $quantity = 1)
     {
+        if ($quantity <= 0) return false;
+
         $cartModel = new ItemsCart();
         $cartModel->isNewRecord = true;
 
@@ -31,8 +34,9 @@ class CartManager
         $cartModel->PRODUCT_ID = $product_id;
         $cartModel->USER_ID = $user_id;
         $cartModel->PRODUCT_PRICE = $price;
+        $cartModel->TOTAL_PRICE = $price;
         $cartModel->BIDDED_ITEM = $bidden_item;
-
+        $cartModel->QUANTITY = $quantity;
         if ($cartModel->save() && $cartModel->validate()) {
             //delete the users bid activity it wont be needed from here
             BidActivity::deleteAll([
@@ -41,7 +45,7 @@ class CartManager
             ]);
             return true;
         } else {
-            return $cartModel->getErrors();
+            \Yii::error(json_encode($cartModel->getErrors()), 'activebids');
         }
 
         return false;

@@ -1,9 +1,9 @@
+/* eslint-disable no-undef */
 /**
  * Created by KRONOS on 11/28/2016.
  */
 function RemoveFromCart($cart_item_id) {
     var remove_cart_item = $('#remove-item-' + $cart_item_id);
-
     // instanciate new modal
     var modal = new tingle.modal({
         footer: true,
@@ -31,7 +31,7 @@ function RemoveFromCart($cart_item_id) {
         // here goes some logic
         modal.close();
         RemoveCartItem($cart_item_id);
-
+        window.location.reload();
     });
 
 // close modal

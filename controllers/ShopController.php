@@ -57,18 +57,20 @@ class ShopController extends Controller
         $session = Yii::$app->session;
         $session->set('search_url', \yii\helpers\Url::toRoute(['search-shop']));
 
-        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 24, $for_auction = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false);
+        $cartModel = new ItemsCart();
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 4, $for_auction = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false);
         $this->view->title = 'Online Shopping';
-        return $this->render('shop', ['listDataProvider' => $dataProvider]);
+        return $this->render('shop', ['listDataProvider' => $dataProvider, 'cartModel' => $cartModel]);
     }
 
     public function actionSearchShop($q)
     {
         $search = new ProductsSearch();
+        $cartModel = new ItemsCart();
         $this->view->title = 'Search - Online Shopping';
         $dataProvider = $search->productsearch($q, $no_of_items = 20, $auction_param = [1, 0], $min_stock = 0);
 
-        return $this->render('shop', ['listDataProvider' => $dataProvider]);
+        return $this->render('shop', ['listDataProvider' => $dataProvider, 'cartModel' => $cartModel]);
     }
 
     /**
@@ -119,13 +121,18 @@ class ShopController extends Controller
     }
 
 
-    /**
-     * @param $user_id
-     * @param $product_id
-     * @param $price
-     * @return \yii\web\Response
-     */
-    public function actionAddToCart($user_id, $product_id, $price)
+    public function actionAddToCart()
+    {
+        $model = new ItemsCart();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['//shop/cart', 'id' => $model->USER_ID]);
+        } else {
+            return $this->redirect(['//shop/index']);
+        }
+    }
+
+    public function actionAddToCart2($user_id, $product_id, $price)
     {
         //check if user is logged in
         if (Yii::$app->user->isGuest):
@@ -133,7 +140,7 @@ class ShopController extends Controller
             return $this->redirect(['//login']);
         else:
             //add it to the cart
-            $resp = CartManager::AddItemsToCart($user_id, $product_id, $price);
+            $resp = CartManager::AddItemsToCart($user_id, $product_id, $price, 0, 0);
 
             if ($resp == true) {
                 return $this->redirect(['//shop/cart', 'id' => $user_id]);

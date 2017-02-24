@@ -10,6 +10,10 @@
 /* @var $cartDataProvider app\module\products\models\ItemsCart */
 /* @var $user_id */
 
+$this->registerJsFile('@web/js/shopping/cart-manager.js');
+
+$this->registerJsFile('@web/js/shopping/shopping-actions.js');
+
 $this->title = 'My Cart';
 $this->params['breadcrumbs'][] = ['label' => 'Shopping', 'url' => ['//shop']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -40,9 +44,6 @@ $paypalAction = \yii\helpers\Url::to(['//paypal/paypal-checkout', 'id' => $user_
 $userAddress = \yii\helpers\Url::to(['//my-addresses', 'id' => $user_id]);
 $continueShopping = \yii\helpers\Url::to(['//shop']);
 $itemRemovalAction = \yii\helpers\Url::to(['//shop/remove-item']);
-
-$this->registerJsFile('@web/js/shopping/cart-manager.js');
-
 ?>
 
 <!-- this will show the flash messages-->
