@@ -9,6 +9,7 @@
 namespace app\controllers;
 
 
+use app\module\products\models\FryProducts;
 use app\module\products\ProductsSearch;
 use Yii;
 use yii\filters\AccessControl;
@@ -74,22 +75,34 @@ class ShopController extends Controller
     }
 
     /**
-     * @param $product_id
+     * @param int $product_id
      * @param $sku
+     * @param int $starting_bid
      * @return string
      */
     public function actionItemUpdate($product_id, $sku, $starting_bid = 0)
     {
+        /* @var $model FryProducts */
+
         //lets fetch the auction details of a product
         //number of bids
         //current bid price
+        $model = FryProducts::findOne($product_id);
+
+        if ($starting_bid > 0) {
+            $bid_price = $starting_bid;
+        } else {
+            $bid_price = $model->price;
+        }
+
+        $discount = ProductManager::ComputePercentageDiscount($model->buyitnow, $bid_price);
 
         $updateData = [
             'product_id' => $product_id,
             'sku' => $sku,
             'bid_price' => BidManager::GetMaxBidAmount($product_id),
             'bid_count' => ProductManager::GetNumberOfBids($product_id),
-            'discount' => 0//ProductManager::ComputePercentageDiscount($product_id),
+            'discount' => $discount,
             //'winning_user' => BidManager::GetWinningUser($product_id, $sku, false)
         ];
         return json_encode($updateData);
