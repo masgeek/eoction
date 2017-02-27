@@ -10,8 +10,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 
 //register js file
-$this->registerJsFile('@web/js/bidding/bidding-requests-stable.js');
-//$this->registerJsFile('@web/js/bidding/facebook-login.js');
+$this->registerJsFile('@web/js/bidding/bidding-request-stable.js');
 
 
 $listviewWidget = ListView::widget([
@@ -38,12 +37,6 @@ $listviewWidget = ListView::widget([
 ]);
 //static text fields
 ?>
-<?php if (Yii::$app->session->hasFlash('success')): ?>
-    <div class="alert alert-success alert-dismissable">
-        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">CLOSE</button>
-		<?= Yii::$app->session->getFlash('success') ?>
-    </div>
-<?php endif; ?>
 
 <div class="col-md-10 col-md-offset-1">
 	<?= $listviewWidget ?>
