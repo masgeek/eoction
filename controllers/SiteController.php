@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\bidding\ActiveBids;
+use app\module\products\models\FryProducts;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -184,6 +185,8 @@ class SiteController extends Controller
      */
     public function actionPlaceBid($id, $user_id, $sku, $starting_bid = 0)
     {
+        /* @var $model FryProducts */
+        /* @var $bidactivity BidActivity */
         $resp = [
             'success' => false
         ];
@@ -205,14 +208,14 @@ class SiteController extends Controller
             if ($model->save()) {
                 //no need to alert user return indicator so that we can switch to auction countdown
                 //track the bid
-                BidManager::TrackUsersBids($user_id, $id, $sku,0, $starting_bid);
+                BidManager::TrackUsersBids($user_id, $id, $sku, 0, $starting_bid);
 
-                if($starting_bid>0){
+                if ($starting_bid > 0) {
                     $price = $starting_bid;
-                }else{
-                    $price = $model->PRODUCT_ID;
+                } else {
+                    $price = $model->pRODUCT->price;
                 }
-$discount = ProductManager::ComputePercentageDiscount($model->PRODUCT_ID);
+                $discount = ProductManager::ComputePercentageDiscount($model->pRODUCT->buyitnow,$price);
                 $resp = [
                     'msg' => 'Bid placed successfully',
                     'success' => true,
@@ -241,14 +244,21 @@ $discount = ProductManager::ComputePercentageDiscount($model->PRODUCT_ID);
             if ($bidactivity->save()) {
                 //no need to alert user return indicator so that we can swithc to auction countdown
                 //track the bid per user
-                BidManager::TrackUsersBids($user_id, $id, $sku,0, $starting_bid);
+                BidManager::TrackUsersBids($user_id, $id, $sku, 0, $starting_bid);
+
+                if ($starting_bid > 0) {
+                    $price = $starting_bid;
+                } else {
+                    $price = $bidactivity->pRODUCT->price;;
+                }
+                $discount = ProductManager::ComputePercentageDiscount($bidactivity->pRODUCT->buyitnow,$price);
                 $resp = [
                     'msg' => 'Bid updated successfully',
                     'success' => true,
                     'product_id' => $bidactivity->PRODUCT_ID,
                     'sku' => $bidactivity->PRODUCT_SKU,
                     'bid_price' => BidManager::GetMaxBidAmount($bidactivity->PRODUCT_ID),
-                    'discount' => ProductManager::ComputePercentageDiscount($bidactivity->PRODUCT_ID),
+                    'discount' => $discount,
                     'bid_count' => ProductManager::GetNumberOfBids($bidactivity->PRODUCT_ID),
                     //'winning_user'=>BidManager::GetWinningUser($bidactivity->PRODUCT_ID,$bidactivity->PRODUCT_SKU)
                 ];

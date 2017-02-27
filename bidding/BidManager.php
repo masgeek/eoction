@@ -452,7 +452,7 @@ class BidManager
         $starting_bid_price = $formatter->asCurrency($starting_bid_price_raw);
         //$shipping_cost = ProductManager::ComputeShippingCost($product_id);
         $bids = ProductManager::GetNumberOfBids($product_id);
-        $discount = ProductManager::ComputePercentageDiscount($product_id);
+        $discount = ProductManager::ComputePercentageDiscount($retail_price_raw, $starting_bid_price_raw);
 
         //$alias_path =  \Yii::getAlias('@web');
 
