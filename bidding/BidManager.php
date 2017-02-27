@@ -12,6 +12,7 @@
 
 namespace app\bidding;
 
+use app\components\CartManager;
 use app\module\products\models\TbActiveBids;
 use yii\db\Expression;
 use yii\helpers\Html;

@@ -78,17 +78,18 @@ class ShopController extends Controller
      * @param $sku
      * @return string
      */
-    public function actionItemUpdate($product_id, $sku)
+    public function actionItemUpdate($product_id, $sku, $starting_bid = 0)
     {
         //lets fetch the auction details of a product
         //number of bids
         //current bid price
+
         $updateData = [
             'product_id' => $product_id,
             'sku' => $sku,
             'bid_price' => BidManager::GetMaxBidAmount($product_id),
             'bid_count' => ProductManager::GetNumberOfBids($product_id),
-            'discount' => ProductManager::ComputePercentageDiscount($product_id),
+            'discount' => 0//ProductManager::ComputePercentageDiscount($product_id),
             //'winning_user' => BidManager::GetWinningUser($product_id, $sku, false)
         ];
         return json_encode($updateData);
