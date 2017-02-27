@@ -158,11 +158,7 @@ $config = [
 			'thousandSeparator' => ',',
 			//'timeZone' => 'GMT', //default time zones and format
 			'currencyCode' => 'USD',
-			'nullDisplay' => '0',
-            'numberFormatterOptions' => [
-                \NumberFormatter::MIN_FRACTION_DIGITS => 0,
-                \NumberFormatter::MAX_FRACTION_DIGITS => 2,
-            ]
+			'nullDisplay' => '0'
 		],
 //Paypal module
 		'paypal' => require(__DIR__ . '/paypal.php'),
