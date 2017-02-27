@@ -5,9 +5,9 @@
  * Date: 2016/10/10
  * Time: 14:40
  */
-/* @var $model app\module\products\models\TbActiveBids */
-/* @var $productModel app\module\products\models\FryProducts */
-/* @var $image_url app\module\products\models\FryProductImages */
+/* @var $model app\module\products\models\FryProducts */
+/* @var $requestModel app\models\BidRequests */
+/* @var $image app\module\products\models\FryProductImages */
 
 
 use yii\helpers\Html;
@@ -15,31 +15,29 @@ use yii\web\View;
 
 use app\components\ProductManager;
 
-
-$productModel = $model->pRODUCT;
-
-$product_id = $model->PRODUCT_ID;
-
-
 $formatter = \Yii::$app->formatter;
 
 $imageHost = \Yii::$app->params['ExternalImageServerLink'];
 $imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
 
-$image_url = $productModel->image1;
+$userid = yii::$app->user->id ? yii::$app->user->id : 0;
+
+$image_url = $model->image1;
+
 $product_image = ProductManager::CheckImageExists($image_url);
 
 
-//calculate the percentage discount based on the retail price and the bidded amount
-$starting_bid_price = $productModel->price;
-$sku = $productModel->sku;
+$retail_price_raw = $model->buyitnow;
+$starting_bid_price_raw = $model->cost_price;
 
-$bids = ProductManager::GetNumberOfBids($productModel->productid);
+$bids = ProductManager::GetNumberOfBids($model->productid);
 
 
-$product_name = $productModel->name;
+$sku = $model->sku;
+$product_id = $model->productid;
+$product_name = $model->name;
 
-$discount = ProductManager::ComputePercentageDiscount($productModel->buyitnow,$starting_bid_price);
+$discount = ProductManager::ComputePercentageDiscount($model->buyitnow, $starting_bid_price_raw);
 $shipping = ProductManager::ComputeShippingCost($product_id);
 
 $randseed = rand(5, 17);
@@ -50,15 +48,12 @@ if (YII_ENV_DEV) {
 }
 
 $shipping_cost = $formatter->asCurrency($shipping);
-$retail_price = $formatter->asCurrency($productModel->buyitnow);
+$retail_price = $formatter->asCurrency($retail_price_raw);
+$starting_bid_price = $formatter->asCurrency($starting_bid_price_raw);
 
-$starting_bid_price = \app\bidding\BidManager::GetMaxBidAmount($product_id);
-
-\app\bidding\BidManager::NextBidAmount($product_id);
-//BidManager::AddToExclusionList(1);
-\app\bidding\BidManager::AddToExclusionList($product_id, 0);
 ?>
-<div class="col-xs-18 col-sm-6 col-md-3 column productbox" id="item_box_<?= $product_id; ?>">
+
+<div class="col-xs-18 col-sm-6 col-md-3 column productbox" id="item_box_<?= uniqid(); ?>">
     <div class="hidden">
         <input type="text" id="bid_count_<?= $product_id; ?>" value="0" readonly="readonly"/>
         <input type="text" id="bid_price_<?= $product_id; ?>" value="0" readonly="readonly"/>
@@ -76,35 +71,48 @@ $starting_bid_price = \app\bidding\BidManager::GetMaxBidAmount($product_id);
             ]); ?>
         </div>
         <div class="caption">
-            <div class="row">
+            <div class="row hidden" id="">
                 <div class="col-md-12 col-xs-12 bidding-price text-center text-uppercase">
                     Bid Price: <span id="bid_price<?= $product_id ?>"><?= $starting_bid_price ?></span>
                 </div>
             </div>
-            <div class="row">
+            <div class="row start-bid">
+                <div class="col-md-12 col-xs-12 bidding-price text-center text-uppercase">
+                    Price: <span id="selling_price<?= $product_id ?>"><?= $retail_price ?></span>
+                </div>
+
+                <div id="bid_button_<?= $product_id ?>">
+                    <?= Html::button('Bid Request', [
+                        'class' => 'btn btn-bid btn-info btn-block noradius',
+                        'id' => "bid_request_$product_id",
+                        'onclick' => "InitiateBidRequest($product_id,$bidStartTime)"
+                    ]) ?>
+                </div>
+            </div>
+            <div class="row bid-request hidden">
                 <!--<button class="btn btn-block">BID NOW</button>-->
                 <div id="bid_button_<?= $product_id ?>">
-                    <?= Html::button('<span class="hammer-icon pull-left"></span>BID NOW', [
+                    <?= Html::button('<span class="hammer-icon pull-left"></span>Bid Now', [
                         'class' => 'btn btn-bid btn-bid-active btn-block noradius',
-                        'id' => "placebid_$product_id"
+                        'id' => "placebid_$product_id",
                     ]) ?>
                 </div>
                 <div class="bidProgress noplacedbids" id="progressBar<?= $product_id ?>"></div>
             </div>
-            <div class="row text-center">
+            <div class="row text-center bid-request hidden">
                 <div class="text-uppercase bid-message bid-status"><span
                             id="bid_status_<?= $product_id; ?>">Accepting Bids</span></div>
                 <div class="text-uppercase winning-user text-muted"><span id="winning_user_<?= $product_id; ?>">-</span>
                 </div>
             </div>
-            <div class="row">
+            <div class="row bid-request hidden">
                 <div class="col-md-12">
                     <a href="#" class="btn btn-default btn-product noborder">
                         <span class="small" id="shipping_<?= $product_id ?>">Shipping <?= $shipping_cost ?></span>
                     </a>
                 </div>
             </div>
-            <div class="row">
+            <div class="row bid-request hidden">
                 <div class="col-md-6">
                     <a class="btn btn-default btn-product text-uppercase noborder">
                         <span class="bidcount">
@@ -125,7 +133,7 @@ $starting_bid_price = \app\bidding\BidManager::GetMaxBidAmount($product_id);
 <!-- start the script -->
 <?php
 $this->registerJs("
-   SetupProgressBar($product_id,$bidStartTime);
+   //SetupProgressBar($product_id,$bidStartTime);
 ", View::POS_END)
 ?>
 

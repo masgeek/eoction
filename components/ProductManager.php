@@ -23,20 +23,15 @@ class ProductManager
 {
     /**
      * compute the percentage discount
-     * @param $product_id
+     * @param $retail_price
+     * @param $bid_price
      * @return int
      */
-    public static function ComputePercentageDiscount($product_id)
+    public static function ComputePercentageDiscount($retail_price, $bid_price)
     {
         $discount_percentage = 0;
-        $product = FryProducts::findOne(['productid' => $product_id]);
-        if ($product != null) {
-            $retail_price = $product->buyitnow;
-            $bid_price = $product->price;
-
-            if ($retail_price > 0) {
-                $discount_percentage = 100 - round((($bid_price * 100) / $retail_price), 2);
-            }
+        if ($retail_price > 0) {
+            $discount_percentage = 100 - round((($bid_price * 100) / $retail_price), 2);
         }
         return $discount_percentage;
     }
