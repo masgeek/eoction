@@ -83,10 +83,10 @@ class BidManager
      *
      * @return boolean
      */
-    public static function TrackUsersBids($user_id, $product_id, $sku, $bid_won = 0)
+    public static function TrackUsersBids($user_id, $product_id, $sku, $bid_won = 0, $starting_bid = 0)
     {
         $bid_successful = false;
-        $bid_amount_increment = BidManager::NextBidAmount($product_id);
+        $bid_amount_increment = BidManager::NextBidAmount($product_id, $starting_bid);
 
 
         $expression = new Expression('NOW()');
@@ -138,13 +138,17 @@ class BidManager
      * @param $product_id
      * @return int|string
      */
-    public static function NextBidAmount($product_id)
+    public static function NextBidAmount($product_id, $starting_bid = 0)
     {
         //first we check if there is already a bid if not this is ther first bid and we will get teh base bid price
         //$increment_value = 1; //default is one//\Yii::$app->params['BidIncrementValue'];
         $productInfo = FryProducts::findOne($product_id);
 
-        $next_bid_amount = $productInfo->price;
+        if ($starting_bid > 0) {
+            $next_bid_amount = $starting_bid;
+        } else {
+            $next_bid_amount = $productInfo->price;
+        }
 
         $max_amount = (int)BidManager::GetMaxBidAmount($product_id, $format = false, $check_if_first_bid = true);
 
@@ -319,8 +323,8 @@ class BidManager
 
         $productModel = FryProducts::find()
             ->where([
-               // 'NOT IN', 'productid', $exclusionItems,
-	            'productid'=>$product_id
+                // 'NOT IN', 'productid', $exclusionItems,
+                'productid' => $product_id
             ])
             ->andWhere(['>=', 'stock_level', 1])//stock levels should be greater or equal to 1
             //->orderBy(['rand()' => SORT_DESC])//randomly pick products
