@@ -4,3 +4,4 @@
 !.gitignore
 assets/*
 .idea/
+composer.lock
