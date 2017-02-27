@@ -10,7 +10,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 
 //register js file
-$this->registerJsFile('@web/js/bidding/bidding-progress.js');
+$this->registerJsFile('@web/js/bidding/bidding-requests-stable.js');
 //$this->registerJsFile('@web/js/bidding/facebook-login.js');
 
 
