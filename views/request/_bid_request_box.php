@@ -20,8 +20,6 @@ $formatter = \Yii::$app->formatter;
 $imageHost = \Yii::$app->params['ExternalImageServerLink'];
 $imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
 
-$userid = yii::$app->user->id ? yii::$app->user->id : 0;
-
 $image_url = $model->image1;
 
 $product_image = ProductManager::CheckImageExists($image_url);
