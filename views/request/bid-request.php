@@ -18,7 +18,8 @@ $listviewWidget = ListView::widget([
     'dataProvider' => $listDataProvider,
     //'layout' => "{items}",
     'layout' => "{pager}\n{items}\n{pager}",
-    'itemView' => '_requestbox',
+    //'itemView' => '_requestbox',
+    'itemView' => '_bid_request_box',
     'viewParams' => ['requestModel' => $requestModel],
     'pager' => [
 

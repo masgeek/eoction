@@ -18,7 +18,20 @@ function RefreshSomeEventListener($product_id, $sku) {
     SetupProgressBar($product_id, $awaitingBid); //trigger the progress bar to start
 }
 
+function GetItemContainerId()
+{
+    $('.productbox a').click(function(e){
+        e.preventDefault();
+        var url = $(this).attr('href');
+        var container_id = $(this).parents('.page_container:first').attr('id');
+        alert('the url is "'+ url +'" from the container #' + id);
+    });
+}
 
+function InitiateBidRequest($productid, $bid_start_time){
+    $('.bid-request').removeClass('bid-request');
+    //SetupProgressBar($productid, $bid_start_time);
+}
 function SetupProgressBar($productid, $bid_start_time) {
     /*
      bid types
