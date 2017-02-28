@@ -141,7 +141,7 @@ class BidManager
      */
     public static function NextBidAmount($product_id, $starting_bid = 0)
     {
-        //first we check if there is already a bid if not this is ther first bid and we will get teh base bid price
+        //first we check if there is already a bid if not this is ther first bid and we will get the base bid price
         //$increment_value = 1; //default is one//\Yii::$app->params['BidIncrementValue'];
         $productInfo = FryProducts::findOne($product_id);
 
@@ -151,10 +151,10 @@ class BidManager
             $next_bid_amount = $productInfo->price;
         }
 
-        $max_amount = (int)BidManager::GetMaxBidAmount($product_id, $format = false, $check_if_first_bid = true);
+        $max_amount = (float)BidManager::GetMaxBidAmount($product_id, $format = false, $check_if_first_bid = true,$starting_bid);
 
         if ($max_amount > 0) {
-            if ($max_amount >= 1 && $max_amount <= 10) {
+            if ($max_amount >= 0 && $max_amount <= 10) {
                 $increment_value = 1;
             } elseif ($max_amount >= 11 && $max_amount <= 30) {
                 $increment_value = 2;
@@ -165,8 +165,8 @@ class BidManager
             } elseif ($max_amount > 1000) {
                 $increment_value = 100;
             }
-
             $next_bid_amount = $max_amount + (int)$increment_value;
+
         }
         return $next_bid_amount;
 
@@ -237,21 +237,32 @@ class BidManager
      * @param $check_if_first_bid boolean
      * @return float
      */
-    public static function GetMaxBidAmount($product_id, $format = true, $check_if_first_bid = false)
+    public static function GetMaxBidAmount($product_id, $format = true, $check_if_first_bid = false,$starting_bid = 0)
     {
         $formatter = \Yii::$app->formatter;
+
         $bid_amount = ProductBids::find()
             ->where(['PRODUCT_ID' => $product_id])
             ->andWhere(['BID_WON' => 0])
             ->max('BID_AMOUNT');
 
-        if ($check_if_first_bid) {
+        if ($check_if_first_bid && $starting_bid <= 0) {
             return $bid_amount;
+        }elseif($starting_bid > 0 && $bid_amount==null){
+            return $starting_bid;
+        }elseif($starting_bid > 0 && $bid_amount==null && $check_if_first_bid){
+            return $starting_bid;
         }
 
-        if ($bid_amount == null || (int)$bid_amount <= 0) {
-            $bid_amount = BidManager::GetInitialBidAmount($product_id);
-        }
+
+            if ($bid_amount == null || (int)$bid_amount <= 0) {
+                if($starting_bid <= 0) {
+                    $bid_amount = BidManager::GetInitialBidAmount($product_id);
+                }else {
+                    $bid_amount = $starting_bid;
+                }
+            }
+
         if ($format) {
             $max_bid_amount = $formatter->asCurrency($bid_amount);
         } else {

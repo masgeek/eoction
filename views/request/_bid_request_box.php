@@ -58,6 +58,7 @@ $starting_bid_price = $formatter->asCurrency($starting_bid_price_raw);
         <input type="text" id="bid_type_<?= $product_id; ?>" value="1" readonly="readonly"/>
         <input type="text" id="bid_placed_<?= $product_id; ?>" value="0" readonly="readonly"/>
         <input type="text" id="product_sku_<?= $product_id; ?>" value="<?= $sku ?>" readonly="readonly"/>
+        <input type="text" id="starting_bid_<?= $product_id; ?>" value="<?= $starting_bid_price_raw ?>" readonly="readonly"/>
     </div>
     <div class="thumbnail">
         <!--<h5 class="text-center"><span class="label label-info"><?= $sku ?></span></h5>-->

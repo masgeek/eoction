@@ -33,8 +33,11 @@ function InitiateBidRequest($product_id,$bid_start_time) {
     $('.bid-request' + $product_id).removeClass('hidden');
     $('.start-bid' + $product_id).addClass('hidden');
 
+    var $sku = $('#product_sku_' + $product_id).val();
     //now call the progress bar triggers
     SetupProgressBar($product_id, $bid_start_time);
+
+    placeBid($product_id,$sku);
 }
 
 function SetupProgressBar($productid, $bid_start_time) {
@@ -228,6 +231,8 @@ function placeBid($product_id, $sku) {
     //return;
     var $bidUrl = $('#bid_url').val();
     var $user_id = $('#user_id').val();
+    var $starting_bid =  $('#starting_bid_' + $product_id).val();
+
     var bidsPlaced = $('#bids_placed_' + $product_id);
     var bid_price = $('#bid_price' + $product_id);
     //console.log($bidUrl);
@@ -241,6 +246,7 @@ function placeBid($product_id, $sku) {
                 id: $product_id,
                 sku: $sku,
                 user_id: $user_id,
+                starting_bid:$starting_bid,
                 format: 'json'
             },
             error: function () {
@@ -303,6 +309,7 @@ function FetchNextItem($previous_product_id) {
 
 function ItemUpdate($product_id, $sku, $toclear) {
     var updateUrl = $('#update_url').val();
+    var $starting_bid =  $('#starting_bid_' + $product_id).val();
 
     var $bidPrice = $('#bid_price' + $product_id);
     var bidsPlaced = $('#bids_placed_' + $product_id);
@@ -328,7 +335,8 @@ function ItemUpdate($product_id, $sku, $toclear) {
                     url: updateUrl,
                     data: {
                         product_id: $product_id,
-                        sku: $sku
+                        sku: $sku,
+                        starting_bid: $starting_bid
                     },
                     error: function (data) {
                         //do something in th event this fails

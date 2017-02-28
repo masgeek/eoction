@@ -105,6 +105,7 @@ class ProductManager
      */
     public static function GetItemsForBidding($no_of_items = 20, $item_won = [1, 0])
     {
+
         $query = TbActiveBids::find()
             ->where(['IN', 'ITEM_WON', $item_won,])
             ->limit($no_of_items)
@@ -112,6 +113,9 @@ class ProductManager
 
         $item_provider = new ActiveDataProvider([
             'query' => $query, //randomly pick items
+            'pagination' => [
+                'pageSize' => $no_of_items
+            ],
         ]);
         return $item_provider;
     }

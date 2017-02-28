@@ -100,7 +100,7 @@ class ShopController extends Controller
         $updateData = [
             'product_id' => $product_id,
             'sku' => $sku,
-            'bid_price' => BidManager::GetMaxBidAmount($product_id),
+            'bid_price' => BidManager::GetMaxBidAmount($product_id,true,false,$starting_bid),
             'bid_count' => ProductManager::GetNumberOfBids($product_id),
             'discount' => $discount,
             //'winning_user' => BidManager::GetWinningUser($product_id, $sku, false)

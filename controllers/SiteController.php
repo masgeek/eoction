@@ -154,9 +154,9 @@ class SiteController extends Controller
 //		return $activebids->ProcessNextBidItems(); //AddToActiveBids(1);
         ///return 5;
         //$exclusion_list = BidManager::GetExclusionItems();
-        $dataProvider = ProductManager::GetItemsForBidding($no_of_items = 24, $item_won = [1, 0]);
+        $dataProvider = ProductManager::GetItemsForBidding($no_of_items = 4, $item_won = [1, 0]);
 
-        $this->view->title = 'Eoction - Live Auction';
+        $this->view->title = 'Eoction-Live Auction';
         return $this->render('index', ['listDataProvider' => $dataProvider]);
     }
 
@@ -221,7 +221,7 @@ class SiteController extends Controller
                     'success' => true,
                     'product_id' => $model->PRODUCT_ID,
                     'sku' => $model->PRODUCT_SKU,
-                    'bid_price' => BidManager::GetMaxBidAmount($model->PRODUCT_ID),
+                    'bid_price' =>BidManager::GetMaxBidAmount($model->PRODUCT_ID,true,false,$starting_bid),
                     'discount' => $discount,
                     'bid_count' => ProductManager::GetNumberOfBids($model->PRODUCT_ID),
                     //'winning_user'=>BidManager::GetWinningUser($model->PRODUCT_ID,$model->PRODUCT_SKU)
