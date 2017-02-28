@@ -1,7 +1,7 @@
 /**
  * Created by TRITON on 10/19/2016.
  */
-"use strict";
+'use strict';
 
 var intervalObj = {};
 
@@ -11,7 +11,7 @@ var $velocityDelay = 0;
 
 function RefreshSomeEventListener($product_id, $sku) {
     var $place_bid = $('#placebid_' + $product_id);
-    $(document).on("click", $place_bid, function () {
+    $(document).on('click', $place_bid, function () {
         // $(this).parent().remove();
         //console.log('Click event attached for product sku ' + $sku);
     });
@@ -21,12 +21,12 @@ function RefreshSomeEventListener($product_id, $sku) {
 
 
 function GetItemContainerId() {
-    $('.productbox a').click(function (e) {
+    /*$('.productbox a').click(function (e) {
         e.preventDefault();
         var url = $(this).attr('href');
         var container_id = $(this).parents('.page_container:first').attr('id');
         alert('the url is "' + url + '" from the container #' + id);
-    });
+    });*/
 }
 
 function InitiateBidRequest($product_id,$bid_start_time) {
@@ -70,13 +70,13 @@ function SetupProgressBar($productid, $bid_start_time) {
             //console.log('Begin timer ');
             ItemUpdate($productid, $sku, 'NO');
         },
-        progress: function (elements, percentComplete, timeRemaining, timeStart) {
+        progress: function(elements, percentComplete, timeRemaining, timeStart) {
             //$percentComplete.html(Math.round(percentComplete * 100) + "% complete.");
             //$timeRemaining.html(timeRemaining + "ms remaining.");
             //console.log('Timer here '+timeRemaining+' for product '+$productid+' and sku '+$sku);
             //ItemUpdate($productid,$sku);
         },
-        complete: function () {
+        complete: function() {
             //disable the button
             var button = '<button class="btn btn-default btn-block noradius text-uppercase" disabled>Closed</button>';
             //bidButton.html(button);
@@ -101,7 +101,7 @@ function SetupProgressBar($productid, $bid_start_time) {
         },
         params);
     //add stop click event when placebid is clicked
-    placebid.click(function () {
+    placebid.click(function() {
         //progressBar.velocity('stop', false);
         if ($user_id == 0) {
             //show the dialog for logging in
@@ -178,12 +178,14 @@ function TriggerProgressBar($product_id, $sku, $bid_waiting_time) {
 
                     //disable the button
                     var button = '<button class="btn btn-success btn-block noradius text-uppercase" disabled>Won</button>';
-                    bidButton.html(button);
+                    //bidButton.html(button);
                     text = '<span class="won-text">Won</span>';
-                    ;
 
                     ItemUpdate($product_id, $sku, 'YES');
-                    FetchNextItem($product_id);
+                    //FetchNextItem($product_id);
+                    //no fetching of next item, instead toggle the item buttons
+                    //$('.bid-request' + $product_id).addClass('hidden');
+                    //$('.start-bid' + $product_id).removeClass('hidden');
                     break;
                 case '4':
 //loading next item
@@ -381,7 +383,7 @@ function ItemUpdate($product_id, $sku, $toclear) {
                     if ($winning_user == '-' || $winning_user.length <= 0) {
                         button = '<button class="btn btn-bid btn-bid-ended btn-block noradius text-uppercase" disabled>Closed</button>';
                     }
-                    bidButton.html(button);
+                    //bidButton.html(button);
                 },
                 type: 'GET'
             }),
