@@ -387,6 +387,24 @@ class BidManager
         return $exclusion_array;
     }
 
+    /**
+     * Delete an expired item from the exclusion nlist
+     * @param $product_id
+     */
+    public static function RemoveFromExclusionList($product_id)
+    {
+        $model = BidExclusion::findOne($product_id);
+        if ($model != null) {
+            $result = $model->delete();
+        }
+    }
+
+    /**
+     * Add item to exclusion list
+     * @param $product_id
+     * @param bool $high_demand
+     * @return bool
+     */
     public static function AddToExclusionList($product_id, $high_demand = false)
     {
         $bidding_duration = 10;

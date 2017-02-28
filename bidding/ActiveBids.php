@@ -108,6 +108,25 @@ class ActiveBids extends \yii\base\Component
         return true;
     }
 
+    public function Remove_Expired_Exclusions(){
+        $query = BidExclusion::find()
+            ->select(['PRODUCT_ID', 'EXCLUSION_PERIOD'])
+            ->asArray()
+            ->all();
+
+        foreach ($query as $key => $model) {
+            //call function to compute duration
+            $product_id = $model['PRODUCT_ID'];
+            $remaining = $this->GetRemainingItemDuration($model['EXCLUSION_PERIOD']);
+            //if remaining is less than zero delete that one
+            $expired_array[] = $remaining;
+            //before deleting add to bid exclusion list
+            if ($remaining < 0) {
+                BidManager::RemoveFromExclusionList($product_id);
+            }
+        }
+    }
+
     public function Remove_Won_Expired_Items()
     {
         $query = TbActiveBids::find()
