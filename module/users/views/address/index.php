@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
-/* @var $id string */
+/* @var $user_id string */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Manage Address';
@@ -36,7 +36,7 @@ $listviewWidget = ListView::widget([
             </div>
         </div>
     </div>
-    <?= Html::a('<i class="fa fa-plus-circle"></i> Add Mailing Address', ['add', 'id' => $id], ['class' => 'btn btn-primary btn-block btn-lg noradius']) ?>
+    <?= Html::a('<i class="fa fa-plus-circle"></i> Add Mailing Address', ['add', 'user_id' => $user_id], ['class' => 'btn btn-primary btn-block btn-lg noradius']) ?>
 </div>
 <hr/>
 

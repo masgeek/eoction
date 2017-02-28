@@ -33,18 +33,18 @@ class AddressController extends Controller
      * Lists all UserAddress models.
      * @return mixed
      */
-    public function actionIndex($id)
+    public function actionIndex($user_id)
     {
 
 
         $dataProvider = new ActiveDataProvider([
             'query' => UserAddress::find()
-            ->where(['USER_ID'=>$id]),
+            ->where(['USER_ID'=>$user_id]),
         ]);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
-            'id' => $id
+            'user_id' => $user_id
         ]);
     }
 
@@ -65,15 +65,15 @@ class AddressController extends Controller
      * If creation is successful, the browser will be redirected to the 'index' page.
      * @return mixed
      */
-    public function actionAdd($id)
+    public function actionAdd($user_id)
     {
         $model = new UserAddress();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index', 'id' => $model->USER_ID]);
+            return $this->redirect(['index', 'user_id' => $model->USER_ID]);
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'id' => $id
+                'user_id' => $user_id
             ]);
         }
     }
@@ -89,11 +89,11 @@ class AddressController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index', 'id' => $model->USER_ID]);
+            return $this->redirect(['index', 'user_id' => $model->USER_ID]);
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'id'=>$model->USER_ID
+                'user_id'=>$model->USER_ID,
             ]);
         }
     }
