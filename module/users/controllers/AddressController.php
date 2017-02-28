@@ -35,8 +35,11 @@ class AddressController extends Controller
      */
     public function actionIndex($id)
     {
+
+
         $dataProvider = new ActiveDataProvider([
-            'query' => UserAddress::find(),
+            'query' => UserAddress::find()
+            ->where(['USER_ID'=>$id]),
         ]);
 
         return $this->render('index', [
