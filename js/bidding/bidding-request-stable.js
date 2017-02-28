@@ -6,8 +6,9 @@
 var intervalObj = {};
 
 var $awaitingBid = 40+Math.floor((Math.random() * 17) + 7);;
-var $nextBids = 10;
+var $nextBidDuration = 10;
 var $velocityDelay = 0;
+
 function RefreshSomeEventListener($product_id, $sku) {
     var $place_bid = $('#placebid_' + $product_id);
     $(document).on("click", $place_bid, function () {
@@ -28,12 +29,12 @@ function GetItemContainerId() {
     });
 }
 
-function InitiateBidRequest($productid,$bid_start_time) {
-    $('.bid-request' + $productid).removeClass('hidden');
-    $('.start-bid' + $productid).addClass('hidden');
+function InitiateBidRequest($product_id,$bid_start_time) {
+    $('.bid-request' + $product_id).removeClass('hidden');
+    $('.start-bid' + $product_id).addClass('hidden');
 
     //now call the progress bar triggers
-    SetupProgressBar($productid, $bid_start_time);
+    SetupProgressBar($product_id, $bid_start_time);
 }
 
 function SetupProgressBar($productid, $bid_start_time) {
@@ -78,13 +79,17 @@ function SetupProgressBar($productid, $bid_start_time) {
         complete: function () {
             //disable the button
             var button = '<button class="btn btn-default btn-block noradius text-uppercase" disabled>Closed</button>';
-            bidButton.html(button);
-            bidStatusText.html('Bid Closed');
-            console.log("No bid placed, removing item");
+            //bidButton.html(button);
+           // bidStatusText.html('Bid Closed');
+            console.log("No bid placed, switching to request mode");
             //remove the product
             //Math.floor((Math.random() * 5000) + 8000);
             ItemUpdate($productid, $sku, 'YES');
-            FetchNextItem($productid);
+            //FetchNextItem($productid);
+
+            //no fetching of next item, instead toggle the item buttons
+            $('.bid-request' + $productid).addClass('hidden');
+            $('.start-bid' + $productid).removeClass('hidden');
         }
     };
 
@@ -103,7 +108,7 @@ function SetupProgressBar($productid, $bid_start_time) {
             ShowLoginPrompt($productid);
             return false;
         }
-        TriggerProgressBar($productid, $sku, $nextBids);
+        TriggerProgressBar($productid, $sku, $nextBidDuration);
     });
 }
 

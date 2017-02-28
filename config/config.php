@@ -37,6 +37,7 @@ $config = [
 		'assetManager' => [
 			//'basePath' => '@webroot/my_assets',
 			'class' => 'yii\web\AssetManager',
+            'appendTimestamp' => true,
 			'linkAssets' => true,
 			'forceCopy' => YII_DEBUG,
 		],
