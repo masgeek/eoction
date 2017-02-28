@@ -190,9 +190,10 @@ class SiteController extends Controller
         $resp = [
             'success' => false
         ];
+        $first_request = false;
+
         $activity_count = 1; //this counts the number of activities for the product
         $bidactivity = BidActivity::findOne(['PRODUCT_SKU' => $sku]);
-
 
         if ($bidactivity == null) {
             //insert a new record
@@ -206,15 +207,18 @@ class SiteController extends Controller
             //save the data
 
             if ($model->save()) {
-                //no need to alert user return indicator so that we can switch to auction countdown
-                //track the bid
-                BidManager::TrackUsersBids($user_id, $id, $sku, 0, $starting_bid);
+
 
                 if ($starting_bid > 0) {
                     $price = $starting_bid;
+                    $first_request = true;
                 } else {
                     $price = $model->pRODUCT->price;
                 }
+
+                //track the bid
+                BidManager::TrackUsersBids($user_id, $id, $sku, 0, $starting_bid,$first_request);
+
                 $discount = ProductManager::ComputePercentageDiscount($model->pRODUCT->buyitnow,$price);
                 $resp = [
                     'msg' => 'Bid placed successfully',
@@ -237,7 +241,7 @@ class SiteController extends Controller
             //update the existing record
             // get the last activity count
             $activity_count = (int)$bidactivity->ACTIVITY_COUNT;
-            //now inrement it by one and save it back
+            //now increment it by one and save it back
             $bidactivity->LAST_BIDDING_USER_ID = $user_id;
             $bidactivity->ACTIVITY_COUNT = $activity_count + 1; //increment by 1
             //save the data
@@ -257,7 +261,7 @@ class SiteController extends Controller
                     'success' => true,
                     'product_id' => $bidactivity->PRODUCT_ID,
                     'sku' => $bidactivity->PRODUCT_SKU,
-                    'bid_price' => BidManager::GetMaxBidAmount($bidactivity->PRODUCT_ID),
+                    'bid_price' => BidManager::GetMaxBidAmount($bidactivity->PRODUCT_ID,true,false,$starting_bid),
                     'discount' => $discount,
                     'bid_count' => ProductManager::GetNumberOfBids($bidactivity->PRODUCT_ID),
                     //'winning_user'=>BidManager::GetWinningUser($bidactivity->PRODUCT_ID,$bidactivity->PRODUCT_SKU)

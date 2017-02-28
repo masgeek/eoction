@@ -84,11 +84,10 @@ class BidManager
      *
      * @return boolean
      */
-    public static function TrackUsersBids($user_id, $product_id, $sku, $bid_won = 0, $starting_bid = 0)
+    public static function TrackUsersBids($user_id, $product_id, $sku, $bid_won = 0, $starting_bid = 0, $first_request_bid = false)
     {
         $bid_successful = false;
-        $bid_amount_increment = BidManager::NextBidAmount($product_id, $starting_bid);
-
+        $bid_amount_increment = BidManager::NextBidAmount($product_id, $starting_bid,$first_request_bid);
 
         $expression = new Expression('NOW()');
         //first lets check if the product is already tracked
@@ -139,34 +138,40 @@ class BidManager
      * @param $product_id
      * @return int|string
      */
-    public static function NextBidAmount($product_id, $starting_bid = 0)
+    public static function NextBidAmount($product_id, $starting_bid = 0, $first_request_bid = false)
     {
         //first we check if there is already a bid if not this is ther first bid and we will get the base bid price
         //$increment_value = 1; //default is one//\Yii::$app->params['BidIncrementValue'];
         $productInfo = FryProducts::findOne($product_id);
 
-        if ($starting_bid > 0) {
-            $next_bid_amount = $starting_bid;
+        if ($starting_bid > 0 && $first_request_bid) {
+            return $starting_bid;
         } else {
             $next_bid_amount = $productInfo->price;
         }
 
+
+
         $max_amount = (float)BidManager::GetMaxBidAmount($product_id, $format = false, $check_if_first_bid = true,$starting_bid);
 
-        if ($max_amount > 0) {
-            if ($max_amount >= 0 && $max_amount <= 10) {
-                $increment_value = 1;
-            } elseif ($max_amount >= 11 && $max_amount <= 30) {
-                $increment_value = 2;
-            } elseif ($max_amount >= 31 && $max_amount <= 100) {
-                $increment_value = 5;
-            } elseif ($max_amount >= 101 && $max_amount <= 1000) {
-                $increment_value = 10;
-            } elseif ($max_amount > 1000) {
-                $increment_value = 100;
-            }
-            $next_bid_amount = $max_amount + (int)$increment_value;
+        if($first_request_bid) {
+            //do nothing here just pass the initial price
+        }else{
+            if ($max_amount > 0) {
+                if ($max_amount >= 0 && $max_amount <= 10) {
+                    $increment_value = 1;
+                } elseif ($max_amount >= 11 && $max_amount <= 30) {
+                    $increment_value = 2;
+                } elseif ($max_amount >= 31 && $max_amount <= 100) {
+                    $increment_value = 5;
+                } elseif ($max_amount >= 101 && $max_amount <= 1000) {
+                    $increment_value = 10;
+                } elseif ($max_amount > 1000) {
+                    $increment_value = 100;
+                }
+                $next_bid_amount = $max_amount + (int)$increment_value;
 
+            }
         }
         return $next_bid_amount;
 
@@ -217,6 +222,7 @@ class BidManager
         );
         if ($bid_won_model != null) {
             $bid_won_model->BID_WON = 1; //indicate this bid as won
+            $bid_won_model->BID_AMOUNT = 0.00; //reset the amount to zero
 
             if ($bid_won_model->save()) {
                 //remove the same item not won from the bid activity table
@@ -248,12 +254,9 @@ class BidManager
 
         if ($check_if_first_bid && $starting_bid <= 0) {
             return $bid_amount;
-        }elseif($starting_bid > 0 && $bid_amount==null){
-            return $starting_bid;
-        }elseif($starting_bid > 0 && $bid_amount==null && $check_if_first_bid){
+        } elseif($starting_bid > 0 && $bid_amount==null) {
             return $starting_bid;
         }
-
 
             if ($bid_amount == null || (int)$bid_amount <= 0) {
                 if($starting_bid <= 0) {
