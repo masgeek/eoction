@@ -291,6 +291,8 @@ class ProductManager
      */
     public static function CheckImageExists($image_url)
     {
+
+        return $image_url;
         //$product_image = 'http://lorempixel.com/800/400/nature/2';//'@web/product_images/placeholder.png';
         $product_image = 'http://placehold.it/800?text=No+Product+Image';//'@web/product_images/placeholder.png';
 
