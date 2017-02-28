@@ -29,13 +29,9 @@ class AppAsset extends AssetBundle
         'css/style-2.css',
         'css/skin-1.css',
         'css/js_composer.min.css',*/
-        //'js/timercircles/inc/TimeCircles.css',
     ];
 
     public $js = [
-        //'js/jquery.progressTimer.js',
-        //'js/jquery.asprogress/jquery-asProgress.js',
-        //'js/timercircles/inc/TimeCircles.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
