@@ -17,8 +17,8 @@ use app\components\ProductManager;
 
 $formatter = \Yii::$app->formatter;
 
-$imageHost = \Yii::$app->params['ExternalImageServerLink'];
-$imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
+//$imageHost = \Yii::$app->params['ExternalImageServerLink'];
+//$imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
 
 $image_url = $model->image1;
 
@@ -38,11 +38,11 @@ $product_name = $model->name;
 $discount = ProductManager::ComputePercentageDiscount($model->buyitnow, $starting_bid_price_raw);
 $shipping = ProductManager::ComputeShippingCost($product_id);
 
-$randseed = rand(5, 17);
+$randseed = rand(5, 15);
 if (YII_ENV_DEV) {
     $bid_start_time = 2 + $randseed;// * $productID; //initial start time for the bid
 } else {
-    $bid_start_time = 40 + $randseed;// * $productID; //initial start time for the bid
+    $bid_start_time = 30 + $randseed;// * $productID; //initial start time for the bid
 }
 
 $shipping_cost = $formatter->asCurrency($shipping);
