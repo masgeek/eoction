@@ -37,15 +37,23 @@ class ProductManager
     }
 
     /**
+     * Get the shipping cost per region
      * @param null $product_id
-     * @param int $retail_price
+     * @param bool $first_item
      * @return float|int
      */
-    public static function ComputeShippingCost($product_id = null, $retail_price = 0)
+    public static function ComputeShippingCost($product_id = null, $first_item = true)
     {
         $userId = \Yii::$app->user->id ? \Yii::$app->user->id : 0;
         $country = AccountManager::GetUserAddress($userId, null, true);
-        return \Yii::$app->shippingregions->shippingcost($country, $userId);
+        if ($first_item) {
+            $shipping_cost = \Yii::$app->shippingregions->shippingcost($country, $userId);
+        } else {
+            $shipping_cost = \Yii::$app->shippingregions->additionalitemshipping();
+        }
+
+        return $shipping_cost;
+
     }
 
     /**
@@ -153,6 +161,7 @@ class ProductManager
     {
         /* @var $productModel FryProducts */
         /* @var $model ItemsCart */
+        $first_item = true;
 
         $total = [];
         $shipping = [];
@@ -170,7 +179,10 @@ class ProductManager
             $product_price = $model->TOTAL_PRICE;
 
             $total[] = (float)$product_price;
-            $shipping[] = ProductManager::ComputeShippingCost($productModel->productid);
+
+            $shipping[] = ProductManager::ComputeShippingCost($productModel->productid, $first_item);
+
+            $first_item = false;
         }
 
         $sub_total = array_sum($total);
