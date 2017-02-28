@@ -31,6 +31,11 @@ use yii\db\Expression;
  */
 class UserAddress extends \yii\db\ActiveRecord
 {
+    const BILLING_ADDRESS = 'BILLING ADDRESS';
+    const SHIPPING_ADDRESS = 'SHIPPING ADDRESS';
+    const PRIMARY_ADDRESS = true;
+    const SECONDARY_ADDRESS = false;
+
     /**
      * @inheritdoc
      */
