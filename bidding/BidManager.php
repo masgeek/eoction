@@ -136,7 +136,9 @@ class BidManager
      * $100-1000 = increment is $10
      * $1000 and above = increment is $100
      * @param $product_id
-     * @return int|string
+     * @param int $starting_bid
+     * @param bool $first_request_bid
+     * @return float|int|string
      */
     public static function NextBidAmount($product_id, $starting_bid = 0, $first_request_bid = false)
     {
@@ -214,7 +216,7 @@ class BidManager
     public static function MarkBidAsWon($user_id, $product_id)
     {
         //then add it to the cart
-
+$amount_won = 0.00;
         $bid_won_model = ProductBids::findOne([
                 'USER_ID' => $user_id,
                 'PRODUCT_ID' => $product_id,
@@ -222,13 +224,14 @@ class BidManager
         );
         if ($bid_won_model != null) {
             $bid_won_model->BID_WON = 1; //indicate this bid as won
+            $amount_won = $bid_won_model->BID_AMOUNT; //get the amount before resetting it
             $bid_won_model->BID_AMOUNT = 0.00; //reset the amount to zero
 
             if ($bid_won_model->save()) {
                 //remove the same item not won from the bid activity table
                 ProductBids::deleteAll(['PRODUCT_ID' => $product_id, 'BID_WON' => 0]);
                 //add to cart to await payment
-                $resp = CartManager::AddItemsToCart($bid_won_model->USER_ID, $bid_won_model->PRODUCT_ID, $bid_won_model->BID_AMOUNT, $bidden_item = 1);
+                $resp = CartManager::AddItemsToCart($bid_won_model->USER_ID, $bid_won_model->PRODUCT_ID,$amount_won, $bidden_item = 1);
             }
             return $resp;
         }
@@ -236,14 +239,16 @@ class BidManager
         return null;
     }
 
+
     /**
      * Returns the maximum amount for an item
-     * @param $product_id integer
-     * @param $format boolean
-     * @param $check_if_first_bid boolean
-     * @return float
+     * @param int $product_id
+     * @param bool $format
+     * @param bool $check_if_first_bid
+     * @param int $starting_bid
+     * @return int|string|mixed|float
      */
-    public static function GetMaxBidAmount($product_id, $format = true, $check_if_first_bid = false,$starting_bid = 0)
+    public static function GetMaxBidAmount($product_id, $format = true, $check_if_first_bid = false, $starting_bid = 0)
     {
         $formatter = \Yii::$app->formatter;
 

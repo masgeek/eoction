@@ -47,6 +47,8 @@ $shipping_cost = $formatter->asCurrency($shipping);
 $retail_price = $formatter->asCurrency($product_price);
 $total_price = $formatter->asCurrency($total_price_raw);
 
+$bidded_item = (boolean)$model->BIDDED_ITEM;
+
 ?>
     <tr id="cart-row-<?= $cart_item_id ?>">
         <td>
@@ -69,6 +71,7 @@ $total_price = $formatter->asCurrency($total_price_raw);
         <td width="200">
             <!--<input type="number" class="form-control" id="quantity" readonly="readonly" value="<?= $model->QUANTITY ?>">-->
             <input type="number" class="form-control" id="item-cost-<?=$model->CART_ID?>" readonly="readonly" value="<?= $product_price ?>">
+            <?php if(!$bidded_item): ?>
             <?= \kartik\touchspin\TouchSpin::widget([
                 'name' => "quantity-$model->CART_ID",
                 'id' => "quantity-$model->CART_ID",
@@ -86,6 +89,7 @@ $total_price = $formatter->asCurrency($total_price_raw);
                     "change" => "function() { itemQuantityChanged($model->CART_ID);}",
                 ]
             ]); ?>
+    <?php endif;?>
         </td>
         <td class="text-center"><strong id="retail-<?= $model->CART_ID ?>"><?= $retail_price ?></strong></td>
         <td class="text-center"><strong id="total-<?= $model->CART_ID ?>"><?= $total_price ?></strong></td>

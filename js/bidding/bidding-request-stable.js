@@ -91,8 +91,8 @@ function SetupProgressBar($productid, $bid_start_time) {
             //FetchNextItem($productid);
 
             //no fetching of next item, instead toggle the item buttons
-            $('.bid-request' + $productid).addClass('hidden');
-            $('.start-bid' + $productid).removeClass('hidden');
+            //$('.bid-request' + $productid).addClass('hidden');
+            //$('.start-bid' + $productid).removeClass('hidden');
         }
     };
 
