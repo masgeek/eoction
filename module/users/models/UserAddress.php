@@ -51,6 +51,7 @@ class UserAddress extends \yii\db\ActiveRecord
     {
         return [
             [['USER_ID', 'NAME', 'STREET1', 'CITY', 'POSTALCODE', 'COUNTRY'], 'required'],
+            [['RESIDENTIAL', 'PRIMARY_ADDRESS','ADDRESS_TYPE'], 'required'],
             [['USER_ID', 'RESIDENTIAL', 'PRIMARY_ADDRESS'], 'integer'],
             [['CREATED', 'UPDATED'], 'safe'],
             [['NAME'], 'string', 'max' => 100],

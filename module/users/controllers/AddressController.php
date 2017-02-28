@@ -109,7 +109,7 @@ class AddressController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index', 'id' => $user_id]);
+        return $this->redirect(['index', 'user_id' => $user_id]);
     }
 
     /**
