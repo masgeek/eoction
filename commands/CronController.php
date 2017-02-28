@@ -21,7 +21,7 @@ class CronController extends Controller
 
 		$activebids = \Yii::$app->activebids;
 
-		\Yii::trace('Starting cron', 'activebids'); //log to an exclusions log file;
+		\Yii::info('Starting cron', 'activebids'); //log to an exclusions log file;
 		$dates = CronJob::getDateRange($from, $to);
 		$command = CronJob::run($this->id, $this->action->id, 0, CronJob::countDateRange($dates));
 		if ($command === false) {
@@ -29,7 +29,7 @@ class CronController extends Controller
 			return Controller::EXIT_CODE_ERROR;
 		} else {
 			//lets check the active bids
-			//$activebids->maximum_items = 20;
+			//$activebids->maximum_items = 24;
 
 			$activebids->Remove_Expired_Exclusions();
 
@@ -39,7 +39,7 @@ class CronController extends Controller
             \Yii::trace("Finishing cron $result expired items removed", 'activebids'); //log to an exclusions log file;
 
             $command->finish();
-
+            \Yii::info('Finished cron', 'activebids'); //log to an exclusions log file;
 			return Controller::EXIT_CODE_NORMAL;
 		}
 	}
