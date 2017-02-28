@@ -28,7 +28,7 @@ $productModel = $model->pRODUCT; //getProductInfo($product_id);
 
 $product_name = $productModel->name;
 $product_description = $productModel->desc;
-$brand_name = $productModel->brand;
+$brand_name = $productModel->brand ? $productModel->brand  : 'N/A';
 
 
 $imageHost = \Yii::$app->params['ExternalImageServerLink'];
@@ -63,15 +63,16 @@ $bidded_item = (boolean)$model->BIDDED_ITEM;
             <div class="media">
                 <div class="media-body">
                     <h4 class="media-heading"><a href="#"><?= $product_name ?></a></h4>
-                    <h5 class="media-heading"> by <a href="#"><?= $brand_name ?></a></h5>
+                    <h5 class="media-heading">By: <a href="#"><?= $brand_name ?></a></h5>
                     <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
+                    <br/>
+                    <span>Source </span><span class="text-warning"><strong><?= $bidded_item ? 'Bidding' : 'Shopping Store' ?></strong></span>
                 </div>
             </div>
         </td>
         <td width="200">
-            <!--<input type="number" class="form-control" id="quantity" readonly="readonly" value="<?= $model->QUANTITY ?>">-->
-            <input type="number" class="form-control" id="item-cost-<?=$model->CART_ID?>" readonly="readonly" value="<?= $product_price ?>">
             <?php if(!$bidded_item): ?>
+                <input type="number" class="form-control hidden" id="item-cost-<?=$model->CART_ID?>" readonly="readonly" value="<?= $product_price ?>">
             <?= \kartik\touchspin\TouchSpin::widget([
                 'name' => "quantity-$model->CART_ID",
                 'id' => "quantity-$model->CART_ID",
@@ -89,6 +90,8 @@ $bidded_item = (boolean)$model->BIDDED_ITEM;
                     "change" => "function() { itemQuantityChanged($model->CART_ID);}",
                 ]
             ]); ?>
+    <?php else:?>
+                <input type="number" class="form-control" id="quantity_<?=uniqid()?>" readonly="readonly" value="<?= $model->QUANTITY ?>">
     <?php endif;?>
         </td>
         <td class="text-center"><strong id="retail-<?= $model->CART_ID ?>"><?= $retail_price ?></strong></td>
