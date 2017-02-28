@@ -2,11 +2,8 @@
 
 namespace app\module\products\models;
 
-use app\bidding\ActiveBids;
 use app\models\BidActivity;
 use app\models\BidRequests;
-use Yii;
-
 /**
  * This is the model class for table "{{%fry_products}}".
  *
@@ -202,7 +199,7 @@ class FryProducts extends \yii\db\ActiveRecord
      */
     public function getTbActiveBids()
     {
-        return $this->hasOne(ActiveBids::className(), ['PRODUCT_ID' => 'productid']);
+        return $this->hasOne(TbActiveBids::className(), ['PRODUCT_ID' => 'productid']);
     }
 
     /**
