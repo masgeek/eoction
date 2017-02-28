@@ -85,8 +85,8 @@ class UserAddress extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'ADDRESS_ID' => 'Address  ID',
-            'USER_ID' => 'User  ID',
+            'ADDRESS_ID' => 'Address ID',
+            'USER_ID' => 'User ID',
             'NAME' => 'Name',
             'COMPANY' => 'Company',
             'STREET1' => 'Street1',
@@ -94,12 +94,12 @@ class UserAddress extends \yii\db\ActiveRecord
             'STREET3' => 'Street3',
             'CITY' => 'City',
             'STATE' => 'State',
-            'POSTALCODE' => 'Postalcode',
+            'POSTALCODE' => 'Postal Code',
             'COUNTRY' => 'Country',
             'PHONE' => 'Phone',
             'RESIDENTIAL' => 'Residential',
-            'ADDRESS_TYPE' => 'Address  Type',
-            'PRIMARY_ADDRESS' => 'Primary  Address',
+            'ADDRESS_TYPE' => 'Address Type',
+            'PRIMARY_ADDRESS' => 'Primary Address',
             'CREATED' => 'Created',
             'UPDATED' => 'Updated',
         ];
