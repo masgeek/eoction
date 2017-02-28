@@ -331,13 +331,12 @@ class ProductManager
 
     /**
      * Sets the expiry date for a certain product
-     * @param int $expires_after
+     * @param int $expires_after default is 3 days
      * @return false|string
      */
-    public static function SetProductExpiryDate($expires_after = 2)
+    public static function SetProductExpiryDate($expires_after = 3)
     {
         $expiry_date = date('Y-m-d', strtotime("+$expires_after days"));
-
         return $expiry_date;
     }
 }
