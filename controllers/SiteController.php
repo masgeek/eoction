@@ -137,8 +137,8 @@ class SiteController extends Controller
         $session = Yii::$app->session;
         $session->set('search_url', \yii\helpers\Url::toRoute(['search-bids']));
 
-        $exclusion_list = BidManager::GetExclusionItems();
-        $dataProvider = ProductManager::GetItemsForBidding($no_of_items = 24, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
+        //$exclusion_list = BidManager::GetExclusionItems();
+        $dataProvider = ProductManager::GetItemsForBidding($no_of_items = 20, $item_won = [0], $bid_active = [0,1]);
 
         $this->view->title = 'Test Live Auction';
         return $this->render('index', ['listDataProvider' => $dataProvider]);
