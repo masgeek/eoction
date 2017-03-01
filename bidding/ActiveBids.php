@@ -263,7 +263,7 @@ class ActiveBids extends \yii\base\Component
     }
 
     /**
-     * get items in teh bid exclusion list
+     * get items in the bid exclusion list
      * @return array
      */
     private

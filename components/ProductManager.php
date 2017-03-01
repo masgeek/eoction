@@ -80,19 +80,42 @@ class ProductManager
 
 
     /**
-     *  returns items to either be sold or auctioned off
      * @param int $no_of_items
-     * @param array $auction_param
      * @param int $min_stock
+     * @param array $allow_purchase
      * @param array $exclusion_list
-     * @param bool $random
      * @return ActiveDataProvider
      */
-    public static function GetItemsForSale($no_of_items = 20, $auction_param = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false)
+    public static function GetItemsForSale($no_of_items = 20, $min_stock = 1, $allow_purchase = [1], $exclusion_list = [])
     {
         $query = FryProducts::find()
             ->distinct('sku')
-            ->where(['IN', 'visible', $auction_param,])
+            //->where(['IN', 'visible', $allow_auction])
+            ->where(['IN', 'allow_purchase', $allow_purchase,])
+            ->andWhere(['>=', 'stock_level', $min_stock])//stock levels should be greater or equal to 1
+            ->orderBy('productid ASC');
+
+        $item_provider = new ActiveDataProvider([
+            'query' => $query, //randomly pick items
+            'pagination' => [
+                'pageSize' => $no_of_items
+            ],
+        ]);
+
+        return $item_provider;
+    }
+
+    /**
+     * @param int $no_of_items
+     * @param int $min_stock
+     * @param array $allow_request
+     * @return ActiveDataProvider
+     */
+    public static function GetItemsForBidRequest($no_of_items = 20, $min_stock = 1, $allow_request = [1])
+    {
+        $query = FryProducts::find()
+            ->distinct('sku')
+            ->where(['IN', 'allow_bid_request', $allow_request,])
             ->andWhere(['>=', 'stock_level', $min_stock])//stock levels should be greater or equal to 1
             ->orderBy('productid ASC');
 
@@ -114,7 +137,8 @@ class ProductManager
      * @param array $bid_active 1 active 0 not active default is 0
      * @return ActiveDataProvider
      */
-    public static function GetItemsForBidding($no_of_items = 20, $item_won = [1, 0], $bid_active = [0])
+    public
+    static function GetItemsForBidding($no_of_items = 20, $item_won = [1, 0], $bid_active = [0])
     {
         /* @var $activebids ActiveBids */
         $activebids = \Yii::$app->activebids;
@@ -148,7 +172,8 @@ class ProductManager
      * @param array $sold_status
      * @return ActiveDataProvider
      */
-    public static function GetUserCartItems($user_id, $sold_status = [0, 1])
+    public
+    static function GetUserCartItems($user_id, $sold_status = [0, 1])
     {
         $query = ItemsCart::find()
             ->where(['USER_ID' => $user_id,])
@@ -172,7 +197,8 @@ class ProductManager
      * @param array $sold_status
      * @return array
      */
-    public static function GetUserCartItemsTotal($user_id, $sold_status = [0, 1])
+    public
+    static function GetUserCartItemsTotal($user_id, $sold_status = [0, 1])
     {
         /* @var $productModel FryProducts */
         /* @var $model ItemsCart */
@@ -215,7 +241,8 @@ class ProductManager
      * @param $user_id
      * @return array
      */
-    public static function GetPaypalItems($user_id)
+    public
+    static function GetPaypalItems($user_id)
     {
         /* @var $model ItemsCart */
         /* @var $productModel FryProducts */
@@ -268,7 +295,8 @@ class ProductManager
      * @param $paypal_hash
      * @return bool
      */
-    public static function AddPaypalHash($cart_item_id, $paypal_hash)
+    public
+    static function AddPaypalHash($cart_item_id, $paypal_hash)
     {
         $model = ItemsCart::findOne($cart_item_id);
         if ($model != null) {
@@ -282,7 +310,8 @@ class ProductManager
      * @param $paypal_hash
      * @return int
      */
-    public static function UpdatePaidCartItems($paypal_hash)
+    public
+    static function UpdatePaidCartItems($paypal_hash)
     {
 
         return ItemsCart::updateAll(['IS_SOLD' => 1], ['PAYPAL_HASH' => $paypal_hash]);
@@ -293,7 +322,8 @@ class ProductManager
      * @param $product_id
      * @return string
      */
-    public static function GetImageUrl($product_id)
+    public
+    static function GetImageUrl($product_id)
     {
         $imageHost = \Yii::$app->params['ExternalImageServerLink'];
         $imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
@@ -310,7 +340,8 @@ class ProductManager
     /**
      *
      */
-    public static function CleanBiddingData()
+    public
+    static function CleanBiddingData()
     {
         ItemsCart::deleteAll();
         BidActivity::deleteAll();
@@ -321,7 +352,8 @@ class ProductManager
      * @param $image_url
      * @return string
      */
-    public static function CheckImageExists($image_url)
+    public
+    static function CheckImageExists($image_url)
     {
 
         return $image_url;
@@ -346,7 +378,8 @@ class ProductManager
      * This function changes the stock of a product upon successful payment
      * @param array $product_id_array
      */
-    public static function UpdateProductStock($product_id_array = [])
+    public
+    static function UpdateProductStock($product_id_array = [])
     {
         $item_count = array_count_values($product_id_array); //count the number of items sold will be grouped based on their values
 
@@ -362,7 +395,8 @@ class ProductManager
      * @param int $expires_after default is 3 days
      * @return false|string
      */
-    public static function SetProductExpiryDate($expires_after = 3)
+    public
+    static function SetProductExpiryDate($expires_after = 3)
     {
         $expiry_date = date('Y-m-d', strtotime("+$expires_after days"));
         return $expiry_date;
