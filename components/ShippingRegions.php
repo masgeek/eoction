@@ -17,6 +17,9 @@ class ShippingRegions extends Component
 	private $region_service = [];
 	private $region_shipping_cost;
 
+
+	public $additional_shipping_charge;
+
 	public $default_service;
 	public $default_package;
 	public $us_region_shipping_cost;
@@ -37,7 +40,7 @@ class ShippingRegions extends Component
 	 */
 	public function shippingcost($country_code = 'OTHER', $user_id = 0)
 	{
-		//if user isn't logged in we will default to teh us rate
+		//if user isn't logged in we will default to the us rate
 		if ($user_id == 0 || $user_id = null) {
 			$country_code = 'US';
 		}
@@ -53,7 +56,7 @@ class ShippingRegions extends Component
 	 */
 	public function shippingservice($country_code = 'OTHER', $user_id = 0)
 	{
-		//if user isn't logged in we will default to teh us rate
+		//if user isn't logged in we will default to the us rate
 		if ($user_id == 0 || $user_id = null) {
 			$country_code = 'US';
 		}
@@ -64,6 +67,10 @@ class ShippingRegions extends Component
 	{
 		return $this->default_package;
 	}
+
+	public function additionalitemshipping(){
+	    return $this->additional_shipping_charge;
+    }
 	/* Private functions */
 
 

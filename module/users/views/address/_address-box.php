@@ -50,7 +50,7 @@ use \app\module\users\models\UserAddress;
                 <br/>
                 <?= $model->CITY ?>, <?= $model->STATE . ' ' . $model->POSTALCODE ?>
                 <br/>
-                <?= $model->COUNTRY ?>
+                <?= $model->cOUNTRY->COUNTRY_NAME ?>
                 <br/>
                 <i class="fa fa-phone" aria-hidden="true"></i> <?= $model->PHONE ?>
                 <br/>

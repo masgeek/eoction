@@ -37,15 +37,23 @@ class ProductManager
     }
 
     /**
+     * Get the shipping cost per region
      * @param null $product_id
-     * @param int $retail_price
+     * @param bool $first_item
      * @return float|int
      */
-    public static function ComputeShippingCost($product_id = null, $retail_price = 0)
+    public static function ComputeShippingCost($product_id = null, $first_item = true)
     {
         $userId = \Yii::$app->user->id ? \Yii::$app->user->id : 0;
         $country = AccountManager::GetUserAddress($userId, null, true);
-        return \Yii::$app->shippingregions->shippingcost($country, $userId);
+        if ($first_item) {
+            $shipping_cost = \Yii::$app->shippingregions->shippingcost($country, $userId);
+        } else {
+            $shipping_cost = \Yii::$app->shippingregions->additionalitemshipping();
+        }
+
+        return $shipping_cost;
+
     }
 
     /**
@@ -105,6 +113,7 @@ class ProductManager
      */
     public static function GetItemsForBidding($no_of_items = 20, $item_won = [1, 0])
     {
+
         $query = TbActiveBids::find()
             ->where(['IN', 'ITEM_WON', $item_won,])
             ->limit($no_of_items)
@@ -112,6 +121,9 @@ class ProductManager
 
         $item_provider = new ActiveDataProvider([
             'query' => $query, //randomly pick items
+            'pagination' => [
+                'pageSize' => $no_of_items
+            ],
         ]);
         return $item_provider;
     }
@@ -149,6 +161,7 @@ class ProductManager
     {
         /* @var $productModel FryProducts */
         /* @var $model ItemsCart */
+        $first_item = true;
 
         $total = [];
         $shipping = [];
@@ -166,7 +179,10 @@ class ProductManager
             $product_price = $model->TOTAL_PRICE;
 
             $total[] = (float)$product_price;
-            $shipping[] = ProductManager::ComputeShippingCost($productModel->productid);
+
+            $shipping[] = ProductManager::ComputeShippingCost($productModel->productid, $first_item);
+
+            $first_item = false;
         }
 
         $sub_total = array_sum($total);
@@ -291,6 +307,8 @@ class ProductManager
      */
     public static function CheckImageExists($image_url)
     {
+
+        return $image_url;
         //$product_image = 'http://lorempixel.com/800/400/nature/2';//'@web/product_images/placeholder.png';
         $product_image = 'http://placehold.it/800?text=No+Product+Image';//'@web/product_images/placeholder.png';
 
@@ -325,13 +343,12 @@ class ProductManager
 
     /**
      * Sets the expiry date for a certain product
-     * @param int $expires_after
+     * @param int $expires_after default is 3 days
      * @return false|string
      */
-    public static function SetProductExpiryDate($expires_after = 2)
+    public static function SetProductExpiryDate($expires_after = 3)
     {
         $expiry_date = date('Y-m-d', strtotime("+$expires_after days"));
-
         return $expiry_date;
     }
 }

@@ -22,10 +22,10 @@ $config = [
 				],
 				[
 					'class' => 'yii\log\FileTarget',
-					'levels' => ['info', 'error', 'warning'],
+					'levels' => ['trace','info','error', 'warning'],
 					'categories' => ['activebids'],
 					'logVars' => ['$_POST'],
-					'logFile' => '@app/runtime/logs/Bids/active_bids.log',
+					'logFile' => '@app/runtime/logs/Bids/bids_cron_log.log',
 					'maxFileSize' => 1024 * 2,
 					'maxLogFiles' => 20,
 				],

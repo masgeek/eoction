@@ -2,27 +2,28 @@
 
 namespace app\module\products\models;
 
-use Yii;
-
+use app\models\BidActivity;
+use app\models\BidRequests;
 /**
- * This is the model class for table "fry_products".
+ * This is the model class for table "{{%fry_products}}".
  *
- * @property integer $productid
+ * @property int $productid
  * @property string $name
  * @property string $category
  * @property string $brand
  * @property string $sku
  * @property string $desc
- * @property string $price
+ * @property string $price initial bidding price
  * @property string $buyitnow
  * @property string $cost_price
  * @property string $sale_price
  * @property string $retail_price
- * @property integer $allow_purchase
- * @property integer $available
- * @property integer $visible
- * @property integer $track_inventory
- * @property integer $stock_level
+ * @property int $allow_purchase
+ * @property int $available
+ * @property int $visible
+ * @property int $track_inventory
+ * @property int $stock_level
+ * @property int $allow_bid_request
  * @property string $min_stock
  * @property string $weight
  * @property string $page_title
@@ -73,6 +74,11 @@ use Yii;
  * @property string $image2
  * @property string $image3
  * @property string $image4
+ *
+ * @property BidExclusion $bidExclusion
+ * @property BidRequests $bidRequests
+ * @property ActiveBids $activeBids
+ * @property BidActivity[] $tbBidActivities
  */
 class FryProducts extends \yii\db\ActiveRecord
 {
@@ -81,7 +87,7 @@ class FryProducts extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'fry_products';
+        return '{{%fry_products}}';
     }
 
     /**
@@ -90,7 +96,7 @@ class FryProducts extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['allow_purchase', 'available', 'visible', 'track_inventory', 'stock_level'], 'integer'],
+            [['allow_purchase', 'available', 'visible', 'track_inventory', 'stock_level', 'allow_bid_request'], 'integer'],
             [['name', 'category', 'brand', 'sku', 'desc', 'price', 'buyitnow', 'cost_price', 'sale_price', 'retail_price', 'min_stock', 'weight', 'page_title', 'search_keywords', 'meta_keywords', 'meta_desc', 'condition', 'upc', 'Attribute1', 'Attribute2', 'Attribute3', 'Attribute4', 'Attribute5', 'Attribute6', 'Attribute7', 'Attribute8', 'Attribute9', 'Attribute10', 'Attribute11', 'Attribute12', 'Attribute13', 'Attribute14', 'Attribute15', 'Attribute16', 'Attribute17', 'Attribute18', 'Attribute19', 'Attribute20', 'Attribute21', 'Attribute22', 'Attribute23', 'Attribute24', 'Attribute25', 'Attribute26', 'Attribute27', 'Attribute28', 'Attribute29', 'Attribute30', 'Attribute31', 'Attribute32', 'ebay_cat_id1', 'ebay_cat_id2', 'notes', 'stock_type', 'stock_location', 'image1', 'image2', 'image3', 'image4'], 'string', 'max' => 255],
             [['show_condition'], 'string', 'max' => 50],
         ];
@@ -118,6 +124,7 @@ class FryProducts extends \yii\db\ActiveRecord
             'visible' => 'Visible',
             'track_inventory' => 'Track Inventory',
             'stock_level' => 'Stock Level',
+            'allow_bid_request' => 'Allow Bid Request',
             'min_stock' => 'Min Stock',
             'weight' => 'Weight',
             'page_title' => 'Page Title',
@@ -169,5 +176,37 @@ class FryProducts extends \yii\db\ActiveRecord
             'image3' => 'Image3',
             'image4' => 'Image4',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBidExclusion()
+    {
+        return $this->hasOne(BidExclusion::className(), ['PRODUCT_ID' => 'productid']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBidRequests()
+    {
+        return $this->hasOne(BidRequests::className(), ['REQUESTED_PRODUCT_ID' => 'productid']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTbActiveBids()
+    {
+        return $this->hasOne(TbActiveBids::className(), ['PRODUCT_ID' => 'productid']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTbBidActivities()
+    {
+        return $this->hasMany(BidActivity::className(), ['PRODUCT_ID' => 'productid']);
     }
 }

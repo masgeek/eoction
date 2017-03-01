@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $id string */
+/* @var $user_id string */
 /* @var $model app\module\users\models\UserAddress */
 /* @var $form yii\widgets\ActiveForm */
 
@@ -81,7 +81,7 @@ $countryData = \app\components\AccountManager::GetCountryList();
     </div>
 
     <!-- Hidden fields Section -->
-    <?= $form->field($model, 'USER_ID')->hiddenInput(['value' => $id,'readonly'=>true])->label('') ?>
+    <?= $form->field($model, 'USER_ID')->hiddenInput(['value' => $user_id,'readonly'=>true])->label('') ?>
     <!-- /End of hidden fields -->
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create New Address' : 'Update Address', ['class' => $model->isNewRecord ? 'btn btn-success btn-block noradius' : 'btn btn-primary noradius btn-block']) ?>

@@ -29,10 +29,17 @@ class CronController extends Controller
 			return Controller::EXIT_CODE_ERROR;
 		} else {
 			//lets check the active bids
-			//$activebids->maximum_items = 20;
-			$result = $activebids->Remove_Won_Expired_Items(); //proces the active bids
-			$command->finish();
-			\Yii::trace("Finishing cron $result expired items removed", 'activebids'); //log to an exclusions log file;
+			//$activebids->maximum_items = 24;
+
+			$activebids->Remove_Expired_Exclusions();
+
+			\Yii::trace("Finishing removeing expired exclusion list", 'activebids'); //log to an exclusions log file;
+
+            $result = $activebids->Remove_Won_Expired_Items(); //proces the active bids
+            \Yii::trace("Finishing cron $result expired items removed", 'activebids'); //log to an exclusions log file;
+
+            $command->finish();
+            \Yii::info('Finished cron', 'activebids'); //log to an exclusions log file;
 			return Controller::EXIT_CODE_NORMAL;
 		}
 	}

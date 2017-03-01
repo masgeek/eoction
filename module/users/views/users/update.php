@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = 'Account Info';
         ]) ?>
         <hr/>
         <div class="list-group">
-            <?= Html::a('<span class="fa fa-map-marker"></span> Manage Addresses', ['//my-addresses', 'id' => yii::$app->user->id], ['class' => 'list-group-item']); ?>
+            <?= Html::a('<span class="fa fa-map-marker"></span> Manage Addresses', ['//my-addresses', 'user_id' => yii::$app->user->id], ['class' => 'list-group-item']); ?>
             <a href="#" class="list-group-item"><span class="fa fa-remove"></span> Cancel Account</a>
         </div>
     </div>

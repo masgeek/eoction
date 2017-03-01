@@ -3,12 +3,13 @@
 namespace app\module\users\models;
 
 use Yii;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "{{%tb_user_address}}".
  *
- * @property integer $ADDRESS_ID
- * @property integer $USER_ID
+ * @property int $ADDRESS_ID
+ * @property int $USER_ID
  * @property string $NAME
  * @property string $COMPANY
  * @property string $STREET1
@@ -19,13 +20,14 @@ use Yii;
  * @property string $POSTALCODE
  * @property string $COUNTRY
  * @property string $PHONE
- * @property boolean $RESIDENTIAL
+ * @property int $RESIDENTIAL
  * @property string $ADDRESS_TYPE
- * @property integer $PRIMARY_ADDRESS
+ * @property int $PRIMARY_ADDRESS
  * @property string $CREATED
  * @property string $UPDATED
  *
  * @property Users $uSER
+ * @property Countries $cOUNTRY
  */
 class UserAddress extends \yii\db\ActiveRecord
 {
@@ -48,17 +50,34 @@ class UserAddress extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['USER_ID', 'NAME', 'STREET1', 'CITY', 'POSTALCODE', 'COUNTRY', 'RESIDENTIAL', 'PRIMARY_ADDRESS', 'ADDRESS_TYPE'], 'required'],
-            [['USER_ID'], 'integer'],
-            [['PRIMARY_ADDRESS', 'RESIDENTIAL'], 'boolean'],
-            [['CREATED', 'UPDATED', 'PHONE', 'COMPANY'], 'safe'],
+            [['USER_ID', 'NAME', 'STREET1', 'CITY', 'POSTALCODE', 'COUNTRY'], 'required'],
+            [['RESIDENTIAL', 'PRIMARY_ADDRESS','ADDRESS_TYPE'], 'required'],
+            [['USER_ID', 'RESIDENTIAL', 'PRIMARY_ADDRESS'], 'integer'],
+            [['CREATED', 'UPDATED'], 'safe'],
             [['NAME'], 'string', 'max' => 100],
             [['COMPANY'], 'string', 'max' => 150],
             [['STREET1', 'STREET2', 'STREET3'], 'string', 'max' => 200],
             [['CITY', 'STATE', 'POSTALCODE', 'PHONE'], 'string', 'max' => 50],
             [['COUNTRY', 'ADDRESS_TYPE'], 'string', 'max' => 20],
             [['USER_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['USER_ID' => 'USER_ID']],
+            [['COUNTRY'], 'exist', 'skipOnError' => true, 'targetClass' => Countries::className(), 'targetAttribute' => ['COUNTRY' => 'COUNTRY_CODE']],
         ];
+    }
+
+    /**
+    * @inheritdoc
+    */
+    public function beforeSave($insert)
+    {
+        $date = new Expression('NOW()');
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->CREATED = $date;
+            }
+            $this->UPDATED= $date;
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -70,20 +89,20 @@ class UserAddress extends \yii\db\ActiveRecord
             'ADDRESS_ID' => 'Address ID',
             'USER_ID' => 'User ID',
             'NAME' => 'Name',
-            'COMPANY' => 'Company Name',
-            'STREET1' => 'Street Address 1',
-            'STREET2' => 'Street Address 2',
-            'STREET3' => 'Street Address 3',
+            'COMPANY' => 'Company',
+            'STREET1' => 'Street1',
+            'STREET2' => 'Street2',
+            'STREET3' => 'Street3',
             'CITY' => 'City',
             'STATE' => 'State',
             'POSTALCODE' => 'Postal Code',
             'COUNTRY' => 'Country',
             'PHONE' => 'Phone',
-            'RESIDENTIAL' => 'Address Category',
+            'RESIDENTIAL' => 'Residential',
             'ADDRESS_TYPE' => 'Address Type',
             'PRIMARY_ADDRESS' => 'Primary Address',
-            'CREATED' => 'Created On',
-            'UPDATED' => 'Updated On',
+            'CREATED' => 'Created',
+            'UPDATED' => 'Updated',
         ];
     }
 
@@ -93,5 +112,13 @@ class UserAddress extends \yii\db\ActiveRecord
     public function getUSER()
     {
         return $this->hasOne(Users::className(), ['USER_ID' => 'USER_ID']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCOUNTRY()
+    {
+        return $this->hasOne(Countries::className(), ['COUNTRY_CODE' => 'COUNTRY']);
     }
 }

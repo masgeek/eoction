@@ -12,6 +12,7 @@
 
 namespace app\bidding;
 
+use app\components\CartManager;
 use app\module\products\models\TbActiveBids;
 use yii\db\Expression;
 use yii\helpers\Html;
@@ -83,11 +84,10 @@ class BidManager
      *
      * @return boolean
      */
-    public static function TrackUsersBids($user_id, $product_id, $sku, $bid_won = 0)
+    public static function TrackUsersBids($user_id, $product_id, $sku, $bid_won = 0, $starting_bid = 0, $first_request_bid = false)
     {
         $bid_successful = false;
-        $bid_amount_increment = BidManager::NextBidAmount($product_id);
-
+        $bid_amount_increment = BidManager::NextBidAmount($product_id, $starting_bid,$first_request_bid);
 
         $expression = new Expression('NOW()');
         //first lets check if the product is already tracked
@@ -136,32 +136,44 @@ class BidManager
      * $100-1000 = increment is $10
      * $1000 and above = increment is $100
      * @param $product_id
-     * @return int|string
+     * @param int $starting_bid
+     * @param bool $first_request_bid
+     * @return float|int|string
      */
-    public static function NextBidAmount($product_id)
+    public static function NextBidAmount($product_id, $starting_bid = 0, $first_request_bid = false)
     {
-        //first we check if there is already a bid if not this is ther first bid and we will get teh base bid price
+        //first we check if there is already a bid if not this is ther first bid and we will get the base bid price
         //$increment_value = 1; //default is one//\Yii::$app->params['BidIncrementValue'];
         $productInfo = FryProducts::findOne($product_id);
 
-        $next_bid_amount = $productInfo->price;
+        if ($starting_bid > 0 && $first_request_bid) {
+            return $starting_bid;
+        } else {
+            $next_bid_amount = $productInfo->price;
+        }
 
-        $max_amount = (int)BidManager::GetMaxBidAmount($product_id, $format = false, $check_if_first_bid = true);
 
-        if ($max_amount > 0) {
-            if ($max_amount >= 1 && $max_amount <= 10) {
-                $increment_value = 1;
-            } elseif ($max_amount >= 11 && $max_amount <= 30) {
-                $increment_value = 2;
-            } elseif ($max_amount >= 31 && $max_amount <= 100) {
-                $increment_value = 5;
-            } elseif ($max_amount >= 101 && $max_amount <= 1000) {
-                $increment_value = 10;
-            } elseif ($max_amount > 1000) {
-                $increment_value = 100;
+
+        $max_amount = (float)BidManager::GetMaxBidAmount($product_id, $format = false, $check_if_first_bid = true,$starting_bid);
+
+        if($first_request_bid) {
+            //do nothing here just pass the initial price
+        }else{
+            if ($max_amount > 0) {
+                if ($max_amount >= 0 && $max_amount <= 10) {
+                    $increment_value = 1;
+                } elseif ($max_amount >= 11 && $max_amount <= 30) {
+                    $increment_value = 2;
+                } elseif ($max_amount >= 31 && $max_amount <= 100) {
+                    $increment_value = 5;
+                } elseif ($max_amount >= 101 && $max_amount <= 1000) {
+                    $increment_value = 10;
+                } elseif ($max_amount > 1000) {
+                    $increment_value = 100;
+                }
+                $next_bid_amount = $max_amount + (int)$increment_value;
+
             }
-
-            $next_bid_amount = $max_amount + (int)$increment_value;
         }
         return $next_bid_amount;
 
@@ -204,7 +216,7 @@ class BidManager
     public static function MarkBidAsWon($user_id, $product_id)
     {
         //then add it to the cart
-
+$amount_won = 0.00;
         $bid_won_model = ProductBids::findOne([
                 'USER_ID' => $user_id,
                 'PRODUCT_ID' => $product_id,
@@ -212,12 +224,14 @@ class BidManager
         );
         if ($bid_won_model != null) {
             $bid_won_model->BID_WON = 1; //indicate this bid as won
+            $amount_won = $bid_won_model->BID_AMOUNT; //get the amount before resetting it
+            $bid_won_model->BID_AMOUNT = 0.00; //reset the amount to zero
 
             if ($bid_won_model->save()) {
                 //remove the same item not won from the bid activity table
                 ProductBids::deleteAll(['PRODUCT_ID' => $product_id, 'BID_WON' => 0]);
                 //add to cart to await payment
-                $resp = CartManager::AddItemsToCart($bid_won_model->USER_ID, $bid_won_model->PRODUCT_ID, $bid_won_model->BID_AMOUNT, $bidden_item = 1);
+                $resp = CartManager::AddItemsToCart($bid_won_model->USER_ID, $bid_won_model->PRODUCT_ID,$amount_won, $bidden_item = 1);
             }
             return $resp;
         }
@@ -225,28 +239,38 @@ class BidManager
         return null;
     }
 
+
     /**
      * Returns the maximum amount for an item
-     * @param $product_id integer
-     * @param $format boolean
-     * @param $check_if_first_bid boolean
-     * @return float
+     * @param int $product_id
+     * @param bool $format
+     * @param bool $check_if_first_bid
+     * @param int $starting_bid
+     * @return int|string|mixed|float
      */
-    public static function GetMaxBidAmount($product_id, $format = true, $check_if_first_bid = false)
+    public static function GetMaxBidAmount($product_id, $format = true, $check_if_first_bid = false, $starting_bid = 0)
     {
         $formatter = \Yii::$app->formatter;
+
         $bid_amount = ProductBids::find()
             ->where(['PRODUCT_ID' => $product_id])
             ->andWhere(['BID_WON' => 0])
             ->max('BID_AMOUNT');
 
-        if ($check_if_first_bid) {
+        if ($check_if_first_bid && $starting_bid <= 0) {
             return $bid_amount;
+        } elseif($starting_bid > 0 && $bid_amount==null) {
+            return $starting_bid;
         }
 
-        if ($bid_amount == null || (int)$bid_amount <= 0) {
-            $bid_amount = BidManager::GetInitialBidAmount($product_id);
-        }
+            if ($bid_amount == null || (int)$bid_amount <= 0) {
+                if($starting_bid <= 0) {
+                    $bid_amount = BidManager::GetInitialBidAmount($product_id);
+                }else {
+                    $bid_amount = $starting_bid;
+                }
+            }
+
         if ($format) {
             $max_bid_amount = $formatter->asCurrency($bid_amount);
         } else {
@@ -319,8 +343,8 @@ class BidManager
 
         $productModel = FryProducts::find()
             ->where([
-               // 'NOT IN', 'productid', $exclusionItems,
-	            'productid'=>$product_id
+                // 'NOT IN', 'productid', $exclusionItems,
+                'productid' => $product_id
             ])
             ->andWhere(['>=', 'stock_level', 1])//stock levels should be greater or equal to 1
             //->orderBy(['rand()' => SORT_DESC])//randomly pick products
@@ -382,6 +406,24 @@ class BidManager
         return $exclusion_array;
     }
 
+    /**
+     * Delete an expired item from the exclusion nlist
+     * @param $product_id
+     */
+    public static function RemoveFromExclusionList($product_id)
+    {
+        $model = BidExclusion::findOne($product_id);
+        if ($model != null) {
+            $result = $model->delete();
+        }
+    }
+
+    /**
+     * Add item to exclusion list
+     * @param $product_id
+     * @param bool $high_demand
+     * @return bool
+     */
     public static function AddToExclusionList($product_id, $high_demand = false)
     {
         $bidding_duration = 10;
@@ -448,7 +490,7 @@ class BidManager
         $starting_bid_price = $formatter->asCurrency($starting_bid_price_raw);
         //$shipping_cost = ProductManager::ComputeShippingCost($product_id);
         $bids = ProductManager::GetNumberOfBids($product_id);
-        $discount = ProductManager::ComputePercentageDiscount($product_id);
+        $discount = ProductManager::ComputePercentageDiscount($retail_price_raw, $starting_bid_price_raw);
 
         //$alias_path =  \Yii::getAlias('@web');
 

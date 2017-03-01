@@ -14,6 +14,7 @@ use Yii;
  */
 class Countries extends \yii\db\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */

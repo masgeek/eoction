@@ -2,19 +2,22 @@
 
 namespace app\models;
 
+use app\module\products\models\FryProducts;
 use app\module\users\models\Users;
+use Yii;
 use yii\db\Expression;
 
 /**
  * This is the model class for table "{{%tb_bid_activity}}".
  *
- * @property integer $ACTIVITY_ID
- * @property integer $PRODUCT_ID
- * @property integer $LAST_BIDDING_USER_ID
- * @property string $PRODUCT_SKU
- * @property integer $ACTIVITY_COUNT
- * @property string $BID_DATE
+ * @property int $ACTIVITY_ID
+ * @property int $PRODUCT_ID Product ID
+ * @property int $LAST_BIDDING_USER_ID Last bidding user
+ * @property string $PRODUCT_SKU Product SKU
+ * @property int $ACTIVITY_COUNT Bid Activity Count
+ * @property string $BID_DATE Date of Bid
  *
+ * @property FryProducts $pRODUCT
  * @property Users $lASTBIDDINGUSER
  */
 class BidActivity extends \yii\db\ActiveRecord
@@ -38,35 +41,45 @@ class BidActivity extends \yii\db\ActiveRecord
             [['BID_DATE'], 'safe'],
             [['PRODUCT_SKU'], 'string', 'max' => 255],
             [['PRODUCT_SKU'], 'unique'],
+            [['PRODUCT_ID'], 'exist', 'skipOnError' => true, 'targetClass' => FryProducts::className(), 'targetAttribute' => ['PRODUCT_ID' => 'productid']],
             [['LAST_BIDDING_USER_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['LAST_BIDDING_USER_ID' => 'USER_ID']],
         ];
     }
 
+    /**
+    * @inheritdoc
+    */
+    public function beforeValidate()
+    {
+        $date = new Expression('NOW()');
+        if (parent::beforeValidate()) {
+                $this->BID_DATE = $date;
+                return true;
+        }
+        return false;
+    }
     /**
      * @inheritdoc
      */
     public function attributeLabels()
     {
         return [
-            'ACTIVITY_ID' => 'Activity ID',
+            'ACTIVITY_ID' => 'Activity  ID',
             'PRODUCT_ID' => 'Product ID',
             'LAST_BIDDING_USER_ID' => 'Last bidding user',
             'PRODUCT_SKU' => 'Product SKU',
             'ACTIVITY_COUNT' => 'Bid Activity Count',
-            'BID_DATE' => 'Bid  Date',
+            'BID_DATE' => 'Date of Bid',
         ];
     }
 
-    public function beforeValidate()
-    {//auto add the date before validate
-        $date = new Expression('NOW()');
-        if (parent::beforeValidate()) {
-            $this->BID_DATE = $date;
-            return true;
-        }
-        return false;
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPRODUCT()
+    {
+        return $this->hasOne(FryProducts::className(), ['productid' => 'PRODUCT_ID']);
     }
-
 
     /**
      * @return \yii\db\ActiveQuery
