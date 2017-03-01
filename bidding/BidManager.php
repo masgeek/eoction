@@ -428,11 +428,12 @@ class BidManager
     /**
      * Delete an expired item from the exclusion nlist
      * @param $product_id
+     * @return boolean
      */
     public
     static function RemoveFromExclusionList($product_id)
     {
-        $result = 0;
+        $result = false;
         $model = BidExclusion::findOne(['PRODUCT_ID' => $product_id]);
         if ($model != null) {
             $result = $model->delete();
