@@ -225,6 +225,7 @@ class ProductManager
         $total = [];
         $shipping = [];
         $paypalItems = [];
+        $first_item = true;
         $cartItems = ProductManager::GetUserCartItems($user_id, $sold_status = [0]);
         if ($cartItems->count > 0) {
 
@@ -236,8 +237,8 @@ class ProductManager
                     $product_price = $productModel->buyitnow; //get the retail price if its not a bid item
                 }
                 $total[] = (float)$product_price;
-                $shipping[] = ProductManager::ComputeShippingCost($model->PRODUCT_ID);
-
+                $shipping[] = ProductManager::ComputeShippingCost($model->PRODUCT_ID, $first_item);
+                $first_item = false;
                 $paypalItems['ITEMS'][] = [
                     'NAME' => $productModel->name,
                     'ITEM_ID' => $model->CART_ID,
