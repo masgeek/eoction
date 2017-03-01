@@ -308,7 +308,7 @@ class BidManager
     {
 
 
-        $winning_name = '-';
+        $winning_response = '-';
         $logged_in_id = \Yii::$app->user->id;
         $winning_user_id = BidManager::GetBidWinner($product_id, $sku);
 
