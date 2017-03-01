@@ -104,8 +104,10 @@ use yii\helpers\Html;
 
 <script>
     $(document).ready(function () {
-// get current URL path and assign 'active' class
-        var pathname = window.location.pathname;
-        $('.nav > li > a[href="' + pathname + '"]').parent().addClass('active active-indicator');
-    })
+        var url = window.location;
+        $('ul.product-nav a[href="'+ url +'"]').parent().addClass('active');
+        $('ul.product-nav a').filter(function() {
+            return this.href == url;
+        }).parent().addClass('active');
+    });
 </script>
