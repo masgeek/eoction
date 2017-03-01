@@ -249,7 +249,7 @@ class ActiveBids extends \yii\base\Component
         $products_records = FryProducts::find()
             ->select('productid')
             ->andWhere(['NOT IN', 'productid', $excluded_items])
-            ->andWhere(['NOT IN', 'allow_auction', $allow_auction])
+            ->andWhere(['IN', 'allow_auction', $allow_auction])
             ->limit($items_to_update)
             ->asArray()
             ->all();
