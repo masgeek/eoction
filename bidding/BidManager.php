@@ -316,13 +316,16 @@ class BidManager
             $userData = Users::findOne($winning_user_id);
 
             if ($logged_in_id == $winning_user_id && $winning_user_id > 0) {
-                $winning_name = $bid_won ? "<span style='color: #42b353'>$userData->FULL_NAMES has won!</span>" : "<span style='color: #42b353'>$userData->FULL_NAMES is winning</span>";
+                $winning_name = $bid_won ? "$userData->FULL_NAMES has won" : "$userData->FULL_NAMES is winning";
+                $winning_response = "<span style='color: #42b353;font-weight: bold;'>$winning_name</span>";
             } else {
-                $winning_name = $bid_won ? "<span style='color: red'>$userData->FULL_NAMES has won!</span>" : "<span style='color: red'>$userData->FULL_NAMES is winning</span>";
+                $winning_name = $bid_won ? "$userData->FULL_NAMES has won!" : "$userData->FULL_NAMES is winning";
+
+                $winning_response = "<span style='color: red;font-weight: bold;'>$winning_name</span>";
             }
         }
 
-        return $winning_name;
+        return $winning_response;
     }
 
 
