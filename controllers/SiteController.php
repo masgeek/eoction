@@ -160,18 +160,10 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        /* @var $activebids ActiveBids */
-        $activebids = \Yii::$app->activebids;
+        $this->view->title = 'Eoction-Live Auction';
 
-        //$activebids->maximum_items = 20;
-        //return $activebids->Remove_Won_Expired_Items();
-
-//		return $activebids->ProcessNextBidItems(); //AddToActiveBids(1);
-        ///return 5;
-        //$exclusion_list = BidManager::GetExclusionItems();
         $dataProvider = ProductManager::GetItemsForBidding($no_of_items = 24, $item_won = [1, 0]);
 
-        $this->view->title = 'Eoction-Live Auction';
         return $this->render('index', ['listDataProvider' => $dataProvider]);
     }
 
