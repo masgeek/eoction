@@ -244,11 +244,12 @@ class ActiveBids extends \yii\base\Component
      * @param $excluded_items
      */
     private
-    function UpdateActiveBids($items_to_update, $excluded_items)
+    function UpdateActiveBids($items_to_update, $excluded_items, $allow_auction = [1])
     {
         $products_records = FryProducts::find()
             ->select('productid')
             ->andWhere(['NOT IN', 'productid', $excluded_items])
+            ->andWhere(['NOT IN', 'allow_auction', $allow_auction])
             ->limit($items_to_update)
             ->asArray()
             ->all();
