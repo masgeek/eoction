@@ -444,7 +444,7 @@ class BidManager
     public static function AddToExclusionList($product_id, $high_demand = false)
     {
         $bidding_duration = 10;
-        $exclusion_duration = 30;
+        $exclusion_duration = 3;
 
         /* @var $model BidExclusion */
         //exclusion is in seconds 1hr 3600 seconds
