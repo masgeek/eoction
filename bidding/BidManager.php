@@ -312,15 +312,15 @@ class BidManager
         $logged_in_id = \Yii::$app->user->id;
         $winning_user_id = BidManager::GetBidWinner($product_id, $sku);
 
-        //if ($logged_in_id == $winning_user_id && $winning_user_id > 0) {
-        //$winning_name = $bid_won ? 'you have won!' : 'you are winning';
-        //} else {
         if ($winning_user_id > 0) {
             $userData = Users::findOne($winning_user_id);
 
-            $winning_name = $bid_won ? $userData->FULL_NAMES . ' has won!' : $userData->FULL_NAMES . ' is winning';
+            if ($logged_in_id == $winning_user_id && $winning_user_id > 0) {
+                $winning_name = $bid_won ? "<span style='color: #5aff75'>$userData->FULL_NAMES has won!</span>" : "<span style='color: #5aff75'>$userData->FULL_NAMES is winning</span>";
+            } else {
+                $winning_name = $bid_won ? "<span style='color: red'>$userData->FULL_NAMES has won!</span>" : "<span style='color: red'>$userData->FULL_NAMES is winning</span>";
+            }
         }
-        //}
 
         return $winning_name;
     }
@@ -332,7 +332,8 @@ class BidManager
      * @param array $bid_active
      * @return array
      */
-    public static function GetNextItemToBid($product_id, $item_won = [0, 1], $bid_active = [0])
+    public
+    static function GetNextItemToBid($product_id, $item_won = [0, 1], $bid_active = [0])
     {
         /* @var $productModel TbActiveBids */
         /* @var $activebids ActiveBids */
@@ -389,7 +390,8 @@ class BidManager
     /**
      * @return array
      */
-    public static function GetExclusionItems()
+    public
+    static function GetExclusionItems()
     {
 
         $maxExpiry = 3600 * 5;
@@ -427,12 +429,16 @@ class BidManager
      * Delete an expired item from the exclusion nlist
      * @param $product_id
      */
-    public static function RemoveFromExclusionList($product_id)
+    public
+    static function RemoveFromExclusionList($product_id)
     {
-        $model = BidExclusion::findOne($product_id);
+        $result = 0;
+        $model = BidExclusion::findOne(['PRODUCT_ID' => $product_id]);
         if ($model != null) {
             $result = $model->delete();
         }
+
+        return $result;
     }
 
     /**
@@ -441,9 +447,10 @@ class BidManager
      * @param bool $high_demand
      * @return bool
      */
-    public static function AddToExclusionList($product_id, $high_demand = false)
+    public
+    static function AddToExclusionList($product_id, $high_demand = false)
     {
-        $bidding_duration = 10;
+        $bidding_duration = 5;
         $exclusion_duration = 3;
 
         /* @var $model BidExclusion */
@@ -492,7 +499,8 @@ class BidManager
      * @param $product_image_raw
      * @return array
      */
-    private static function BuildProductHtmlList($product_id, $sku, $product_name, $retail_price_raw, $starting_bid_price_raw, $product_image_raw)
+    private
+    static function BuildProductHtmlList($product_id, $sku, $product_name, $retail_price_raw, $starting_bid_price_raw, $product_image_raw)
     {
         /* @var $imageObject FryProductImages */
         $formatter = \Yii::$app->formatter;

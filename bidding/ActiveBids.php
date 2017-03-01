@@ -119,6 +119,8 @@ class ActiveBids extends \yii\base\Component
             //call function to compute duration
             $product_id = $model['PRODUCT_ID'];
             $remaining = $this->GetRemainingItemDuration($model['EXCLUSION_PERIOD']);
+
+
             //if remaining is less than zero delete that one
             $expired_array[] = $remaining;
             //before deleting add to bid exclusion list
@@ -225,7 +227,7 @@ class ActiveBids extends \yii\base\Component
 
     /**
      * @param $bid_duration
-     * @return float
+     * @return int
      */
     private
     function GetRemainingItemDuration($bid_duration)
@@ -233,7 +235,7 @@ class ActiveBids extends \yii\base\Component
         $currentDate = strtotime($this->current_date);
         $remaining_time = floor((($bid_duration - $currentDate) / 60));
 
-        return $remaining_time;
+        return (int)$remaining_time;
     }
 
     /**

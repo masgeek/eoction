@@ -48,7 +48,7 @@ $shipping = ProductManager::ComputeShippingCost($product_id);
 
 $randseed = rand(5, 17);
 if (YII_ENV_DEV) {
-    $bidStartTime = 2 + $randseed;// * $productID; //initial start time for the bid
+    $bidStartTime = 1 + $randseed;// * $productID; //initial start time for the bid
 } else {
     $bidStartTime = 40 + $randseed;// * $productID; //initial start time for the bid
 }
@@ -58,8 +58,8 @@ $retail_price = $formatter->asCurrency($productModel->buyitnow);
 
 $starting_bid_price = \app\bidding\BidManager::GetMaxBidAmount($product_id);
 
-\app\bidding\BidManager::NextBidAmount($product_id);
-\app\bidding\BidManager::AddToExclusionList($product_id, 0);
+//\app\bidding\BidManager::NextBidAmount($product_id);
+//\app\bidding\BidManager::AddToExclusionList($product_id, 0);
 
 //indicate the bid as active
 $activebids->FlagBidActiveStatus($product_id,1);

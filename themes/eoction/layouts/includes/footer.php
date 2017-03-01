@@ -93,13 +93,6 @@ use yii\helpers\Html;
         </div>
     </div>
     <!-- /footer bottom -->
-
-    <!--
-    <div class="container">
-        <p class="pull-left">&copy; <?= date('Y') ?> All Rights Reserved</p>
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-    -->
 </footer>
 
 <script>
