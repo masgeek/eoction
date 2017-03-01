@@ -145,7 +145,7 @@ class SiteController extends Controller
     }
 
 
-    public function actionIndex2()
+    /*public function actionIndex2()
     {
         $security = new Security();
         $randomString = $security->generateRandomString();
@@ -156,7 +156,7 @@ class SiteController extends Controller
             'randomString' => $randomString,
             'randomKey' => $randomKey,
         ]);
-    }
+    }*/
 
     public function actionIndex()
     {
