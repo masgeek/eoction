@@ -9,9 +9,10 @@ use yii\helpers\Html;
         <div class="col-sm-12 col-md-3">
             <h3 class="widget-title">EOCTION</h3>
             <div class="textwidget">
-                <?=Html::a('About Us', ['//site/about'], ['title' => 'About our company']); ?><br>
-                <?=Html::a('Terms &amp; Conditions', ['//site/terms'], ['title' => 'Terms &amp; Conditions']); ?><br>
-                <?=Html::a('Seller Terms', ['//site/seller-terms'], ['title' => 'Seller terms &amp Conditions']); ?><br>
+                <?= Html::a('About Us', ['//site/about'], ['title' => 'About our company']); ?><br>
+                <?= Html::a('Terms &amp; Conditions', ['//site/terms'], ['title' => 'Terms &amp; Conditions']); ?><br>
+                <?= Html::a('Seller Terms', ['//site/seller-terms'], ['title' => 'Seller terms &amp Conditions']); ?>
+                <br>
                 <a href="http://www.eoction.com/#">Privacy Policy</a><br>
                 <a href="http://www.eoction.com/#">Store Directory</a>
             </div>
@@ -36,7 +37,7 @@ use yii\helpers\Html;
                         <span>713 988 8210</span>
                     </li>
                     <li class="list-group-item"><i class="fa fa-envelope"></i> <strong>Email:</strong> <span><a
-                                href="mailto:info@eoction.com">info@eoction.com</a></span></li>
+                                    href="mailto:info@eoction.com">info@eoction.com</a></span></li>
                 </ul>
             </div>
         </div>
@@ -87,7 +88,8 @@ use yii\helpers\Html;
         </div>
 
         <div class="col-md-3">
-            <span class="pull-right copyright" style="text-align: center;">&copy; <?= date('Y'); ?> All Rights Reserved.</span>
+            <span class="pull-right copyright" style="text-align: center;">&copy; <?= date('Y'); ?>
+                All Rights Reserved.</span>
         </div>
     </div>
     <!-- /footer bottom -->
@@ -99,3 +101,11 @@ use yii\helpers\Html;
     </div>
     -->
 </footer>
+
+<script>
+    $(document).ready(function () {
+// get current URL path and assign 'active' class
+        var pathname = window.location.pathname;
+        $('.nav > li > a[href="' + pathname + '"]').parent().addClass('active');
+    })
+</script>
