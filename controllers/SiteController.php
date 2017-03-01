@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\bidding\ActiveBids;
 use app\module\products\models\FryProducts;
 use Yii;
+use yii\base\Security;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -143,6 +144,20 @@ class SiteController extends Controller
         return $this->render('index', ['listDataProvider' => $dataProvider]);
     }
 
+
+    public function actionIndex2()
+    {
+        $security = new Security();
+        $randomString = $security->generateRandomString();
+        $randomKey = $security->generateRandomKey();
+
+        return $this->render('index', [
+            'time' => date('H:i:s'),
+            'randomString' => $randomString,
+            'randomKey' => $randomKey,
+        ]);
+    }
+
     public function actionIndex()
     {
         /* @var $activebids ActiveBids */
@@ -217,15 +232,15 @@ class SiteController extends Controller
                 }
 
                 //track the bid
-                BidManager::TrackUsersBids($user_id, $id, $sku, 0, $starting_bid,$first_request);
+                BidManager::TrackUsersBids($user_id, $id, $sku, 0, $starting_bid, $first_request);
 
-                $discount = ProductManager::ComputePercentageDiscount($model->pRODUCT->buyitnow,$price);
+                $discount = ProductManager::ComputePercentageDiscount($model->pRODUCT->buyitnow, $price);
                 $resp = [
                     'msg' => 'Bid placed successfully',
                     'success' => true,
                     'product_id' => $model->PRODUCT_ID,
                     'sku' => $model->PRODUCT_SKU,
-                    'bid_price' =>BidManager::GetMaxBidAmount($model->PRODUCT_ID,true,false,$starting_bid),
+                    'bid_price' => BidManager::GetMaxBidAmount($model->PRODUCT_ID, true, false, $starting_bid),
                     'discount' => $discount,
                     'bid_count' => ProductManager::GetNumberOfBids($model->PRODUCT_ID),
                     //'winning_user'=>BidManager::GetWinningUser($model->PRODUCT_ID,$model->PRODUCT_SKU)
@@ -255,13 +270,13 @@ class SiteController extends Controller
                 } else {
                     $price = $bidactivity->pRODUCT->price;;
                 }
-                $discount = ProductManager::ComputePercentageDiscount($bidactivity->pRODUCT->buyitnow,$price);
+                $discount = ProductManager::ComputePercentageDiscount($bidactivity->pRODUCT->buyitnow, $price);
                 $resp = [
                     'msg' => 'Bid updated successfully',
                     'success' => true,
                     'product_id' => $bidactivity->PRODUCT_ID,
                     'sku' => $bidactivity->PRODUCT_SKU,
-                    'bid_price' => BidManager::GetMaxBidAmount($bidactivity->PRODUCT_ID,true,false,$starting_bid),
+                    'bid_price' => BidManager::GetMaxBidAmount($bidactivity->PRODUCT_ID, true, false, $starting_bid),
                     'discount' => $discount,
                     'bid_count' => ProductManager::GetNumberOfBids($bidactivity->PRODUCT_ID),
                     //'winning_user'=>BidManager::GetWinningUser($bidactivity->PRODUCT_ID,$bidactivity->PRODUCT_SKU)
