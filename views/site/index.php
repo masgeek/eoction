@@ -29,8 +29,8 @@ $userId = yii::$app->user->id ? yii::$app->user->id : 0;
 $listviewWidget = ListView::widget([
 	'dataProvider' => $listDataProvider,
 	'options' => [
-		'tag' => 'div',
-		'class' => 'list-wrapper',
+		//'tag' => 'div',
+		//'class' => 'list-wrapper',
 		'id' => 'product_list',
 	],
 	'layout' => "{items}",
@@ -49,15 +49,17 @@ $listviewWidget = ListView::widget([
 <?= Html::textInput('winning_url', $winningUrl, ['readonly' => true, 'id' => 'winning_url', 'class' => 'hidden']) ?>
 <?= Html::textInput('login_url', $loginUrl, ['readonly' => true, 'id' => 'login_url', 'class' => 'hidden']) ?>
 <!-- end static text fields -->
-
+<!--
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-			<?= $listviewWidget ?>
+
         </div>
     </div>
 </div>
+-->
 
+<?= $listviewWidget ?>
 
 <!--= yii\authclient\widgets\AuthChoice::widget([
     'baseAuthUrl' => ['site/auth'],

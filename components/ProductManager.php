@@ -9,6 +9,7 @@
 namespace app\components;
 
 
+use app\bidding\ActiveBids;
 use app\models\BidActivity;
 use app\module\products\models\FryProducts;
 use app\module\products\models\ItemsCart;
@@ -105,19 +106,31 @@ class ProductManager
         return $item_provider;
     }
 
+
     /**
-     *  returns items to either be sold or auctioned off
+     *  returns items to be uctioned off
      * @param int $no_of_items
      * @param array $item_won
+     * @param array $bid_active 1 active 0 not active default is 0
      * @return ActiveDataProvider
      */
-    public static function GetItemsForBidding($no_of_items = 20, $item_won = [1, 0])
+    public static function GetItemsForBidding($no_of_items = 20, $item_won = [1, 0], $bid_active = [0])
     {
+        /* @var $activebids ActiveBids */
+        $activebids = \Yii::$app->activebids;
+
 
         $query = TbActiveBids::find()
             ->where(['IN', 'ITEM_WON', $item_won,])
+            ->andWhere(['IN', 'BID_ACTIVE', $bid_active,])
             ->limit($no_of_items)
-            ->orderBy('PRODUCT_ID ASC');
+            ->orderBy('ACTIVE_ID ASC');
+
+
+        if ($query == null || $query->count() < $activebids->maximum_items) {
+            //refresh the active bids table
+            $activebids->Remove_Won_Expired_Items();
+        }
 
         $item_provider = new ActiveDataProvider([
             'query' => $query, //randomly pick items

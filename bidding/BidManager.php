@@ -87,7 +87,7 @@ class BidManager
     public static function TrackUsersBids($user_id, $product_id, $sku, $bid_won = 0, $starting_bid = 0, $first_request_bid = false)
     {
         $bid_successful = false;
-        $bid_amount_increment = BidManager::NextBidAmount($product_id, $starting_bid,$first_request_bid);
+        $bid_amount_increment = BidManager::NextBidAmount($product_id, $starting_bid, $first_request_bid);
 
         $expression = new Expression('NOW()');
         //first lets check if the product is already tracked
@@ -153,12 +153,11 @@ class BidManager
         }
 
 
+        $max_amount = (float)BidManager::GetMaxBidAmount($product_id, $format = false, $check_if_first_bid = true, $starting_bid);
 
-        $max_amount = (float)BidManager::GetMaxBidAmount($product_id, $format = false, $check_if_first_bid = true,$starting_bid);
-
-        if($first_request_bid) {
+        if ($first_request_bid) {
             //do nothing here just pass the initial price
-        }else{
+        } else {
             if ($max_amount > 0) {
                 if ($max_amount >= 0 && $max_amount <= 10) {
                     $increment_value = 1;
@@ -216,7 +215,7 @@ class BidManager
     public static function MarkBidAsWon($user_id, $product_id)
     {
         //then add it to the cart
-$amount_won = 0.00;
+        $amount_won = 0.00;
         $bid_won_model = ProductBids::findOne([
                 'USER_ID' => $user_id,
                 'PRODUCT_ID' => $product_id,
@@ -231,7 +230,7 @@ $amount_won = 0.00;
                 //remove the same item not won from the bid activity table
                 ProductBids::deleteAll(['PRODUCT_ID' => $product_id, 'BID_WON' => 0]);
                 //add to cart to await payment
-                $resp = CartManager::AddItemsToCart($bid_won_model->USER_ID, $bid_won_model->PRODUCT_ID,$amount_won, $bidden_item = 1);
+                $resp = CartManager::AddItemsToCart($bid_won_model->USER_ID, $bid_won_model->PRODUCT_ID, $amount_won, $bidden_item = 1);
             }
             return $resp;
         }
@@ -259,17 +258,17 @@ $amount_won = 0.00;
 
         if ($check_if_first_bid && $starting_bid <= 0) {
             return $bid_amount;
-        } elseif($starting_bid > 0 && $bid_amount==null) {
+        } elseif ($starting_bid > 0 && $bid_amount == null) {
             return $starting_bid;
         }
 
-            if ($bid_amount == null || (int)$bid_amount <= 0) {
-                if($starting_bid <= 0) {
-                    $bid_amount = BidManager::GetInitialBidAmount($product_id);
-                }else {
-                    $bid_amount = $starting_bid;
-                }
+        if ($bid_amount == null || (int)$bid_amount <= 0) {
+            if ($starting_bid <= 0) {
+                $bid_amount = BidManager::GetInitialBidAmount($product_id);
+            } else {
+                $bid_amount = $starting_bid;
             }
+        }
 
         if ($format) {
             $max_bid_amount = $formatter->asCurrency($bid_amount);
@@ -326,44 +325,62 @@ $amount_won = 0.00;
         return $winning_name;
     }
 
+
     /**
-     * @param int $product_id
+     * @param $product_id
+     * @param array $item_won
+     * @param array $bid_active
      * @return array
      */
-    public static function GetNextItemToBid($product_id)
+    public static function GetNextItemToBid($product_id, $item_won = [0, 1], $bid_active = [0])
     {
-        /* @var $productModel FryProducts */
+        /* @var $productModel TbActiveBids */
         /* @var $activebids ActiveBids */
         $activebids = \Yii::$app->activebids;
 
         //first add to exclusions list
         BidManager::AddToExclusionList($product_id);
         $activebids->RemoveExpiredBid($product_id); //delete from bid active table//fetch next item
-        $exclusionItems = json_decode($activebids->GetExclusionList());
+        $exclusionItems = $activebids->GetExclusionList();
 
-        $productModel = FryProducts::find()
+        /*$productModel = FryProducts::find()
             ->where([
-                // 'NOT IN', 'productid', $exclusionItems,
-                'productid' => $product_id
+                'NOT IN', 'productid', $exclusionItems,
+                //'productid' => $product_id
             ])
             ->andWhere(['>=', 'stock_level', 1])//stock levels should be greater or equal to 1
-            //->orderBy(['rand()' => SORT_DESC])//randomly pick products
+            ->orderBy(['productid' => SORT_DESC])
+            ->one();*/
+
+
+        $productModel = TbActiveBids::find()
+            ->where(['IN', 'ITEM_WON', $item_won,])
+            ->andWhere(['IN', 'BID_ACTIVE', $bid_active,])
+            ->orderBy('ACTIVE_ID ASC')
             ->one();
 
+        if ($productModel == null) {
+            //refresh the active bids table
+            $activebids->Remove_Won_Expired_Items();
+            return self::GetNextItemToBid($product_id, $item_won, $bid_active);
+        }
+        $next_item_id = $productModel->pRODUCT->productid; //add this to the active bids table
 
-        $next_item_id = $productModel->productid; //add this to teh active bids table
 
-        $activebids->AddToActiveBids($next_item_id);
+        $activebids->FlagBidActiveStatus($product_id, 0);
+        if ($activebids->AddToActiveBids($next_item_id)) {
+            //flag next item as active
+            $activebids->FlagBidActiveStatus($next_item_id, 1);
+        }
 
-        $sku = $productModel->sku;
-        $product_name = $productModel->name;
-        $retail_price_raw = $productModel->buyitnow;
-        $starting_bid_price_raw = $productModel->price;
-        $product_image_raw = $productModel->image1;
+        $sku = $productModel->pRODUCT->sku;
+        $product_name = $productModel->pRODUCT->name;
+        $retail_price_raw = $productModel->pRODUCT->buyitnow;
+        $starting_bid_price_raw = $productModel->pRODUCT->price;
+        $product_image_raw = $productModel->pRODUCT->image1;
 
-        //BidManager::AddToExclusionList($productModel->productid, 0);
         //add the item to bid activity
-        BidManager::AddItemsToBidActivity($productModel, $multimodel = false); //add the picked item to bid activity table
+        BidManager::AddItemsToBidActivity($productModel->pRODUCT, $multimodel = false); //add the picked item to bid activity table
 
         $product_list = BidManager::BuildProductHtmlList($next_item_id, $sku, $product_name, $retail_price_raw, $starting_bid_price_raw, $product_image_raw);
         return $product_list;
@@ -503,8 +520,7 @@ $amount_won = 0.00;
 
 
         $html_list = <<<BID_BOX
-<div class="col-xs-18 col-sm-6 col-md-3 column productbox" id="item_box_$product_id">
-    <div class="hidden">
+    <div class="hidden hidden_$product_id">
         <input type="text" id="bid_count_$product_id" value="0" readonly="readonly"/>
         <input type="text" id="bid_price_$product_id" value="0" readonly="readonly"/>
         <input type="text" id="bid_type_$product_id" value="1" readonly="readonly"/>
@@ -554,7 +570,6 @@ $amount_won = 0.00;
             </div>
         </div>
     </div>
-</div>
 BID_BOX;
 
 

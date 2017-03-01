@@ -108,7 +108,8 @@ class ActiveBids extends \yii\base\Component
         return true;
     }
 
-    public function Remove_Expired_Exclusions(){
+    public function Remove_Expired_Exclusions()
+    {
         $query = BidExclusion::find()
             ->select(['PRODUCT_ID', 'EXCLUSION_PERIOD'])
             ->asArray()
@@ -166,6 +167,28 @@ class ActiveBids extends \yii\base\Component
         } catch (ErrorException $e) {
             \Yii::error("Error deleting product with id $product_id $e->getMessage()", 'activebids'); //log to an exclusions log file;
         }
+    }
+
+    /**
+     * Indicates if a bid is active or not
+     * @param $product_id
+     * @param int $bid_active
+     * @return bool
+     */
+    public function FlagBidActiveStatus($product_id, $bid_active = 0)
+    {
+        /* @var $model TbActiveBids */
+        $model = $this->ValidateItem($product_id);
+        $model->BID_ACTIVE = $bid_active;
+        if ($model->save()) {
+            return true;
+        } else {
+            //log the errors
+            $errors = json_encode($model->getErrors());
+            \Yii::error("Error deleting product with id $product_id $errors", 'activebids'); //log to an exclusions log file;
+        }
+
+        return false;
     }
 //=============================== PRIVATE FUNCTIONS ========================================================
 
