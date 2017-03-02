@@ -445,17 +445,18 @@ class BidManager
         return $result;
     }
 
+
     /**
      * Add item to exclusion list
      * @param $product_id
      * @param bool $high_demand
+     * @param int $bidding_duration
+     * @param int $exclusion_duration
      * @return bool
      */
     public
-    static function AddToExclusionList($product_id, $high_demand = false)
+    static function AddToExclusionList($product_id, $high_demand = false, $bidding_duration = 5, $exclusion_duration = 3)
     {
-        $bidding_duration = 5;
-        $exclusion_duration = 3;
 
         /* @var $model BidExclusion */
         //exclusion is in seconds 1hr 3600 seconds
@@ -464,8 +465,9 @@ class BidManager
         $usersTimezone = 'GMT';
         date_default_timezone_set($usersTimezone);
         $date = date('Y-m-d  H:i:s');
-        $currentDate = strtotime($date);
+        //$currentDate = strtotime($date);
         $bidDuration = strtotime($date . "+$bidding_duration minutes");
+
         $futureDate = strtotime($date . "+$exclusion_duration minutes");
 
 
@@ -475,16 +477,15 @@ class BidManager
             //prepare new record insertion
             $model = new BidExclusion();
             $model->isNewRecord = true;
-
+            $model->EXCLUSION_PERIOD = $futureDate;
             $model->PRODUCT_ID = $product_id;
+            $model->BIDDING_PERIOD = $bidDuration;
+            $model->HIGH_DEMAND = $high_demand ? 1 : 0; //indicate if the product is in high demand
         } else {
             //default is to update the record
             $model->isNewRecord = false;
             $model->AUCTION_COUNT = (int)($model->AUCTION_COUNT) + 1; //increment by one
         }
-        $model->BIDDING_PERIOD = $bidDuration;
-        $model->EXCLUSION_PERIOD = $futureDate;
-        $model->HIGH_DEMAND = $high_demand ? 1 : 0; //indicate if the product is in high demand
 
         if ($model->save()) {
             return true;
