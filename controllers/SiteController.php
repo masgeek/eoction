@@ -138,7 +138,7 @@ class SiteController extends Controller
         $session->set('search_url', \yii\helpers\Url::toRoute(['search-bids']));
 
         //$exclusion_list = BidManager::GetExclusionItems();
-        $dataProvider = ProductManager::GetItemsForBidding($no_of_items = 20, $item_won = [0], $bid_active = [0,1]);
+        $dataProvider = ProductManager::GetItemsForBidding($no_of_items = 20, $item_won = [0], $bid_active = [0, 1]);
 
         $this->view->title = 'Test Live Auction';
         return $this->render('index', ['listDataProvider' => $dataProvider]);
@@ -178,8 +178,9 @@ class SiteController extends Controller
 
     public function actionNextItem($product_id)
     {
+        die;
         // usleep(1200);
-        $nextItem = BidManager::GetNextItemToBid($product_id);
+        $nextItem = BidManager::GetNextItemToBid($product_id, [1, 0]);
         return json_encode($nextItem);
     }
 

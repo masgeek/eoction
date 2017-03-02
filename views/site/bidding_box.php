@@ -62,7 +62,7 @@ $starting_bid_price = \app\bidding\BidManager::GetMaxBidAmount($product_id);
 //\app\bidding\BidManager::AddToExclusionList($product_id, 0);
 
 //indicate the bid as active
-//$activebids->FlagBidActiveStatus($product_id,1);
+$activebids->FlagBidActiveStatus($product_id,1);
 ?>
 <!--<div class="col-xs-18 col-sm-6 col-md-3 column productbox" id="item_box_<?= $product_id; ?>">-->
 

@@ -138,7 +138,7 @@ class ProductManager
      * @return ActiveDataProvider
      */
     public
-    static function GetItemsForBidding($no_of_items = 20, $item_won = [1, 0], $bid_active = [0])
+    static function GetItemsForBidding($no_of_items = 20, $item_won = [1, 0], $bid_active = [0,1])
     {
         /* @var $activebids ActiveBids */
         $activebids = \Yii::$app->activebids;

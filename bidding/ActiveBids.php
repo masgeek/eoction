@@ -156,7 +156,7 @@ class ActiveBids extends \yii\base\Component
 
     public function GetExclusionList()
     {
-        return json_encode($this->GetExcludedItems());
+        return $this->GetExcludedItems();
     }
 
     public function RemoveExpiredBid($product_id)
@@ -287,9 +287,9 @@ class ActiveBids extends \yii\base\Component
             $bid_duration = $this->GetRemainingItemDuration($bid_duration);
             $bid_expiry = $this->GetRemainingItemDuration($futureExpiry);
 
-            //if ($bid_expiry > 0 || $bid_duration >= 0) {
-            $exclusion_array[] = $item['PRODUCT_ID'];
-            //}
+            if ($bid_expiry > 0 || $bid_duration >= 0) {
+                $exclusion_array[] = $item['PRODUCT_ID'];
+            }
         }
 
         return $exclusion_array;

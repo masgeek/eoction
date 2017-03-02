@@ -347,6 +347,8 @@ class BidManager
         $activebids->RemoveExpiredBid($product_id); //delete from bid active table//fetch next item
         $exclusionItems = $activebids->GetExclusionList();
 
+       // var_dump($exclusionItems);
+        //die;
         /*$productModel = FryProducts::find()
             ->where([
                 'NOT IN', 'productid', $exclusionItems,
@@ -479,16 +481,19 @@ class BidManager
             $model->isNewRecord = true;
             $model->EXCLUSION_PERIOD = $futureDate;
             $model->PRODUCT_ID = $product_id;
-            $model->BIDDING_PERIOD = $bidDuration;
-            $model->HIGH_DEMAND = $high_demand ? 1 : 0; //indicate if the product is in high demand
+
         } else {
             //default is to update the record
             $model->isNewRecord = false;
             $model->AUCTION_COUNT = (int)($model->AUCTION_COUNT) + 1; //increment by one
         }
+        $model->BIDDING_PERIOD = $bidDuration;
+        $model->HIGH_DEMAND = $high_demand ? 1 : 0; //indicate if the product is in high demand
 
         if ($model->save()) {
             return true;
+        } else {
+            BidManager::RemoveFromExclusionList($product_id);
         }
 
         \Yii::error($model->getErrors(), 'bidExclusions'); //log to an exclusions log file
