@@ -2,4 +2,4 @@
 @ECHO OFF
 
 chcp 65001 > NUL
-php "E:\uwamp\www\eoction-unstable\yii" % "cron/active-requests"
+php "D:\wamp\www\eoction-unstable\yii" % "cron/active-requests"
