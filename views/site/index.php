@@ -27,16 +27,16 @@ $userId = yii::$app->user->id ? yii::$app->user->id : 0;
 //BidManager::RemoveItemsFromBidActivity('NHQ-J272582011000');
 //show the products list default is 4x2
 $listviewWidget = ListView::widget([
-	'dataProvider' => $listDataProvider,
-	'options' => [
-		//'tag' => 'div',
-		//'class' => 'list-wrapper',
-		'id' => 'product_list',
-	],
-	'layout' => "{items}",
-	//'layout' => "{pager}\n{items}\n{summary}",
-	//'itemView' => '_product_view_old',
-	'itemView' => 'bidding_box']);
+    'dataProvider' => $listDataProvider,
+    'options' => [
+        //'tag' => 'div',
+        //'class' => 'list-wrapper',
+        'id' => 'product_list',
+    ],
+    'layout' => "{items}",
+    //'layout' => "{pager}\n{items}\n{summary}",
+    //'itemView' => '_product_view_old',
+    'itemView' => 'bidding_box']);
 
 ?>
 
@@ -71,4 +71,12 @@ $listviewWidget = ListView::widget([
     data-show-faces="true">
 </div>
 -->
+<script>
+    $(document).click(function (e) {
+        // Check for left button
+        if (e.button == 0) {
+
+        }
+    });
+</script>
 

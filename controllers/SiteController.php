@@ -178,7 +178,6 @@ class SiteController extends Controller
 
     public function actionNextItem($product_id)
     {
-        die;
         // usleep(1200);
         $nextItem = BidManager::GetNextItemToBid($product_id, [1, 0]);
         return json_encode($nextItem);
