@@ -195,10 +195,7 @@ class ShopController extends Controller
     {
         $winner = BidManager::GetWinningUser($product_id, $sku, $bid_won);
 
-        $winning_user = [
-            'winning_user' => $winner
-        ];
-        return json_encode($winning_user);
+        return json_encode($winner);
     }
 
     public function actionCartItems()

@@ -252,11 +252,11 @@ function FetchNextItem($previous_product_id) {
     var $containerID = $('.hidden_' + $previous_product_id).parents('div:first').attr('id'); //get id of the main container so that we can replace teh contents
     // $('#item_box_' + $previous_product_id);
     var $productBox = $('#' + $containerID);
-    var intervals = Math.floor((Math.random() * 1500) + 2000);
+    var intervals = Math.floor((Math.random() * 500) + 2000);
     var button = '<button class="btn btn-primary btn-block noradius text-uppercase" disabled>Next</button>';
 
 
-    console.log('Container id is ' + $containerID);
+    //console.log('Container id is ' + $containerID);
 
 
     setTimeout(function () {//wait n seconds before fetching next item
@@ -323,8 +323,8 @@ function ItemUpdate($product_id, $sku, $toclear) {
                         sku: $sku
                     },
                     error: function (data) {
-                        //do something in th event this fails
-                        console.log(data);
+                        //do something in the event this fails
+//                        console.log(data);
                     },
                     dataType: 'json',
                     success: function (data) {
@@ -364,17 +364,17 @@ function ItemUpdate($product_id, $sku, $toclear) {
                     user_id: userId, product_id: $product_id, sku: $sku
                 },
                 error: function (data) {
-                    //do something in th event this fails
-                    console.log(data);
+                    //do something in the event this fails
+                    //console.log(data);
                 },
                 dataType: 'json',
                 success: function (data) {
-                    var $winning_user = data.winning_user;
+                    var $winning_user = data.html;
 
                     winningUser.html($winning_user);
-                    if ($winning_user == '-' || $winning_user.length <= 0) {
-                        button = '<button class="btn btn-bid btn-bid-ended btn-block noradius text-uppercase" disabled>Closed</button>';
-                    }
+                    //if ($winning_user == '-' || $winning_user.length <= 0) {
+                        button = '<button class="btn btn-bid btn-danger btn-block noradius text-uppercase" disabled>Bid Closed</button>';
+                    //}
                     bidButton.html(button);
                 },
                 type: 'GET'
@@ -400,13 +400,13 @@ function UpdateCartItems() {
     $.ajax({
         url: cartitemsUrl,
         error: function (data) {
-            //do something in th event this fails
+            //do something in the event this fails
             console.log(data);
         },
         dataType: 'json',
         success: function (data) {
             $cartItems.html(data.items_count);
-            console.log('Cart items updated ' + data.items_count);
+            //console.log('Cart items updated ' + data.items_count);
         },
         type: 'GET'
     });
@@ -415,11 +415,13 @@ function UpdateCartItems() {
 function GetWinningUser($product_id, $sku) {
     var winningUrl = $('#winning_url').val();
     var winningUser = $('#winning_user_' + $product_id);
-
+    var userId = $('#user_id').val();
+    var bidButton = $('#placebid_' + $product_id);
     /*$.getJSON(winningUrl, {product_id: $product_id, sku: $sku}, function (data) {
      winningUser.html(data.winning_user);
      console.log('Winning User is ' + data.winning_user);
      });*/
+
     $.ajax({
         url: winningUrl,
         data: {
@@ -427,12 +429,25 @@ function GetWinningUser($product_id, $sku) {
         },
         error: function (data) {
             //do something in the event this fails
-            console.log(data);
+//            console.log(data);
         },
         dataType: 'json',
         success: function (data) {
-            winningUser.html(data.winning_user);
+            winningUser.html(data.html);
             //console.log('Winning User is ' + data.winning_user);
+            //bidButton.html()
+
+            if(data.userid==userId) {
+                bidButton.removeClass('btn-bid-active');
+                bidButton.addClass('btn-success');
+                //console.log('Matched current user');
+            }else{
+                ///bidButton.removeClass('btn-success');
+                ///bidButton.addClass('btn-bid-active')
+                bidButton.addClass('btn-bid-active');
+                bidButton.removeClass('btn-success');
+                //console.log('Does not match current user');
+            }
         },
         type: 'GET'
     });

@@ -325,7 +325,10 @@ class BidManager
             }
         }
 
-        return $winning_response;
+        return [
+            'html' => $winning_response,
+            'userid' => $winning_user_id
+        ];
     }
 
 
@@ -347,7 +350,7 @@ class BidManager
         $activebids->RemoveExpiredBid($product_id); //delete from bid active table//fetch next item
         $exclusionItems = $activebids->GetExclusionList();
 
-       // var_dump($exclusionItems);
+        // var_dump($exclusionItems);
         //die;
         /*$productModel = FryProducts::find()
             ->where([
