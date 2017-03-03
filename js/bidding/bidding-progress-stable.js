@@ -417,6 +417,7 @@ function GetWinningUser($product_id, $sku) {
     var winningUser = $('#winning_user_' + $product_id);
     var userId = $('#user_id').val();
     var bidButton = $('#placebid_' + $product_id);
+    var bidButtonSpan = $('#placebid_' + $product_id+' span');
     /*$.getJSON(winningUrl, {product_id: $product_id, sku: $sku}, function (data) {
      winningUser.html(data.winning_user);
      console.log('Winning User is ' + data.winning_user);
@@ -436,15 +437,16 @@ function GetWinningUser($product_id, $sku) {
             winningUser.html(data.html);
             //console.log('Winning User is ' + data.winning_user);
             //bidButton.html()
-
             if(data.userid==userId) {
                 bidButton.removeClass('btn-bid-active');
+                bidButtonSpan.removeClass('hammer-icon pull-left');
                 bidButton.addClass('btn-success');
                 //console.log('Matched current user');
             }else{
                 ///bidButton.removeClass('btn-success');
                 ///bidButton.addClass('btn-bid-active')
                 bidButton.addClass('btn-bid-active');
+                bidButtonSpan.addClass('hammer-icon pull-left');
                 bidButton.removeClass('btn-success');
                 //console.log('Does not match current user');
             }
