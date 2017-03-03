@@ -71,7 +71,7 @@ $bidded_item = (boolean)$model->BIDDED_ITEM;
             </div>
         </td>
         <td width="200">
-            <?php if(!$bidded_item): ?>
+            <?php if($bidded_item==10): ?>
                 <input type="number" class="form-control hidden" id="item-cost-<?=$model->CART_ID?>" readonly="readonly" value="<?= $product_price ?>">
             <?= \kartik\touchspin\TouchSpin::widget([
                 'name' => "quantity-$model->CART_ID",
