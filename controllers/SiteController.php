@@ -169,6 +169,7 @@ class SiteController extends Controller
 
     public function actionSearchBids($q)
     {
+        $this->redirect(['index']);
         $search = new ProductsSearch();
         $this->view->title = 'Search - Live Auction';
         $dataProvider = $search->productsearch($q, $no_of_items = 12, $auction_param = [1], $min_stock = 1);
