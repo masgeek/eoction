@@ -439,15 +439,17 @@ function GetWinningUser($product_id, $sku) {
             //bidButton.html()
             if (data.userid == userId && userId > 0) {
                 bidButton.removeClass('btn-bid-active');
-                bidButtonSpan.removeClass('hammer-icon pull-left');
+                bidButton.text('WINNING');
+                //bidButtonSpan.removeClass('hammer-icon pull-left');
                 bidButton.addClass('btn-success');
                 //console.log('Matched current user');
             } else {
                 ///bidButton.removeClass('btn-success');
                 ///bidButton.addClass('btn-bid-active')
                 bidButton.addClass('btn-bid-active');
-                bidButtonSpan.addClass('hammer-icon pull-left');
+                //bidButtonSpan.addClass('hammer-icon pull-left');
                 bidButton.removeClass('btn-success');
+                bidButton.html('<span class="hammer-icon pull-left"></span> BID NOW');
                 //console.log('Does not match current user');
             }
         },
