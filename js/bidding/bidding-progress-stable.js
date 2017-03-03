@@ -275,7 +275,7 @@ function FetchNextItem($previous_product_id) {
                 //remove the initial product box
                 $productBox.fadeIn(700).fadeOut(1000).fadeIn(700).fadeOut(1000).fadeIn(700, function () {
                     //$(this).remove();
-                   // $('#product_list').append(data.html_data);
+                    // $('#product_list').append(data.html_data);
                     //$('#product_list').prepend(data.html_data);
                     //$('.fadein').fadeIn(500);
                     //scroll to the top
@@ -373,7 +373,7 @@ function ItemUpdate($product_id, $sku, $toclear) {
 
                     winningUser.html($winning_user);
                     //if ($winning_user == '-' || $winning_user.length <= 0) {
-                        button = '<button class="btn btn-bid btn-danger btn-block noradius text-uppercase" disabled>Bid Closed</button>';
+                    button = '<button class="btn btn-bid btn-danger btn-block noradius text-uppercase" disabled>Bid Closed</button>';
                     //}
                     bidButton.html(button);
                 },
@@ -417,7 +417,7 @@ function GetWinningUser($product_id, $sku) {
     var winningUser = $('#winning_user_' + $product_id);
     var userId = $('#user_id').val();
     var bidButton = $('#placebid_' + $product_id);
-    var bidButtonSpan = $('#placebid_' + $product_id+' span');
+    var bidButtonSpan = $('#placebid_' + $product_id + ' span');
     /*$.getJSON(winningUrl, {product_id: $product_id, sku: $sku}, function (data) {
      winningUser.html(data.winning_user);
      console.log('Winning User is ' + data.winning_user);
@@ -437,12 +437,12 @@ function GetWinningUser($product_id, $sku) {
             winningUser.html(data.html);
             //console.log('Winning User is ' + data.winning_user);
             //bidButton.html()
-            if(data.userid==userId) {
+            if (data.userid == userId && userId > 0) {
                 bidButton.removeClass('btn-bid-active');
                 bidButtonSpan.removeClass('hammer-icon pull-left');
                 bidButton.addClass('btn-success');
                 //console.log('Matched current user');
-            }else{
+            } else {
                 ///bidButton.removeClass('btn-success');
                 ///bidButton.addClass('btn-bid-active')
                 bidButton.addClass('btn-bid-active');
