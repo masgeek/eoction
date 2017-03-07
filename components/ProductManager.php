@@ -151,12 +151,12 @@ class ProductManager
             ->orderBy('ACTIVE_ID ASC');
 
 
-        // if ($query == null || $query->count() < $activebids->maximum_items) {
-        //refresh the active bids table
-        //$activebids->Remove_Won_Expired_Items();
-        //GetItemsForBidding($no_of_items = 20, $item_won = [1, 0], $bid_active = [0])
-        //return self::GetItemsForBidding($no_of_items, $item_won, $bid_active);
-        //}
+        if ($query == null || $query->count() < $activebids->maximum_items) {
+            //refresh the active bids table
+            $activebids->Remove_Won_Expired_Items();
+            //GetItemsForBidding($no_of_items = 20, $item_won = [1, 0], $bid_active = [0])
+            return self::GetItemsForBidding($no_of_items, $item_won, $bid_active);
+        }
 
         $item_provider = new ActiveDataProvider([
             'query' => $query, //randomly pick items
