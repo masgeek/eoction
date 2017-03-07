@@ -348,23 +348,13 @@ class BidManager
         //first add to exclusions list
         BidManager::AddToExclusionList($product_id);
         $activebids->RemoveExpiredBid($product_id); //delete from bid active table//fetch next item
-        $exclusionItems = $activebids->GetExclusionList();
-
-        // var_dump($exclusionItems);
-        //die;
-        /*$productModel = FryProducts::find()
-            ->where([
-                'NOT IN', 'productid', $exclusionItems,
-                //'productid' => $product_id
-            ])
-            ->andWhere(['>=', 'stock_level', 1])//stock levels should be greater or equal to 1
-            ->orderBy(['productid' => SORT_DESC])
-            ->one();*/
+        $exclusionItems = [$product_id];//$activebids->GetExclusionList();
 
 
         $productModel = TbActiveBids::find()
             ->where(['IN', 'ITEM_WON', $item_won,])
             ->andWhere(['IN', 'BID_ACTIVE', $bid_active,])
+            ->andWhere(['NOT', 'BID_ACTIVE', $exclusionItems,])
             ->orderBy('ACTIVE_ID ASC')
             ->one();
 
@@ -401,8 +391,6 @@ class BidManager
     public
     static function GetExclusionItems()
     {
-
-        $maxExpiry = 3600 * 5;
         $usersTimezone = 'GMT';
         date_default_timezone_set($usersTimezone);
         $date = date('Y-m-d  H:i:s');
@@ -456,16 +444,17 @@ class BidManager
      * Add item to exclusion list
      * @param $product_id
      * @param bool $high_demand
-     * @param int $bidding_duration
-     * @param int $exclusion_duration
      * @return bool
      */
     public
-    static function AddToExclusionList($product_id, $high_demand = false, $bidding_duration = 5, $exclusion_duration = 3)
+    static function AddToExclusionList($product_id, $high_demand = false)
     {
         /* @var $model BidExclusion */
         //exclusion is in seconds 1hr 3600 seconds
-        //$exclusion_time = date("Y-m-d H:i:s", $futureDate);
+
+        $bidding_duration = \Yii::$app->params['bidding_duration'];
+        $exclusion_duration = \Yii::$app->params['exclusion_duration'];
+
         //compute exclusion period
         $usersTimezone = 'GMT';
         date_default_timezone_set($usersTimezone);

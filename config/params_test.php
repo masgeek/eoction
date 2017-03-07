@@ -11,4 +11,6 @@ return [
     'ShipStationApiSecret' => 'a49a2a31304a4bf891e7248269f8b506',//'c01859545fa84170b6e2413d44a286a3',
 
     'BidIncrementValue' => 5, //amount to increase bids by
+    'bidding_duration' => 1,
+    'exclusion_duration' => 20
 ];

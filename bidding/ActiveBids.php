@@ -16,6 +16,7 @@ use function GuzzleHttp\json_decode;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\data\ActiveDataProvider;
+use yii\db\Expression;
 
 class ActiveBids extends \yii\base\Component
 {
@@ -88,7 +89,7 @@ class ActiveBids extends \yii\base\Component
             ->all();
 
         $item_count = count($item_provider);
-        $this->maximum_items = 71;
+
         //check if item count is less than the specified minimum
         if ($item_count < $this->maximum_items) {
             //update the active bids table first with the number of missing items
@@ -155,7 +156,7 @@ class ActiveBids extends \yii\base\Component
                 BidManager::AddToExclusionList($product_id);
                 $this->RemoveExpiredBid($product_id);
                 \Yii::trace("Removed item $product_id from Active Bids", 'activebids'); //log to an exclusions log file;
-            }else{
+            } else {
                 \Yii::info("Active Item remaining time is $remaining for product id $product_id", 'activebids'); //log to an exclusions log file;
             }
         }
@@ -244,7 +245,7 @@ class ActiveBids extends \yii\base\Component
         $currentDate = strtotime($this->current_date);
         (int)$remaining_time = round((($bid_duration - $currentDate) / 60), PHP_ROUND_HALF_DOWN);
 
-       // \Yii::info("Duration $remaining_time remaining of $bid_duration", 'activebids'); //log to an exclusions log file;
+        // \Yii::info("Duration $remaining_time remaining of $bid_duration", 'activebids'); //log to an exclusions log file;
         return $remaining_time;
     }
 
@@ -260,6 +261,7 @@ class ActiveBids extends \yii\base\Component
             ->select('productid')
             ->andWhere(['NOT IN', 'productid', $excluded_items])
             ->andWhere(['IN', 'allow_auction', $allow_auction])
+            ->orderBy(new Expression('rand()'))
             ->limit($items_to_update)
             ->asArray()
             ->all();
