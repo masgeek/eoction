@@ -165,7 +165,6 @@ function TriggerProgressBar($product_id, $sku, $bid_waiting_time) {
                     var button = '<button class="btn btn-success btn-block noradius text-uppercase" disabled>Won</button>';
                     bidButton.html(button);
                     text = '<span class="won-text">Won</span>';
-                    ;
 
                     ItemUpdate($product_id, $sku, 'YES');
                     FetchNextItem($product_id);
@@ -252,7 +251,7 @@ function FetchNextItem($previous_product_id) {
     var $containerID = $('.hidden_' + $previous_product_id).parents('div:first').attr('id'); //get id of the main container so that we can replace teh contents
     // $('#item_box_' + $previous_product_id);
     var $productBox = $('#' + $containerID);
-    var intervals = Math.floor((Math.random() * 500) + 2000);
+    var intervals = Math.floor((Math.random() * 500) + 10000);
     var button = '<button class="btn btn-primary btn-block noradius text-uppercase" disabled>Next</button>';
 
 
@@ -260,8 +259,6 @@ function FetchNextItem($previous_product_id) {
 
 
     setTimeout(function () {//wait n seconds before fetching next item
-        bidButton.html(button);
-        bidStatusText.html('Next Item');
         $.ajax({
             url: $productUrl,
             data: {
@@ -273,20 +270,15 @@ function FetchNextItem($previous_product_id) {
             dataType: 'json',
             success: function (data) {
                 //remove the initial product box
-                $productBox.fadeIn(700).fadeOut(1000).fadeIn(700).fadeOut(1000).fadeIn(700, function () {
-                    //$(this).remove();
-                    // $('#product_list').append(data.html_data);
-                    //$('#product_list').prepend(data.html_data);
-                    //$('.fadein').fadeIn(500);
+                bidButton.html(button);
+                bidStatusText.html('Next Item');
+                $productBox.fadeIn(700).fadeOut(1000).fadeIn(700, function () {
                     //scroll to the top
                     $productBox.html(data.html_data);
                     //$("html, body").animate({scrollTop: 0}, "slow");
                     //next add the click event listeners to the dynamic items
                     RefreshSomeEventListener(data.product_id, data.sku);
                 });
-                //$productBox.html(data.html_data);
-                //$productBox.fadeIn(700).fadeOut(1000).fadeIn(700).fadeOut(1000).fadeIn(700);
-                //console.log(data.html_data);
             },
             type: 'GET'
         });
