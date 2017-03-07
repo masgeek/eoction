@@ -24,5 +24,5 @@ return [
 
     'BidIncrementValue' => 5, //amount to increase bids by
     'bidding_duration' => 5,
-    'exclusion_duration' => 20
+    'exclusion_duration' => 10
 ];
