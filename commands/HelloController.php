@@ -23,7 +23,7 @@ class HelloController extends Controller
      * @param string $message
      * @return int
      */
-    public function actionIndex($message = 'hello world')
+    public function actionIndex($message = 'Active bids cron command ran')
     {
         /* @var $activebids \app\bidding\ActiveBids */
         $activebids = \Yii::$app->activebids;
@@ -40,8 +40,6 @@ class HelloController extends Controller
         $result = $activebids->Remove_Won_Expired_Items(); //proces the active bids
         \Yii::trace("Finishing cron $result expired items removed", 'activebids'); //log to an exclusions log file;
         \Yii::info('Finished cron', 'activebids'); //log to an exclusions log file;
-        return Controller::EXIT_CODE_NORMAL;
-
         echo $message . "\n";
     }
 }
