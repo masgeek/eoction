@@ -354,7 +354,7 @@ class BidManager
         $productModel = TbActiveBids::find()
             ->where(['IN', 'ITEM_WON', $item_won,])
             ->andWhere(['IN', 'BID_ACTIVE', $bid_active,])
-            ->andWhere(['NOT', 'BID_ACTIVE', $exclusionItems,])
+            //->andWhere(['NOT', 'BID_ACTIVE', $exclusionItems,])
             ->orderBy('ACTIVE_ID ASC')
             ->one();
 
