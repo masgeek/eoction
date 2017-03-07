@@ -7,7 +7,7 @@ var intervalObj = {};
 
 var $awaitingBid = 40 + Math.floor((Math.random() * 17) + 7);
 ;
-var $nextBids = 10;
+var $nextBids = 45;
 var $velocityDelay = 0;
 function RefreshSomeEventListener($product_id, $sku) {
     var $place_bid = $('#placebid_' + $product_id);
