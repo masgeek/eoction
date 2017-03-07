@@ -5,7 +5,7 @@
 
 var intervalObj = {};
 
-var $awaitingBid = 40 + Math.floor((Math.random() * 17) + 7);
+var $awaitingBid = 30 + Math.floor((Math.random() * 17) + 7);
 ;
 var $nextBids = 45;
 var $velocityDelay = 0;
