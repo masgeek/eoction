@@ -445,6 +445,7 @@ class BidManager
         $model = BidExclusion::findOne(['PRODUCT_ID' => $product_id]);
         if ($model != null) {
             $result = $model->delete();
+            //\Yii::trace("Deletion result for $product_id result : $result", 'activebids'); //log to an exclusions log file;
         }
 
         return $result;
@@ -462,7 +463,6 @@ class BidManager
     public
     static function AddToExclusionList($product_id, $high_demand = false, $bidding_duration = 5, $exclusion_duration = 3)
     {
-
         /* @var $model BidExclusion */
         //exclusion is in seconds 1hr 3600 seconds
         //$exclusion_time = date("Y-m-d H:i:s", $futureDate);

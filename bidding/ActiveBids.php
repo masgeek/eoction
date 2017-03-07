@@ -87,12 +87,13 @@ class ActiveBids extends \yii\base\Component
             ->asArray()
             ->all();
 
-        $itemcount = count($item_provider);
-
+        $item_count = count($item_provider);
+        $this->maximum_items = 71;
         //check if item count is less than the specified minimum
-        if ($itemcount < $this->maximum_items) {
+        if ($item_count < $this->maximum_items) {
             //update the active bids table first with the number of missing items
-            $items_to_fetch = ($this->maximum_items - $itemcount);
+            $items_to_fetch = ($this->maximum_items - $item_count);
+            \Yii::trace("Active items to fetch $items_to_fetch out of $item_count of max $this->maximum_items", 'activebids'); //log to an exclusions log file;
         }
 
         if ($items_to_fetch > 0) {
@@ -104,6 +105,8 @@ class ActiveBids extends \yii\base\Component
             } else {
                 $this->UpdateActiveBids($items_to_fetch, $exclusion_array);
             }
+
+            \Yii::trace("Fetching items $items_to_fetch", 'activebids'); //log to an exclusions log file;
         }
         return true;
     }
@@ -115,19 +118,22 @@ class ActiveBids extends \yii\base\Component
             ->asArray()
             ->all();
 
+        \Yii::trace("--------------------EXPIRED EXCLUSIONS-----------------------", 'activebids'); //log to an exclusions log file;
         foreach ($query as $key => $model) {
             //call function to compute duration
             $product_id = $model['PRODUCT_ID'];
             $remaining = $this->GetRemainingItemDuration($model['EXCLUSION_PERIOD']);
 
-
+            \Yii::trace("Bid exclusion remaining duration $remaining  for item $product_id", 'activebids'); //log to an exclusions log file;
             //if remaining is less than zero delete that one
             $expired_array[] = $remaining;
             //before deleting add to bid exclusion list
-            if ($remaining < 0) {
+            if ($remaining <= 0) {
                 BidManager::RemoveFromExclusionList($product_id);
+                \Yii::trace("Removed item $product_id", 'activebids'); //log to an exclusions log file;
             }
         }
+        \Yii::trace("--------------------EXPIRED EXCLUSIONS-----------------------", 'activebids'); //log to an exclusions log file;
     }
 
     public function Remove_Won_Expired_Items()
@@ -137,7 +143,7 @@ class ActiveBids extends \yii\base\Component
             ->asArray()
             ->all();
 
-
+        \Yii::trace("-------------------------------------------", 'activebids'); //log to an exclusions log file;
         foreach ($query as $key => $model) {
             //call function to compute duration
             $product_id = $model['PRODUCT_ID'];
@@ -145,12 +151,15 @@ class ActiveBids extends \yii\base\Component
             //if remaining is less than zero delete that one
             $expired_array[] = $remaining;
             //before deleting add to bid exclusion list
-            if ($remaining < 0) {
+            if ($remaining <= 0) {
                 BidManager::AddToExclusionList($product_id);
                 $this->RemoveExpiredBid($product_id);
+                \Yii::trace("Removed item $product_id from Active Bids", 'activebids'); //log to an exclusions log file;
+            }else{
+                \Yii::info("Active Item remaining time is $remaining for product id $product_id", 'activebids'); //log to an exclusions log file;
             }
         }
-
+        \Yii::trace("-------------------------------------------", 'activebids'); //log to an exclusions log file;
         return $this->ProcessNextBidItems();
     }
 
@@ -233,9 +242,10 @@ class ActiveBids extends \yii\base\Component
     function GetRemainingItemDuration($bid_duration)
     {
         $currentDate = strtotime($this->current_date);
-        $remaining_time = floor((($bid_duration - $currentDate) / 60));
+        (int)$remaining_time = round((($bid_duration - $currentDate) / 60), PHP_ROUND_HALF_DOWN);
 
-        return (int)$remaining_time;
+       // \Yii::info("Duration $remaining_time remaining of $bid_duration", 'activebids'); //log to an exclusions log file;
+        return $remaining_time;
     }
 
     /**
