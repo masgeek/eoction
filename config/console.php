@@ -2,7 +2,8 @@
 
 Yii::setAlias('@tests', dirname(__DIR__) . '/tests/codeception');
 
-$params = YII_ENV_DEV ? require(__DIR__ . '/params_test.php') : require(__DIR__ . '/params_live.php');
+//$params = YII_ENV_DEV ? require(__DIR__ . '/params_test.php') : require(__DIR__ . '/params_live.php');
+$params = require(__DIR__ . '/params_live.php');
 $db = require(__DIR__ . '/eoction.php');
 
 $config = [
