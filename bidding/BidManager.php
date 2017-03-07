@@ -348,13 +348,13 @@ class BidManager
         //first add to exclusions list
         //BidManager::AddToExclusionList($product_id);
         //$activebids->RemoveExpiredBid($product_id); //delete from bid active table//fetch next item
-        //$exclusionItems = [$product_id];//$activebids->GetExclusionList();
+        $exclusionItems = [$product_id];//$activebids->GetExclusionList();
 
 
         $productModel = TbActiveBids::find()
             ->where(['IN', 'ITEM_WON', $item_won,])
-            ->andWhere(['IN', 'BID_ACTIVE', $bid_active,])
-            //->andWhere(['NOT', 'BID_ACTIVE', $exclusionItems,])
+            //->andWhere(['IN', 'BID_ACTIVE', $bid_active,])
+            ->andWhere(['IN', 'PRODUCT_ID', $exclusionItems,])
             ->orderBy('ACTIVE_ID ASC')
             ->one();
 
