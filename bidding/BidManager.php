@@ -346,9 +346,9 @@ class BidManager
         $activebids = \Yii::$app->activebids;
 
         //first add to exclusions list
-        BidManager::AddToExclusionList($product_id);
-        $activebids->RemoveExpiredBid($product_id); //delete from bid active table//fetch next item
-        $exclusionItems = [$product_id];//$activebids->GetExclusionList();
+        //BidManager::AddToExclusionList($product_id);
+        //$activebids->RemoveExpiredBid($product_id); //delete from bid active table//fetch next item
+        //$exclusionItems = [$product_id];//$activebids->GetExclusionList();
 
 
         $productModel = TbActiveBids::find()
