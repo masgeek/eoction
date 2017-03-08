@@ -23,7 +23,7 @@ class HelloController extends Controller
      * @param string $message
      * @return int
      */
-    public function actionIndex($message = 'Active bids cron command ran')
+    public function actionIndex($message = 'Active bids cron command ran every 10 minutes')
     {
         /* @var $activebids \app\bidding\ActiveBids */
         $activebids = \Yii::$app->activebids;
