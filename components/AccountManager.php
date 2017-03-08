@@ -9,6 +9,7 @@
 namespace app\components;
 
 
+use app\bidding\ActiveBids;
 use app\bidding\BidManager;
 use app\module\users\models\Countries;
 use app\module\users\models\Timezones;
@@ -85,6 +86,9 @@ class AccountManager
     public function GenerateRecoveryToken($user_id)
     {
         $sec = new Security();
+        $active = new ActiveBids();
+        $time = new TimeComponent();
+
         //FryProducts::updateAllCounters(['stock_level' => $items_to_reduce], "productid=$product_id");
         $token = $sec->generateRandomString(); //generateRandomKey() . '_' . time();;
         //Users::updateAll(['ACCOUNT_ACCESS_TOKEN' => $token], ['USER_ID' => $user_id]);
@@ -92,11 +96,11 @@ class AccountManager
         $model = new UserRecovery();
         $model->USER_ID = $user_id;
         $model->RECOVERY_TOKEN = $token;
-        $model->EXPIRES = time();
+        $model->EXPIRES = $time->ComputeExpiryDuration(3);
 
 
         if ($model->save()) {
-            echo $model->RECOVERY_TOKEN;
+            return $time->ComputeExpiryDuration($model->EXPIRES) . $model->RECOVERY_TOKEN;
         } else {
             var_dump($model->getErrors());
         }

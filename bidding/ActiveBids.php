@@ -12,6 +12,7 @@ namespace app\bidding;
 use app\module\products\models\BidExclusion;
 use app\module\products\models\FryProducts;
 use app\module\products\models\TbActiveBids;
+use components\TimeComponent;
 use function GuzzleHttp\json_decode;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
@@ -59,7 +60,8 @@ class ActiveBids extends \yii\base\Component
         /* @var $model TbActiveBids */
         $model = $this->ValidateItem($product_id);
 
-        $model->BIDDING_DURATION = $this->ComputeExpiryDuration(); //get the bid duration
+        $time = new TimeComponent();
+        $model->BIDDING_DURATION = $time->ComputeExpiryDuration(); //get the bid duration
         if ($model->save()) {
             return true;//saved
         } else {
@@ -69,7 +71,6 @@ class ActiveBids extends \yii\base\Component
     }
 
     /**
-     * @param $item_count
      * @return $this
      */
     public function ProcessNextBidItems()
@@ -114,6 +115,7 @@ class ActiveBids extends \yii\base\Component
 
     public function Remove_Expired_Exclusions()
     {
+        $time = new TimeComponent();
         $query = BidExclusion::find()
             ->select(['PRODUCT_ID', 'EXCLUSION_PERIOD'])
             ->asArray()
@@ -123,7 +125,7 @@ class ActiveBids extends \yii\base\Component
         foreach ($query as $key => $model) {
             //call function to compute duration
             $product_id = $model['PRODUCT_ID'];
-            $remaining = $this->GetRemainingDuration($model['EXCLUSION_PERIOD']);
+            $remaining = $time->GetRemainingDuration($model['EXCLUSION_PERIOD']);
 
             \Yii::trace("Bid exclusion remaining duration $remaining  for item $product_id", 'activebids'); //log to an exclusions log file;
             //if remaining is less than zero delete that one
@@ -139,6 +141,7 @@ class ActiveBids extends \yii\base\Component
 
     public function Remove_Won_Expired_Items()
     {
+        $time = new TimeComponent();
         $query = TbActiveBids::find()
             ->select(['PRODUCT_ID', 'BIDDING_DURATION'])
             ->asArray()
@@ -148,7 +151,7 @@ class ActiveBids extends \yii\base\Component
         foreach ($query as $key => $model) {
             //call function to compute duration
             $product_id = $model['PRODUCT_ID'];
-            $remaining = $this->GetRemainingDuration($model['BIDDING_DURATION']);
+            $remaining = $time->GetRemainingDuration($model['BIDDING_DURATION']);
             //if remaining is less than zero delete that one
             $expired_array[] = $remaining;
             //before deleting add to bid exclusion list
@@ -201,31 +204,6 @@ class ActiveBids extends \yii\base\Component
         }
 
         return false;
-    }
-
-    /**
-     * returns the bid duration timestamp
-     * @return false|int
-     */
-    public function ComputeExpiryDuration()
-    {
-        //$currentDate = strtotime($date);
-        $bidDuration = strtotime($this->current_date . "+$this->bidding_minute_duration minutes");
-        return $bidDuration;
-    }
-
-    /**
-     * @param $bid_duration
-     * @return int
-     */
-    public
-    function GetRemainingDuration($bid_duration)
-    {
-        $currentDate = strtotime($this->current_date);
-        (int)$remaining_time = round((($bid_duration - $currentDate) / 60), PHP_ROUND_HALF_DOWN);
-
-        // \Yii::info("Duration $remaining_time remaining of $bid_duration", 'activebids'); //log to an exclusions log file;
-        return $remaining_time;
     }
 
 //=============================== PRIVATE FUNCTIONS ========================================================
@@ -281,6 +259,7 @@ class ActiveBids extends \yii\base\Component
     private
     function GetExcludedItems()
     {
+        $time = new TimeComponent();
         $exclusion_array = [];
         //clean the table
         //BidManager::RemoveItemsFromBidActivity();
@@ -296,8 +275,8 @@ class ActiveBids extends \yii\base\Component
             $bid_duration = $item['BIDDING_PERIOD'];
             $futureExpiry = $item['EXCLUSION_PERIOD'];
 
-            $bid_duration = $this->GetRemainingDuration($bid_duration);
-            $bid_expiry = $this->GetRemainingDuration($futureExpiry);
+            $bid_duration = $time->GetRemainingDuration($bid_duration);
+            $bid_expiry = $time->GetRemainingDuration($futureExpiry);
 
             if ($bid_expiry > 0 || $bid_duration >= 0) {
                 $exclusion_array[] = $item['PRODUCT_ID'];
