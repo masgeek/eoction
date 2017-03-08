@@ -9,17 +9,15 @@
 
 namespace app\bidding;
 
+use app\components\TimeComponent;
 use app\module\products\models\BidExclusion;
 use app\module\products\models\FryProducts;
 use app\module\products\models\TbActiveBids;
-use components\TimeComponent;
-use function GuzzleHttp\json_decode;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
-use yii\data\ActiveDataProvider;
 use yii\db\Expression;
 
-class ActiveBids extends \yii\base\Component
+class ActiveBids extends Component
 {
 
     public $maximum_items;
@@ -61,7 +59,7 @@ class ActiveBids extends \yii\base\Component
         $model = $this->ValidateItem($product_id);
 
         $time = new TimeComponent();
-        $model->BIDDING_DURATION = $time->ComputeExpiryDuration(); //get the bid duration
+        $model->BIDDING_DURATION = $time->ComputeExpiryDuration($this->bidding_minute_duration); //get the bid duration
         if ($model->save()) {
             return true;//saved
         } else {

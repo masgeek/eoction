@@ -86,23 +86,34 @@ class AccountManager
     public function GenerateRecoveryToken($user_id)
     {
         $sec = new Security();
-        $active = new ActiveBids();
         $time = new TimeComponent();
-
+        $userIP = \Yii::$app->request->userIP;
+        $recoveryUrl = false;
         //FryProducts::updateAllCounters(['stock_level' => $items_to_reduce], "productid=$product_id");
         $token = $sec->generateRandomString(); //generateRandomKey() . '_' . time();;
         //Users::updateAll(['ACCOUNT_ACCESS_TOKEN' => $token], ['USER_ID' => $user_id]);
 
-        $model = new UserRecovery();
+        $model = UserRecovery::findOne(['USER_ID' => $user_id]);
+
+        if ($model == null) {
+            $model = new UserRecovery();
+            $model->isNewRecord = true;
+        }
         $model->USER_ID = $user_id;
         $model->RECOVERY_TOKEN = $token;
-        $model->EXPIRES = $time->ComputeExpiryDuration(3);
+        $model->REQUESTING_IP = $userIP;
+        $model->EXPIRES = $time->ComputeExpiryDuration(1, 'day');
 
 
         if ($model->save()) {
-            return $time->ComputeExpiryDuration($model->EXPIRES) . $model->RECOVERY_TOKEN;
+            //$recoveryUrl = $time->GetRemainingDuration($model->EXPIRES). $model->RECOVERY_TOKEN;
+            $recoveryUrl = \Yii::$app->request->hostInfo;
+            //$recoveryUrl = \Yii::$app->homeUrl;
         } else {
-            var_dump($model->getErrors());
+            $recoveryUrl = false;
         }
+        echo $recoveryUrl;
+        die;
+        return $recoveryUrl;
     }
 }

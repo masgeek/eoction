@@ -6,7 +6,7 @@
  * Time: 1:44 PM
  */
 
-namespace components;
+namespace app\components;
 
 
 class TimeComponent
@@ -24,6 +24,7 @@ class TimeComponent
         $current_date = date('Y-m-d  H:i:s');
 
         $bidDuration = strtotime($current_date . "+$duration $format");
+
         return $bidDuration;
     }
 
@@ -34,11 +35,11 @@ class TimeComponent
     public
     function GetRemainingDuration($maximum_duration)
     {
-        $current_date = date('Y-m-d  H:i:s');
-
+        $current_date = strtotime(date('Y-m-d  H:i:s')); //convert to strtotime
         (int)$remaining_time = round((($maximum_duration - $current_date) / 60), PHP_ROUND_HALF_DOWN);
 
-        \Yii::info("Duration $remaining_time remaining of $maximum_duration", 'activebids'); //log to an exclusions log file;
+        \Yii::info("Duration $remaining_time remaining", 'activebids'); //log to an exclusions log file;
+
         return $remaining_time;
     }
 }
