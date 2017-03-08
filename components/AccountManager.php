@@ -102,13 +102,14 @@ class AccountManager
         $model->USER_ID = $user_id;
         $model->RECOVERY_TOKEN = $token;
         $model->REQUESTING_IP = $userIP;
-        $model->EXPIRES = $time->ComputeExpiryDuration(1, 'day');
+        $model->EXPIRES = $time->ComputeExpiryDuration(1, 'minutes');
 
 
         if ($model->save()) {
             //$recoveryUrl = $time->GetRemainingDuration($model->EXPIRES). $model->RECOVERY_TOKEN;
             $recoveryUrl = \Yii::$app->request->hostInfo;
-            //$recoveryUrl = \Yii::$app->homeUrl;
+            $recoveryUrl .= \Yii::$app->homeUrl;
+            $recoveryUrl .= "reset?token=$model->RECOVERY_TOKEN";
         } else {
             $recoveryUrl = false;
         }

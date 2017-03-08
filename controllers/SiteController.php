@@ -4,7 +4,9 @@ namespace app\controllers;
 
 use app\bidding\ActiveBids;
 use app\components\AccountManager;
+use app\components\TimeComponent;
 use app\module\products\models\FryProducts;
+use app\module\users\models\UserRecovery;
 use Yii;
 use yii\base\Security;
 use yii\filters\AccessControl;
@@ -368,6 +370,19 @@ class SiteController extends Controller
             return $this->refresh(); //refresh page and clear pending post values
         }
         return $this->render('recover', ['model' => $model]);
+    }
+
+    public function actionReset($token)
+    {
+        $time = new TimeComponent();
+        $model = UserRecovery::findOne(['RECOVERY_TOKEN' => $token]);
+
+        $remainingDuration = $time->GetRemainingDuration($model->EXPIRES);
+        if ($remainingDuration <= 0) {
+            return 'The token has expired, please regenerate another one ' . $remainingDuration;
+        }
+        return $remainingDuration;
+        var_dump($model);
     }
 
     /**

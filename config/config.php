@@ -133,9 +133,12 @@ $config = [
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
                 //custom rules
+                //'<alias:\w+>' => 'site/<alias>',
                 '/' => 'site',
                 'login' => 'site/login',
                 'logout' => 'site/logout',
+                'recover' => 'site/recover',
+                'reset' => 'site/reset',
                 'create-orders' => 'site/create-orders',
                 'get-orders' => 'site/get-orders',
                 'signup' => 'user/users/signup',
