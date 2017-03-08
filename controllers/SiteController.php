@@ -379,7 +379,7 @@ class SiteController extends Controller
 
         $remainingDuration = $time->GetRemainingDuration($model->EXPIRES);
         if ($remainingDuration <= 0) {
-            return 'The token has expired, please regenerate another one ' . $remainingDuration;
+            return 'The recovery token has expired, please regenerate another one ' . $remainingDuration;
         }
         return $remainingDuration;
         var_dump($model);

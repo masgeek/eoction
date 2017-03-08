@@ -66,7 +66,7 @@ class AccountManager
     }
 
     /**
-     * gets a users address
+     * gets a users address or country based on the address
      * @param $user_id
      * @param string $address_type
      * @return static
@@ -74,8 +74,7 @@ class AccountManager
     public static function GetUserAddress($user_id, $address_type = null, $return_country = false)
     {
         $addressInfo = UserAddress::findOne([
-            'USER_ID' => $user_id,
-            //'ADDRESS_TYPE' => $address_type //start with billing address
+            'USER_ID' => $user_id
         ]);
         if ($return_country && $addressInfo != null) {
             return $addressInfo->COUNTRY;
@@ -83,6 +82,11 @@ class AccountManager
         return $addressInfo;
     }
 
+    /**
+     * Generates a recovery token that expires after a set amount of time
+     * @param $user_id
+     * @return bool|mixed|null|string returns the url for the recovery
+     */
     public function GenerateRecoveryToken($user_id)
     {
         $sec = new Security();
@@ -110,11 +114,7 @@ class AccountManager
             $recoveryUrl = \Yii::$app->request->hostInfo;
             $recoveryUrl .= \Yii::$app->homeUrl;
             $recoveryUrl .= "reset?token=$model->RECOVERY_TOKEN";
-        } else {
-            $recoveryUrl = false;
         }
-        echo $recoveryUrl;
-        die;
         return $recoveryUrl;
     }
 }

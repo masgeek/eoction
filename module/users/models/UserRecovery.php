@@ -2,8 +2,6 @@
 
 namespace app\module\users\models;
 
-use Yii;
-
 /**
  * This is the model class for table "{{%user_recovery}}".
  *
@@ -12,6 +10,8 @@ use Yii;
  * @property string $RECOVERY_TOKEN
  * @property string $REQUESTING_IP
  * @property int $EXPIRES
+ *
+ * @property Users $uSER
  */
 class UserRecovery extends \yii\db\ActiveRecord
 {
@@ -33,6 +33,7 @@ class UserRecovery extends \yii\db\ActiveRecord
             [['USER_ID', 'EXPIRES'], 'integer'],
             [['RECOVERY_TOKEN'], 'string', 'max' => 100],
             [['REQUESTING_IP'], 'string', 'max' => 40],
+            [['USER_ID'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['USER_ID' => 'USER_ID']],
         ];
     }
 
@@ -48,5 +49,13 @@ class UserRecovery extends \yii\db\ActiveRecord
             'REQUESTING_IP' => 'Requesting  Ip',
             'EXPIRES' => 'Expires',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUSER()
+    {
+        return $this->hasOne(Users::className(), ['USER_ID' => 'USER_ID']);
     }
 }
