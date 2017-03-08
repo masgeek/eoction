@@ -9,9 +9,11 @@
 namespace app\components;
 
 
+use app\bidding\BidManager;
 use app\module\users\models\Countries;
 use app\module\users\models\Timezones;
 use app\module\users\models\UserAddress;
+use app\module\users\models\UserRecovery;
 use app\module\users\models\Users;
 use yii\base\Security;
 use yii\helpers\ArrayHelper;
@@ -84,7 +86,19 @@ class AccountManager
     {
         $sec = new Security();
         //FryProducts::updateAllCounters(['stock_level' => $items_to_reduce], "productid=$product_id");
-        $token =$sec->generateRandomString(); //generateRandomKey() . '_' . time();;
-        Users::updateAll(['ACCOUNT_ACCESS_TOKEN' => $token], ['USER_ID' => $user_id]);
+        $token = $sec->generateRandomString(); //generateRandomKey() . '_' . time();;
+        //Users::updateAll(['ACCOUNT_ACCESS_TOKEN' => $token], ['USER_ID' => $user_id]);
+
+        $model = new UserRecovery();
+        $model->USER_ID = $user_id;
+        $model->RECOVERY_TOKEN = $token;
+        $model->EXPIRES = time();
+
+
+        if ($model->save()) {
+            echo $model->RECOVERY_TOKEN;
+        } else {
+            var_dump($model->getErrors());
+        }
     }
 }

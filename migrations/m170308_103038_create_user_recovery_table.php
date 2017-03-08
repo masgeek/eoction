@@ -15,7 +15,7 @@ class m170308_103038_create_user_recovery_table extends Migration
         $this->createTable('user_recovery', [
             'RECOVERY_ID' => $this->primaryKey(),
             'USER_ID' => $this->integer()->notNull(),
-            'RECOVERY_ID' => $this->string(100)->notNull(),
+            'RECOVERY_TOKEN' => $this->string(100)->notNull(),
             'EXPIRES' => $this->integer(50)->notNull()
         ]);
 
