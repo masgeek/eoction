@@ -25,6 +25,7 @@ class HelloController extends Controller
      */
     public function actionIndex($message = 'Active bids cron command ran every 10 minutes')
     {
+        echo  "starting please run \n";
         /* @var $activebids \app\bidding\ActiveBids */
         $activebids = \Yii::$app->activebids;
 
@@ -38,6 +39,7 @@ class HelloController extends Controller
         $activebids->Remove_Won_Expired_Items(); //proces the active bids
 
         \Yii::info('Finished cron', 'activebids'); //log to an exclusions log file;
+
         echo $message . "\n";
     }
 }
