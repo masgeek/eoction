@@ -350,8 +350,12 @@ class SiteController extends Controller
             $user = Users::findOne(['EMAIL_ADDRESS' => $email]);
             if ($user != null) {
 
-                $accManager->GenerateRecoveryToken($user->USER_ID);
-                return $this->refresh();
+                $recovery = $accManager->GenerateRecoveryToken($user->USER_ID);
+                if(!$recovery) {
+                    return $this->refresh();
+                }
+
+                return $recovery;
                 $to = [$user->EMAIL_ADDRESS => $user->FULL_NAMES];
                 Yii::$app->emailer->subject = 'Eoction Account Password Recovery';
                 Yii::$app->emailer->names = $user->FULL_NAMES;
@@ -381,7 +385,7 @@ class SiteController extends Controller
         if ($remainingDuration <= 0) {
             return 'The recovery token has expired, please regenerate another one ' . $remainingDuration;
         }
-        return $remainingDuration;
+        return $remainingDuration.$model->uSER->EMAIL_ADDRESS;
         var_dump($model);
     }
 

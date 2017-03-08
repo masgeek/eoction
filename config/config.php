@@ -133,7 +133,7 @@ $config = [
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
                 //custom rules
-                //'<alias:\w+>' => 'site/<alias>',
+                '<alias:\w+>' => 'site/<alias>',
                 '/' => 'site',
                 'login' => 'site/login',
                 'logout' => 'site/logout',
