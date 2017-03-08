@@ -8,8 +8,11 @@ use yii\helpers\Html;
     <div class="row">
         <div class="col-sm-12 col-md-3">
             <h3 class="widget-title">EOCTION</h3>
-            <div class="textwidget"><a href="http://www.eoction.com/#">About Us</a><br>
-                <a href="http://www.eoction.com/#">Terms &amp; Conditions</a><br>
+            <div class="textwidget">
+                <?= Html::a('About Us', ['//site/about'], ['title' => 'About our company']); ?><br>
+                <?= Html::a('Terms &amp; Conditions', ['//site/terms'], ['title' => 'Terms &amp; Conditions']); ?><br>
+                <?= Html::a('Seller Terms', ['//site/seller-terms'], ['title' => 'Seller terms &amp Conditions']); ?>
+                <br>
                 <a href="http://www.eoction.com/#">Privacy Policy</a><br>
                 <a href="http://www.eoction.com/#">Store Directory</a>
             </div>
@@ -28,24 +31,23 @@ use yii\helpers\Html;
                 Us</h3>
             <div class="contact-info contact-info-block">
                 <ul class="list-group">
-                    <li class="list-group-item"><i class="fa fa-map-marker"></i> <strong>Address:</strong> <span>1111 B ering Dr. Apt. 1303. Houston, TX 77057</span>
+                    <li class="list-group-item"><i class="fa fa-map-marker"></i> <strong>Address:</strong> <span>7500 Bellaire Blvd #524 Houston, TX 77036</span>
                     </li>
                     <li class="list-group-item"><i class="fa fa-phone"></i> <strong>Phone:</strong>
-                        <span>(123) 456-7890</span>
+                        <span>713 988 8210</span>
                     </li>
                     <li class="list-group-item"><i class="fa fa-envelope"></i> <strong>Email:</strong> <span><a
-                                href="mailto:mail@example.com">mail@example.com</a></span></li>
+                                    href="mailto:info@eoction.com">info@eoction.com</a></span></li>
                 </ul>
             </div>
         </div>
         <div class="col-sm-12 col-md-3">
             <h3>Newsletter</h3>
-            <form class="form-inline">
+            <form class="form-horizontal">
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email">
+                    <input type="email" class="form-control" id="email" placeholder="email address">
                 </div>
-                <button type="submit" class="btn btn-default">Subscribe!</button>
+                <button type="submit" class="btn btn-default btn-block">Subscribe!</button>
             </form>
         </div>
     </div>
@@ -86,15 +88,19 @@ use yii\helpers\Html;
         </div>
 
         <div class="col-md-3">
-            <span class="pull-right copyright" style="text-align: center;">&copy; <?= date('Y'); ?> All Rights Reserved.</span>
+            <span class="pull-right copyright" style="text-align: center;">&copy; <?= date('Y'); ?>
+                All Rights Reserved.</span>
         </div>
     </div>
     <!-- /footer bottom -->
-
-    <!--
-    <div class="container">
-        <p class="pull-left">&copy; <?= date('Y') ?> All Rights Reserved</p>
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-    -->
 </footer>
+
+<script>
+    $(document).ready(function () {
+        var url = window.location;
+        $('ul.product-nav a[href="'+ url +'"]').parent().addClass('active');
+        $('ul.product-nav a').filter(function() {
+            return this.href == url;
+        }).parent().addClass('active');
+    });
+</script>

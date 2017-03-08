@@ -1,6 +1,15 @@
 <?php
 use yii\helpers\Html;
 
+use app\components\CartManager;
+
+$home = \yii\helpers\Url::toRoute(['//site']);
+
+$cartUrl = \yii\helpers\Url::toRoute(['shop/cart-items']);
+
+$session = Yii::$app->session;
+$search_url = $session->get('search_url');
+
 ?>
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="navbar-header">
@@ -9,7 +18,7 @@ use yii\helpers\Html;
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="./">
+        <a class="navbar-brand" href="<?= $home ?>">
             <?php
             $imgLink = '@web/images/logo.png';
             echo Html::img($imgLink, ['class' => 'img img-responsive', 'width' => 210, 'alt' => Yii::$app->name, 'title' => Yii::$app->name]);
@@ -19,23 +28,55 @@ use yii\helpers\Html;
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav product-nav">
-            <li class="active"><?= Html::a('Live Auctions', ['//site/index'], ['title' => 'live auctions']); ?></li>
-            <li><?= Html::a('Live TV', ['#'], ['title' => 'live TV']); ?></li>
+            <li><?= Html::a('Live Auctions', ['//site/index'], ['title' => 'live auctions']); ?></li>
             <li><?= Html::a('Online Shopping', ['//shop/'], ['title' => 'Online Shopping']); ?></li>
+            <li><?= Html::a('Live TV', ['//tv/live-tv'], ['title' => 'Live TV']); ?></li>
+            <li><?= Html::a('Bid Request', ['//request/bid-request'], ['title' => 'Request Item for bidding']); ?></li>
+            <!--<li><?= Html::a('Requested Items', ['//requests'], ['title' => 'Requested Items for bidding']); ?></li>-->
         </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="#"><span></span> My Account</a></li>
-            <li><a href="#"><span></span> My Wishlist</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Cart
-                    <small id="cart-item">0 Items</small>
-                </a></li>
+        <ul class="nav navbar-nav navbar-right" style="margin-right: 10px;">
+            <?php if (Yii::$app->user->isGuest): ?>
+                <li><?= Html::a('Log In', ['//site/login'], ['title' => 'Sign in to place bids', 'class' => 'text-capitalise']); ?></li>
+                <li><?= Html::a('Sign Up Now It\'s Free', ['//user/users/signup'], ['title' => 'Sign in to place bids', 'class' => 'text-capitalise']); ?></li>
+            <?php else: ?>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">My Account
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><?= Html::a('<span class="fa fa-user"></span> My Account', ['//user/users/my-profile', 'id' => yii::$app->user->id], ['class' => 'text-capitalise']); ?></li>
+                        <?php if (Yii::$app->user->identity->accounttype) { ?>
+                            <hr/>
+                            <li><?= Html::a('<span class="fa fa-cog"></span> Product Manager', ['//products'], ['class' => 'text-capitalise']); ?></li>
+                        <?php } ?>
+                        <hr/>
+                        <!--<li><?= Html::a('<span class="fa fa-lock"></span> Logout', ['//site/logout'], ['class' => 'text-capitalise']); ?></li>-->
+                        <?= Html::beginForm(['/site/logout'], 'post') ?>
+                        <li><?= Html::submitButton('Logout (' . Yii::$app->user->identity->EMAIL_ADDRESS . ')', ['class' => 'btn btn-link logout']) ?></li>
+                        <?= Html::endForm() ?>
+                    </ul>
+                </li>
+                <li><?= Html::a('<span class="fa fa-heart"></span> My Wish List', ['//shop/wishlist'], ['title' => 'Items in your wish-list', 'class' => 'text-capitalise']); ?></li>
+                <li>
+                    <?= Html::a('<span class="glyphicon glyphicon-shopping-cart"></span> Cart <small class="badge" id="cart_items">' . CartManager::GetCartItems(yii::$app->user->id) . '</small>',
+                        ['//shop/cart', 'id' => yii::$app->user->id],
+                        ['title' => 'Items in your cart', 'class' => 'text-capitalise', 'id' => 'cart']); ?>
+                    <!--<a href="#">
+                        <span class="glyphicon glyphicon-shopping-cart"></span> Cart
+                        <small id="cart-item"><span class="badge"><?= CartManager::GetCartItems(yii::$app->user->id) ?></span> Items</small>
+                    </a>-->
+                </li>
+            <?php endif; ?>
         </ul>
-        <form class="nav navbar-form navbar-right" role="search">
+        <form class="nav navbar-form navbar-left" role="search" action="<?= $search_url ?>">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search" name="search-term">
+                <!--<input type="text" class="form-control" placeholder="Search" name="search-term">-->
+                <?= Html::textInput('q', null, ['placeholder' => 'Search', 'class' => 'form-control']) ?>
             </div>
             <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>
             </button>
+        </form>
+        <form>
+            <?= Html::textInput('cart_url', $cartUrl, ['readonly' => true, 'id' => 'cart_url', 'class' => 'hidden']) ?>
         </form>
     </div>
 </nav>

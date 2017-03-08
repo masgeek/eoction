@@ -3,15 +3,18 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+use yii\base\Controller;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
-use app\assets\AppAsset;
-use yii\base\Controller;
+use app\assetmanager\AppAsset;
+use app\assetmanager\FontAssets;
+use app\assetmanager\BowerAsset;
 
 AppAsset::register($this);
-\app\assets\BowerAsset::register($this);
+BowerAsset::register($this);
+FontAssets::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -26,6 +29,9 @@ AppAsset::register($this);
 
 <!-- container -->
 <div class="container-fluid">
+    <?= Breadcrumbs::widget([
+        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+    ]) ?>
     <?= $content; ?>
 </div> <!-- /container -->
 

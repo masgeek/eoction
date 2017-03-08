@@ -1,8 +1,11 @@
 html,
 body {
     height: 100%;
-    font-family: "Roboto", sans-serif;
+    /*font-family: "Roboto", sans-serif;*/
+    font-family: 'Josefin Sans', sans-serif;
     padding-top: 30px;
+    margin-top: 30px;
+    background: #ebebeb;
 }
 
 .wrap {
@@ -124,9 +127,10 @@ a.desc:after {
     min-height: 55px;
 }
 
-/*
+
+/**
 .navbar-brand {padding: 5px 15px; height: 50px; line-height: 80px;}
-*/
+**/
 
 .product-nav > li > a:hover {
     color: #a07936;
@@ -134,6 +138,82 @@ a.desc:after {
     border-bottom: solid 5px #a07936;
 }
 
+
+.navbar-nav > li.active > a{
+    color: black !important;
+
+}
+.active a{
+    background-color: #ddb045 !important;
+}
 .product-image{
     cursor: pointer;
+}
+
+/* text display */
+.bid-message{
+    font-weight:700;
+}
+/* button styling */
+.hammer-icon{
+    background:url('../images/hammer-icon.png');
+    background-repeat:no-repeat;
+    background-size:contain;
+    /*position:absolute;*/
+    width:30px;
+    height:30px;
+    /*margin-left:-20px;*/
+}
+.btn.btn-bid{
+    font-weight:700;
+    font-size: 1.6rem;
+    height:40px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.btn.btn-bid-active{
+   /* border-top: 0.1em solid #0a0a0a;
+    border-right: 0.1em solid #0a0a0a;
+    border-left: 0.1em solid #0a0a0a;*/
+    background-color: #d8a947;
+    color:#FFF;/*#a07936*/;
+}
+
+.btn.btn-bid-ended{
+    /*border: 0.1em solid #ab1819;*/
+    border: none;
+    background-color: #d8a947;
+    color: #FFFFFF;
+}
+
+.btn.btn-bid-active:hover{
+    transition: background-color 0.5s ease;
+    background-color: #b68748;
+    color:#FFFFFF;
+}
+.btn.noradius{
+    -webkit-border-radius:0;
+    -moz-border-radius:0;
+    border-radius:0;
+}
+
+/* styling for video embedding container */
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    height: 0;
+    overflow: hidden;
+}
+
+.video-container iframe,
+.video-container object,
+.video-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
