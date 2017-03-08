@@ -30,15 +30,16 @@ class HelloController extends Controller
         $activebids = \Yii::$app->activebids;
 
 
-        \Yii::info('Starting cron', 'activebids'); //log to an exclusions log file;
+        //\Yii::info('Starting cron', 'activebids'); //log to an exclusions log file;
         //lets check the active bids
         //$activebids->maximum_items = 24;
 
+        \Yii::info('Started exclusions cron', 'activebids'); //log to an exclusions log file;
         $activebids->Remove_Expired_Exclusions();
-
+        \Yii::info('Finished exclusions cron', 'activebids'); //log to an exclusions log file;
         $activebids->Remove_Won_Expired_Items(); //proces the active bids
 
-        \Yii::info('Finished cron', 'activebids'); //log to an exclusions log file;
+        //\Yii::info('Finished cron', 'activebids'); //log to an exclusions log file;
 
         echo $message . "\n";
     }
