@@ -45,6 +45,12 @@ $config = [
 		],
 	],
 	*/
+    'controllerMap' => [
+        'migrate' => [
+            'class' => 'yii\console\controllers\MigrateController',
+            'templateFile' => '@app/views/migration/migration.php',
+        ],
+    ]
 ];
 
 if (YII_ENV_DEV) {
