@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\bidding\ActiveBids;
+use app\components\AccountManager;
 use app\module\products\models\FryProducts;
 use Yii;
 use yii\base\Security;
@@ -338,11 +339,17 @@ class SiteController extends Controller
     public function actionRecover()
     {
         $model = new Users();
-        if (Yii::$app->request->post('username')) {
-            $email = Yii::$app->request->post('email');
+        $accManager = new AccountManager();
+
+        if (Yii::$app->request->isPost) {
+            $userPost = Yii::$app->request->post('Users');
+            $email = $userPost['EMAIL_ADDRESS'];
 
             $user = Users::findOne(['EMAIL_ADDRESS' => $email]);
             if ($user != null) {
+
+                $accManager->GenerateRecoveryToken($user->USER_ID);
+                return $this->refresh();
                 $to = [$user->EMAIL_ADDRESS => $user->FULL_NAMES];
                 Yii::$app->emailer->subject = 'Eoction Account Password Recovery';
                 Yii::$app->emailer->names = $user->FULL_NAMES;

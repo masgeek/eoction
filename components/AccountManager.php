@@ -12,6 +12,8 @@ namespace app\components;
 use app\module\users\models\Countries;
 use app\module\users\models\Timezones;
 use app\module\users\models\UserAddress;
+use app\module\users\models\Users;
+use yii\base\Security;
 use yii\helpers\ArrayHelper;
 
 class AccountManager
@@ -72,9 +74,17 @@ class AccountManager
             'USER_ID' => $user_id,
             //'ADDRESS_TYPE' => $address_type //start with billing address
         ]);
-        if ($return_country && $addressInfo !=null) {
+        if ($return_country && $addressInfo != null) {
             return $addressInfo->COUNTRY;
         }
         return $addressInfo;
+    }
+
+    public function GenerateRecoveryToken($user_id)
+    {
+        $sec = new Security();
+        //FryProducts::updateAllCounters(['stock_level' => $items_to_reduce], "productid=$product_id");
+        $token =$sec->generateRandomString(); //generateRandomKey() . '_' . time();;
+        Users::updateAll(['ACCOUNT_ACCESS_TOKEN' => $token], ['USER_ID' => $user_id]);
     }
 }

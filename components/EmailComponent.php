@@ -38,8 +38,8 @@ class EmailComponent extends Component
             ->setHtmlBody($this->CreateHtmlBody());
 
         //check if we have attachments
-        foreach ($attachments as $atachment) {
-            $this->mailer->attach($atachment);
+        foreach ($attachments as $attachment) {
+            $this->mailer->attach($attachment);
         }
         //send the message
         return $this->mailer->send();
