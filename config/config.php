@@ -28,6 +28,12 @@ $config = [
             'class' => 'app\module\merchant\admin',
             'defaultRoute' => 'merchant', //default controller
         ],
+        //webshell
+        'webshell' => [
+            'class' => 'samdark\webshell\Module',
+            // 'yiiScript' => Yii::getAlias('@root'). '/yii', // adjust path to point to your ./yii script
+            'allowedIPs' => ['127.0.0.1', '::1', '41.89.65.170'],
+        ],
     ],
     'components' => [
         'request' => [
