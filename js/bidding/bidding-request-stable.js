@@ -316,7 +316,7 @@ function ItemUpdate($product_id, $sku, $toclear) {
     var winningUser = $('#winning_user_' + $product_id);
     var bidButton = $('#bid_button_' + $product_id);
 
-    var random_intervals = Math.round(Math.random() * (5000 - 500)) + 1500;
+    var random_intervals = Math.round(Math.random() * (1000 - 500)) + 1500;
 
     clearInterval(intervalObj[$product_id]); //remove the interval
 
