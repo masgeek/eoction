@@ -39,7 +39,7 @@ class HelloController extends Controller
         \Yii::info('Finished exclusions cron', 'activebids'); //log to an exclusions log file;
         $activebids->Remove_Won_Expired_Items(); //proces the active bids
 
-        //\Yii::info('Finished cron', 'activebids'); //log to an exclusions log file;
+        \Yii::info('Finished cron', 'activebids'); //log to an exclusions log file;
 
         echo $message . "\n";
     }
