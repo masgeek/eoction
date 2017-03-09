@@ -318,6 +318,7 @@ function ItemUpdate($product_id, $sku, $toclear) {
 
     var random_intervals = Math.round(Math.random() * (1000 - 500)) + 1500;
 
+    console.log('Waiting for next item for '+random_intervals+' seconds');
     clearInterval(intervalObj[$product_id]); //remove the interval
 
     if ($toclear == 'NO') { //if its not in non clear mode do set another interval
