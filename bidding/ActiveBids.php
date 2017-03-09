@@ -280,7 +280,6 @@ class ActiveBids extends Component
                 $exclusion_array[] = $item['PRODUCT_ID'];
             }
         }
-
         return $exclusion_array;
     }
 
