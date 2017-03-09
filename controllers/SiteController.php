@@ -163,7 +163,7 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        $this->view->title = 'Eoction-Live Auction';
+        $this->view->title = 'Eoction - Live Auction';
 
         $dataProvider = ProductManager::GetItemsForBidding($no_of_items = YII_DEBUG ? 4 : 40, $item_won = [1, 0]);
 
