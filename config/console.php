@@ -27,7 +27,7 @@ $config = [
 					'categories' => ['activebids'],
 					'logVars' => ['$_POST'],
 					'logFile' => '@app/runtime/logs/Bids/bids_cron_log.log',
-					'maxFileSize' => 1024 * 2,
+					'maxFileSize' => 1024 * 1,
 					'maxLogFiles' => 20,
 				],
 			],
