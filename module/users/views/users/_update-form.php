@@ -38,10 +38,10 @@ $timezone = \app\components\AccountManager::GetTimeZones();
         </div>
 
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <?= $form->field($model, 'PHONE_NO')->hint('Begin with country code e.g 32898378989')->widget(\yii\widgets\MaskedInput::className(), ['mask' => '9{0,3}9{0,3}9{0,3}9{0,3}',]) ?>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <?= $form->field($model, 'COUNTRY')->widget(kartik\select2\Select2::classname(), [
                     'data' => $countryData,
                     //'language' => 'en',
@@ -51,8 +51,8 @@ $timezone = \app\components\AccountManager::GetTimeZones();
                     ],
                 ]);?>
             </div>
+            <!--
             <div class="col-md-4">
-                <!--?= $form->field($model, 'TIMEZONE')->textInput(['maxlength' => true]) ?-->
                 <?= $form->field($model, 'TIMEZONE')->widget(kartik\select2\Select2::classname(), [
                     'data' => $timezone,
                     //'language' => 'en',
@@ -62,6 +62,7 @@ $timezone = \app\components\AccountManager::GetTimeZones();
                     ],
                 ]);?>
             </div>
+            -->
         </div>
 
         <?= $form->field($model, 'CHANGE_PASS')->hint('Click to change password')->checkbox(['checked' => false]); ?>
