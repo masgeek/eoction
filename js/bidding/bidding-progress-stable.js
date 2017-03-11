@@ -36,17 +36,19 @@ function SetupProgressBar($productid, $bid_start_time) {
     var text = "Accepting Bids";
     var progressBar = $('#progressBar' + $productid);
     var bidStatusText = $('#bid_status_' + $productid);
-    //var bidType = $('#bid_type_' + $productid);
+    var bidType = $('#bid_type_' + $productid);
     var placebid = $('#placebid_' + $productid);
     var bidButton = $('#bid_button_' + $productid);
     var $sku = $('#product_sku_' + $productid).val();
     var $user_id = $('#user_id').val();
     //read the values indicating what type of bid
+    var $maxProgressBarWidth = progressBar.outerWidth();
+    var scenario = 0;
 
     var params = {
         easing: "linear",
         //loop : 0,
-        queue: false,
+        //queue: false,
         duration: starttime, //milliseconds
         begin: function () {
             //call the timer function on begin
@@ -60,25 +62,82 @@ function SetupProgressBar($productid, $bid_start_time) {
             //ItemUpdate($productid,$sku);
         },
         complete: function () {
-            //disable the button
-            var button = '<button class="btn btn-default btn-block noradius text-uppercase" disabled>Closed</button>';
-            bidButton.html(button);
-            bidStatusText.html('Bid Closed');
-            console.log("No bid placed, removing item");
-            //remove the product
-            //Math.floor((Math.random() * 5000) + 8000);
-            ItemUpdate($productid, $sku, 'YES');
-            FetchNextItem($productid);
+            //what happens when it is complete?
+            /*
+             bid types
+             0 bid countdown
+             1 awaiting bids
+             2 going once
+             3 going twice
+             4 bid won
+             */
+            scenario = bidType.val();
+
+            switch (scenario) {
+                case '0': //bid countdown
+                    //if zero remove the item
+                    bidType.val(1);
+                    break;
+                case '1': //awaiting bids
+                    //set value to 2
+                    bidType.val(2);
+                    text = '<span class="goingonce-text">Going Once</span>';
+                    break;
+                case '2': //going once
+                    //set value to 3
+                    bidType.val(3);
+                    text = '<span class="goingtwice-text">Going Twice</span>';
+                    break;
+                case '3': //going twice
+                    //remove item and disable bid item
+                    placebid.prop("disabled", true);
+                    bidType.val(4);
+                    text = ""; //clear the text
+                    //show the bid won progress
+                    //alert('You have won the bid');
+                    console.log('product id to remove ' + $productid);
+
+                    //disable the button
+                    var button = '<button class="btn btn-success btn-block noradius text-uppercase" disabled>Bid Closed</button>';
+                    bidButton.html(button);
+                    text = '<span class="won-text">Bid Closed</span>';
+
+                    //loading next item
+                    ItemUpdate($productid, $sku, 'YES');
+                    FetchNextItem($productid);
+                    break;
+                case '4':
+                    break;
+            }
+            console.log("countdown completed for " + scenario);
+            bidStatusText.html(text);
+            //bidType.val(4);
         }
     };
 
-
+    //progressBar.removeClass("noplacedbids goingonce goingtwice").addClass('awaitingbid')
     // Use the progress callback.
-    progressBar.velocity(
+    /*progressBar.velocity(
         {
             width: 0 //animate the width
         },
-        params);
+        params);*/
+
+    progressBar.velocity({width: 0}, params) //Accepting Bids
+        .velocity({width: $maxProgressBarWidth}, {
+            duration: 1, complete: function () {
+                progressBar.removeClass("noplacedbids awaitingbid goingtwice").addClass('goingonce');
+                /*always await bid*/
+            }
+        }) //reset bar
+        .velocity({width: 0}, params) //going once
+        .velocity({width: $maxProgressBarWidth}, {
+            duration: 1, complete: function () {
+                progressBar.removeClass("noplacedbids awaitingbid goingonce").addClass('goingtwice');
+                /*always await bid*/
+            }
+        }) //reset bar
+        .velocity({width: 0}, params); //going twice
     //add stop click event when placebid is clicked
     placebid.click(function () {
         //progressBar.velocity('stop', false);
@@ -88,11 +147,6 @@ function SetupProgressBar($productid, $bid_start_time) {
             return false;
         }
         TriggerProgressBar($productid, $sku, $nextBids);
-
-        //var h = $('#hidden_'+$productid).parents(".hidden_"+$productid).attr('id'); //get id of the main container so that we can replace teh contents
-        //var h = $('.hidden_'+$productid).parents('div:first').attr('id'); //get id of the main container so that we can replace teh contents
-
-        //console.log(h);
     });
 
 }
@@ -251,7 +305,7 @@ function FetchNextItem($previous_product_id) {
     var $containerID = $('.hidden_' + $previous_product_id).parents('div:first').attr('id'); //get id of the main container so that we can replace teh contents
     // $('#item_box_' + $previous_product_id);
     var $productBox = $('#' + $containerID);
-    var intervals = Math.floor((Math.random() * 500) + 10000);
+    var intervals = Math.floor((Math.random() * 500) + 3000);
     var button = '<button class="btn btn-primary btn-block noradius text-uppercase" disabled>Next</button>';
 
 

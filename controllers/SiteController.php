@@ -165,7 +165,7 @@ class SiteController extends Controller
     {
         $this->view->title = 'Eoction - Live Auction';
 
-        $listDataProvider = ProductManager::GetItemsForBidding($no_of_items = YII_DEBUG ? 4 : 40, $item_won = [1, 0]);
+        $listDataProvider = ProductManager::GetItemsForBidding($no_of_items = YII_DEBUG ? 1 : 40, $item_won = [1, 0]);
 
         return $this->render('index', ['listDataProvider' => $listDataProvider]);
     }
