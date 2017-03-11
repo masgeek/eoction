@@ -67,7 +67,7 @@ $starting_bid_price = \app\bidding\BidManager::GetMaxBidAmount($product_id);
 <!--<div class="col-xs-18 col-sm-6 col-md-3 column productbox" id="item_box_<?= $product_id; ?>">-->
 
 <div class="col-xs-18 col-sm-6 col-md-3 column productbox" id="<?= strtoupper(uniqid('item_box_')); ?>">
-    <div class="hiddenss hidden_<?=$product_id?>">
+    <div class="hidden hidden_<?=$product_id?>">
         <input type="text" id="bid_count_<?= $product_id; ?>" value="0" readonly="readonly"/>
         <input type="text" id="bid_price_<?= $product_id; ?>" value="0" readonly="readonly"/>
         <input type="text" id="bid_type_<?= $product_id; ?>" value="1" readonly="readonly"/>
