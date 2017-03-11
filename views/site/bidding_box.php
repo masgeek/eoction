@@ -44,7 +44,7 @@ $bids = ProductManager::GetNumberOfBids($productModel->productid);
 $product_name = $productModel->name;
 
 $discount = ProductManager::ComputePercentageDiscount($productModel->buyitnow,$starting_bid_price);
-$shipping = ProductManager::ComputeShippingCost($product_id);
+$shipping = ProductManager::ComputeShippingCost(null,null,true);
 
 $randseed = rand(5, 17);
 if (YII_ENV_DEV) {
