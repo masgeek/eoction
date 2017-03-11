@@ -14,16 +14,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Update', ['my-profile', 'id' => $model->USER_ID], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->USER_ID], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+    <div class="row">
+        <div class="col-md-4">
+            <?= Html::a('<span class="fa fa-map-marker"></span> Manage Addresses', ['//my-addresses', 'user_id' => yii::$app->user->id], ['class' => 'btn btn-info btn-block']); ?>
+        </div>
+        <div class="col-md-4"><hr/></div>
+        <div class="col-md-4">
+            <?= Html::a('Update', ['my-profile', 'id' => $model->USER_ID], ['class' => 'btn btn-primary btn-block']) ?>
+        </div>
+    </div>
 
     <?= DetailView::widget([
         'model' => $model,
@@ -32,9 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'FULL_NAMES',
             'EMAIL_ADDRESS:email',
             'PHONE_NO',
-            'TIMEZONE',
+            //'TIMEZONE',
             'COUNTRY',
-            'SOCIAL_ID',
+            //'SOCIAL_ID',
             'DATE_CREATED',
             'DATE_UPDATED',
         ],
