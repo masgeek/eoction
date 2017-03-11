@@ -81,12 +81,12 @@ function SetupProgressBar($productid, $bid_start_time) {
                 case '1': //awaiting bids
                     //set value to 2
                     bidType.val(2);
-                    text = '<span class="goingonce-text">Going Once</span>';
+                    text = '<span class="goingonce-text">Bid Going Once</span>';
                     break;
                 case '2': //going once
                     //set value to 3
                     bidType.val(3);
-                    text = '<span class="goingtwice-text">Going Twice</span>';
+                    text = '<span class="goingtwice-text">Bid Going Twice</span>';
                     break;
                 case '3': //going twice
                     //remove item and disable bid item
@@ -199,12 +199,12 @@ function TriggerProgressBar($product_id, $sku, $bid_waiting_time) {
                 case '1': //awaiting bids
                     //set value to 2
                     bidType.val(2);
-                    text = '<span class="goingonce-text">Going Once</span>';
+                    text = '<span class="goingonce-text">Bid Going Once</span>';
                     break;
                 case '2': //going once
                     //set value to 3
                     bidType.val(3);
-                    text = '<span class="goingtwice-text">Going Twice</span>';
+                    text = '<span class="goingtwice-text">Bid Going Twice</span>';
                     break;
                 case '3': //going twice
                     //remove item and disable bid item

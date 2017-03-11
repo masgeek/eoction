@@ -189,22 +189,22 @@
 
 .bidProgress {
     width: 100%;
-    height: 5px;
+    height: 7px;
     margin-bottom: 5px;
     /*border-bottom:1px solid #1e002b;*/
     border: none;
 }
 
 .noplacedbids, .awaitingbid, .bidProgress {
-    background-color: #29B6F6;
+    background-color: #3199f6;
 }
 
 .goingonce {
-    background-color: #FFEE58;
+    background-color: #ffe80a;
 }
 
 .goingtwice {
-    background-color: #f44336;
+    background-color: #da000e;
 }
 
 .bidwon {
