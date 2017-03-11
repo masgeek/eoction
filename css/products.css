@@ -218,3 +218,7 @@
 .fadein {
     display: none;
 }
+
+.proportion-image{
+    cursor: pointer;
+}
