@@ -72,32 +72,7 @@ $itemRemovalAction = \yii\helpers\Url::to(['//shop/remove-item', 'id' => $model-
                 </div>
             </div>
         </td>
-        <td width="200">
-            <?php if ($bidded_item == 'disabled'): ?>
-                <input type="number" class="form-control hidden" id="item-cost-<?= $model->CART_ID ?>"
-                       readonly="readonly" value="<?= $product_price ?>">
-                <?= \kartik\touchspin\TouchSpin::widget([
-                    'name' => "quantity-$model->CART_ID",
-                    'id' => "quantity-$model->CART_ID",
-                    'value' => $model->QUANTITY,
-                    'pluginOptions' => [
-                        'min' => 1,
-                        //'max' => $model->pRODUCT->available,
-                        //'step' => 1,
-                        //'decimals' => 0,
-                        //'boostat' => 0,
-                        //'maxboostedstep' => 10,
-                        'verticalbuttons' => true
-                    ],
-                    'pluginEvents' => [
-                        "change" => "function() { itemQuantityChanged($model->CART_ID);}",
-                    ]
-                ]); ?>
-            <?php else: ?>
-                <!--<input type="number" class="form-control" id="quantity_<?= uniqid() ?>" readonly="readonly" value="<?= $model->QUANTITY ?>">-->
-                <?= $model->QUANTITY; ?>
-            <?php endif; ?>
-        </td>
+        <td width="10"><?= $model->QUANTITY; ?> </td>
         <td class="text-center"><strong id="retail-<?= $model->CART_ID ?>"><?= $retail_price ?></strong></td>
         <td class="text-center"><strong id="total-<?= $model->CART_ID ?>"><?= $total_price ?></strong></td>
         <td>
