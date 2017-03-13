@@ -12,18 +12,10 @@ class m161207_115906_create_tb_orders_table extends Migration
      */
     public function safeUp()
     {
-        /*	[orderId] => 15017189
-[orderNumber] => EOCT001
-[orderKey] => 3c82a6fab9d0498e8deb09a19d898349
-[orderDate] => 2016-12-07T11:34:32.0000000
-[createDate] => 2016-12-07T03:34:31.0770000
-[modifyDate] => 2016-12-07T03:34:22.9630000
-[paymentDate] => 2016-12-07T11:34:32.0000000
-[shipByDate] =>
-[orderStatus] => on_hold
-[customerId] => 9400202
-[customerUsername] => Otoniel Ortega
-[customerEmail] => ortega.x3@gmail.com*/
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
+        }
 
         $this->createTable('orders', [
             //'id' => $this->primaryKey(),
@@ -39,7 +31,7 @@ class m161207_115906_create_tb_orders_table extends Migration
             'customerId' => $this->integer(),
             'customerUsername' => $this->string(100)->notNull(),
             'customerEmail' => $this->string(100)->notNull(),
-        ]);
+        ],$tableOptions);
     }
 
     /**

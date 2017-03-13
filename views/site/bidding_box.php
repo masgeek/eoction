@@ -23,6 +23,10 @@ $product_id = $model->PRODUCT_ID;
 
 $formatter = \Yii::$app->formatter;
 
+/* @var $activebids \app\bidding\ActiveBids */
+
+$activebids = \Yii::$app->activebids;
+
 $imageHost = \Yii::$app->params['ExternalImageServerLink'];
 $imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
 
@@ -40,11 +44,11 @@ $bids = ProductManager::GetNumberOfBids($productModel->productid);
 $product_name = $productModel->name;
 
 $discount = ProductManager::ComputePercentageDiscount($productModel->buyitnow,$starting_bid_price);
-$shipping = ProductManager::ComputeShippingCost($product_id);
+$shipping = ProductManager::ComputeShippingCost(null,null,true);
 
 $randseed = rand(5, 17);
 if (YII_ENV_DEV) {
-    $bidStartTime = 2 + $randseed;// * $productID; //initial start time for the bid
+    $bidStartTime = 1 + $randseed;// * $productID; //initial start time for the bid
 } else {
     $bidStartTime = 40 + $randseed;// * $productID; //initial start time for the bid
 }
@@ -54,12 +58,16 @@ $retail_price = $formatter->asCurrency($productModel->buyitnow);
 
 $starting_bid_price = \app\bidding\BidManager::GetMaxBidAmount($product_id);
 
-\app\bidding\BidManager::NextBidAmount($product_id);
-//BidManager::AddToExclusionList(1);
-\app\bidding\BidManager::AddToExclusionList($product_id, 0);
+//\app\bidding\BidManager::NextBidAmount($product_id);
+//\app\bidding\BidManager::AddToExclusionList($product_id, 0);
+
+//indicate the bid as active
+//$activebids->FlagBidActiveStatus($product_id,1);
 ?>
-<div class="col-xs-18 col-sm-6 col-md-3 column productbox" id="item_box_<?= $product_id; ?>">
-    <div class="hidden">
+<!--<div class="col-xs-18 col-sm-6 col-md-3 column productbox" id="item_box_<?= $product_id; ?>">-->
+
+<div class="col-xs-18 col-sm-6 col-md-3 column productbox" id="<?= strtoupper(uniqid('item_box_')); ?>">
+    <div class="hidden hidden_<?=$product_id?>">
         <input type="text" id="bid_count_<?= $product_id; ?>" value="0" readonly="readonly"/>
         <input type="text" id="bid_price_<?= $product_id; ?>" value="0" readonly="readonly"/>
         <input type="text" id="bid_type_<?= $product_id; ?>" value="1" readonly="readonly"/>

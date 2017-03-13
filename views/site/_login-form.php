@@ -40,6 +40,6 @@ use yii\bootstrap\ActiveForm;
     </div>
 
     <div class="col-md-12">
-		<?= Html::a('Forgot password?', ['//site/recover'], ['class' => 'pull-right',]) ?>
+		<?= Html::a('Forgot password?', ['//recover'], ['class' => 'pull-right',]) ?>
     </div>
 <?php ActiveForm::end(); ?>

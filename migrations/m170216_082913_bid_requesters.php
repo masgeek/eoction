@@ -9,7 +9,12 @@ class m170216_082913_bid_requesters extends Migration
 	 */
 	public function safeUp()
 	{
-		$this->createTable('bid_requesters', [
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
+        }
+
+        $this->createTable('bid_requesters', [
 			'REQUESTER_ID' => $this->primaryKey(),
 			'REQUESTED_ID' => $this->integer()->notNull()->comment('Request ID'),
 			'REQUESTING_USER_ID' => $this->integer()->notNull()->comment('Requested By'),
@@ -18,7 +23,7 @@ class m170216_082913_bid_requesters extends Migration
 			'REQUEST_ACCEPTED' => $this->boolean()->defaultValue(0)->comment('Request Accepted'),
 			'CREATED' => $this->dateTime()->comment('Date Created'),
 			'UPDATED' => $this->dateTime()->comment('Date Updated'),// . ' ON UPDATE CURRENT_TIMESTAMP'
-		]);
+		],$tableOptions);
 
 		//create foreign keys
 		$this->addForeignKey('FK_REQUESTED_ID_REQ', 'bid_requesters', 'REQUESTED_ID', 'bid_requests', 'REQUESTED_PRODUCT_ID', 'CASCADE', 'CASCADE');

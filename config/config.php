@@ -28,6 +28,12 @@ $config = [
             'class' => 'app\module\merchant\admin',
             'defaultRoute' => 'merchant', //default controller
         ],
+        //webshell
+        'webshell' => [
+            'class' => 'samdark\webshell\Module',
+            // 'yiiScript' => Yii::getAlias('@root'). '/yii', // adjust path to point to your ./yii script
+            'allowedIPs' => ['127.0.0.1', '::1', '41.89.65.170'],
+        ],
     ],
     'components' => [
         'request' => [
@@ -133,9 +139,12 @@ $config = [
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
                 //custom rules
+                //'<alias:\w+>' => 'site/<alias>',
                 '/' => 'site',
                 'login' => 'site/login',
                 'logout' => 'site/logout',
+                'recover' => 'site/recover',
+                'reset' => 'site/reset',
                 'create-orders' => 'site/create-orders',
                 'get-orders' => 'site/get-orders',
                 'signup' => 'user/users/signup',

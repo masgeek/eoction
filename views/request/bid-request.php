@@ -24,7 +24,7 @@ $userId = yii::$app->user->id ? yii::$app->user->id : 0;
 $listviewWidget = ListView::widget([
     'dataProvider' => $listDataProvider,
     //'layout' => "{items}",
-    'layout' => "{pager}\n{items}\n{pager}",
+    'layout' => "{pager}\n{items}\n{pager}\n{summary}",
     //'itemView' => '_requestbox',
     'itemView' => '_bid_request_box',
     'viewParams' => ['requestModel' => $requestModel],

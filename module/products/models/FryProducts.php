@@ -4,6 +4,8 @@ namespace app\module\products\models;
 
 use app\models\BidActivity;
 use app\models\BidRequests;
+use Yii;
+
 /**
  * This is the model class for table "{{%fry_products}}".
  *
@@ -24,6 +26,7 @@ use app\models\BidRequests;
  * @property int $track_inventory
  * @property int $stock_level
  * @property int $allow_bid_request
+ * @property int $allow_auction
  * @property string $min_stock
  * @property string $weight
  * @property string $page_title
@@ -77,7 +80,7 @@ use app\models\BidRequests;
  *
  * @property BidExclusion $bidExclusion
  * @property BidRequests $bidRequests
- * @property ActiveBids $activeBids
+ * @property TbActiveBids $tbActiveBids
  * @property BidActivity[] $tbBidActivities
  */
 class FryProducts extends \yii\db\ActiveRecord
@@ -96,7 +99,7 @@ class FryProducts extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['allow_purchase', 'available', 'visible', 'track_inventory', 'stock_level', 'allow_bid_request'], 'integer'],
+            [['allow_purchase', 'available', 'visible', 'track_inventory', 'stock_level', 'allow_bid_request', 'allow_auction'], 'integer'],
             [['name', 'category', 'brand', 'sku', 'desc', 'price', 'buyitnow', 'cost_price', 'sale_price', 'retail_price', 'min_stock', 'weight', 'page_title', 'search_keywords', 'meta_keywords', 'meta_desc', 'condition', 'upc', 'Attribute1', 'Attribute2', 'Attribute3', 'Attribute4', 'Attribute5', 'Attribute6', 'Attribute7', 'Attribute8', 'Attribute9', 'Attribute10', 'Attribute11', 'Attribute12', 'Attribute13', 'Attribute14', 'Attribute15', 'Attribute16', 'Attribute17', 'Attribute18', 'Attribute19', 'Attribute20', 'Attribute21', 'Attribute22', 'Attribute23', 'Attribute24', 'Attribute25', 'Attribute26', 'Attribute27', 'Attribute28', 'Attribute29', 'Attribute30', 'Attribute31', 'Attribute32', 'ebay_cat_id1', 'ebay_cat_id2', 'notes', 'stock_type', 'stock_location', 'image1', 'image2', 'image3', 'image4'], 'string', 'max' => 255],
             [['show_condition'], 'string', 'max' => 50],
         ];
@@ -125,6 +128,7 @@ class FryProducts extends \yii\db\ActiveRecord
             'track_inventory' => 'Track Inventory',
             'stock_level' => 'Stock Level',
             'allow_bid_request' => 'Allow Bid Request',
+            'allow_auction' => 'Allow Auction',
             'min_stock' => 'Min Stock',
             'weight' => 'Weight',
             'page_title' => 'Page Title',

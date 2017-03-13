@@ -12,7 +12,12 @@ class m170207_093804_create_bid_exclusion_table extends Migration
      */
     public function safeUp()
     {
-	    $this->createTable('bid_exclusion', [
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
+        }
+
+        $this->createTable('bid_exclusion', [
 		    'EXCLUSION_ID' => $this->primaryKey(),
 		    'PRODUCT_ID' => $this->integer()->unique()->notNull(),
 		    'BIDDING_PERIOD' => $this->integer()->notNull()->comment('How long to include the item from bid (hours)'),
@@ -21,7 +26,7 @@ class m170207_093804_create_bid_exclusion_table extends Migration
 		    'AUCTION_COUNT' => $this->integer(1)->defaultValue(0)->comment('Number of times listed for auction'),
 		    'DATE_CREATED' => $this->dateTime(),
 		    'DATE_UPDATED' => $this->dateTime()
-	    ]);
+	    ],$tableOptions);
 
 	    $this->addForeignKey('FK_PRODUCT_ID_ECL', 'bid_exclusion', 'PRODUCT_ID', 'fry_products', 'productid', 'RESTRICT', 'CASCADE');
 

@@ -17,10 +17,17 @@ use app\components\ProductManager;
 
 $formatter = \Yii::$app->formatter;
 
-//$imageHost = \Yii::$app->params['ExternalImageServerLink'];
-//$imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
+$imageHost = \Yii::$app->params['ExternalImageServerLink'];
+$imageFolder = \Yii::$app->params['ExternalImageServerFolder'];
 
-$image_url = $model->image1;
+
+
+$images = explode('|',$model->image1);
+if(count($images)>=1) {
+    $image_url = "$imageHost/$imageFolder/$images[0]";
+}else{
+    $image_url = $model->image1;
+}
 
 $product_image = ProductManager::CheckImageExists($image_url);
 

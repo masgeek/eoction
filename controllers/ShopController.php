@@ -59,8 +59,7 @@ class ShopController extends Controller
         $session->set('search_url', \yii\helpers\Url::toRoute(['search-shop']));
 
         $cartModel = new ItemsCart();
-        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 4, $for_auction = [1, 0], $min_stock = 1, $exclusion_list = [], $random = false);
-        $this->view->title = 'Online Shopping';
+        $dataProvider = ProductManager::GetItemsForSale($no_of_items = 4);
         return $this->render('shop', ['listDataProvider' => $dataProvider, 'cartModel' => $cartModel]);
     }
 
@@ -100,11 +99,12 @@ class ShopController extends Controller
         $updateData = [
             'product_id' => $product_id,
             'sku' => $sku,
-            'bid_price' => BidManager::GetMaxBidAmount($product_id,true,false,$starting_bid),
+            'bid_price' => BidManager::GetMaxBidAmount($product_id, true, false, $starting_bid),
             'bid_count' => ProductManager::GetNumberOfBids($product_id),
             'discount' => $discount,
             //'winning_user' => BidManager::GetWinningUser($product_id, $sku, false)
         ];
+
         return json_encode($updateData);
     }
 
@@ -196,10 +196,7 @@ class ShopController extends Controller
     {
         $winner = BidManager::GetWinningUser($product_id, $sku, $bid_won);
 
-        $winning_user = [
-            'winning_user' => $winner
-        ];
-        return json_encode($winning_user);
+        return json_encode($winner);
     }
 
     public function actionCartItems()

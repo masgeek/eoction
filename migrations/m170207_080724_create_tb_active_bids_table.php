@@ -12,14 +12,21 @@ class m170207_080724_create_tb_active_bids_table extends Migration
      */
     public function safeUp()
     {
-	    $this->createTable('tb_active_bids', [
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
+        }
+
+
+        $this->createTable('tb_active_bids', [
 		    'ACTIVE_ID' => $this->primaryKey(),
 		    'PRODUCT_ID' => $this->integer()->unique()->notNull(),
-		    'BIDDING_DURATION' => $this->integer()->notNull()->comment('How long the item will be on bid if is not won'),
-		    'ITEM_WON' => $this->integer()->notNull()->defaultValue(0)->comment('Indicate if item is won or not'),
+		    'BID_ACTIVE' => $this->integer(1)->defaultValue(0)->comment('Indicates if the item has been picked in the display'),
+            'ITEM_WON' => $this->integer(1)->notNull()->defaultValue(0)->comment('Indicate if item is won or not'),
+		    'BIDDING_DURATION' => $this->integer(50)->notNull()->comment('How long the item will be on bid if is not won'),
 		    //'DATE_CREATED' => $this->timestamp(),
 		    'DATE_UPDATED' => $this->dateTime()
-	    ]);
+	    ],$tableOptions);
 
 	    $this->addForeignKey('FK_PRODUCT_ID_ACT', 'tb_active_bids', 'PRODUCT_ID', 'fry_products', 'productid', 'RESTRICT', 'CASCADE');
     }

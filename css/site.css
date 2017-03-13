@@ -127,6 +127,7 @@ a.desc:after {
     min-height: 55px;
 }
 
+
 /**
 .navbar-brand {padding: 5px 15px; height: 50px; line-height: 80px;}
 **/
@@ -137,6 +138,14 @@ a.desc:after {
     border-bottom: solid 5px #a07936;
 }
 
+
+.navbar-nav > li.active > a{
+    color: black !important;
+
+}
+.active a{
+    background-color: #ddb045 !important;
+}
 .product-image{
     cursor: pointer;
 }

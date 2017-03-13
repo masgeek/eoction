@@ -17,7 +17,10 @@ class m161128_141131_create_transaction_paypal extends Migration
     // Use safeUp/safeDown to run migration code within a transaction
     public function safeUp()
     {
-        ;
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
+        }
         $this->createTable('paypal_transactions', [
             'ID' => $this->primaryKey(),
             'USER_ID' => $this->integer()->notNull(),
@@ -27,7 +30,7 @@ class m161128_141131_create_transaction_paypal extends Migration
             'ORDER_CREATED' => $this->boolean()->notNull()->defaultValue(false),
             'CREATE_TIME' => $this->dateTime(),
             'UPDATE_TIME' => $this->dateTime(),// . ' ON UPDATE CURRENT_TIMESTAMP',
-        ]);
+        ],$tableOptions);
         //add foreign keys
         $this->addForeignKey('FK_USER_ID', 'paypal_transactions', 'USER_ID', 'tb_users', 'USER_ID', 'RESTRICT', 'CASCADE');
     }

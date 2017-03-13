@@ -29,7 +29,7 @@ $listviewWidget = ListView::widget([
     ],
     'viewParams' => ['cartModel' => $cartModel],
     //'layout' => "{pager}\n{items}\n{pager}",
-    'layout' => "{items}\n{pager}",
+    'layout' => "{items}\n{pager}\n{summary}",
     'itemView' => 'shopping_box',
 ]);
 ?>

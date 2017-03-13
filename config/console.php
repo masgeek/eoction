@@ -3,6 +3,7 @@
 Yii::setAlias('@tests', dirname(__DIR__) . '/tests/codeception');
 
 $params = YII_ENV_DEV ? require(__DIR__ . '/params_test.php') : require(__DIR__ . '/params_live.php');
+//$params = require(__DIR__ . '/params_live.php');
 $db = require(__DIR__ . '/eoction.php');
 
 $config = [
@@ -26,7 +27,7 @@ $config = [
 					'categories' => ['activebids'],
 					'logVars' => ['$_POST'],
 					'logFile' => '@app/runtime/logs/Bids/bids_cron_log.log',
-					'maxFileSize' => 1024 * 2,
+					'maxFileSize' => 1024 * 1,
 					'maxLogFiles' => 20,
 				],
 			],
@@ -44,6 +45,12 @@ $config = [
 		],
 	],
 	*/
+    'controllerMap' => [
+        'migrate' => [
+            'class' => 'yii\console\controllers\MigrateController',
+            'templateFile' => '@app/views/migration/migration.php',
+        ],
+    ]
 ];
 
 if (YII_ENV_DEV) {

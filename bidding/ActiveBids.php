@@ -9,15 +9,15 @@
 
 namespace app\bidding;
 
+use app\components\TimeComponent;
 use app\module\products\models\BidExclusion;
 use app\module\products\models\FryProducts;
 use app\module\products\models\TbActiveBids;
-use function GuzzleHttp\json_decode;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
-use yii\data\ActiveDataProvider;
+use yii\db\Expression;
 
-class ActiveBids extends \yii\base\Component
+class ActiveBids extends Component
 {
 
     public $maximum_items;
@@ -58,7 +58,8 @@ class ActiveBids extends \yii\base\Component
         /* @var $model TbActiveBids */
         $model = $this->ValidateItem($product_id);
 
-        $model->BIDDING_DURATION = $this->ComputeBidDuration(); //get the bid duration
+        $time = new TimeComponent();
+        $model->BIDDING_DURATION = $time->ComputeExpiryDuration($this->bidding_minute_duration); //get the bid duration
         if ($model->save()) {
             return true;//saved
         } else {
@@ -68,7 +69,6 @@ class ActiveBids extends \yii\base\Component
     }
 
     /**
-     * @param $item_count
      * @return $this
      */
     public function ProcessNextBidItems()
@@ -87,12 +87,13 @@ class ActiveBids extends \yii\base\Component
             ->asArray()
             ->all();
 
-        $itemcount = count($item_provider);
+        $item_count = count($item_provider);
 
         //check if item count is less than the specified minimum
-        if ($itemcount < $this->maximum_items) {
+        if ($item_count < $this->maximum_items) {
             //update the active bids table first with the number of missing items
-            $items_to_fetch = ($this->maximum_items - $itemcount);
+            $items_to_fetch = ($this->maximum_items - $item_count);
+            \Yii::trace("Active items to fetch $items_to_fetch out of $item_count of max $this->maximum_items", 'activebids'); //log to an exclusions log file;
         }
 
         if ($items_to_fetch > 0) {
@@ -104,56 +105,69 @@ class ActiveBids extends \yii\base\Component
             } else {
                 $this->UpdateActiveBids($items_to_fetch, $exclusion_array);
             }
+
+            \Yii::trace("Fetching items $items_to_fetch", 'activebids'); //log to an exclusions log file;
         }
         return true;
     }
 
-    public function Remove_Expired_Exclusions(){
+    public function Remove_Expired_Exclusions()
+    {
+        $time = new TimeComponent();
         $query = BidExclusion::find()
             ->select(['PRODUCT_ID', 'EXCLUSION_PERIOD'])
             ->asArray()
             ->all();
 
+        \Yii::trace("--------------------EXPIRED EXCLUSIONS-----------------------", 'activebids'); //log to an exclusions log file;
         foreach ($query as $key => $model) {
             //call function to compute duration
             $product_id = $model['PRODUCT_ID'];
-            $remaining = $this->GetRemainingItemDuration($model['EXCLUSION_PERIOD']);
+            $remaining = $time->GetRemainingDuration($model['EXCLUSION_PERIOD']);
+
+            \Yii::trace("Bid exclusion remaining duration $remaining  for item $product_id", 'activebids'); //log to an exclusions log file;
             //if remaining is less than zero delete that one
             $expired_array[] = $remaining;
             //before deleting add to bid exclusion list
-            if ($remaining < 0) {
+            if ($remaining <= 0) {
                 BidManager::RemoveFromExclusionList($product_id);
+                \Yii::trace("Removed item $product_id", 'activebids'); //log to an exclusions log file;
             }
         }
+        \Yii::trace("--------------------EXPIRED EXCLUSIONS-----------------------", 'activebids'); //log to an exclusions log file;
     }
 
     public function Remove_Won_Expired_Items()
     {
+        $time = new TimeComponent();
         $query = TbActiveBids::find()
             ->select(['PRODUCT_ID', 'BIDDING_DURATION'])
             ->asArray()
             ->all();
 
-
+        \Yii::trace("-------------------------------------------", 'activebids'); //log to an exclusions log file;
         foreach ($query as $key => $model) {
             //call function to compute duration
             $product_id = $model['PRODUCT_ID'];
-            $remaining = $this->GetRemainingItemDuration($model['BIDDING_DURATION']);
+            $remaining = $time->GetRemainingDuration($model['BIDDING_DURATION']);
             //if remaining is less than zero delete that one
             $expired_array[] = $remaining;
             //before deleting add to bid exclusion list
-            if ($remaining < 0) {
+            if ($remaining <= 0) {
                 BidManager::AddToExclusionList($product_id);
                 $this->RemoveExpiredBid($product_id);
+                \Yii::trace("Removed item $product_id from Active Bids", 'activebids'); //log to an exclusions log file;
+            } else {
+                \Yii::info("Active Item remaining time is $remaining for product id $product_id", 'activebids'); //log to an exclusions log file;
             }
         }
-
+        \Yii::trace("-------------------------------------------", 'activebids'); //log to an exclusions log file;
         return $this->ProcessNextBidItems();
     }
 
     public function GetExclusionList()
     {
-        return json_encode($this->GetExcludedItems());
+        return $this->GetExcludedItems();
     }
 
     public function RemoveExpiredBid($product_id)
@@ -167,6 +181,29 @@ class ActiveBids extends \yii\base\Component
             \Yii::error("Error deleting product with id $product_id $e->getMessage()", 'activebids'); //log to an exclusions log file;
         }
     }
+
+    /**
+     * Indicates if a bid is active or not
+     * @param $product_id
+     * @param int $bid_active
+     * @return bool
+     */
+    public function FlagBidActiveStatus($product_id, $bid_active = 0)
+    {
+        /* @var $model TbActiveBids */
+        $model = $this->ValidateItem($product_id);
+        $model->BID_ACTIVE = $bid_active;
+        if ($model->save()) {
+            return true;
+        } else {
+            //log the errors
+            $errors = json_encode($model->getErrors());
+            \Yii::error("Error deleting product with id $product_id $errors", 'activebids'); //log to an exclusions log file;
+        }
+
+        return false;
+    }
+
 //=============================== PRIVATE FUNCTIONS ========================================================
 
 
@@ -189,41 +226,18 @@ class ActiveBids extends \yii\base\Component
     }
 
     /**
-     * returns the bid duration timestamp
-     * @return false|int
-     */
-    private
-    function ComputeBidDuration()
-    {
-        //$currentDate = strtotime($date);
-        $bidDuration = strtotime($this->current_date . "+$this->bidding_minute_duration minutes");
-        return $bidDuration;
-    }
-
-    /**
-     * @param $bid_duration
-     * @return float
-     */
-    private
-    function GetRemainingItemDuration($bid_duration)
-    {
-        $currentDate = strtotime($this->current_date);
-        $remaining_time = floor((($bid_duration - $currentDate) / 60));
-
-        return $remaining_time;
-    }
-
-    /**
      * Process the next batch of items to be added to the active bids table
      * @param $items_to_update
      * @param $excluded_items
      */
     private
-    function UpdateActiveBids($items_to_update, $excluded_items)
+    function UpdateActiveBids($items_to_update, $excluded_items, $allow_auction = [1])
     {
         $products_records = FryProducts::find()
             ->select('productid')
             ->andWhere(['NOT IN', 'productid', $excluded_items])
+            ->andWhere(['IN', 'allow_auction', $allow_auction])
+            ->orderBy(new Expression('rand()'))
             ->limit($items_to_update)
             ->asArray()
             ->all();
@@ -237,12 +251,13 @@ class ActiveBids extends \yii\base\Component
     }
 
     /**
-     * get items in teh bid exclusion list
+     * get items in the bid exclusion list
      * @return array
      */
     private
     function GetExcludedItems()
     {
+        $time = new TimeComponent();
         $exclusion_array = [];
         //clean the table
         //BidManager::RemoveItemsFromBidActivity();
@@ -258,14 +273,13 @@ class ActiveBids extends \yii\base\Component
             $bid_duration = $item['BIDDING_PERIOD'];
             $futureExpiry = $item['EXCLUSION_PERIOD'];
 
-            $bid_duration = $this->GetRemainingItemDuration($bid_duration);
-            $bid_expiry = $this->GetRemainingItemDuration($futureExpiry);
+            $bid_duration = $time->GetRemainingDuration($bid_duration);
+            $bid_expiry = $time->GetRemainingDuration($futureExpiry);
 
-            //if ($bid_expiry > 0 || $bid_duration >= 0) {
-            $exclusion_array[] = $item['PRODUCT_ID'];
-            //}
+            if ($bid_expiry > 0 || $bid_duration >= 0) {
+                $exclusion_array[] = $item['PRODUCT_ID'];
+            }
         }
-
         return $exclusion_array;
     }
 

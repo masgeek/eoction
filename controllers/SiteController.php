@@ -3,8 +3,12 @@
 namespace app\controllers;
 
 use app\bidding\ActiveBids;
+use app\components\AccountManager;
+use app\components\TimeComponent;
 use app\module\products\models\FryProducts;
+use app\module\users\models\UserRecovery;
 use Yii;
+use yii\base\Security;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -136,32 +140,39 @@ class SiteController extends Controller
         $session = Yii::$app->session;
         $session->set('search_url', \yii\helpers\Url::toRoute(['search-bids']));
 
-        $exclusion_list = BidManager::GetExclusionItems();
-        $dataProvider = ProductManager::GetItemsForBidding($no_of_items = 24, $auction_param = [1], $min_stock = 1, $exclusion_list, false);
+        //$exclusion_list = BidManager::GetExclusionItems();
+        $dataProvider = ProductManager::GetItemsForBidding($no_of_items = 20, $item_won = [0], $bid_active = [0, 1]);
 
         $this->view->title = 'Test Live Auction';
         return $this->render('index', ['listDataProvider' => $dataProvider]);
     }
 
+
+    /*public function actionIndex2()
+    {
+        $security = new Security();
+        $randomString = $security->generateRandomString();
+        $randomKey = $security->generateRandomKey();
+
+        return $this->render('index', [
+            'time' => date('H:i:s'),
+            'randomString' => $randomString,
+            'randomKey' => $randomKey,
+        ]);
+    }*/
+
     public function actionIndex()
     {
-        /* @var $activebids ActiveBids */
-        $activebids = \Yii::$app->activebids;
+        $this->view->title = 'Eoction - Live Auction';
 
-        //$activebids->maximum_items = 20;
-        //return $activebids->Remove_Won_Expired_Items();
+        $listDataProvider = ProductManager::GetItemsForBidding($no_of_items = YII_DEBUG ? 1 : 28, $item_won = [1, 0]);
 
-//		return $activebids->ProcessNextBidItems(); //AddToActiveBids(1);
-        ///return 5;
-        //$exclusion_list = BidManager::GetExclusionItems();
-        $dataProvider = ProductManager::GetItemsForBidding($no_of_items = 24, $item_won = [1, 0]);
-
-        $this->view->title = 'Eoction-Live Auction';
-        return $this->render('index', ['listDataProvider' => $dataProvider]);
+        return $this->render('index', ['listDataProvider' => $listDataProvider]);
     }
 
     public function actionSearchBids($q)
     {
+        $this->redirect(['index']);
         $search = new ProductsSearch();
         $this->view->title = 'Search - Live Auction';
         $dataProvider = $search->productsearch($q, $no_of_items = 12, $auction_param = [1], $min_stock = 1);
@@ -172,7 +183,7 @@ class SiteController extends Controller
     public function actionNextItem($product_id)
     {
         // usleep(1200);
-        $nextItem = BidManager::GetNextItemToBid($product_id);
+        $nextItem = BidManager::GetNextItemToBid($product_id, [1, 0]);
         return json_encode($nextItem);
     }
 
@@ -217,15 +228,15 @@ class SiteController extends Controller
                 }
 
                 //track the bid
-                BidManager::TrackUsersBids($user_id, $id, $sku, 0, $starting_bid,$first_request);
+                BidManager::TrackUsersBids($user_id, $id, $sku, 0, $starting_bid, $first_request);
 
-                $discount = ProductManager::ComputePercentageDiscount($model->pRODUCT->buyitnow,$price);
+                $discount = ProductManager::ComputePercentageDiscount($model->pRODUCT->buyitnow, $price);
                 $resp = [
                     'msg' => 'Bid placed successfully',
                     'success' => true,
                     'product_id' => $model->PRODUCT_ID,
                     'sku' => $model->PRODUCT_SKU,
-                    'bid_price' =>BidManager::GetMaxBidAmount($model->PRODUCT_ID,true,false,$starting_bid),
+                    'bid_price' => BidManager::GetMaxBidAmount($model->PRODUCT_ID, true, false, $starting_bid),
                     'discount' => $discount,
                     'bid_count' => ProductManager::GetNumberOfBids($model->PRODUCT_ID),
                     //'winning_user'=>BidManager::GetWinningUser($model->PRODUCT_ID,$model->PRODUCT_SKU)
@@ -255,13 +266,13 @@ class SiteController extends Controller
                 } else {
                     $price = $bidactivity->pRODUCT->price;;
                 }
-                $discount = ProductManager::ComputePercentageDiscount($bidactivity->pRODUCT->buyitnow,$price);
+                $discount = ProductManager::ComputePercentageDiscount($bidactivity->pRODUCT->buyitnow, $price);
                 $resp = [
                     'msg' => 'Bid updated successfully',
                     'success' => true,
                     'product_id' => $bidactivity->PRODUCT_ID,
                     'sku' => $bidactivity->PRODUCT_SKU,
-                    'bid_price' => BidManager::GetMaxBidAmount($bidactivity->PRODUCT_ID,true,false,$starting_bid),
+                    'bid_price' => BidManager::GetMaxBidAmount($bidactivity->PRODUCT_ID, true, false, $starting_bid),
                     'discount' => $discount,
                     'bid_count' => ProductManager::GetNumberOfBids($bidactivity->PRODUCT_ID),
                     //'winning_user'=>BidManager::GetWinningUser($bidactivity->PRODUCT_ID,$bidactivity->PRODUCT_SKU)
@@ -330,11 +341,21 @@ class SiteController extends Controller
     public function actionRecover()
     {
         $model = new Users();
-        if (Yii::$app->request->post('username')) {
-            $email = Yii::$app->request->post('email');
+        $accManager = new AccountManager();
+
+        if (Yii::$app->request->isPost) {
+            $userPost = Yii::$app->request->post('Users');
+            $email = $userPost['EMAIL_ADDRESS'];
 
             $user = Users::findOne(['EMAIL_ADDRESS' => $email]);
             if ($user != null) {
+
+                $recovery = $accManager->GenerateRecoveryToken($user->USER_ID);
+                if(!$recovery) {
+                    return $this->refresh();
+                }
+
+                return $recovery;
                 $to = [$user->EMAIL_ADDRESS => $user->FULL_NAMES];
                 Yii::$app->emailer->subject = 'Eoction Account Password Recovery';
                 Yii::$app->emailer->names = $user->FULL_NAMES;
@@ -353,6 +374,19 @@ class SiteController extends Controller
             return $this->refresh(); //refresh page and clear pending post values
         }
         return $this->render('recover', ['model' => $model]);
+    }
+
+    public function actionReset($token)
+    {
+        $time = new TimeComponent();
+        $model = UserRecovery::findOne(['RECOVERY_TOKEN' => $token]);
+
+        $remainingDuration = $time->GetRemainingDuration($model->EXPIRES);
+        if ($remainingDuration <= 0) {
+            return 'The recovery token has expired, please regenerate another one ' . $remainingDuration;
+        }
+        return $remainingDuration.$model->uSER->EMAIL_ADDRESS;
+        var_dump($model);
     }
 
     /**

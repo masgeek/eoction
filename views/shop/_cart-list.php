@@ -71,7 +71,7 @@ $bidded_item = (boolean)$model->BIDDED_ITEM;
             </div>
         </td>
         <td width="200">
-            <?php if(!$bidded_item): ?>
+            <?php if($bidded_item=='disabled'): ?>
                 <input type="number" class="form-control hidden" id="item-cost-<?=$model->CART_ID?>" readonly="readonly" value="<?= $product_price ?>">
             <?= \kartik\touchspin\TouchSpin::widget([
                 'name' => "quantity-$model->CART_ID",
@@ -91,7 +91,8 @@ $bidded_item = (boolean)$model->BIDDED_ITEM;
                 ]
             ]); ?>
     <?php else:?>
-                <input type="number" class="form-control" id="quantity_<?=uniqid()?>" readonly="readonly" value="<?= $model->QUANTITY ?>">
+                <!--<input type="number" class="form-control" id="quantity_<?=uniqid()?>" readonly="readonly" value="<?= $model->QUANTITY ?>">-->
+                <?= $model->QUANTITY; ?>
     <?php endif;?>
         </td>
         <td class="text-center"><strong id="retail-<?= $model->CART_ID ?>"><?= $retail_price ?></strong></td>

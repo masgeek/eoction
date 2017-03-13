@@ -34,7 +34,7 @@ $product_id = $model->productid;
 $product_name = $model->name;
 $stock = $model->stock_level;
 
-$shipping = ProductManager::ComputeShippingCost($product_id);
+$shipping = ProductManager::ComputeShippingCost($product_id,null,true);
 
 $shipping_cost = $formatter->asCurrency($shipping);
 $retail_price = $formatter->asCurrency($retail_price_raw);

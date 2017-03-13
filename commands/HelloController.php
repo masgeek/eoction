@@ -20,11 +20,27 @@ use yii\console\Controller;
 class HelloController extends Controller
 {
     /**
-     * This command echoes what you have entered as the message.
-     * @param string $message the message to be echoed.
+     * @param string $message
+     * @return int
      */
-    public function actionIndex($message = 'hello world')
+    public function actionIndex($message = 'Active bids cron command ran every 10 minutes')
     {
+        echo  "starting please run \n";
+        /* @var $activebids \app\bidding\ActiveBids */
+        $activebids = \Yii::$app->activebids;
+
+
+        //\Yii::info('Starting cron', 'activebids'); //log to an exclusions log file;
+        //lets check the active bids
+        //$activebids->maximum_items = 24;
+
+        \Yii::info('Started exclusions cron', 'activebids'); //log to an exclusions log file;
+        $activebids->Remove_Expired_Exclusions();
+        \Yii::info('Finished exclusions cron', 'activebids'); //log to an exclusions log file;
+        $activebids->Remove_Won_Expired_Items(); //proces the active bids
+
+        \Yii::info('Finished cron', 'activebids'); //log to an exclusions log file;
+
         echo $message . "\n";
     }
 }
