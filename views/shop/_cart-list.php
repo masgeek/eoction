@@ -101,7 +101,7 @@ $itemRemovalAction = \yii\helpers\Url::to(['//shop/remove-item', 'id' => $model-
         <td class="text-center"><strong id="retail-<?= $model->CART_ID ?>"><?= $retail_price ?></strong></td>
         <td class="text-center"><strong id="total-<?= $model->CART_ID ?>"><?= $total_price ?></strong></td>
         <td>
-            <?= \yii\helpers\Html::a('Remove', $itemRemovalAction, ['class' => 'btn btn-danger', 'role' => 'button']) ?>
+            <?= \yii\helpers\Html::a('Remove Item', $itemRemovalAction, ['class' => 'btn btn-warning btn-block', 'role' => 'button']) ?>
             <!--<button type="button" class="btn btn-danger" id="remove-item-<?= $cart_item_id ?>">
                 <span class="glyphicon glyphicon-remove"></span> Remove</button>-->
     </tr>
