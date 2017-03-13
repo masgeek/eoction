@@ -57,7 +57,8 @@ class AccountManager
 
     public static function AddressProvided($user_id)
     {
-        $address = UserAddress::find(['USER_ID' => $user_id])->all();
+        $address = UserAddress::findOne(['USER_ID' => $user_id]);
+
         if ($address != null) {
             return true;
         }
