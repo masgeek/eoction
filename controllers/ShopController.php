@@ -164,7 +164,7 @@ class ShopController extends Controller
         endif;
     }
 
-    public function actionRemoveItem($id)
+    public function actionRemoveItem($id, $user_id)
     {
         //delete cart item
         $resp = [
@@ -177,7 +177,11 @@ class ShopController extends Controller
                 'item_total' => 45
             ];
         }
-        return json_encode($resp);
+        $request = Yii::$app->request;
+        if ($request->isAjax) {
+            return json_encode($resp);
+        }
+        return $this->redirect(['//shop/cart', 'id' => $user_id]);
     }
 
     public function actionCart($id)
