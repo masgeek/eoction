@@ -305,7 +305,7 @@ function FetchNextItem($previous_product_id) {
     var $containerID = $('.hidden_' + $previous_product_id).parents('div:first').attr('id'); //get id of the main container so that we can replace teh contents
     // $('#item_box_' + $previous_product_id);
     var $productBox = $('#' + $containerID);
-    var intervals = Math.floor((Math.random() * 500) + 3000);
+    var intervals = Math.floor((Math.random() * 5) +400);
     var button = '<button class="btn btn-primary btn-block noradius text-uppercase" disabled>Next</button>';
 
 
