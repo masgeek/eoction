@@ -35,7 +35,7 @@ class PaypalController extends Controller
      *
      * for now all parameters are hardcoded but we will need to pull this data from a database or some other dynamic source
      */
-    public function actionPaypalCheckout($id)
+    public function actionPaypalCheckout($user_id)
     {
         //initalize the paypal extension so that we can get the default parameters
         Yii::$app->paypal->init();
@@ -48,7 +48,7 @@ class PaypalController extends Controller
         $payer->setPaymentMethod("paypal"); //method is by paypal account
 
 
-        $paypal_items = ProductManager::GetPaypalItems($id); //get the items to be paid for
+        $paypal_items = ProductManager::GetPaypalItems($user_id); //get the items to be paid for
 
         if (count($paypal_items) > 0) {
             $cartItemsArr = [];
@@ -118,7 +118,7 @@ class PaypalController extends Controller
                 }
                 //let us save this transaction to the paypal tables
                 $paypalTransactions = new PaypalTransactions();
-                $paypalTransactions->USER_ID = $id;
+                $paypalTransactions->USER_ID = $user_id;
                 $paypalTransactions->PAYMENT_ID = $payment->getId();
                 $paypalTransactions->HASH = $paypal_hash;
                 $paypalTransactions->COMPLETE = 0;
