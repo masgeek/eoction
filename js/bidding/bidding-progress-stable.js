@@ -312,7 +312,7 @@ function FetchNextItem($previous_product_id) {
     //console.log('Container id is ' + $containerID);
 
 
-    setTimeout(function () {//wait n seconds before fetching next item
+    //setTimeout(function () {//wait n seconds before fetching next item
         $.ajax({
             url: $productUrl,
             data: {
@@ -336,7 +336,7 @@ function FetchNextItem($previous_product_id) {
             },
             type: 'GET'
         });
-    }, intervals);
+    //}, intervals);
 }
 
 function ItemUpdate($product_id, $sku, $toclear) {
