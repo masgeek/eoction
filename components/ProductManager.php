@@ -51,6 +51,7 @@ class ProductManager
         }
         $userId = \Yii::$app->user->id ? \Yii::$app->user->id : 0;
         $country = AccountManager::GetUserAddress($userId, null, true);
+
         if ($first_item) {
             $shipping_cost = \Yii::$app->shippingregions->shippingcost($country, $userId);
         } else {
