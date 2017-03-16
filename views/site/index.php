@@ -51,11 +51,7 @@ $listviewWidget = ListView::widget([
 <!-- end static text fields -->
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <?= $listviewWidget ?>
-        </div>
-    </div>
+    <?= $listviewWidget ?>
 </div>
 
 <!--= yii\authclient\widgets\AuthChoice::widget([

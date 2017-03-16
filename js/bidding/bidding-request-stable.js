@@ -316,8 +316,9 @@ function ItemUpdate($product_id, $sku, $toclear) {
     var winningUser = $('#winning_user_' + $product_id);
     var bidButton = $('#bid_button_' + $product_id);
 
-    var random_intervals = Math.round(Math.random() * (5000 - 500)) + 1500;
+    var random_intervals = Math.round(Math.random() * (1000 - 500)) + 1500;
 
+    console.log('Waiting for next item for '+random_intervals+' seconds');
     clearInterval(intervalObj[$product_id]); //remove the interval
 
     if ($toclear == 'NO') { //if its not in non clear mode do set another interval

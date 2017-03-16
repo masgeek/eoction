@@ -12,6 +12,12 @@ class m161207_125747_create_tb_user_address_table extends Migration
      */
     public function up()
     {
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
+        }
+
+
         $this->createTable('tb_user_address', [
             'ADDRESS_ID' => $this->primaryKey(),
             'USER_ID' => $this->integer()->notNull(),
@@ -30,7 +36,7 @@ class m161207_125747_create_tb_user_address_table extends Migration
             'PRIMARY_ADDRESS' => $this->integer(1)->notNull()->defaultValue(0),
             'CREATED' => $this->dateTime(),
             'UPDATED' => $this->dateTime(),// . ' ON UPDATE CURRENT_TIMESTAMP',
-        ]);
+        ],$tableOptions);
 
         $this->addForeignKey('FK_USER_ADDRESS_ID', 'tb_user_address', 'USER_ID', 'tb_users', 'USER_ID','RESTRICT', 'CASCADE');
     }

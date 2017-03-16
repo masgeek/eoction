@@ -41,10 +41,14 @@ class ProductManager
      * Get the shipping cost per region
      * @param null $product_id
      * @param bool $first_item
+     * @param bool $return_lowest
      * @return float|int
      */
-    public static function ComputeShippingCost($product_id = null, $first_item = true)
+    public static function ComputeShippingCost($product_id = null, $first_item = true,$return_lowest = false)
     {
+        if($return_lowest){
+            return \Yii::$app->shippingregions->shippingcost(0);
+        }
         $userId = \Yii::$app->user->id ? \Yii::$app->user->id : 0;
         $country = AccountManager::GetUserAddress($userId, null, true);
         if ($first_item) {

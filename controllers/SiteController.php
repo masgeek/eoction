@@ -3,7 +3,10 @@
 namespace app\controllers;
 
 use app\bidding\ActiveBids;
+use app\components\AccountManager;
+use app\components\TimeComponent;
 use app\module\products\models\FryProducts;
+use app\module\users\models\UserRecovery;
 use Yii;
 use yii\base\Security;
 use yii\filters\AccessControl;
@@ -160,11 +163,11 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        $this->view->title = 'Eoction-Live Auction';
+        $this->view->title = 'Eoction - Live Auction';
 
-        $dataProvider = ProductManager::GetItemsForBidding($no_of_items = YII_DEBUG ? 4 : 80, $item_won = [1, 0]);
+        $listDataProvider = ProductManager::GetItemsForBidding($no_of_items = YII_DEBUG ? 1 : 28, $item_won = [1, 0]);
 
-        return $this->render('index', ['listDataProvider' => $dataProvider]);
+        return $this->render('index', ['listDataProvider' => $listDataProvider]);
     }
 
     public function actionSearchBids($q)
@@ -338,11 +341,21 @@ class SiteController extends Controller
     public function actionRecover()
     {
         $model = new Users();
-        if (Yii::$app->request->post('username')) {
-            $email = Yii::$app->request->post('email');
+        $accManager = new AccountManager();
+
+        if (Yii::$app->request->isPost) {
+            $userPost = Yii::$app->request->post('Users');
+            $email = $userPost['EMAIL_ADDRESS'];
 
             $user = Users::findOne(['EMAIL_ADDRESS' => $email]);
             if ($user != null) {
+
+                $recovery = $accManager->GenerateRecoveryToken($user->USER_ID);
+                if(!$recovery) {
+                    return $this->refresh();
+                }
+
+                return $recovery;
                 $to = [$user->EMAIL_ADDRESS => $user->FULL_NAMES];
                 Yii::$app->emailer->subject = 'Eoction Account Password Recovery';
                 Yii::$app->emailer->names = $user->FULL_NAMES;
@@ -361,6 +374,19 @@ class SiteController extends Controller
             return $this->refresh(); //refresh page and clear pending post values
         }
         return $this->render('recover', ['model' => $model]);
+    }
+
+    public function actionReset($token)
+    {
+        $time = new TimeComponent();
+        $model = UserRecovery::findOne(['RECOVERY_TOKEN' => $token]);
+
+        $remainingDuration = $time->GetRemainingDuration($model->EXPIRES);
+        if ($remainingDuration <= 0) {
+            return 'The recovery token has expired, please regenerate another one ' . $remainingDuration;
+        }
+        return $remainingDuration.$model->uSER->EMAIL_ADDRESS;
+        var_dump($model);
     }
 
     /**

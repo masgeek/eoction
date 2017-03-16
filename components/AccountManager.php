@@ -9,9 +9,14 @@
 namespace app\components;
 
 
+use app\bidding\ActiveBids;
+use app\bidding\BidManager;
 use app\module\users\models\Countries;
 use app\module\users\models\Timezones;
 use app\module\users\models\UserAddress;
+use app\module\users\models\UserRecovery;
+use app\module\users\models\Users;
+use yii\base\Security;
 use yii\helpers\ArrayHelper;
 
 class AccountManager
@@ -61,7 +66,7 @@ class AccountManager
     }
 
     /**
-     * gets a users address
+     * gets a users address or country based on the address
      * @param $user_id
      * @param string $address_type
      * @return static
@@ -69,12 +74,47 @@ class AccountManager
     public static function GetUserAddress($user_id, $address_type = null, $return_country = false)
     {
         $addressInfo = UserAddress::findOne([
-            'USER_ID' => $user_id,
-            //'ADDRESS_TYPE' => $address_type //start with billing address
+            'USER_ID' => $user_id
         ]);
-        if ($return_country && $addressInfo !=null) {
+        if ($return_country && $addressInfo != null) {
             return $addressInfo->COUNTRY;
         }
         return $addressInfo;
+    }
+
+    /**
+     * Generates a recovery token that expires after a set amount of time
+     * @param $user_id
+     * @return bool|mixed|null|string returns the url for the recovery
+     */
+    public function GenerateRecoveryToken($user_id)
+    {
+        $sec = new Security();
+        $time = new TimeComponent();
+        $userIP = \Yii::$app->request->userIP;
+        $recoveryUrl = false;
+        //FryProducts::updateAllCounters(['stock_level' => $items_to_reduce], "productid=$product_id");
+        $token = $sec->generateRandomString(); //generateRandomKey() . '_' . time();;
+        //Users::updateAll(['ACCOUNT_ACCESS_TOKEN' => $token], ['USER_ID' => $user_id]);
+
+        $model = UserRecovery::findOne(['USER_ID' => $user_id]);
+
+        if ($model == null) {
+            $model = new UserRecovery();
+            $model->isNewRecord = true;
+        }
+        $model->USER_ID = $user_id;
+        $model->RECOVERY_TOKEN = $token;
+        $model->REQUESTING_IP = $userIP;
+        $model->EXPIRES = $time->ComputeExpiryDuration(1, 'minutes');
+
+
+        if ($model->save()) {
+            //$recoveryUrl = $time->GetRemainingDuration($model->EXPIRES). $model->RECOVERY_TOKEN;
+            $recoveryUrl = \Yii::$app->request->hostInfo;
+            $recoveryUrl .= \Yii::$app->homeUrl;
+            $recoveryUrl .= "reset?token=$model->RECOVERY_TOKEN";
+        }
+        return $recoveryUrl;
     }
 }

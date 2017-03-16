@@ -104,6 +104,7 @@ class ShopController extends Controller
             'discount' => $discount,
             //'winning_user' => BidManager::GetWinningUser($product_id, $sku, false)
         ];
+
         return json_encode($updateData);
     }
 

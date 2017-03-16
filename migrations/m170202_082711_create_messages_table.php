@@ -12,6 +12,11 @@ class m170202_082711_create_messages_table extends Migration
      */
     public function safeUp()
     {
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
+        }
+
         $this->createTable('messages', [
             'MESSAGE_ID' => $this->primaryKey(),
             'USER_ID'=>$this->integer()->notNull(),
@@ -23,7 +28,7 @@ class m170202_082711_create_messages_table extends Migration
             'MESSAGE_DELETED'=>$this->boolean()->defaultValue(false),
             'CREATED' => $this->dateTime()->comment('Date Created'),
             'DATE_SENT' => $this->dateTime()->comment('Date Sent'),// . ' ON UPDATE CURRENT_TIMESTAMP'
-        ]);
+        ],$tableOptions);
 
         //create foreign keys
         $this->addForeignKey('FK_USER_ID_MSG', 'messages', 'USER_ID', 'tb_users', 'USER_ID', 'RESTRICT', 'CASCADE');
