@@ -40,8 +40,8 @@ $shipping = $formatter->asCurrency($total_summary['SHIPPING_TOTAL']);
 $total = $formatter->asCurrency($total_raw);
 
 
-$paypalAction = \yii\helpers\Url::to(['//paypal/paypal-checkout', 'id' => $user_id]);
-$userAddress = \yii\helpers\Url::to(['//my-addresses', 'id' => $user_id]);
+$paypalAction = \yii\helpers\Url::to(['//paypal/paypal-checkout', 'user_id' => $user_id]);
+$userAddress = \yii\helpers\Url::to(['//my-addresses', 'user_id' => $user_id]);
 $continueShopping = \yii\helpers\Url::to(['//shop']);
 $itemRemovalAction = \yii\helpers\Url::to(['//shop/remove-item']);
 ?>

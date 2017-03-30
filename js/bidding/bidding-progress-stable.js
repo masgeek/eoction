@@ -118,26 +118,26 @@ function SetupProgressBar($productid, $bid_start_time) {
     //progressBar.removeClass("noplacedbids goingonce goingtwice").addClass('awaitingbid')
     // Use the progress callback.
     /*progressBar.velocity(
-        {
-            width: 0 //animate the width
-        },
-        params);*/
+     {
+     width: 0 //animate the width
+     },
+     params);*/
 
     progressBar.velocity({width: 0}, params) //Accepting Bids
-        .velocity({width: $maxProgressBarWidth}, {
-            duration: 1, complete: function () {
-                progressBar.removeClass("noplacedbids awaitingbid goingtwice").addClass('goingonce');
-                /*always await bid*/
-            }
-        }) //reset bar
-        .velocity({width: 0}, params) //going once
-        .velocity({width: $maxProgressBarWidth}, {
-            duration: 1, complete: function () {
-                progressBar.removeClass("noplacedbids awaitingbid goingonce").addClass('goingtwice');
-                /*always await bid*/
-            }
-        }) //reset bar
-        .velocity({width: 0}, params); //going twice
+            .velocity({width: $maxProgressBarWidth}, {
+                duration: 1, complete: function () {
+                    progressBar.removeClass("noplacedbids awaitingbid goingtwice").addClass('goingonce');
+                    /*always await bid*/
+                }
+            }) //reset bar
+            .velocity({width: 0}, params) //going once
+            .velocity({width: $maxProgressBarWidth}, {
+                duration: 1, complete: function () {
+                    progressBar.removeClass("noplacedbids awaitingbid goingonce").addClass('goingtwice');
+                    /*always await bid*/
+                }
+            }) //reset bar
+            .velocity({width: 0}, params); //going twice
     //add stop click event when placebid is clicked
     placebid.click(function () {
         //progressBar.velocity('stop', false);
@@ -236,25 +236,25 @@ function TriggerProgressBar($product_id, $sku, $bid_waiting_time) {
     bidType.val(1); //set to awaiting bids
     bidStatusText.html('<span class="awaitingbid-text">Accepting Bids</span>');
     $.when(
-        placeBid($product_id, $sku), //send the bid details for the logged in user
-        progressBar.removeClass("noplacedbids goingonce goingtwice").addClass('awaitingbid')
-    ).then(function () {
+            placeBid($product_id, $sku), //send the bid details for the logged in user
+            progressBar.removeClass("noplacedbids goingonce goingtwice").addClass('awaitingbid')
+            ).then(function () {
         console.log('Maximum progressbar width is ' + $maxProgressBarWidth)
         progressBar.velocity({width: 0}, bidsPlacedParams) //Accepting Bids
-            .velocity({width: $maxProgressBarWidth}, {
-                duration: 1, complete: function () {
-                    progressBar.removeClass("noplacedbids awaitingbid goingtwice").addClass('goingonce');
-                    /*always await bid*/
-                }
-            }) //reset bar
-            .velocity({width: 0}, bidsPlacedParams) //going once
-            .velocity({width: $maxProgressBarWidth}, {
-                duration: 1, complete: function () {
-                    progressBar.removeClass("noplacedbids awaitingbid goingonce").addClass('goingtwice');
-                    /*always await bid*/
-                }
-            }) //reset bar
-            .velocity({width: 0}, bidsPlacedParams); //going twice
+                .velocity({width: $maxProgressBarWidth}, {
+                    duration: 1, complete: function () {
+                        progressBar.removeClass("noplacedbids awaitingbid goingtwice").addClass('goingonce');
+                        /*always await bid*/
+                    }
+                }) //reset bar
+                .velocity({width: 0}, bidsPlacedParams) //going once
+                .velocity({width: $maxProgressBarWidth}, {
+                    duration: 1, complete: function () {
+                        progressBar.removeClass("noplacedbids awaitingbid goingonce").addClass('goingtwice');
+                        /*always await bid*/
+                    }
+                }) //reset bar
+                .velocity({width: 0}, bidsPlacedParams); //going twice
     })
 }
 
@@ -271,30 +271,30 @@ function placeBid($product_id, $sku) {
     //console.log($sku);
     //return 0;
     $.when(
-        $.ajax({
-            url: $bidUrl,
-            data: {
-                id: $product_id,
-                sku: $sku,
-                user_id: $user_id,
-                format: 'json'
-            },
-            error: function () {
-                $('#info').html('<p>An error has occurred</p>');
-            },
-            dataType: 'json',
-            before: function (data) {
-                //stop the minute bid bar first
-                //$('#progress' + $product_id).asProgress('stop');
-            },
-            success: function (data) {
-                bidsPlaced.html(data.bid_count);
-                bid_price.html(data.bid_price);
-            },
-            type: 'GET'
-        }),
-        GetWinningUser($product_id, $sku)
-    ).then(function () {
+            $.ajax({
+                url: $bidUrl,
+                data: {
+                    id: $product_id,
+                    sku: $sku,
+                    user_id: $user_id,
+                    format: 'json'
+                },
+                error: function () {
+                    $('#info').html('<p>An error has occurred</p>');
+                },
+                dataType: 'json',
+                before: function (data) {
+                    //stop the minute bid bar first
+                    //$('#progress' + $product_id).asProgress('stop');
+                },
+                success: function (data) {
+                    bidsPlaced.html(data.bid_count);
+                    bid_price.html(data.bid_price);
+                },
+                type: 'GET'
+            }),
+            GetWinningUser($product_id, $sku)
+            ).then(function () {
     });
 }
 
@@ -305,7 +305,7 @@ function FetchNextItem($previous_product_id) {
     var $containerID = $('.hidden_' + $previous_product_id).parents('div:first').attr('id'); //get id of the main container so that we can replace teh contents
     // $('#item_box_' + $previous_product_id);
     var $productBox = $('#' + $containerID);
-    var intervals = Math.floor((Math.random() * 5) +400);
+    var intervals = Math.floor((Math.random() * 5) + 400);
     var button = '<button class="btn btn-primary btn-block noradius text-uppercase" disabled>Next</button>';
 
 
@@ -313,29 +313,29 @@ function FetchNextItem($previous_product_id) {
 
 
     //setTimeout(function () {//wait n seconds before fetching next item
-        $.ajax({
-            url: $productUrl,
-            data: {
-                product_id: $previous_product_id
-            },
-            error: function () {
-                $('#info').html('<p>An error has occurred</p>');
-            },
-            dataType: 'json',
-            success: function (data) {
-                //remove the initial product box
-                bidButton.html(button);
-                bidStatusText.html('Next Item');
-                $productBox.fadeIn(700).fadeOut(1000).fadeIn(700, function () {
-                    //scroll to the top
-                    $productBox.html(data.html_data);
-                    //$("html, body").animate({scrollTop: 0}, "slow");
-                    //next add the click event listeners to the dynamic items
-                    RefreshSomeEventListener(data.product_id, data.sku);
-                });
-            },
-            type: 'GET'
-        });
+    $.ajax({
+        url: $productUrl,
+        data: {
+            product_id: $previous_product_id
+        },
+        error: function () {
+            $('#info').html('<p>An error has occurred</p>');
+        },
+        dataType: 'json',
+        success: function (data) {
+            //remove the initial product box
+            bidButton.html(button);
+            bidStatusText.html('Next Item');
+            $productBox.fadeIn(700).fadeOut(1000).fadeIn(700, function () {
+                //scroll to the top
+                $productBox.html(data.html_data);
+                //$("html, body").animate({scrollTop: 0}, "slow");
+                //next add the click event listeners to the dynamic items
+                RefreshSomeEventListener(data.product_id, data.sku);
+            });
+        },
+        type: 'GET'
+    });
     //}, intervals);
 }
 
@@ -355,35 +355,35 @@ function ItemUpdate($product_id, $sku, $toclear) {
         intervalObj[$product_id] = setInterval(function () {
 
             $.when(
-                /*$.getJSON(updateUrl, {product_id: $product_id, sku: $sku}, function (data) {
-                 var $bid_count = data.bid_count;
-                 var $new_bid_price = data.bid_price;
-
-                 $bidPrice.html($new_bid_price);
-                 bidsPlaced.html($bid_count);
-                 }), */
-                $.ajax({
-                    url: updateUrl,
-                    data: {
-                        product_id: $product_id,
-                        sku: $sku
-                    },
-                    error: function (data) {
-                        //do something in the event this fails
+                    /*$.getJSON(updateUrl, {product_id: $product_id, sku: $sku}, function (data) {
+                     var $bid_count = data.bid_count;
+                     var $new_bid_price = data.bid_price;
+                     
+                     $bidPrice.html($new_bid_price);
+                     bidsPlaced.html($bid_count);
+                     }), */
+                    $.ajax({
+                        url: updateUrl,
+                        data: {
+                            product_id: $product_id,
+                            sku: $sku
+                        },
+                        error: function (data) {
+                            //do something in the event this fails
 //                        console.log(data);
-                    },
-                    dataType: 'json',
-                    success: function (data) {
-                        var $bid_count = data.bid_count;
-                        var $new_bid_price = data.bid_price;
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            var $bid_count = data.bid_count;
+                            var $new_bid_price = data.bid_price;
 
-                        $bidPrice.html($new_bid_price);
-                        bidsPlaced.html($bid_count);
-                    },
-                    type: 'GET'
-                }),
-                GetWinningUser($product_id, $sku)
-            ).then(function () {
+                            $bidPrice.html($new_bid_price);
+                            bidsPlaced.html($bid_count);
+                        },
+                        type: 'GET'
+                    }),
+                    GetWinningUser($product_id, $sku)
+                    ).then(function () {
             });
         }, random_intervals); //check every n seconds
         //console.log('Set interval {' + intervalObj[$product_id]+'} {'+intervals+'}');
@@ -394,39 +394,39 @@ function ItemUpdate($product_id, $sku, $toclear) {
         var bidwonUrl = $('#bidwon_url').val();
         var button = '<button class="btn btn-bid btn-success btn-block noradius text-uppercase" disabled>Sold</button>';
         $.when(
-            /*$.getJSON(bidwonUrl, {user_id: userId, product_id: $product_id, sku: $sku}, function (data) {
-             //mark the item as won..and show the winning user
-             var $winning_user = data.winning_user;
+                /*$.getJSON(bidwonUrl, {user_id: userId, product_id: $product_id, sku: $sku}, function (data) {
+                 //mark the item as won..and show the winning user
+                 var $winning_user = data.winning_user;
+                 
+                 winningUser.html($winning_user);
+                 if ($winning_user == '-' || $winning_user.length <= 0) {
+                 button = '<button class="btn btn-bid btn-bid-ended btn-block noradius text-uppercase" disabled>Closed</button>';
+                 }
+                 bidButton.html(button);
+                 }),*/
+                $.ajax({
+                    url: bidwonUrl,
+                    data: {
+                        user_id: userId, product_id: $product_id, sku: $sku
+                    },
+                    error: function (data) {
+                        //do something in the event this fails
+                        //console.log(data);
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        var $winning_user = data.html;
 
-             winningUser.html($winning_user);
-             if ($winning_user == '-' || $winning_user.length <= 0) {
-             button = '<button class="btn btn-bid btn-bid-ended btn-block noradius text-uppercase" disabled>Closed</button>';
-             }
-             bidButton.html(button);
-             }),*/
-            $.ajax({
-                url: bidwonUrl,
-                data: {
-                    user_id: userId, product_id: $product_id, sku: $sku
-                },
-                error: function (data) {
-                    //do something in the event this fails
-                    //console.log(data);
-                },
-                dataType: 'json',
-                success: function (data) {
-                    var $winning_user = data.html;
-
-                    winningUser.html($winning_user);
-                    //if ($winning_user == '-' || $winning_user.length <= 0) {
-                    button = '<button class="btn btn-bid btn-danger btn-block noradius text-uppercase" disabled>Bid Closed</button>';
-                    //}
-                    bidButton.html(button);
-                },
-                type: 'GET'
-            }),
-            UpdateCartItems()
-        ).then(function () {
+                        winningUser.html($winning_user);
+                        //if ($winning_user == '-' || $winning_user.length <= 0) {
+                        button = '<button class="btn btn-bid btn-danger btn-block noradius text-uppercase" disabled>Bid Closed</button>';
+                        //}
+                        bidButton.html(button);
+                    },
+                    type: 'GET'
+                }),
+                UpdateCartItems()
+                ).then(function () {
         });
     }
 }
