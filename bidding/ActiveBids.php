@@ -1,11 +1,11 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: barsa
  * Date: 2/7/2017
  * Time: 1:18 PM
  */
-
 
 namespace app\bidding;
 
@@ -46,6 +46,7 @@ class ActiveBids extends Component
 
         //set the current timezone
         date_default_timezone_set($this->timezone);
+
     }
 
     /**
@@ -61,11 +62,13 @@ class ActiveBids extends Component
         $time = new TimeComponent();
         $model->BIDDING_DURATION = $time->ComputeExpiryDuration($this->bidding_minute_duration); //get the bid duration
         if ($model->save()) {
-            return true;//saved
-        } else {
+            return true; //saved
+        }
+        else {
             \Yii::error($model->getErrors(), 'bidExclusions'); //log to an exclusions log file;
         }
         return false;
+
     }
 
     /**
@@ -81,11 +84,11 @@ class ActiveBids extends Component
         $exclusion_array = [];
 
         $item_provider = TbActiveBids::find()
-            ->select(['PRODUCT_ID'])
-            ->andWhere(['NOT IN', 'PRODUCT_ID', $exclusion_list])
-            ->limit($this->maximum_items)
-            ->asArray()
-            ->all();
+                ->select(['PRODUCT_ID'])
+                ->andWhere(['NOT IN', 'PRODUCT_ID', $exclusion_list])
+                ->limit($this->maximum_items)
+                ->asArray()
+                ->all();
 
         $item_count = count($item_provider);
 
@@ -97,30 +100,34 @@ class ActiveBids extends Component
         }
 
         if ($items_to_fetch > 0) {
-            foreach ($item_provider as $key => $model) {
+            foreach ($item_provider as $key => $model)
+            {
                 $exclusion_array[] = $model['PRODUCT_ID'];
             }
             if (count($exclusion_array) <= 0) {
                 $this->UpdateActiveBids($items_to_fetch, $exclusion_list);
-            } else {
+            }
+            else {
                 $this->UpdateActiveBids($items_to_fetch, $exclusion_array);
             }
 
             \Yii::trace("Fetching items $items_to_fetch", 'activebids'); //log to an exclusions log file;
         }
         return true;
+
     }
 
     public function Remove_Expired_Exclusions()
     {
         $time = new TimeComponent();
         $query = BidExclusion::find()
-            ->select(['PRODUCT_ID', 'EXCLUSION_PERIOD'])
-            ->asArray()
-            ->all();
+                ->select(['PRODUCT_ID', 'EXCLUSION_PERIOD'])
+                ->asArray()
+                ->all();
 
         \Yii::trace("--------------------EXPIRED EXCLUSIONS-----------------------", 'activebids'); //log to an exclusions log file;
-        foreach ($query as $key => $model) {
+        foreach ($query as $key => $model)
+        {
             //call function to compute duration
             $product_id = $model['PRODUCT_ID'];
             $remaining = $time->GetRemainingDuration($model['EXCLUSION_PERIOD']);
@@ -135,18 +142,20 @@ class ActiveBids extends Component
             }
         }
         \Yii::trace("--------------------EXPIRED EXCLUSIONS-----------------------", 'activebids'); //log to an exclusions log file;
+
     }
 
     public function Remove_Won_Expired_Items()
     {
         $time = new TimeComponent();
         $query = TbActiveBids::find()
-            ->select(['PRODUCT_ID', 'BIDDING_DURATION'])
-            ->asArray()
-            ->all();
+                ->select(['PRODUCT_ID', 'BIDDING_DURATION'])
+                ->asArray()
+                ->all();
 
         \Yii::trace("-------------------------------------------", 'activebids'); //log to an exclusions log file;
-        foreach ($query as $key => $model) {
+        foreach ($query as $key => $model)
+        {
             //call function to compute duration
             $product_id = $model['PRODUCT_ID'];
             $remaining = $time->GetRemainingDuration($model['BIDDING_DURATION']);
@@ -157,29 +166,36 @@ class ActiveBids extends Component
                 BidManager::AddToExclusionList($product_id);
                 $this->RemoveExpiredBid($product_id);
                 \Yii::trace("Removed item $product_id from Active Bids", 'activebids'); //log to an exclusions log file;
-            } else {
+            }
+            else {
                 \Yii::info("Active Item remaining time is $remaining for product id $product_id", 'activebids'); //log to an exclusions log file;
             }
         }
         \Yii::trace("-------------------------------------------", 'activebids'); //log to an exclusions log file;
         return $this->ProcessNextBidItems();
+
     }
 
     public function GetExclusionList()
     {
         return $this->GetExcludedItems();
+
     }
 
     public function RemoveExpiredBid($product_id)
     {
-        try {
+        try
+        {
             $model = TbActiveBids::findOne(['PRODUCT_ID' => $product_id]);
             if ($model != null) {
                 $model->delete(); //delete if there is a record existing
             }
-        } catch (ErrorException $e) {
+        }
+        catch (ErrorException $e)
+        {
             \Yii::error("Error deleting product with id $product_id $e->getMessage()", 'activebids'); //log to an exclusions log file;
         }
+
     }
 
     /**
@@ -195,25 +211,25 @@ class ActiveBids extends Component
         $model->BID_ACTIVE = $bid_active;
         if ($model->save()) {
             return true;
-        } else {
+        }
+        else {
             //log the errors
             $errors = json_encode($model->getErrors());
             \Yii::error("Error deleting product with id $product_id $errors", 'activebids'); //log to an exclusions log file;
         }
 
         return false;
+
     }
 
 //=============================== PRIVATE FUNCTIONS ========================================================
-
 
     /**
      * Check if a record already exists
      * @param $product_id
      * @return bool|static
      */
-    private
-    function ValidateItem($product_id)
+    private function ValidateItem($product_id)
     {
         $model = TbActiveBids::findOne(['PRODUCT_ID' => $product_id]);
         if ($model == null) {
@@ -223,6 +239,7 @@ class ActiveBids extends Component
             $model->PRODUCT_ID = $product_id;
         }
         return $model; //return the model if the record does exist
+
     }
 
     /**
@@ -230,46 +247,47 @@ class ActiveBids extends Component
      * @param $items_to_update
      * @param $excluded_items
      */
-    private
-    function UpdateActiveBids($items_to_update, $excluded_items, $allow_auction = [1])
+    private function UpdateActiveBids($items_to_update, $excluded_items, $allow_auction = [1])
     {
         $products_records = FryProducts::find()
-            ->select('productid')
-            ->andWhere(['NOT IN', 'productid', $excluded_items])
-            ->andWhere(['IN', 'allow_auction', $allow_auction])
-            ->orderBy(new Expression('rand()'))
-            ->limit($items_to_update)
-            ->asArray()
-            ->all();
+                ->select('productid')
+                ->andWhere(['NOT IN', 'productid', $excluded_items])
+                ->andWhere(['IN', 'allow_auction', $allow_auction])
+                ->orderBy(new Expression('rand()'))
+                ->limit($items_to_update)
+                ->asArray()
+                ->all();
 
-        foreach ($products_records as $value) {
+        foreach ($products_records as $value)
+        {
             //now add it to the bid activebbids table
             $this->AddToActiveBids($value['productid']);
         }
         //next return to process bids table
         //$this->ProcessNextBidItems(); //called recursively until we have all our items
+
     }
 
     /**
      * get items in the bid exclusion list
      * @return array
      */
-    private
-    function GetExcludedItems()
+    private function GetExcludedItems()
     {
         $time = new TimeComponent();
         $exclusion_array = [];
         //clean the table
         //BidManager::RemoveItemsFromBidActivity();
         $nested_items_array = BidExclusion::find()
-            ->select(['PRODUCT_ID', 'EXCLUSION_PERIOD', 'BIDDING_PERIOD'])
-            //->where('HIGH_DEMAND = 0')
-            //->orderBy(['AUCTION_COUNT' => SORT_ASC])
-            ->asArray()
-            ->all();
+                ->select(['PRODUCT_ID', 'EXCLUSION_PERIOD', 'BIDDING_PERIOD'])
+                //->where('HIGH_DEMAND = 0')
+                //->orderBy(['AUCTION_COUNT' => SORT_ASC])
+                ->asArray()
+                ->all();
         //flatten the nested arrays
 
-        foreach ($nested_items_array as $item) {
+        foreach ($nested_items_array as $item)
+        {
             $bid_duration = $item['BIDDING_PERIOD'];
             $futureExpiry = $item['EXCLUSION_PERIOD'];
 
@@ -281,7 +299,9 @@ class ActiveBids extends Component
             }
         }
         return $exclusion_array;
+
     }
 
 //End of the class
+
 }

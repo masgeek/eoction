@@ -3,8 +3,8 @@
   "main": "dist/jquery.js",
   "license": "MIT",
   "dependencies": {
-    "velocity": "^1.4.1",
-    "jquery": "^3.1.1",
+    "velocity": "^1.5.0",
+    "jquery": "^3.2.1",
     "animate.css": "^3.5.2",
     "tingle": "^0.8.1",
     "simple-line-icons": "^2.4.1",
@@ -22,7 +22,7 @@
     "ammap": "^3.18.3",
     "horizontal-timeline": "*",
     "Flot": "flot#^0.8.3",
-    "jquery-lazyload-any": "^0.3.0",
+    "jquery-lazyload-any": "^*",
     "numeral": "numeraljs#^2.0.4"
   }
 }
