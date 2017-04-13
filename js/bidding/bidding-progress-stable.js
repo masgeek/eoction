@@ -8,6 +8,7 @@ var intervalObj = {};
 var $awaitingBid = 30 + Math.floor((Math.random() * 17) + 7);
 var $nextBids = 45;
 var $velocityDelay = 0;
+
 function RefreshSomeEventListener($product_id, $sku) {
     var $place_bid = $('#placebid_' + $product_id);
     $(document).on("click", $place_bid, function () {
@@ -76,19 +77,19 @@ function SetupProgressBar($productid, $bid_start_time) {
                 case '0': //bid countdown
                     //if zero remove the item
                     bidType.val(1);
-                  
+
                     break;
                 case '1': //awaiting bids
                     //set value to 2
                     bidType.val(2);
                     text = '<span class="goingonce-text">Bid Going Once</span>';
-                  
+
                     break;
                 case '2': //going once
                     //set value to 3
                     bidType.val(3);
                     text = '<span class="goingtwice-text">Bid Going Twice</span>';
-                  
+
                     break;
                 case '3': //going twice
                     //remove item and disable bid item
@@ -100,7 +101,7 @@ function SetupProgressBar($productid, $bid_start_time) {
                     console.log('product id to remove ' + $productid);
 
                     //disable the button
-                    var button = '<button class="btn btn-success btn-block noradius text-uppercase" disabled>Bid Closed</button>';
+                    var button = '<button class="btn btn-bid btn-success btn-block noradius text-uppercase" disabled>Bid Closed</button>';
                     bidButton.html(button);
                     text = '<span class="won-text">Bid Closed</span>';
 
@@ -148,7 +149,7 @@ function SetupProgressBar($productid, $bid_start_time) {
             ShowLoginPrompt($productid);
             return false;
         }
-        TriggerProgressBar($productid, $sku, $nextBids);
+        //TriggerProgressBar($productid, $sku, $nextBids);
     });
 
 }
@@ -237,10 +238,7 @@ function TriggerProgressBar($product_id, $sku, $bid_waiting_time) {
 
     bidType.val(1); //set to awaiting bids
     bidStatusText.html('<span class="awaitingbid-text">Accepting Bids</span>');
-    $.when(
-            placeBid($product_id, $sku), //send the bid details for the logged in user
-            progressBar.removeClass("noplacedbids goingonce goingtwice").addClass('awaitingbid')
-            ).then(function () {
+    $.when(placeBid($product_id, $sku), progressBar.removeClass("noplacedbids goingonce goingtwice").addClass('awaitingbid')).then(function () {
         console.log('Maximum progressbar width is ' + $maxProgressBarWidth)
         progressBar.velocity({width: 0}, bidsPlacedParams) //Accepting Bids
                 .velocity({width: $maxProgressBarWidth}, {
@@ -281,7 +279,10 @@ function placeBid($product_id, $sku) {
                     user_id: $user_id,
                     format: 'json'
                 },
-                error: function () {
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status);
+                    console.log(xhr.responseText);
+                    console.log(thrownError);
                     $('#info').html('<p>An error has occurred</p>');
                 },
                 dataType: 'json',
@@ -308,7 +309,7 @@ function FetchNextItem($previous_product_id) {
     // $('#item_box_' + $previous_product_id);
     var $productBox = $('#' + $containerID);
     var intervals = Math.floor((Math.random() * 5) + 400);
-    var button = '<button class="btn btn-primary btn-block noradius text-uppercase" disabled>Next</button>';
+    var button = '<button class="btn btn-bid btn-primary btn-block noradius text-uppercase" disabled>Next</button>';
 
 
     //console.log('Container id is ' + $containerID);
@@ -320,7 +321,10 @@ function FetchNextItem($previous_product_id) {
         data: {
             product_id: $previous_product_id
         },
-        error: function () {
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log(xhr.status);
+            console.log(xhr.responseText);
+            console.log(thrownError);
             $('#info').html('<p>An error has occurred</p>');
         },
         dataType: 'json',
@@ -370,15 +374,15 @@ function ItemUpdate($product_id, $sku, $toclear) {
                             product_id: $product_id,
                             sku: $sku
                         },
-                        error: function (data) {
-                            //do something in the event this fails
-//                        console.log(data);
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            console.log(xhr.status);
+                            console.log(xhr.responseText);
+                            console.log(thrownError);
                         },
                         dataType: 'json',
                         success: function (data) {
                             var $bid_count = data.bid_count;
                             var $new_bid_price = data.bid_price;
-
                             $bidPrice.html($new_bid_price);
                             bidsPlaced.html($bid_count);
                         },
@@ -386,7 +390,8 @@ function ItemUpdate($product_id, $sku, $toclear) {
                     }),
                     GetWinningUser($product_id, $sku)
                     ).then(function () {
-            });
+            }
+            );
         }, random_intervals); //check every n seconds
         //console.log('Set interval {' + intervalObj[$product_id]+'} {'+intervals+'}');
     } else {
@@ -411,9 +416,10 @@ function ItemUpdate($product_id, $sku, $toclear) {
                     data: {
                         user_id: userId, product_id: $product_id, sku: $sku
                     },
-                    error: function (data) {
-                        //do something in the event this fails
-                        //console.log(data);
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        console.log(xhr.status);
+                        console.log(xhr.responseText);
+                        console.log(thrownError);
                     },
                     dataType: 'json',
                     success: function (data) {
@@ -447,9 +453,10 @@ function UpdateCartItems() {
      });*/
     $.ajax({
         url: cartitemsUrl,
-        error: function (data) {
-            //do something in the event this fails
-            console.log(data);
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log(xhr.status);
+            console.log(xhr.responseText);
+            console.log(thrownError);
         },
         dataType: 'json',
         success: function (data) {
@@ -476,9 +483,10 @@ function GetWinningUser($product_id, $sku) {
         data: {
             product_id: $product_id, sku: $sku
         },
-        error: function (data) {
-            //do something in the event this fails
-//            console.log(data);
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log(xhr.status);
+            console.log(xhr.responseText);
+            console.log(thrownError);
         },
         dataType: 'json',
         success: function (data) {

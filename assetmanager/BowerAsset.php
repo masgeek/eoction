@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link http://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -15,32 +16,29 @@ use yii\web\AssetBundle;
  */
 class BowerAsset extends AssetBundle
 {
+
     public $sourcePath = '@bower';
-
-    public $jsOptions = array(
-        'position' => \yii\web\View::POS_HEAD
+    public $jsOptions = array (
+            'position' => \yii\web\View::POS_HEAD
     );
-
     public $css = [
-        //'animate.css/animate.min.css',
-        'tingle/dist/tingle.css'
+            //'animate.css/animate.min.css',
+            'tingle/dist/tingle.min.css'
     ];
     public $publishOptions = [
-        //'forceCopy'=>true,
+            //'forceCopy'=>true,
     ];
-
     public $js = [
-        //'timer.jquery/dist/timer.jquery.js'
-        //'countdown360/dist/jquery.countdown360.js'
-        'velocity/velocity.min.js',
-        //'velocity/velocity.ui.js',
-        //'//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js',
-        'tingle/dist/tingle.js',
-        //'jquery-lazyload-any/src/jquery.lazyload-any.js',
-        'numeral/src/numeral.js'
+            //'timer.jquery/dist/timer.jquery.js'
+            //'countdown360/dist/jquery.countdown360.js'
+            'velocity/velocity.min.js',
+            //'velocity/velocity.ui.js',
+            //'//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js',
+            'tingle/dist/tingle.js',
+            'numeral/min/numeral.min.js'
+    ];
+    public $depends = [
+            'yii\web\JqueryAsset',
     ];
 
-    public $depends = [
-        'yii\web\JqueryAsset',
-    ];
 }

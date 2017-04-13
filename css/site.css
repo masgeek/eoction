@@ -167,15 +167,17 @@ a.desc:after {
 .btn.btn-bid{
     font-weight:700;
     font-size: 1.6rem;
-    height:40px;
-    text-align: center;
+        text-align: center;
     vertical-align: middle;
+}
+.btn-primary, .btn-danger, .btn-success, .btn-bid {
+    height: 40px !important
 }
 
 .btn.btn-bid-active{
-   /* border-top: 0.1em solid #0a0a0a;
-    border-right: 0.1em solid #0a0a0a;
-    border-left: 0.1em solid #0a0a0a;*/
+    /* border-top: 0.1em solid #0a0a0a;
+     border-right: 0.1em solid #0a0a0a;
+     border-left: 0.1em solid #0a0a0a;*/
     background-color: #d8a947;
     color:#FFF;/*#a07936*/;
 }
