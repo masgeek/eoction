@@ -101,7 +101,7 @@ function SetupProgressBar($productid, $bid_start_time) {
                     console.log('product id to remove ' + $productid);
 
                     //disable the button
-                    var button = '<button class="btn btn-bid btn-success btn-block noradius text-uppercase" disabled>Bid Closed</button>';
+                    var button = '<button class="btn btn-success btn-block noradius text-uppercase" disabled>Bid Closed</button>';
                     bidButton.html(button);
                     text = '<span class="won-text">Bid Closed</span>';
 
@@ -149,7 +149,7 @@ function SetupProgressBar($productid, $bid_start_time) {
             ShowLoginPrompt($productid);
             return false;
         }
-        //TriggerProgressBar($productid, $sku, $nextBids);
+        TriggerProgressBar($productid, $sku, $nextBids);
     });
 
 }
