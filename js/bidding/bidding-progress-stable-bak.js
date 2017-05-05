@@ -6,10 +6,8 @@
 var intervalObj = {};
 
 var $awaitingBid = 30 + Math.floor((Math.random() * 17) + 7);
-//var $awaitingBid = 2 + Math.floor((Math.random() * 17) + 7);
 var $nextBids = 45;
-var $velocityDelay = 1000;
-var running = true;
+var $velocityDelay = 0;
 
 function RefreshSomeEventListener($product_id, $sku) {
     var $place_bid = $('#placebid_' + $product_id);
@@ -23,15 +21,6 @@ function RefreshSomeEventListener($product_id, $sku) {
 
 
 function SetupProgressBar($productid, $bid_start_time) {
-
-    var $sku = $('#product_sku_' + $productid).val();
-
-    setTimeout(function() {
-        if (running) {
-            ItemUpdate($productid, $sku, 'NO');
-        }
-    }, 1000);
-
     /*
      bid types
      0 bid countdown
@@ -50,10 +39,12 @@ function SetupProgressBar($productid, $bid_start_time) {
     var bidType = $('#bid_type_' + $productid);
     var placebid = $('#placebid_' + $productid);
     var bidButton = $('#bid_button_' + $productid);
+    var $sku = $('#product_sku_' + $productid).val();
     var $user_id = $('#user_id').val();
     //read the values indicating what type of bid
     var $maxProgressBarWidth = progressBar.outerWidth();
     var scenario = 0;
+
     var params = {
         easing: "",
         //loop : 0,
@@ -63,7 +54,7 @@ function SetupProgressBar($productid, $bid_start_time) {
         begin: function() {
             //call the timer function on begin
             //console.log('Begin timer ');
-            //ItemUpdate($productid, $sku, 'NO');
+            ItemUpdate($productid, $sku, 'NO');
         },
         //        progress: function (elements, percentComplete, timeRemaining, timeStart) {
         //            //$percentComplete.html(Math.round(percentComplete * 100) + "% complete.");
@@ -166,15 +157,6 @@ function SetupProgressBar($productid, $bid_start_time) {
 
 }
 
-function loopUpdate($productid, $sku) {
-
-    setInterval(function() {
-        if (running) {
-            ItemUpdate($productid, $sku, 'NO');
-        }
-    }, 200);
-
-}
 
 function TriggerProgressBar($product_id, $sku, $bid_waiting_time) {
     var bidType = $('#bid_type_' + $product_id);
@@ -361,10 +343,8 @@ function FetchNextItem($previous_product_id) {
             //     //next add the click event listeners to the dynamic items
             //     RefreshSomeEventListener(data.product_id, data.sku);
             // });
-            $productBox.fadeIn(50).fadeOut(100).fadeIn(50, function() {
-                $productBox.html(data.html_data);
-                RefreshSomeEventListener(data.product_id, data.sku);
-            });
+            $productBox.html(data.html_data);
+            RefreshSomeEventListener(data.product_id, data.sku);
         },
         type: 'GET'
     });

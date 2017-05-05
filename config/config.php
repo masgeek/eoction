@@ -130,9 +130,9 @@ $config = [
         //'affy' => require(__DIR__ . '/affy.php'),
 
         'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'enableStrictParsing' => false,
+            //'enablePrettyUrl' => true,
+            //'showScriptName' => false,
+           // 'enableStrictParsing' => false,
             'rules' => [
                 //default rules
                 '<controller:\w+>/<id:\d+>' => '<controller>',
