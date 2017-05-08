@@ -29,11 +29,8 @@ class BowerAsset extends AssetBundle
             //'forceCopy'=>true,
     ];
     public $js = [
-            //'timer.jquery/dist/timer.jquery.js'
-            //'countdown360/dist/jquery.countdown360.js'
             'velocity/velocity.min.js',
-            //'velocity/velocity.ui.js',
-            //'//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js',
+            'pubnub/dist/web/pubnub.min.js',
             'tingle/dist/tingle.js',
             'numeral/min/numeral.min.js'
     ];

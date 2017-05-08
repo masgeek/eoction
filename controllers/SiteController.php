@@ -170,6 +170,13 @@ class SiteController extends Controller
         return $this->render('index', ['listDataProvider' => $listDataProvider]);
     }
 
+
+
+    public function actionPubnub() {
+        return $this->render('pubnub');
+    }
+
+
     public function actionSearchBids($q)
     {
         $this->redirect(['index']);

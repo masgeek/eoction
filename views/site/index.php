@@ -67,7 +67,7 @@ $listviewWidget = ListView::widget([
     data-show-faces="true">
 </div>
 -->
-<script>
+<script>    
     $(document).click(function (e) {
         // Check for left button
         if (e.button == 0) {
