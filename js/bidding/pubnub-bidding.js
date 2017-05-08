@@ -15,7 +15,7 @@ function sub() {
             var msg = m.message; // The Payload
 
             console.log(msg);
-            $("#pubnub").html(msg.color);
+            $("#pubnub").css("background-color", msg.color);
         },
         presence: function(p) {
             // handle presence
@@ -36,7 +36,7 @@ function sub() {
 
     pubnub.subscribe({
         channels: ['hello-world'],
-        connect: pub(),
+        //connect: pub(),
         callback: function(m) {
             console.log('subscribe callback: ' + m);
         }
